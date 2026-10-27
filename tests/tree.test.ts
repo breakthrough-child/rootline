@@ -87,3 +87,12 @@ describe("candidatePairs + spread", () => {
     expect(marked.filter((e) => e.spreadJump).length).toBe(1);
   });
 });
+
+describe("user copy", () => {
+  it("is always a leaf", () => {
+    const you = { ...A, id: "you", isUserInput: true, date: null, dateProvenance: "unknown" as const };
+    const { edges } = baselineTree([you, A, B, C]);
+    expect(edges.some((e) => e.from === "you")).toBe(false);
+    expect(validateTree([you, A, B, C], [{ from: "you", to: "a" }, { from: "a", to: "b" }, { from: "b", to: "c" }]).ok).toBe(false);
+  });
+});

@@ -1,0 +1,666 @@
+{
+ "id": "2-grant",
+ "title": "“Free government cash grant” scam chain",
+ "chip": "Government grant scam",
+ "description": "A text forward offering a government cash grant via a link.",
+ "investigation": {
+  "id": "fixture-2-grant",
+  "createdAt": "2026-10-27T17:20:20.019Z",
+  "mode": "offline_mock",
+  "modeNote": "Offline mock: sources come from a FICTIONAL built-in corpus (.example domains) and model stages use deterministic heuristics. Not a real web trace.",
+  "input": {
+   "sourceKind": "text",
+   "original": {
+    "kind": "paste"
+   },
+   "text": "Good news! Approved by the Ministry of Citizen Welfare: The Federal Government is giving N75,000 relief grant to every citizen. Click here to apply before Friday midnight: fg-grant-portal.example/apply. Share to 10 groups to activate your payment",
+   "language": "unknown",
+   "locations": [
+    {
+     "label": "message",
+     "start": 0,
+     "end": 246
+    }
+   ],
+   "unverifiedMetadata": {},
+   "adapterPath": [
+    "text:normalize"
+   ]
+  },
+  "claims": [
+   {
+    "claimId": "k0",
+    "claim": "Good news! Approved by the Ministry of Citizen Welfare: The Federal Government is giving N75,000 relief grant to every citizen. Click here to apply before Friday midnight: fg-grant-portal.example/apply. Share to 10 groups to activate your payment",
+    "understanding": {
+     "claim": "Good news! Approved by the Ministry of Citizen Welfare: The Federal Government is giving N75,000 relief grant to every citizen. Click here to apply before Friday midnight: fg-grant-portal.example/apply.",
+     "entities": [
+      "Ministry of Citizen Welfare",
+      "Federal Government"
+     ],
+     "numbers": [
+      "N75,000",
+      "10"
+     ],
+     "places": [],
+     "authorities": [
+      "Ministry of Citizen Welfare",
+      "Federal Government"
+     ],
+     "callToAction": "Click here to apply before Friday midnight: fg-grant-portal",
+     "queries": [
+      "\"Federal Government is giving N75,000\"",
+      "\"N75,000 relief grant to every citizen\"",
+      "\"Share to 10 groups to activate\"",
+      "good news approved ministry citizen welfare federal government",
+      "good news approved ministry citizen fact check"
+     ],
+     "language": "unknown"
+    },
+    "variants": [
+     {
+      "id": "v0-1cad7",
+      "text": "Approved by the Ministry of Citizen Welfare: The Federal Government is giving N50,000 relief grant to every citizen. Click here to apply before Friday midnight: fg-grant-portal.example.",
+      "excerpt": "Approved by the Ministry of Citizen Welfare: The Federal Government is giving N50,000 relief grant to every citizen. Click here to apply before Friday midnight: fg-grant-portal.example.",
+      "sources": [
+       {
+        "url": "https://friendsbook.example/posts/ministry-approved-grant",
+        "title": "Approved grant",
+        "excerpt": "Approved by the Ministry of Citizen Welfare: The Federal Government is giving N50,000 relief grant to every citizen. Click here to apply before Friday midnight: fg-grant-portal.example.",
+        "pageType": "social",
+        "date": "2022-07-11",
+        "dateProvenance": "published_date"
+       }
+      ],
+      "date": "2022-07-11",
+      "dateProvenance": "published_date",
+      "pageType": "social"
+     },
+     {
+      "id": "v2-16caa",
+      "text": "The Federal Government is giving N50,000 relief grant to every citizen. Click here to apply before Friday: fg-grant-portal.example.",
+      "excerpt": "The Federal Government is giving N50,000 relief grant to every citizen. Click here to apply before Friday: fg-grant-portal.example.",
+      "sources": [
+       {
+        "url": "https://chirp.example/freebies_ng_fic/status/2201945",
+        "title": "freebies ng (fictional) on Chirp",
+        "excerpt": "The Federal Government is giving N50,000 relief grant to every citizen. Click here to apply before Friday: fg-grant-portal.example.",
+        "pageType": "social",
+        "date": "2021-01-20",
+        "dateProvenance": "published_date"
+       }
+      ],
+      "date": "2021-01-20",
+      "dateProvenance": "published_date",
+      "pageType": "social"
+     },
+     {
+      "id": "v3-1u4ka",
+      "text": "A message claims \"The Federal Government is giving N50,000 relief grant to every citizen.",
+      "excerpt": "A message claims \"The Federal Government is giving N50,000 relief grant to every citizen.",
+      "sources": [
+       {
+        "url": "https://factline.example/fact-check/n50000-government-grant-link-scam",
+        "title": "Scam alert: viral 'N50,000 government grant' link harvests bank details",
+        "excerpt": "A message claims \"The Federal Government is giving N50,000 relief grant to every citizen.",
+        "pageType": "debunk",
+        "date": "2021-03-02",
+        "dateProvenance": "published_date"
+       }
+      ],
+      "date": "2021-03-02",
+      "dateProvenance": "published_date",
+      "pageType": "debunk"
+     },
+     {
+      "id": "v4-11tzs",
+      "text": "Apply here: relief-grant-apply.example",
+      "excerpt": "Apply here: relief-grant-apply.example",
+      "sources": [
+       {
+        "url": "https://friendsbook.example/posts/relief-grant-20000",
+        "title": "Relief grant for households",
+        "excerpt": "Apply here: relief-grant-apply.example",
+        "pageType": "social",
+        "date": "2020-04-08",
+        "dateProvenance": "published_date"
+       }
+      ],
+      "date": "2020-04-08",
+      "dateProvenance": "published_date",
+      "pageType": "social"
+     },
+     {
+      "id": "v5-bn2r4",
+      "text": "Federal Government is giving N30,000 COVID relief grant to every citizen. Click the link to apply: relief-grant-apply.example.",
+      "excerpt": "Federal Government is giving N30,000 COVID relief grant to every citizen. Click the link to apply: relief-grant-apply.example.",
+      "sources": [
+       {
+        "url": "https://forum.nairatalk.example/t/covid-relief-grant-30k-legit-53390",
+        "title": "COVID relief grant 30k - legit?",
+        "excerpt": "Federal Government is giving N30,000 COVID relief grant to every citizen. Click the link to apply: relief-grant-apply.example.",
+        "pageType": "forum",
+        "date": "2020-05-15",
+        "dateProvenance": "page_metadata"
+       }
+      ],
+      "date": "2020-05-15",
+      "dateProvenance": "page_metadata",
+      "pageType": "forum"
+     },
+     {
+      "id": "you",
+      "text": "Good news! Approved by the Ministry of Citizen Welfare: The Federal Government is giving N75,000 relief grant to every citizen. Click here to apply before Friday midnight: fg-grant-portal.example/apply. Share to 10 groups to activate your payment",
+      "excerpt": "Good news! Approved by the Ministry of Citizen Welfare: The Federal Government is giving N75,000 relief grant to every citizen. Click here to apply before Friday midnight: fg-grant-portal.example/apply. Share to 10 groups to activate your payment",
+      "sources": [
+       {
+        "url": "user:pasted",
+        "title": "Your copy",
+        "excerpt": "Good news! Approved by the Ministry of Citizen Welfare: The Federal Government is giving N75,000 relief grant to every citizen. Click here to apply before Friday midnight: fg-grant-portal.example/apply. Share to 10 groups to activate your payment",
+        "pageType": "user_input",
+        "date": null,
+        "dateProvenance": "unknown"
+       }
+      ],
+      "date": null,
+      "dateProvenance": "unknown",
+      "pageType": "user_input",
+      "isUserInput": true
+     }
+    ],
+    "edges": [
+     {
+      "from": "v4-11tzs",
+      "to": "v5-bn2r4",
+      "confidence": "medium",
+      "reason": "Closest earlier version by wording (similarity 0.62).",
+      "mutations": [
+       {
+        "type": "number_changed",
+        "before": "",
+        "after": "N30,000",
+        "explanation": "Number added"
+       },
+       {
+        "type": "authority_added",
+        "before": "",
+        "after": "Federal Government",
+        "explanation": "Cites Federal Government, which the earlier version did not."
+       }
+      ],
+      "spreadJump": true
+     },
+     {
+      "from": "v5-bn2r4",
+      "to": "v2-16caa",
+      "confidence": "high",
+      "reason": "Closest earlier version by wording (similarity 0.68).",
+      "mutations": [
+       {
+        "type": "number_changed",
+        "before": "N30,000",
+        "after": "N50,000",
+        "explanation": "Number changed"
+       },
+       {
+        "type": "date_changed",
+        "before": "",
+        "after": "friday",
+        "explanation": "Date/time reference added"
+       },
+       {
+        "type": "urgency_added",
+        "before": "",
+        "after": "before friday",
+        "explanation": "Adds time pressure."
+       },
+       {
+        "type": "call_to_action_added",
+        "before": "",
+        "after": "Click here to apply before Friday: fg-grant-portal",
+        "explanation": "Adds an instruction to act or forward."
+       }
+      ],
+      "spreadJump": false
+     },
+     {
+      "from": "v2-16caa",
+      "to": "v0-1cad7",
+      "confidence": "high",
+      "reason": "Closest earlier version by wording (similarity 0.87).",
+      "mutations": [
+       {
+        "type": "authority_added",
+        "before": "",
+        "after": "Ministry of Citizen Welfare",
+        "explanation": "Cites Ministry of Citizen Welfare, which the earlier version did not."
+       }
+      ],
+      "spreadJump": false
+     },
+     {
+      "from": "v2-16caa",
+      "to": "v3-1u4ka",
+      "confidence": "high",
+      "reason": "Closest earlier version by wording (similarity 0.66).",
+      "mutations": [
+       {
+        "type": "date_changed",
+        "before": "friday",
+        "after": "",
+        "explanation": "Date/time reference removed"
+       }
+      ],
+      "spreadJump": false
+     },
+     {
+      "from": "v0-1cad7",
+      "to": "you",
+      "confidence": "medium",
+      "reason": "Closest earlier version by wording (similarity 0.84).",
+      "mutations": [
+       {
+        "type": "number_changed",
+        "before": "N50,000",
+        "after": "N75,000, 10",
+        "explanation": "Number changed"
+       },
+       {
+        "type": "call_to_action_added",
+        "before": "",
+        "after": "Share to 10 groups to activate your payment",
+        "explanation": "Adds an instruction to act or forward."
+       }
+      ],
+      "spreadJump": false
+     }
+    ],
+    "earliestId": "v4-11tzs",
+    "limited": false,
+    "verdict": {
+     "summary": "The earliest version found is from 2020-04-08. As it was forwarded, it changed 10 times (for example, number added: N30,000). 1 fact-check or official source address it.",
+     "whatChanged": [
+      "Number added: N30,000",
+      "Cites Federal Government, which the earlier version did not",
+      "Number changed: N30,000 → N50,000",
+      "Date/time reference added: friday",
+      "Adds time pressure: before friday",
+      "Adds an instruction to act or forward: Click here to apply before Friday: fg-grant-portal"
+     ],
+     "unsupported": [
+      {
+       "statement": "The claim is disputed by the fact-check/official sources found.",
+       "sourceUrls": [
+        "https://factline.example/fact-check/n50000-government-grant-link-scam"
+       ]
+      }
+     ],
+     "confidence": "medium",
+     "replyCard": "I looked this up before forwarding. Versions of this message have circulated since 2020, and the details keep changing. Fact-checkers say it isn't supported. Maybe let's not forward it until there's an official source. 🙏"
+    },
+    "branches": [],
+    "stats": {
+     "queries": 5,
+     "pagesSearched": 6,
+     "pagesConfirmed": 5,
+     "pairsCompared": 9
+    },
+    "warnings": [
+     "Lineage uses the algorithmic baseline tree (model refinement unavailable)."
+    ]
+   }
+  ],
+  "checks": {},
+  "logs": [
+   {
+    "provider": "heuristic",
+    "model": "rootline-heuristic",
+    "tier": "local",
+    "stage": "A: understand",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 8,
+    "ok": true,
+    "note": "nano not configured; used deterministic fallback",
+    "id": "c1",
+    "at": 1793121619948
+   },
+   {
+    "provider": "mock",
+    "model": "fictional-corpus",
+    "tier": "search",
+    "stage": "B: search",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 5,
+    "ok": true,
+    "note": "6 results",
+    "id": "c2",
+    "at": 1793121619954
+   },
+   {
+    "provider": "mock",
+    "model": "fictional-corpus",
+    "tier": "search",
+    "stage": "B: search",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 5,
+    "ok": true,
+    "note": "6 results",
+    "id": "c3",
+    "at": 1793121619959
+   },
+   {
+    "provider": "mock",
+    "model": "fictional-corpus",
+    "tier": "search",
+    "stage": "B: search",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 6,
+    "ok": true,
+    "note": "4 results",
+    "id": "c4",
+    "at": 1793121619965
+   },
+   {
+    "provider": "mock",
+    "model": "fictional-corpus",
+    "tier": "search",
+    "stage": "B: search",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 4,
+    "ok": true,
+    "note": "6 results",
+    "id": "c5",
+    "at": 1793121619969
+   },
+   {
+    "provider": "mock",
+    "model": "fictional-corpus",
+    "tier": "search",
+    "stage": "B: search",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 5,
+    "ok": true,
+    "note": "2 results",
+    "id": "c6",
+    "at": 1793121619975
+   },
+   {
+    "provider": "mock",
+    "model": "fictional-corpus",
+    "tier": "extract",
+    "stage": "B: extract",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 0,
+    "ok": true,
+    "note": "6 pages",
+    "id": "c7",
+    "at": 1793121619975
+   },
+   {
+    "provider": "heuristic",
+    "model": "rootline-heuristic",
+    "tier": "local",
+    "stage": "C: confirm",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 0,
+    "ok": true,
+    "note": "nano not configured; used deterministic fallback",
+    "id": "c8",
+    "at": 1793121619979
+   },
+   {
+    "provider": "heuristic",
+    "model": "rootline-heuristic",
+    "tier": "local",
+    "stage": "C: confirm",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 0,
+    "ok": true,
+    "note": "nano not configured; used deterministic fallback",
+    "id": "c9",
+    "at": 1793121619981
+   },
+   {
+    "provider": "heuristic",
+    "model": "rootline-heuristic",
+    "tier": "local",
+    "stage": "C: confirm",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 0,
+    "ok": true,
+    "note": "nano not configured; used deterministic fallback",
+    "id": "c10",
+    "at": 1793121619984
+   },
+   {
+    "provider": "heuristic",
+    "model": "rootline-heuristic",
+    "tier": "local",
+    "stage": "C: confirm",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 0,
+    "ok": true,
+    "note": "nano not configured; used deterministic fallback",
+    "id": "c11",
+    "at": 1793121619989
+   },
+   {
+    "provider": "heuristic",
+    "model": "rootline-heuristic",
+    "tier": "local",
+    "stage": "C: confirm",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 0,
+    "ok": true,
+    "note": "nano not configured; used deterministic fallback",
+    "id": "c12",
+    "at": 1793121619990
+   },
+   {
+    "provider": "heuristic",
+    "model": "rootline-heuristic",
+    "tier": "local",
+    "stage": "C: confirm",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 0,
+    "ok": true,
+    "note": "nano not configured; used deterministic fallback",
+    "id": "c13",
+    "at": 1793121619996
+   },
+   {
+    "provider": "heuristic",
+    "model": "rootline-heuristic",
+    "tier": "local",
+    "stage": "D: mutations",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 1,
+    "ok": true,
+    "note": "nano not configured; used deterministic fallback",
+    "id": "c14",
+    "at": 1793121620008
+   },
+   {
+    "provider": "heuristic",
+    "model": "rootline-heuristic",
+    "tier": "local",
+    "stage": "D: mutations",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 1,
+    "ok": true,
+    "note": "nano not configured; used deterministic fallback",
+    "id": "c15",
+    "at": 1793121620009
+   },
+   {
+    "provider": "heuristic",
+    "model": "rootline-heuristic",
+    "tier": "local",
+    "stage": "D: mutations",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 1,
+    "ok": true,
+    "note": "nano not configured; used deterministic fallback",
+    "id": "c16",
+    "at": 1793121620010
+   },
+   {
+    "provider": "heuristic",
+    "model": "rootline-heuristic",
+    "tier": "local",
+    "stage": "D: mutations",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 0,
+    "ok": true,
+    "note": "nano not configured; used deterministic fallback",
+    "id": "c17",
+    "at": 1793121620010
+   },
+   {
+    "provider": "heuristic",
+    "model": "rootline-heuristic",
+    "tier": "local",
+    "stage": "D: mutations",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 6,
+    "ok": true,
+    "note": "nano not configured; used deterministic fallback",
+    "id": "c18",
+    "at": 1793121620016
+   },
+   {
+    "provider": "heuristic",
+    "model": "rootline-heuristic",
+    "tier": "local",
+    "stage": "D: mutations",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 1,
+    "ok": true,
+    "note": "nano not configured; used deterministic fallback",
+    "id": "c19",
+    "at": 1793121620017
+   },
+   {
+    "provider": "heuristic",
+    "model": "rootline-heuristic",
+    "tier": "local",
+    "stage": "D: mutations",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 0,
+    "ok": true,
+    "note": "nano not configured; used deterministic fallback",
+    "id": "c20",
+    "at": 1793121620017
+   },
+   {
+    "provider": "heuristic",
+    "model": "rootline-heuristic",
+    "tier": "local",
+    "stage": "D: mutations",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 0,
+    "ok": true,
+    "note": "nano not configured; used deterministic fallback",
+    "id": "c21",
+    "at": 1793121620017
+   },
+   {
+    "provider": "heuristic",
+    "model": "rootline-heuristic",
+    "tier": "local",
+    "stage": "D: mutations",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 1,
+    "ok": true,
+    "note": "nano not configured; used deterministic fallback",
+    "id": "c22",
+    "at": 1793121620018
+   },
+   {
+    "provider": "heuristic",
+    "model": "rootline-heuristic",
+    "tier": "local",
+    "stage": "E: cluster",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 0,
+    "ok": true,
+    "note": "super not configured; used deterministic fallback",
+    "id": "c23",
+    "at": 1793121620018
+   },
+   {
+    "provider": "heuristic",
+    "model": "rootline-heuristic",
+    "tier": "local",
+    "stage": "F: lineage",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 0,
+    "ok": true,
+    "note": "ultra not configured; used deterministic fallback",
+    "id": "c24",
+    "at": 1793121620018
+   },
+   {
+    "provider": "heuristic",
+    "model": "rootline-heuristic",
+    "tier": "local",
+    "stage": "G: verdict",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 0,
+    "ok": true,
+    "note": "super not configured; used deterministic fallback",
+    "id": "c25",
+    "at": 1793121620019
+   }
+  ],
+  "totalLatencyMs": 79,
+  "pricing": {
+   "nano": [
+    0.06,
+    0.24
+   ],
+   "super": [
+    0.3,
+    0.9
+   ],
+   "ultra": [
+    1,
+    3
+   ],
+   "vision": [
+    0.3,
+    0.9
+   ]
+  },
+  "fixture": {
+   "id": "2-grant",
+   "title": "“Free government cash grant” scam chain",
+   "generatedAt": "2026-10-27T17:20:20.019Z",
+   "generatedWith": "offline_mock"
+  }
+ }
+}

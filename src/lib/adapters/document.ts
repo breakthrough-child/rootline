@@ -50,7 +50,8 @@ export async function pdfToParts(buf: Buffer): Promise<{ parts: Part[]; meta: Re
       if (typeof it.str !== "string") continue;
       s += it.str + (it.hasEOL ? "\n" : " ");
     }
-    s = s.replace(/[ \t]+/g, " ").replace(/ *\n */g, "\n").trim();
+    // Re-join soft line wraps (a line not ending a sentence followed by a lowercase/digit start).
+    s = s.replace(/[ \t]+/g, " ").replace(/ *\n */g, "\n").replace(/([^.!?:;\n])\n(?=[a-z0-9(])/g, "$1 ").trim();
     if (s.replace(/\s/g, "").length < MIN_CHARS_PER_PAGE) scannedPages.push(i);
     parts.push({ label: `page ${i}`, text: s });
   }

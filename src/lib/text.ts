@@ -98,16 +98,16 @@ export function splitSentences(s: string): string[] {
  * Find the window of consecutive sentences in `page` that best matches `claim`.
  * Returns the exact substring from the page (so excerpts are always real quotes).
  */
-export function bestExcerpt(page: string, claim: string, maxSentences = 4): { excerpt: string; score: number } {
+export function bestExcerpt(page: string, claim: string, maxSentences = 6): { excerpt: string; score: number } {
   const sents = splitSentences(page).slice(0, 600);
   let best = { excerpt: "", score: 0 };
   for (let i = 0; i < sents.length; i++) {
     let acc = "";
     for (let k = 0; k < maxSentences && i + k < sents.length; k++) {
       acc = acc ? `${acc} ${sents[i + k]}` : sents[i + k];
-      if (acc.length > 700) break;
+      if (acc.length > 900) break;
       const score = relatedness(acc, claim);
-      if (score > best.score + 0.01) best = { excerpt: acc, score };
+      if (score > best.score + 0.005) best = { excerpt: acc, score };
     }
   }
   return best;

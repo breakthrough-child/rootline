@@ -2,7 +2,7 @@
 import { relatedness } from "./text";
 import type { Confidence, LineageEdge, SourceRef, Variant } from "./types";
 
-export const DUPLICATE_THRESHOLD = 0.86;
+export const DUPLICATE_THRESHOLD = 0.92;
 
 function dateMs(d: string | null): number | null {
   if (!d) return null;
@@ -47,8 +47,9 @@ function compareSources(a: SourceRef, b: SourceRef): number {
   return PROVENANCE_RANK[a.dateProvenance] - PROVENANCE_RANK[b.dateProvenance];
 }
 
-/** A parent may not be later than its child when both dates are known. */
+/** A parent may not be later than its child when both dates are known; the user's copy is always a leaf. */
 export function edgeAllowed(parent: Variant, child: Variant): boolean {
+  if (parent.isUserInput) return false;
   const p = dateMs(parent.date);
   const c = dateMs(child.date);
   if (p === null || c === null) return true;
@@ -98,6 +99,14 @@ export function confidenceFor(distance: number, parent: Variant, child: Variant)
   return "low";
 }
 
+/** Up to +0.1 distance for parents 3+ years before the child; 0 when either date is unknown. */
+export function timePenalty(parent: Variant, child: Variant): number {
+  const p = dateMs(parent.date);
+  const c = dateMs(child.date);
+  if (p === null || c === null) return 0;
+  return 0.1 * Math.min(1, Math.abs(c - p) / (3 * 365 * 864e5));
+}
+
 /**
  * Minimum spanning arborescence (Prim-style) on text distance, constrained so that a
  * parent is never later than its child when both dates are known. Always returns a tree
@@ -110,13 +119,16 @@ export function baselineTree(variants: Variant[]): { rootId: string | null; edge
   const root = pickRoot(variants, dist);
   const inTree = new Set([root]);
   const edges: LineageEdge[] = [];
+  // Attach dated versions first (they anchor the timeline), then undated ones, and the user's copy last.
+  const phase = (i: number) => (variants[i].isUserInput ? 2 : dateMs(variants[i].date) === null ? 1 : 0);
   while (inTree.size < n) {
     let best: { u: number; v: number; d: number } | null = null;
+    const currentPhase = Math.min(...[...Array(n).keys()].filter((i) => !inTree.has(i)).map(phase));
     for (const u of inTree)
       for (let v = 0; v < n; v++) {
-        if (inTree.has(v) || !edgeAllowed(variants[u], variants[v])) continue;
-        // Prefer dated parents and earlier parents on ties.
-        const d = dist[u][v];
+        if (inTree.has(v) || phase(v) !== currentPhase || !edgeAllowed(variants[u], variants[v])) continue;
+        // Wording distance plus a small penalty for long time gaps (mutations accumulate forward-to-forward).
+        const d = dist[u][v] + timePenalty(variants[u], variants[v]);
         if (!best || d < best.d - 1e-9) best = { u, v, d };
       }
     if (!best) {
@@ -126,6 +138,7 @@ export function baselineTree(variants: Variant[]): { rootId: string | null; edge
       best = { u: root, v, d: dist[root][v] };
     }
     inTree.add(best.v);
+    best.d = dist[best.u][best.v];
     const parent = variants[best.u];
     const child = variants[best.v];
     edges.push({

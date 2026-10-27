@@ -151,7 +151,9 @@ export async function checkOfficial(ctx: RunContext, input: ExtractedInput, main
 
   const fallback = (): OfficialCheck => {
     const orgC = canonical(org ?? "");
-    const debunk = uniqueHits.find((x) => /fact|false|fake|hoax|scam|debunk/i.test(`${x.url} ${x.title}`) && relatedness(x.content, mainClaim) > 0.3 && (!orgC || canonical(x.content).includes(orgC) || relatedness(x.content, mainClaim) > 0.45));
+    const refC = canonical(fields.reference ?? "");
+    // "Already debunked" means this document (its organisation or reference) was debunked, not just a similar rumour.
+    const debunk = uniqueHits.find((x) => /fact|false|fake|hoax|scam|debunk/i.test(`${x.url} ${x.title}`) && ((orgC && canonical(x.content).includes(orgC)) || (refC.length > 4 && canonical(x.content).includes(refC))));
     if (debunk) return { ...base, outcome: "already_debunked", url: debunk.url, note: "A fact-check of this claim was found." };
     const official = uniqueHits.find((x) => /\.gov|\.int\b/.test(new URL(x.url).hostname) && orgC && canonical(x.content).includes(orgC) && relatedness(x.content, mainClaim) > 0.4);
     if (official) {
@@ -177,7 +179,7 @@ export async function checkOfficial(ctx: RunContext, input: ExtractedInput, main
             .slice(0, 14)
             .map((x, i) => `[${i}] ${x.url}\n${truncate(x.content, 400)}`)
             .join("\n")}\n
-Prefer official domains of that organisation and reputable news. Outcomes: official_match_found (the organisation itself published the same notice), official_version_differs (it published a notice on this but details differ), already_debunked (a fact-check or the organisation says this document/claim is false), no_official_record_found (none of the above).
+Prefer official domains of that organisation and reputable news. Outcomes: official_match_found (the organisation itself published the same notice), official_version_differs (it published a notice on this but details differ), already_debunked (a fact-check or the organisation says THIS document is fake — it must name the organisation or reference; a fact-check of a similar rumour does not count), no_official_record_found (none of the above).
 Return JSON: {"outcome": ..., "url": url from results or null, "differences": [short lines]}`,
         },
       ],

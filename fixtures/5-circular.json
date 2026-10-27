@@ -1,0 +1,633 @@
+{
+ "id": "5-circular",
+ "title": "Circular from a fictional organisation",
+ "chip": "“Official” school circular (PDF)",
+ "description": "A circular from the fictional Federal Office of Civic Readiness announcing school closures.",
+ "investigation": {
+  "id": "fixture-5-circular",
+  "createdAt": "2026-10-27T17:20:27.695Z",
+  "mode": "offline_mock",
+  "modeNote": "Offline mock: sources come from a FICTIONAL built-in corpus (.example domains) and model stages use deterministic heuristics. Not a real web trace.",
+  "input": {
+   "sourceKind": "pdf",
+   "original": {
+    "kind": "upload",
+    "filename": "circular-focr.pdf",
+    "mime": "application/pdf"
+   },
+   "text": "FEDERAL OFFICE OF CIVIC READINESS (fictional organisation — Rootline demo fixture)\nRef: FOCR/CIR/2026/117\nDate: 9th October 2026\nCIRCULAR TO ALL HEADS OF SCHOOLS AND PARENTS\nFollowing the outbreak of Lassa variant X, all schools nationwide will close for three weeks from Monday 12th October 2026.\nParents are advised to keep their children at home and avoid public gatherings until further notice.\nSchools that remain open will be sanctioned. Forward this circular to all parents.\nSigned,\nMr. T. Okafor-Bello\nDirector General (fictional)",
+   "language": "unknown",
+   "locations": [
+    {
+     "label": "page 1",
+     "start": 0,
+     "end": 538
+    }
+   ],
+   "unverifiedMetadata": {
+    "created (pdf_metadata_unverified)": "2026-10-27",
+    "producer (pdf_metadata_unverified)": "LibreOffice 24.2"
+   },
+   "adapterPath": [
+    "pdf:pdfjs-text"
+   ],
+   "notes": [
+    "Document metadata is shown as hints only (unverified metadata)."
+   ]
+  },
+  "claims": [
+   {
+    "claimId": "k2",
+    "claim": "Following the outbreak of Lassa variant X, all schools nationwide will close for three weeks from Monday 12th October 2026.",
+    "understanding": {
+     "claim": "Following the outbreak of Lassa variant X, all schools nationwide will close for three weeks from Monday 12th October 2026.",
+     "entities": [],
+     "numbers": [
+      "12",
+      "2026."
+     ],
+     "places": [],
+     "authorities": [],
+     "callToAction": null,
+     "queries": [
+      "\"weeks from Monday 12th October 2026\"",
+      "\"schools nationwide will close for three weeks\"",
+      "\"Following the outbreak of Lassa variant\"",
+      "following outbreak lassa variant schools nationwide close three",
+      "following outbreak lassa variant schools fact check"
+     ],
+     "language": "unknown"
+    },
+    "variants": [
+     {
+      "id": "v0-mxxvk",
+      "text": "BREAKING: All schools nationwide will close for three weeks from Monday due to outbreak of Lassa variant X.",
+      "excerpt": "BREAKING: All schools nationwide will close for three weeks from Monday due to outbreak of Lassa variant X.",
+      "sources": [
+       {
+        "url": "https://chirp.example/parents_net_fic/status/4410023",
+        "title": "parents net (fictional) on Chirp",
+        "excerpt": "BREAKING: All schools nationwide will close for three weeks from Monday due to outbreak of Lassa variant X.",
+        "pageType": "social",
+        "date": "2022-01-14",
+        "dateProvenance": "published_date"
+       }
+      ],
+      "date": "2022-01-14",
+      "dateProvenance": "published_date",
+      "pageType": "social"
+     },
+     {
+      "id": "v1-105aw",
+      "text": "Messages claim \"All schools nationwide will close for three weeks from Monday due to outbreak of Lassa variant X.\" There is no known disease called 'Lassa variant X', and no education authority has announced closures.",
+      "excerpt": "Messages claim \"All schools nationwide will close for three weeks from Monday due to outbreak of Lassa variant X.\" There is no known disease called 'Lassa variant X', and no education authority has announced closures.",
+      "sources": [
+       {
+        "url": "https://factline.example/fact-check/schools-lassa-variant-x",
+        "title": "No, schools are not closing nationwide over 'Lassa variant X'",
+        "excerpt": "Messages claim \"All schools nationwide will close for three weeks from Monday due to outbreak of Lassa variant X.\" There is no known disease called 'Lassa variant X', and no education authority has announced closures.",
+        "pageType": "debunk",
+        "date": "2022-01-15",
+        "dateProvenance": "published_date"
+       }
+      ],
+      "date": "2022-01-15",
+      "dateProvenance": "published_date",
+      "pageType": "debunk"
+     },
+     {
+      "id": "v2-6p7fw",
+      "text": "Schools in Kano and Kaduna will close for two weeks from Monday due to a fever outbreak.",
+      "excerpt": "Schools in Kano and Kaduna will close for two weeks from Monday due to a fever outbreak.",
+      "sources": [
+       {
+        "url": "https://friendsbook.example/posts/schools-kano-kaduna-close",
+        "title": "Schools closing",
+        "excerpt": "Schools in Kano and Kaduna will close for two weeks from Monday due to a fever outbreak.",
+        "pageType": "social",
+        "date": "2022-01-12",
+        "dateProvenance": "published_date"
+       }
+      ],
+      "date": "2022-01-12",
+      "dateProvenance": "published_date",
+      "pageType": "social"
+     },
+     {
+      "id": "you",
+      "text": "Following the outbreak of Lassa variant X, all schools nationwide will close for three weeks from Monday 12th October 2026.",
+      "excerpt": "Following the outbreak of Lassa variant X, all schools nationwide will close for three weeks from Monday 12th October 2026.",
+      "sources": [
+       {
+        "url": "upload:circular-focr.pdf",
+        "title": "Your copy",
+        "excerpt": "Following the outbreak of Lassa variant X, all schools nationwide will close for three weeks from Monday 12th October 2026.",
+        "pageType": "user_input",
+        "date": null,
+        "dateProvenance": "unknown"
+       }
+      ],
+      "date": null,
+      "dateProvenance": "unknown",
+      "pageType": "user_input",
+      "isUserInput": true
+     }
+    ],
+    "edges": [
+     {
+      "from": "v2-6p7fw",
+      "to": "v0-mxxvk",
+      "confidence": "medium",
+      "reason": "Closest earlier version by wording (similarity 0.50).",
+      "mutations": [
+       {
+        "type": "location_changed",
+        "before": "Kano, Kaduna",
+        "after": "",
+        "explanation": "Location removed"
+       },
+       {
+        "type": "urgency_added",
+        "before": "",
+        "after": "breaking",
+        "explanation": "Adds time pressure."
+       }
+      ],
+      "spreadJump": false
+     },
+     {
+      "from": "v0-mxxvk",
+      "to": "v1-105aw",
+      "confidence": "high",
+      "reason": "Closest earlier version by wording (similarity 0.71).",
+      "mutations": [
+       {
+        "type": "detail_added",
+        "before": "",
+        "after": "messages claim known disease called education",
+        "explanation": "Adds details not in the earlier version."
+       }
+      ],
+      "spreadJump": false
+     },
+     {
+      "from": "v0-mxxvk",
+      "to": "you",
+      "confidence": "medium",
+      "reason": "Closest earlier version by wording (similarity 0.75).",
+      "mutations": [
+       {
+        "type": "number_changed",
+        "before": "",
+        "after": "12, 2026.",
+        "explanation": "Number added"
+       },
+       {
+        "type": "date_changed",
+        "before": "",
+        "after": "12th october 2026",
+        "explanation": "Date/time reference added"
+       }
+      ],
+      "spreadJump": false
+     }
+    ],
+    "earliestId": "v2-6p7fw",
+    "limited": false,
+    "verdict": {
+     "summary": "The earliest version found is from 2022-01-12. As it was forwarded, it changed 5 times (for example, location removed: Kano, Kaduna). 1 fact-check or official source address it.",
+     "whatChanged": [
+      "Location removed: Kano, Kaduna",
+      "Adds time pressure: breaking",
+      "Adds details not in the earlier version: messages claim known disease called education",
+      "Number added: 12, 2026.",
+      "Date/time reference added: 12th october 2026"
+     ],
+     "unsupported": [
+      {
+       "statement": "The claim is disputed by the fact-check/official sources found.",
+       "sourceUrls": [
+        "https://factline.example/fact-check/schools-lassa-variant-x"
+       ]
+      }
+     ],
+     "confidence": "medium",
+     "replyCard": "I looked this up before forwarding. Versions of this message have circulated since 2022, and the details keep changing. Fact-checkers say it isn't supported. Maybe let's not forward it until there's an official source. 🙏"
+    },
+    "branches": [],
+    "stats": {
+     "queries": 5,
+     "pagesSearched": 5,
+     "pagesConfirmed": 3,
+     "pairsCompared": 5
+    },
+    "warnings": [
+     "Lineage uses the algorithmic baseline tree (model refinement unavailable)."
+    ]
+   }
+  ],
+  "checks": {
+   "official": {
+    "organization": "FEDERAL OFFICE OF CIVIC READINESS",
+    "reference": "FOCR/CIR/2026/117",
+    "metadataHints": {
+     "created (pdf_metadata_unverified)": "2026-10-27",
+     "producer (pdf_metadata_unverified)": "LibreOffice 24.2"
+    },
+    "outcome": "no_official_record_found",
+    "note": "No official record found. Verify directly with the organization before acting."
+   }
+  },
+  "logs": [
+   {
+    "provider": "heuristic",
+    "model": "rootline-heuristic",
+    "tier": "local",
+    "stage": "claims: extract",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 4,
+    "ok": true,
+    "note": "nano not configured; used deterministic fallback",
+    "id": "c1",
+    "at": 1793121627613
+   },
+   {
+    "provider": "heuristic",
+    "model": "rootline-heuristic",
+    "tier": "local",
+    "stage": "claims: rank",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 0,
+    "ok": true,
+    "note": "super not configured; used deterministic fallback",
+    "id": "c2",
+    "at": 1793121627613
+   },
+   {
+    "provider": "heuristic",
+    "model": "rootline-heuristic",
+    "tier": "local",
+    "stage": "check: official fields",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 4,
+    "ok": true,
+    "note": "nano not configured; used deterministic fallback",
+    "id": "c3",
+    "at": 1793121627618
+   },
+   {
+    "provider": "mock",
+    "model": "fictional-corpus",
+    "tier": "search",
+    "stage": "check: official",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 11,
+    "ok": true,
+    "note": "0 results",
+    "id": "c4",
+    "at": 1793121627629
+   },
+   {
+    "provider": "heuristic",
+    "model": "rootline-heuristic",
+    "tier": "local",
+    "stage": "A: understand",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 2,
+    "ok": true,
+    "note": "nano not configured; used deterministic fallback",
+    "id": "c5",
+    "at": 1793121627632
+   },
+   {
+    "provider": "mock",
+    "model": "fictional-corpus",
+    "tier": "search",
+    "stage": "check: official",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 5,
+    "ok": true,
+    "note": "0 results",
+    "id": "c6",
+    "at": 1793121627637
+   },
+   {
+    "provider": "mock",
+    "model": "fictional-corpus",
+    "tier": "search",
+    "stage": "check: official",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 7,
+    "ok": true,
+    "note": "2 results",
+    "id": "c7",
+    "at": 1793121627645
+   },
+   {
+    "provider": "mock",
+    "model": "fictional-corpus",
+    "tier": "search",
+    "stage": "check: official (gov domains)",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 0,
+    "ok": true,
+    "note": "0 results",
+    "id": "c8",
+    "at": 1793121627646
+   },
+   {
+    "provider": "mock",
+    "model": "fictional-corpus",
+    "tier": "search",
+    "stage": "B: search",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 6,
+    "ok": true,
+    "note": "3 results",
+    "id": "c9",
+    "at": 1793121627652
+   },
+   {
+    "provider": "mock",
+    "model": "fictional-corpus",
+    "tier": "search",
+    "stage": "B: search",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 6,
+    "ok": true,
+    "note": "5 results",
+    "id": "c10",
+    "at": 1793121627658
+   },
+   {
+    "provider": "mock",
+    "model": "fictional-corpus",
+    "tier": "search",
+    "stage": "B: search",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 5,
+    "ok": true,
+    "note": "2 results",
+    "id": "c11",
+    "at": 1793121627663
+   },
+   {
+    "provider": "mock",
+    "model": "fictional-corpus",
+    "tier": "search",
+    "stage": "B: search",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 6,
+    "ok": true,
+    "note": "5 results",
+    "id": "c12",
+    "at": 1793121627669
+   },
+   {
+    "provider": "heuristic",
+    "model": "rootline-heuristic",
+    "tier": "local",
+    "stage": "check: official",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 1,
+    "ok": true,
+    "note": "nano not configured; used deterministic fallback",
+    "id": "c13",
+    "at": 1793121627670
+   },
+   {
+    "provider": "mock",
+    "model": "fictional-corpus",
+    "tier": "search",
+    "stage": "B: search",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 5,
+    "ok": true,
+    "note": "4 results",
+    "id": "c14",
+    "at": 1793121627676
+   },
+   {
+    "provider": "mock",
+    "model": "fictional-corpus",
+    "tier": "extract",
+    "stage": "B: extract",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 1,
+    "ok": true,
+    "note": "5 pages",
+    "id": "c15",
+    "at": 1793121627677
+   },
+   {
+    "provider": "heuristic",
+    "model": "rootline-heuristic",
+    "tier": "local",
+    "stage": "C: confirm",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 0,
+    "ok": true,
+    "note": "nano not configured; used deterministic fallback",
+    "id": "c16",
+    "at": 1793121627679
+   },
+   {
+    "provider": "heuristic",
+    "model": "rootline-heuristic",
+    "tier": "local",
+    "stage": "C: confirm",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 0,
+    "ok": true,
+    "note": "nano not configured; used deterministic fallback",
+    "id": "c17",
+    "at": 1793121627682
+   },
+   {
+    "provider": "heuristic",
+    "model": "rootline-heuristic",
+    "tier": "local",
+    "stage": "C: confirm",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 0,
+    "ok": true,
+    "note": "nano not configured; used deterministic fallback",
+    "id": "c18",
+    "at": 1793121627683
+   },
+   {
+    "provider": "heuristic",
+    "model": "rootline-heuristic",
+    "tier": "local",
+    "stage": "C: confirm",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 0,
+    "ok": true,
+    "note": "nano not configured; used deterministic fallback",
+    "id": "c19",
+    "at": 1793121627684
+   },
+   {
+    "provider": "heuristic",
+    "model": "rootline-heuristic",
+    "tier": "local",
+    "stage": "C: confirm",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 0,
+    "ok": true,
+    "note": "nano not configured; used deterministic fallback",
+    "id": "c20",
+    "at": 1793121627688
+   },
+   {
+    "provider": "heuristic",
+    "model": "rootline-heuristic",
+    "tier": "local",
+    "stage": "D: mutations",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 1,
+    "ok": true,
+    "note": "nano not configured; used deterministic fallback",
+    "id": "c21",
+    "at": 1793121627693
+   },
+   {
+    "provider": "heuristic",
+    "model": "rootline-heuristic",
+    "tier": "local",
+    "stage": "D: mutations",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 0,
+    "ok": true,
+    "note": "nano not configured; used deterministic fallback",
+    "id": "c22",
+    "at": 1793121627693
+   },
+   {
+    "provider": "heuristic",
+    "model": "rootline-heuristic",
+    "tier": "local",
+    "stage": "D: mutations",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 0,
+    "ok": true,
+    "note": "nano not configured; used deterministic fallback",
+    "id": "c23",
+    "at": 1793121627694
+   },
+   {
+    "provider": "heuristic",
+    "model": "rootline-heuristic",
+    "tier": "local",
+    "stage": "D: mutations",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 0,
+    "ok": true,
+    "note": "nano not configured; used deterministic fallback",
+    "id": "c24",
+    "at": 1793121627694
+   },
+   {
+    "provider": "heuristic",
+    "model": "rootline-heuristic",
+    "tier": "local",
+    "stage": "D: mutations",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 0,
+    "ok": true,
+    "note": "nano not configured; used deterministic fallback",
+    "id": "c25",
+    "at": 1793121627694
+   },
+   {
+    "provider": "heuristic",
+    "model": "rootline-heuristic",
+    "tier": "local",
+    "stage": "E: cluster",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 0,
+    "ok": true,
+    "note": "super not configured; used deterministic fallback",
+    "id": "c26",
+    "at": 1793121627695
+   },
+   {
+    "provider": "heuristic",
+    "model": "rootline-heuristic",
+    "tier": "local",
+    "stage": "F: lineage",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 0,
+    "ok": true,
+    "note": "ultra not configured; used deterministic fallback",
+    "id": "c27",
+    "at": 1793121627695
+   },
+   {
+    "provider": "heuristic",
+    "model": "rootline-heuristic",
+    "tier": "local",
+    "stage": "G: verdict",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 0,
+    "ok": true,
+    "note": "super not configured; used deterministic fallback",
+    "id": "c28",
+    "at": 1793121627695
+   }
+  ],
+  "totalLatencyMs": 82,
+  "pricing": {
+   "nano": [
+    0.06,
+    0.24
+   ],
+   "super": [
+    0.3,
+    0.9
+   ],
+   "ultra": [
+    1,
+    3
+   ],
+   "vision": [
+    0.3,
+    0.9
+   ]
+  },
+  "fixture": {
+   "id": "5-circular",
+   "title": "Circular from a fictional organisation",
+   "generatedAt": "2026-10-27T17:20:27.695Z",
+   "generatedWith": "offline_mock"
+  }
+ }
+}

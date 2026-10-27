@@ -1,0 +1,839 @@
+{
+ "id": "1-perfume",
+ "title": "“Perfume sample” kidnapping scare",
+ "chip": "Perfume kidnapping forward",
+ "description": "A text forward claiming kidnappers drug women with perfume samples.",
+ "investigation": {
+  "id": "fixture-1-perfume",
+  "createdAt": "2026-10-27T17:20:19.934Z",
+  "mode": "offline_mock",
+  "modeNote": "Offline mock: sources come from a FICTIONAL built-in corpus (.example domains) and model stages use deterministic heuristics. Not a real web trace.",
+  "input": {
+   "sourceKind": "text",
+   "original": {
+    "kind": "paste"
+   },
+   "text": "URGENT Men are offering free perfume samples at filling stations in Lekki and Abuja. You smell it and you faint immediately, then they kidnap you. 2,000 women missing this month! Police have confirmed and Dr. Ama Felix of Bluewater Teaching Hospital confirmed it. Forward to every woman you know",
+   "language": "unknown",
+   "locations": [
+    {
+     "label": "message",
+     "start": 0,
+     "end": 295
+    }
+   ],
+   "unverifiedMetadata": {},
+   "adapterPath": [
+    "text:normalize"
+   ]
+  },
+  "claims": [
+   {
+    "claimId": "k0",
+    "claim": "URGENT Men are offering free perfume samples at filling stations in Lekki and Abuja. You smell it and you faint immediately, then they kidnap you. 2,000 women missing this month! Police have confirmed and Dr. Ama Felix of Bluewater Teaching Hospital confirmed it. Forward to every woman you know",
+    "understanding": {
+     "claim": "URGENT Men are offering free perfume samples at filling stations in Lekki and Abuja. You smell it and you faint immediately, then they kidnap you. 2,000 women missing this month!",
+     "entities": [
+      "Police",
+      "Dr. Ama Felix",
+      "Hospital"
+     ],
+     "numbers": [
+      "2,000"
+     ],
+     "places": [
+      "Abuja",
+      "Lekki"
+     ],
+     "authorities": [
+      "Police",
+      "Dr. Ama Felix",
+      "Hospital"
+     ],
+     "callToAction": "Forward to every woman you know",
+     "queries": [
+      "\"2,000 women missing this month\"",
+      "\"URGENT Men are offering free perfume samples\"",
+      "\"Ama Felix of Bluewater Teaching Hospital confirmed\"",
+      "urgent men offering free perfume samples filling stations",
+      "urgent men offering free perfume fact check"
+     ],
+     "language": "unknown"
+    },
+    "variants": [
+     {
+      "id": "v0-1bnh8",
+      "text": "Men are offering free perfume samples at filling stations in Lagos and Abuja. You smell it and you faint immediately, then they kidnap you. 2,000 women missing this month.",
+      "excerpt": "Men are offering free perfume samples at filling stations in Lagos and Abuja. You smell it and you faint immediately, then they kidnap you. 2,000 women missing this month.",
+      "sources": [
+       {
+        "url": "https://chirp.example/healthwatch_fic/status/7781200",
+        "title": "healthwatch (fictional) on Chirp",
+        "excerpt": "Men are offering free perfume samples at filling stations in Lagos and Abuja. You smell it and you faint immediately, then they kidnap you. 2,000 women missing this month.",
+        "pageType": "social",
+        "date": "2023-08-19",
+        "dateProvenance": "published_date"
+       }
+      ],
+      "date": "2023-08-19",
+      "dateProvenance": "published_date",
+      "pageType": "social"
+     },
+     {
+      "id": "v1-mvcdx",
+      "text": "URGENT! Men are offering free perfume samples at filling stations in Lagos and Abuja. You smell it and you faint, then they kidnap you. 2,000 women missing this month.",
+      "excerpt": "URGENT! Men are offering free perfume samples at filling stations in Lagos and Abuja. You smell it and you faint, then they kidnap you. 2,000 women missing this month.",
+      "sources": [
+       {
+        "url": "https://chirp.example/naija_alerts_fic/status/1324401",
+        "title": "naija alerts (fictional) on Chirp",
+        "excerpt": "URGENT! Men are offering free perfume samples at filling stations in Lagos and Abuja. You smell it and you faint, then they kidnap you. 2,000 women missing this month.",
+        "pageType": "social",
+        "date": "2020-11-05",
+        "dateProvenance": "published_date"
+       }
+      ],
+      "date": "2020-11-05",
+      "dateProvenance": "published_date",
+      "pageType": "social"
+     },
+     {
+      "id": "v2-167ox",
+      "text": "A message circulating on messaging apps claims: \"Men are offering free perfume samples at filling stations in Lagos and Abuja. You smell it and you faint, then they kidnap you. 2,000 women missing this month.",
+      "excerpt": "A message circulating on messaging apps claims: \"Men are offering free perfume samples at filling stations in Lagos and Abuja. You smell it and you faint, then they kidnap you. 2,000 women missing this month.",
+      "sources": [
+       {
+        "url": "https://factline.example/fact-check/perfume-sample-kidnapping-claim",
+        "title": "Fact check: No evidence kidnappers are drugging women with perfume samples at filling stations",
+        "excerpt": "A message circulating on messaging apps claims: \"Men are offering free perfume samples at filling stations in Lagos and Abuja. You smell it and you faint, then they kidnap you. 2,000 women missing this month.",
+        "pageType": "debunk",
+        "date": "2021-02-10",
+        "dateProvenance": "published_date"
+       }
+      ],
+      "date": "2021-02-10",
+      "dateProvenance": "published_date",
+      "pageType": "debunk"
+     },
+     {
+      "id": "v3-158xo",
+      "text": "Beware: Men are offering free perfume samples at filling stations in Lagos. They ask you to smell it and you faint, then they kidnap you.",
+      "excerpt": "Beware: Men are offering free perfume samples at filling stations in Lagos. They ask you to smell it and you faint, then they kidnap you.",
+      "sources": [
+       {
+        "url": "https://lagoslifestyle-blog.example/2019/09/beware-perfume-samples",
+        "title": "Beware of free perfume samples",
+        "excerpt": "Beware: Men are offering free perfume samples at filling stations in Lagos. They ask you to smell it and you faint, then they kidnap you.",
+        "pageType": "other",
+        "date": "2019-09-20",
+        "dateProvenance": "published_date"
+       }
+      ],
+      "date": "2019-09-20",
+      "dateProvenance": "published_date",
+      "pageType": "other"
+     },
+     {
+      "id": "v4-1ux9d",
+      "text": "Men are offering free perfume samples at filling stations in Ibadan.",
+      "excerpt": "Men are offering free perfume samples at filling stations in Ibadan.",
+      "sources": [
+       {
+        "url": "https://friendsbook.example/posts/ladies-be-careful-perfume-ibadan",
+        "title": "Ladies be careful!",
+        "excerpt": "Men are offering free perfume samples at filling stations in Ibadan.",
+        "pageType": "social",
+        "date": "2018-06-02",
+        "dateProvenance": "published_date"
+       }
+      ],
+      "date": "2018-06-02",
+      "dateProvenance": "published_date",
+      "pageType": "social"
+     },
+     {
+      "id": "v5-1mb2u",
+      "text": "A man walked up to her offering free perfume samples and asked her to smell it.",
+      "excerpt": "A man walked up to her offering free perfume samples and asked her to smell it.",
+      "sources": [
+       {
+        "url": "https://forum.nairatalk.example/t/strange-man-at-the-mall-48121",
+        "title": "Strange man at the mall - be careful",
+        "excerpt": "A man walked up to her offering free perfume samples and asked her to smell it.",
+        "pageType": "forum",
+        "date": "2017-03-14",
+        "dateProvenance": "page_metadata"
+       }
+      ],
+      "date": "2017-03-14",
+      "dateProvenance": "page_metadata",
+      "pageType": "forum"
+     },
+     {
+      "id": "v7-9s269",
+      "text": "The rest of the message, \"You smell it and you faint immediately, then they kidnap you.",
+      "excerpt": "The rest of the message, \"You smell it and you faint immediately, then they kidnap you.",
+      "sources": [
+       {
+        "url": "https://verifydesk.example/2024/05/perfume-kidnap-doctor-quote",
+        "title": "Viral perfume-kidnapping message now cites a doctor who could not be found",
+        "excerpt": "The rest of the message, \"You smell it and you faint immediately, then they kidnap you.",
+        "pageType": "debunk",
+        "date": "2024-05-01",
+        "dateProvenance": "published_date"
+       }
+      ],
+      "date": "2024-05-01",
+      "dateProvenance": "published_date",
+      "pageType": "debunk"
+     },
+     {
+      "id": "you",
+      "text": "URGENT Men are offering free perfume samples at filling stations in Lekki and Abuja. You smell it and you faint immediately, then they kidnap you. 2,000 women missing this month! Police have confirmed and Dr. Ama Felix of Bluewater Teaching Hospital confirmed it. Forward to every woman you know",
+      "excerpt": "URGENT Men are offering free perfume samples at filling stations in Lekki and Abuja. You smell it and you faint immediately, then they kidnap you. 2,000 women missing this month! Police have confirmed and Dr. Ama Felix of Bluewater Teaching Hospital confirmed it. Forward to every woman you know",
+      "sources": [
+       {
+        "url": "user:pasted",
+        "title": "Your copy",
+        "excerpt": "URGENT Men are offering free perfume samples at filling stations in Lekki and Abuja. You smell it and you faint immediately, then they kidnap you. 2,000 women missing this month! Police have confirmed and Dr. Ama Felix of Bluewater Teaching Hospital confirmed it. Forward to every woman you know",
+        "pageType": "user_input",
+        "date": null,
+        "dateProvenance": "unknown"
+       }
+      ],
+      "date": null,
+      "dateProvenance": "unknown",
+      "pageType": "user_input",
+      "isUserInput": true
+     }
+    ],
+    "edges": [
+     {
+      "from": "v5-1mb2u",
+      "to": "v3-158xo",
+      "confidence": "medium",
+      "reason": "Closest earlier version by wording (similarity 0.47).",
+      "mutations": [
+       {
+        "type": "location_changed",
+        "before": "",
+        "after": "Lagos",
+        "explanation": "Location added"
+       },
+       {
+        "type": "emotional_framing_added",
+        "before": "",
+        "after": "beware",
+        "explanation": "Adds emotional framing."
+       }
+      ],
+      "spreadJump": true
+     },
+     {
+      "from": "v3-158xo",
+      "to": "v1-mvcdx",
+      "confidence": "high",
+      "reason": "Closest earlier version by wording (similarity 0.75).",
+      "mutations": [
+       {
+        "type": "number_changed",
+        "before": "",
+        "after": "2,000",
+        "explanation": "Number added"
+       },
+       {
+        "type": "location_changed",
+        "before": "",
+        "after": "Abuja",
+        "explanation": "Location added"
+       },
+       {
+        "type": "date_changed",
+        "before": "",
+        "after": "this month",
+        "explanation": "Date/time reference added"
+       },
+       {
+        "type": "urgency_added",
+        "before": "",
+        "after": "urgent",
+        "explanation": "Adds time pressure."
+       }
+      ],
+      "spreadJump": false
+     },
+     {
+      "from": "v1-mvcdx",
+      "to": "v2-167ox",
+      "confidence": "high",
+      "reason": "Closest earlier version by wording (similarity 0.86).",
+      "mutations": [
+       {
+        "type": "detail_added",
+        "before": "",
+        "after": "message circulating messaging apps claims",
+        "explanation": "Adds details not in the earlier version."
+       }
+      ],
+      "spreadJump": false
+     },
+     {
+      "from": "v1-mvcdx",
+      "to": "v0-1bnh8",
+      "confidence": "high",
+      "reason": "Closest earlier version by wording (similarity 0.90).",
+      "mutations": [
+       {
+        "type": "urgency_added",
+        "before": "",
+        "after": "immediately",
+        "explanation": "Adds time pressure."
+       }
+      ],
+      "spreadJump": false
+     },
+     {
+      "from": "v0-1bnh8",
+      "to": "v7-9s269",
+      "confidence": "medium",
+      "reason": "Closest earlier version by wording (similarity 0.49).",
+      "mutations": [
+       {
+        "type": "number_changed",
+        "before": "2,000",
+        "after": "",
+        "explanation": "Number removed"
+       },
+       {
+        "type": "location_changed",
+        "before": "Lagos, Abuja",
+        "after": "",
+        "explanation": "Location removed"
+       },
+       {
+        "type": "date_changed",
+        "before": "this month",
+        "after": "",
+        "explanation": "Date/time reference removed"
+       }
+      ],
+      "spreadJump": false
+     },
+     {
+      "from": "v5-1mb2u",
+      "to": "v4-1ux9d",
+      "confidence": "low",
+      "reason": "Closest earlier version by wording (similarity 0.40).",
+      "mutations": [
+       {
+        "type": "location_changed",
+        "before": "",
+        "after": "Ibadan",
+        "explanation": "Location added"
+       }
+      ],
+      "spreadJump": false
+     },
+     {
+      "from": "v0-1bnh8",
+      "to": "you",
+      "confidence": "medium",
+      "reason": "Closest earlier version by wording (similarity 0.76).",
+      "mutations": [
+       {
+        "type": "location_changed",
+        "before": "Lagos",
+        "after": "Lekki",
+        "explanation": "Location changed"
+       },
+       {
+        "type": "authority_added",
+        "before": "",
+        "after": "Police, Dr. Ama Felix, Hospital",
+        "explanation": "Cites Police, Dr. Ama Felix, Hospital, which the earlier version did not."
+       },
+       {
+        "type": "urgency_added",
+        "before": "",
+        "after": "urgent",
+        "explanation": "Adds time pressure."
+       },
+       {
+        "type": "call_to_action_added",
+        "before": "",
+        "after": "Forward to every woman you know",
+        "explanation": "Adds an instruction to act or forward."
+       }
+      ],
+      "spreadJump": false
+     }
+    ],
+    "earliestId": "v5-1mb2u",
+    "limited": false,
+    "verdict": {
+     "summary": "The earliest version found is from 2017-03-14. As it was forwarded, it changed 16 times (for example, location added: Lagos). 2 fact-check or official sources address it.",
+     "whatChanged": [
+      "Location added: Lagos",
+      "Adds emotional framing: beware",
+      "Number added: 2,000",
+      "Location added: Abuja",
+      "Date/time reference added: this month",
+      "Adds time pressure: urgent"
+     ],
+     "unsupported": [
+      {
+       "statement": "The claim is disputed by the fact-check/official sources found.",
+       "sourceUrls": [
+        "https://factline.example/fact-check/perfume-sample-kidnapping-claim",
+        "https://verifydesk.example/2024/05/perfume-kidnap-doctor-quote"
+       ]
+      }
+     ],
+     "confidence": "medium",
+     "replyCard": "I looked this up before forwarding. Versions of this message have circulated since 2017, and the details keep changing. Fact-checkers say it isn't supported. Maybe let's not forward it until there's an official source. 🙏"
+    },
+    "branches": [],
+    "stats": {
+     "queries": 5,
+     "pagesSearched": 8,
+     "pagesConfirmed": 7,
+     "pairsCompared": 13
+    },
+    "warnings": [
+     "Lineage uses the algorithmic baseline tree (model refinement unavailable)."
+    ]
+   }
+  ],
+  "checks": {},
+  "logs": [
+   {
+    "provider": "heuristic",
+    "model": "rootline-heuristic",
+    "tier": "local",
+    "stage": "A: understand",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 24,
+    "ok": true,
+    "note": "nano not configured; used deterministic fallback",
+    "id": "c1",
+    "at": 1793121619733
+   },
+   {
+    "provider": "mock",
+    "model": "fictional-corpus",
+    "tier": "search",
+    "stage": "B: search",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 13,
+    "ok": true,
+    "note": "5 results",
+    "id": "c2",
+    "at": 1793121619751
+   },
+   {
+    "provider": "mock",
+    "model": "fictional-corpus",
+    "tier": "search",
+    "stage": "B: search",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 8,
+    "ok": true,
+    "note": "7 results",
+    "id": "c3",
+    "at": 1793121619759
+   },
+   {
+    "provider": "mock",
+    "model": "fictional-corpus",
+    "tier": "search",
+    "stage": "B: search",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 7,
+    "ok": true,
+    "note": "2 results",
+    "id": "c4",
+    "at": 1793121619766
+   },
+   {
+    "provider": "mock",
+    "model": "fictional-corpus",
+    "tier": "search",
+    "stage": "B: search",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 10,
+    "ok": true,
+    "note": "7 results",
+    "id": "c5",
+    "at": 1793121619776
+   },
+   {
+    "provider": "mock",
+    "model": "fictional-corpus",
+    "tier": "search",
+    "stage": "B: search",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 8,
+    "ok": true,
+    "note": "7 results",
+    "id": "c6",
+    "at": 1793121619786
+   },
+   {
+    "provider": "mock",
+    "model": "fictional-corpus",
+    "tier": "extract",
+    "stage": "B: extract",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 2,
+    "ok": true,
+    "note": "8 pages",
+    "id": "c7",
+    "at": 1793121619789
+   },
+   {
+    "provider": "heuristic",
+    "model": "rootline-heuristic",
+    "tier": "local",
+    "stage": "C: confirm",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 2,
+    "ok": true,
+    "note": "nano not configured; used deterministic fallback",
+    "id": "c8",
+    "at": 1793121619806
+   },
+   {
+    "provider": "heuristic",
+    "model": "rootline-heuristic",
+    "tier": "local",
+    "stage": "C: confirm",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 1,
+    "ok": true,
+    "note": "nano not configured; used deterministic fallback",
+    "id": "c9",
+    "at": 1793121619817
+   },
+   {
+    "provider": "heuristic",
+    "model": "rootline-heuristic",
+    "tier": "local",
+    "stage": "C: confirm",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 0,
+    "ok": true,
+    "note": "nano not configured; used deterministic fallback",
+    "id": "c10",
+    "at": 1793121619829
+   },
+   {
+    "provider": "heuristic",
+    "model": "rootline-heuristic",
+    "tier": "local",
+    "stage": "C: confirm",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 1,
+    "ok": true,
+    "note": "nano not configured; used deterministic fallback",
+    "id": "c11",
+    "at": 1793121619837
+   },
+   {
+    "provider": "heuristic",
+    "model": "rootline-heuristic",
+    "tier": "local",
+    "stage": "C: confirm",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 0,
+    "ok": true,
+    "note": "nano not configured; used deterministic fallback",
+    "id": "c12",
+    "at": 1793121619841
+   },
+   {
+    "provider": "heuristic",
+    "model": "rootline-heuristic",
+    "tier": "local",
+    "stage": "C: confirm",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 0,
+    "ok": true,
+    "note": "nano not configured; used deterministic fallback",
+    "id": "c13",
+    "at": 1793121619851
+   },
+   {
+    "provider": "heuristic",
+    "model": "rootline-heuristic",
+    "tier": "local",
+    "stage": "C: confirm",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 0,
+    "ok": true,
+    "note": "nano not configured; used deterministic fallback",
+    "id": "c14",
+    "at": 1793121619856
+   },
+   {
+    "provider": "heuristic",
+    "model": "rootline-heuristic",
+    "tier": "local",
+    "stage": "C: confirm",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 0,
+    "ok": true,
+    "note": "nano not configured; used deterministic fallback",
+    "id": "c15",
+    "at": 1793121619863
+   },
+   {
+    "provider": "heuristic",
+    "model": "rootline-heuristic",
+    "tier": "local",
+    "stage": "D: mutations",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 9,
+    "ok": true,
+    "note": "nano not configured; used deterministic fallback",
+    "id": "c16",
+    "at": 1793121619925
+   },
+   {
+    "provider": "heuristic",
+    "model": "rootline-heuristic",
+    "tier": "local",
+    "stage": "D: mutations",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 1,
+    "ok": true,
+    "note": "nano not configured; used deterministic fallback",
+    "id": "c17",
+    "at": 1793121619926
+   },
+   {
+    "provider": "heuristic",
+    "model": "rootline-heuristic",
+    "tier": "local",
+    "stage": "D: mutations",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 1,
+    "ok": true,
+    "note": "nano not configured; used deterministic fallback",
+    "id": "c18",
+    "at": 1793121619927
+   },
+   {
+    "provider": "heuristic",
+    "model": "rootline-heuristic",
+    "tier": "local",
+    "stage": "D: mutations",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 0,
+    "ok": true,
+    "note": "nano not configured; used deterministic fallback",
+    "id": "c19",
+    "at": 1793121619927
+   },
+   {
+    "provider": "heuristic",
+    "model": "rootline-heuristic",
+    "tier": "local",
+    "stage": "D: mutations",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 1,
+    "ok": true,
+    "note": "nano not configured; used deterministic fallback",
+    "id": "c20",
+    "at": 1793121619928
+   },
+   {
+    "provider": "heuristic",
+    "model": "rootline-heuristic",
+    "tier": "local",
+    "stage": "D: mutations",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 0,
+    "ok": true,
+    "note": "nano not configured; used deterministic fallback",
+    "id": "c21",
+    "at": 1793121619928
+   },
+   {
+    "provider": "heuristic",
+    "model": "rootline-heuristic",
+    "tier": "local",
+    "stage": "D: mutations",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 1,
+    "ok": true,
+    "note": "nano not configured; used deterministic fallback",
+    "id": "c22",
+    "at": 1793121619929
+   },
+   {
+    "provider": "heuristic",
+    "model": "rootline-heuristic",
+    "tier": "local",
+    "stage": "D: mutations",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 0,
+    "ok": true,
+    "note": "nano not configured; used deterministic fallback",
+    "id": "c23",
+    "at": 1793121619929
+   },
+   {
+    "provider": "heuristic",
+    "model": "rootline-heuristic",
+    "tier": "local",
+    "stage": "D: mutations",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 1,
+    "ok": true,
+    "note": "nano not configured; used deterministic fallback",
+    "id": "c24",
+    "at": 1793121619930
+   },
+   {
+    "provider": "heuristic",
+    "model": "rootline-heuristic",
+    "tier": "local",
+    "stage": "D: mutations",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 0,
+    "ok": true,
+    "note": "nano not configured; used deterministic fallback",
+    "id": "c25",
+    "at": 1793121619930
+   },
+   {
+    "provider": "heuristic",
+    "model": "rootline-heuristic",
+    "tier": "local",
+    "stage": "D: mutations",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 0,
+    "ok": true,
+    "note": "nano not configured; used deterministic fallback",
+    "id": "c26",
+    "at": 1793121619930
+   },
+   {
+    "provider": "heuristic",
+    "model": "rootline-heuristic",
+    "tier": "local",
+    "stage": "D: mutations",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 0,
+    "ok": true,
+    "note": "nano not configured; used deterministic fallback",
+    "id": "c27",
+    "at": 1793121619930
+   },
+   {
+    "provider": "heuristic",
+    "model": "rootline-heuristic",
+    "tier": "local",
+    "stage": "D: mutations",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 1,
+    "ok": true,
+    "note": "nano not configured; used deterministic fallback",
+    "id": "c28",
+    "at": 1793121619931
+   },
+   {
+    "provider": "heuristic",
+    "model": "rootline-heuristic",
+    "tier": "local",
+    "stage": "E: cluster",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 0,
+    "ok": true,
+    "note": "super not configured; used deterministic fallback",
+    "id": "c29",
+    "at": 1793121619931
+   },
+   {
+    "provider": "heuristic",
+    "model": "rootline-heuristic",
+    "tier": "local",
+    "stage": "F: lineage",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 0,
+    "ok": true,
+    "note": "ultra not configured; used deterministic fallback",
+    "id": "c30",
+    "at": 1793121619932
+   },
+   {
+    "provider": "heuristic",
+    "model": "rootline-heuristic",
+    "tier": "local",
+    "stage": "G: verdict",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 1,
+    "ok": true,
+    "note": "super not configured; used deterministic fallback",
+    "id": "c31",
+    "at": 1793121619934
+   }
+  ],
+  "totalLatencyMs": 228,
+  "pricing": {
+   "nano": [
+    0.06,
+    0.24
+   ],
+   "super": [
+    0.3,
+    0.9
+   ],
+   "ultra": [
+    1,
+    3
+   ],
+   "vision": [
+    0.3,
+    0.9
+   ]
+  },
+  "fixture": {
+   "id": "1-perfume",
+   "title": "“Perfume sample” kidnapping scare",
+   "generatedAt": "2026-10-27T17:20:19.935Z",
+   "generatedWith": "offline_mock"
+  }
+ }
+}

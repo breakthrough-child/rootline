@@ -120,7 +120,7 @@ function diffSets(type: Mutation["type"], a: string[], b: string[], label: strin
   const removed = a.filter((x, i) => !cb.includes(ca[i]));
   const added = b.filter((x, i) => !ca.includes(cb[i]));
   if (!removed.length && !added.length) return [];
-  return [{ type, before: removed.join(", "), after: added.join(", "), explanation: `${label} ${removed.length && added.length ? "changed" : added.length ? "added" : "removed"}.` }];
+  return [{ type, before: removed.join(", "), after: added.join(", "), explanation: `${label} ${removed.length && added.length ? "changed" : added.length ? "added" : "removed"}` }];
 }
 
 export function heuristicMutations(parent: string, child: string): Mutation[] {
@@ -187,11 +187,17 @@ export function heuristicVerdict(variants: Variant[], edges: LineageEdge[], earl
   const earliest = variants.find((v) => v.id === earliestId);
   const debunks = variants.flatMap((v) => v.sources.filter((s) => s.pageType === "debunk" || s.pageType === "official"));
   const changes = edges.flatMap((e) => e.mutations).filter((m) => m.type !== "other");
-  const whatChanged = uniq(changes.map((m) => `${m.explanation}${m.before || m.after ? ` (${[m.before, m.after].filter(Boolean).join(" → ")})` : ""}`)).slice(0, 6);
+  const whatChanged = uniq(
+    changes.map((m) => {
+      const e = m.explanation.replace(/\.$/, "");
+      const detail = m.before && m.after ? `${m.before} → ${m.after}` : m.after || m.before;
+      return detail && !e.includes(detail) ? `${e}: ${detail}` : e;
+    }),
+  ).slice(0, 6);
   const dateTxt = earliest?.date ? `from ${earliest.date.slice(0, 10)}` : "with no reliable date";
   const summary = limited
     ? `Rootline found only ${variants.filter((v) => !v.isUserInput).length} related version(s) online, so the family is limited. ${earliest ? `The earliest found is ${dateTxt}.` : ""}`.trim()
-    : `The earliest version found is ${dateTxt}. As it was forwarded, it changed ${changes.length} time${changes.length === 1 ? "" : "s"}${whatChanged.length ? `, for example: ${whatChanged[0].toLowerCase()}` : ""}.${debunks.length ? ` ${debunks.length} fact-check or official source${debunks.length === 1 ? "" : "s"} address it.` : ""}`;
+    : `The earliest version found is ${dateTxt}. As it was forwarded, it changed ${changes.length} time${changes.length === 1 ? "" : "s"}${whatChanged.length ? ` (for example, ${whatChanged[0].charAt(0).toLowerCase()}${whatChanged[0].slice(1)})` : ""}.${debunks.length ? ` ${debunks.length} fact-check or official source${debunks.length === 1 ? "" : "s"} address it.` : ""}`;
   const unsupported = debunks.length
     ? [{ statement: "The claim is disputed by the fact-check/official sources found.", sourceUrls: uniq(debunks.map((d) => d.url)).slice(0, 3) }]
     : [];
