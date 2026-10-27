@@ -69,7 +69,7 @@ export async function readScreenshot(ctx: RunContext, buf: Buffer, mime: string)
         timeoutMs: 60_000,
         messages: [{ role: "user", content: [{ type: "text", text: VISION_PROMPT }, { type: "image_url", image_url: { url: `data:${mime};base64,${buf.toString("base64")}` } }] }],
       });
-      path.push(`vision:${config.nebius.models.vision}`);
+      path.push(`vision:${config.llm.models.vision}`);
     } catch {
       fields = null;
     }
@@ -91,7 +91,7 @@ export async function readScreenshot(ctx: RunContext, buf: Buffer, mime: string)
       () => fieldsFromOcr(raw),
     );
     fields = value;
-    path.push(usedFallback ? "cleanup:heuristic" : `cleanup:${config.nebius.models.nano}`);
+    path.push(usedFallback ? "cleanup:heuristic" : `cleanup:${config.llm.models.nano}`);
   }
   return { fields: { ...fields, post_text: redactPrivate(normalizeInput(fields.post_text)), provenance: "from_screenshot_unverified" }, path };
 }

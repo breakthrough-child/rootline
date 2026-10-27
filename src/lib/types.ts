@@ -183,7 +183,7 @@ export interface ClaimResult {
 
 export interface ModelCallLog {
   id: string;
-  provider: "nebius" | "tavily" | "heuristic" | "tesseract" | "asr-endpoint" | "mock";
+  provider: "nebius" | "nvidia" | "openai-compatible" | "tavily" | "heuristic" | "tesseract" | "asr-endpoint" | "mock";
   model: string;
   tier: "nano" | "super" | "ultra" | "vision" | "asr" | "search" | "extract" | "local";
   stage: string;
@@ -208,6 +208,7 @@ export interface Investigation {
   logs: ModelCallLog[];
   totalLatencyMs: number;
   pricing?: Record<string, [number, number]>; // USD per 1M tokens [in, out], by tier
+  llmProvider?: string; // which chat-completions provider served this run
   fixture?: { id: string; title: string; generatedAt: string; generatedWith: RunMode };
 }
 

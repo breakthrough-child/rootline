@@ -1,5 +1,5 @@
 // Voice-note adapter with a pluggable ASR provider interface.
-//   1. NVIDIA speech model on Token Factory (MODEL_ASR, chat completions with input_audio), if available.
+//   1. An audio-capable model on the configured LLM provider (MODEL_ASR, chat completions with input_audio).
 //   2. An OpenAI-compatible /v1/audio/transcriptions endpoint (ASR_ENDPOINT_URL) — e.g. NVIDIA Parakeet/Canary
 //      NIM or a Whisper server deployed on a Nebius Serverless Endpoint.
 //   3. Otherwise ASR is unavailable and the user types/pastes the transcript (the UI offers this).
@@ -27,7 +27,7 @@ export interface AsrProvider {
 
 const tokenFactoryAsr: AsrProvider = {
   name: "tokenfactory",
-  available: () => !config.offlineMock && !!config.nebius.apiKey && !!config.nebius.models.asr && !config.asr.endpointUrl,
+  available: () => !config.offlineMock && !!config.llm.apiKey && !!config.llm.models.asr && !config.asr.endpointUrl,
   async transcribe(ctx, wav, durationSec) {
     // Token Factory exposes chat completions; audio-capable models accept OpenAI-style input_audio parts.
     const { text } = await chat(ctx, {
@@ -46,7 +46,7 @@ const tokenFactoryAsr: AsrProvider = {
       ],
     });
     const clean = text.replace(/<think>[\s\S]*?<\/think>/g, "").trim();
-    return { text: clean, segments: evenSegments(clean, durationSec), language: "unknown", path: `asr:tokenfactory:${config.nebius.models.asr}` };
+    return { text: clean, segments: evenSegments(clean, durationSec), language: "unknown", path: `asr:${config.llm.provider}:${config.llm.models.asr}` };
   },
 };
 
@@ -57,7 +57,7 @@ const endpointAsr: AsrProvider = {
     const t0 = Date.now();
     const form = new FormData();
     form.append("file", new Blob([new Uint8Array(wav)], { type: "audio/wav" }), "audio.wav");
-    form.append("model", config.nebius.models.asr || "whisper-1");
+    form.append("model", config.llm.models.asr || "whisper-1");
     form.append("response_format", "verbose_json");
     form.append("timestamp_granularities[]", "segment");
     const url = config.asr.endpointUrl.replace(/\/$/, "");
@@ -66,11 +66,11 @@ const endpointAsr: AsrProvider = {
       const res = await fetch(full, { method: "POST", headers: config.asr.apiKey ? { Authorization: `Bearer ${config.asr.apiKey}` } : {}, body: form, signal: AbortSignal.timeout(180_000) });
       if (!res.ok) throw new Error(`ASR ${res.status}: ${(await res.text()).slice(0, 200)}`);
       const data = (await res.json()) as { text: string; language?: string; segments?: { start: number; end: number; text: string }[] };
-      ctx.log({ provider: "asr-endpoint", model: config.nebius.models.asr || "whisper-1", tier: "asr", stage: "audio: transcribe", tokensIn: 0, tokensOut: 0, latencyMs: Date.now() - t0, ok: true, note: new URL(full).host });
+      ctx.log({ provider: "asr-endpoint", model: config.llm.models.asr || "whisper-1", tier: "asr", stage: "audio: transcribe", tokensIn: 0, tokensOut: 0, latencyMs: Date.now() - t0, ok: true, note: new URL(full).host });
       const segments = (data.segments ?? []).map((s) => ({ start: s.start, end: s.end, text: s.text.trim() }));
-      return { text: data.text.trim(), segments: segments.length ? segments : evenSegments(data.text, 0), language: data.language ?? "unknown", path: `asr:endpoint:${config.nebius.models.asr || "whisper-1"}` };
+      return { text: data.text.trim(), segments: segments.length ? segments : evenSegments(data.text, 0), language: data.language ?? "unknown", path: `asr:endpoint:${config.llm.models.asr || "whisper-1"}` };
     } catch (e) {
-      ctx.log({ provider: "asr-endpoint", model: config.nebius.models.asr || "whisper-1", tier: "asr", stage: "audio: transcribe", tokensIn: 0, tokensOut: 0, latencyMs: Date.now() - t0, ok: false, note: String((e as Error).message).slice(0, 200) });
+      ctx.log({ provider: "asr-endpoint", model: config.llm.models.asr || "whisper-1", tier: "asr", stage: "audio: transcribe", tokensIn: 0, tokensOut: 0, latencyMs: Date.now() - t0, ok: false, note: String((e as Error).message).slice(0, 200) });
       throw e;
     }
   },

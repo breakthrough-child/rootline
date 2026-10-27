@@ -2,11 +2,36 @@
 
 const env = (k: string) => (process.env[k] ?? "").trim();
 
+const NEBIUS_DEFAULT_BASE_URL = "https://api.tokenfactory.nebius.com/v1";
+
+export type LlmProvider = "nebius" | "nvidia" | "openai-compatible";
+
+/** Label for logs and the routing panel, from LLM_PROVIDER or the base URL's host. */
+export function providerFromUrl(baseUrl: string, explicit = ""): LlmProvider {
+  if (explicit === "nebius" || explicit === "nvidia" || explicit === "openai-compatible") return explicit;
+  try {
+    const host = new URL(baseUrl).hostname;
+    if (host.endsWith("nebius.com")) return "nebius";
+    if (host.endsWith("nvidia.com")) return "nvidia";
+  } catch {
+    /* fall through */
+  }
+  return "openai-compatible";
+}
+
+const llmBaseUrl = (env("LLM_BASE_URL") || env("NEBIUS_BASE_URL") || NEBIUS_DEFAULT_BASE_URL).replace(/\/$/, "");
+
 export const config = {
-  nebius: {
-    apiKey: env("NEBIUS_API_KEY"),
-    baseUrl: (env("NEBIUS_BASE_URL") || "https://api.tokenfactory.nebius.com/v1").replace(/\/$/, ""),
-    visionBaseUrl: (env("NEBIUS_VISION_BASE_URL") || env("NEBIUS_BASE_URL") || "https://api.tokenfactory.nebius.com/v1").replace(/\/$/, ""),
+  /**
+   * Any OpenAI-compatible chat-completions provider. Default: Nebius Token Factory.
+   * Switch providers by changing env only (LLM_BASE_URL, LLM_API_KEY, MODEL_*).
+   * The older NEBIUS_* variable names are still accepted as fallbacks.
+   */
+  llm: {
+    provider: providerFromUrl(llmBaseUrl, env("LLM_PROVIDER")),
+    apiKey: env("LLM_API_KEY") || env("NEBIUS_API_KEY"),
+    baseUrl: llmBaseUrl,
+    visionBaseUrl: (env("LLM_VISION_BASE_URL") || env("NEBIUS_VISION_BASE_URL") || llmBaseUrl).replace(/\/$/, ""),
     models: {
       nano: env("MODEL_NANO"),
       super: env("MODEL_SUPER"),
@@ -14,11 +39,12 @@ export const config = {
       vision: env("MODEL_VISION"),
       asr: env("MODEL_ASR"),
     },
-    disableThinking: env("NEBIUS_DISABLE_THINKING") !== "false",
+    disableThinking: (env("LLM_DISABLE_THINKING") || env("NEBIUS_DISABLE_THINKING")) !== "false",
+    jsonMode: env("LLM_JSON_MODE") !== "false",
   },
   asr: {
     endpointUrl: env("ASR_ENDPOINT_URL"),
-    apiKey: env("ASR_API_KEY") || env("NEBIUS_API_KEY"),
+    apiKey: env("ASR_API_KEY") || env("LLM_API_KEY") || env("NEBIUS_API_KEY"),
   },
   tavily: { apiKey: env("TAVILY_API_KEY") },
   supabase: {
@@ -34,7 +60,7 @@ export const config = {
     maxPairs: Number(env("MAX_PAIRS") || 80),
     concurrency: Number(env("MODEL_CONCURRENCY") || 6),
   },
-  /** USD per 1M tokens [in, out]. Defaults from nebius.com Token Factory pricing (Oct 2026); override via env. */
+  /** USD per 1M tokens [in, out]. Defaults: Nebius Token Factory list prices (Oct 2026); override via env for other providers. */
   pricing: {
     nano: [Number(env("PRICE_NANO_IN") || 0.06), Number(env("PRICE_NANO_OUT") || 0.24)],
     super: [Number(env("PRICE_SUPER_IN") || 0.3), Number(env("PRICE_SUPER_OUT") || 0.9)],
@@ -46,7 +72,7 @@ export const config = {
 export type Tier = "nano" | "super" | "ultra" | "vision" | "asr";
 
 export function llmAvailable(tier: Tier): boolean {
-  return !config.offlineMock && !!config.nebius.apiKey && !!config.nebius.models[tier];
+  return !config.offlineMock && !!config.llm.apiKey && !!config.llm.models[tier];
 }
 
 export function searchAvailable(): boolean {
@@ -58,9 +84,10 @@ export function publicStatus() {
     demoMode: config.demoMode,
     offlineMock: config.offlineMock,
     llm: { nano: llmAvailable("nano"), super: llmAvailable("super"), ultra: llmAvailable("ultra"), vision: llmAvailable("vision") },
-    asr: !config.offlineMock && (!!config.asr.endpointUrl || (!!config.nebius.apiKey && !!config.nebius.models.asr)),
+    asr: !config.offlineMock && (!!config.asr.endpointUrl || (!!config.llm.apiKey && !!config.llm.models.asr)),
     search: searchAvailable(),
     storage: config.supabase.url && config.supabase.serviceKey ? "supabase" : "local-json",
-    models: config.nebius.models,
+    llmProvider: config.llm.provider,
+    models: config.llm.models,
   };
 }

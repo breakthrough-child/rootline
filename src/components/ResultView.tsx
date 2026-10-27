@@ -99,7 +99,7 @@ export function ResultView({ state, input, shareable = true }: { state: Pick<Run
 
       {inv && (
         <div className="flex flex-wrap items-center gap-2 pt-2">
-          <RoutingDrawer logs={inv.logs} pricing={inv.pricing} input={inv.input} />
+          <RoutingDrawer logs={inv.logs} pricing={inv.pricing} input={inv.input} provider={inv.llmProvider} />
           {shareable && <WatchButton inv={inv} />}
           {shareUrl && shareable && <CopyLink url={shareUrl} />}
         </div>

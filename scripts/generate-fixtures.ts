@@ -1,12 +1,12 @@
 // Runs each demo case through the REAL pipeline and saves the full result (incl. routing logs)
-// to fixtures/<id>.json. With NEBIUS_API_KEY + TAVILY_API_KEY set it uses the live web and
-// Nemotron; otherwise it falls back to OFFLINE_MOCK (fictional corpus) and labels the fixture so.
+// to fixtures/<id>.json. With LLM_API_KEY (or NEBIUS_API_KEY) + MODEL_NANO + TAVILY_API_KEY set it uses
+// the live web and Nemotron on the configured provider; otherwise it falls back to OFFLINE_MOCK (fictional corpus) and labels the fixture so.
 //   npx tsx scripts/generate-fixtures.ts            (all)
 //   npx tsx scripts/generate-fixtures.ts perfume    (one)
 import { readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 
-const live = !!(process.env.NEBIUS_API_KEY && process.env.TAVILY_API_KEY && process.env.MODEL_NANO);
+const live = !!((process.env.LLM_API_KEY || process.env.NEBIUS_API_KEY) && process.env.TAVILY_API_KEY && process.env.MODEL_NANO);
 if (!live) process.env.OFFLINE_MOCK = "true";
 
 const ROOT = path.join(__dirname, "..");
@@ -87,7 +87,7 @@ async function main() {
       if (e.type === "stage") console.log(`  [${c.id}] ${e.message}`);
       if (e.type === "error") console.log(`  [${c.id}] ERROR ${e.message}`);
     });
-    console.log(`\n▶ ${c.id} (${live ? "live" : "offline mock"})`);
+    console.log(`\n▶ ${c.id} (${live ? `live via ${process.env.LLM_BASE_URL || process.env.NEBIUS_BASE_URL || "Nebius Token Factory"}` : "offline mock"})`);
     const input = await c.build(ctx);
     const claims = await extractClaims(ctx, input);
     const inv = await investigate(ctx, input, claims.slice(0, c.id === "5-circular" ? 1 : 3).map((k) => ({ id: k.id, text: k.text })), { id: `fixture-${c.id}` });

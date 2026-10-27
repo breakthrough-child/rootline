@@ -33,7 +33,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         </header>
         <main className="mx-auto max-w-6xl px-4 pb-16">{children}</main>
         <footer className="mx-auto max-w-6xl px-4 pb-10 text-xs text-muted">
-          Rootline traces what is said, not whether media is authentic. Lineage is inferred from public sources and may be incomplete. Built with NVIDIA Nemotron on Nebius Token Factory and Tavily.
+          Rootline traces what is said, not whether media is authentic. Lineage is inferred from public sources and may be incomplete. Built with NVIDIA Nemotron and Tavily.
         </footer>
       </body>
     </html>

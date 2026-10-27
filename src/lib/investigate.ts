@@ -19,7 +19,7 @@ export function runMode(): { mode: RunMode; note?: string } {
 
 export function preflight(): string | null {
   if (!searchAvailable()) return "Search isn't configured (TAVILY_API_KEY missing). Try a demo example, or set OFFLINE_MOCK=true for the fictional offline corpus.";
-  if (!config.offlineMock && !llmAvailable("nano")) return "Nebius Token Factory isn't configured (NEBIUS_API_KEY / MODEL_NANO missing). Try a demo example instead.";
+  if (!config.offlineMock && !llmAvailable("nano")) return "The LLM provider isn't configured (LLM_API_KEY / MODEL_NANO missing). Try a demo example instead.";
   return null;
 }
 
@@ -85,5 +85,6 @@ export async function investigate(
     logs: ctx.logs,
     totalLatencyMs: Date.now() - t0,
     pricing: config.pricing,
+    llmProvider: config.offlineMock ? undefined : config.llm.provider,
   };
 }

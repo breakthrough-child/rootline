@@ -24,6 +24,7 @@ export interface CostSummary {
   pricing: Pricing;
 }
 
+const LLM_PROVIDERS = new Set(["nebius", "nvidia", "openai-compatible"]);
 const DEFAULT_ULTRA_MS_PER_OUT_TOKEN = 25; // fallback estimate when no Ultra call was measured in this run
 
 export function summarizeCost(logs: ModelCallLog[], pricing: Pricing): CostSummary {
@@ -41,7 +42,7 @@ export function summarizeCost(logs: ModelCallLog[], pricing: Pricing): CostSumma
     map.set(key, r);
   }
   const rows = [...map.values()].sort((a, b) => b.calls - a.calls);
-  const llmLogs = logs.filter((l) => l.provider === "nebius");
+  const llmLogs = logs.filter((l) => LLM_PROVIDERS.has(l.provider));
   const ultra = pricing.ultra ?? [1, 3];
   const ultraOnlyCostUsd = llmLogs.reduce((a, l) => a + (l.tokensIn * ultra[0] + l.tokensOut * ultra[1]) / 1e6, 0);
   const ultraLogs = llmLogs.filter((l) => l.tier === "ultra" && l.ok && l.tokensOut > 0);

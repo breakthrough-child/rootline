@@ -16,7 +16,9 @@ const WHY: Record<string, string> = {
   local: "Local — OCR or deterministic fallbacks (no model call).",
 };
 
-export function RoutingDrawer({ logs, pricing, input }: { logs: ModelCallLog[]; pricing?: Record<string, [number, number]>; input?: ExtractedInput }) {
+const PROVIDER_NAME: Record<string, string> = { nebius: "Nebius Token Factory", nvidia: "NVIDIA API (build.nvidia.com)", "openai-compatible": "an OpenAI-compatible endpoint" };
+
+export function RoutingDrawer({ logs, pricing, input, provider }: { logs: ModelCallLog[]; pricing?: Record<string, [number, number]>; input?: ExtractedInput; provider?: string }) {
   const [open, setOpen] = useState(false);
   const summary = useMemo(() => summarizeCost(logs, pricing ?? DEFAULT_PRICING), [logs, pricing]);
   const tiers = [...new Set(summary.rows.map((r) => r.tier))];
@@ -34,7 +36,10 @@ export function RoutingDrawer({ logs, pricing, input }: { logs: ModelCallLog[]; 
               <h2 className="text-lg font-semibold">How this was built</h2>
               <button onClick={() => setOpen(false)} className="rounded-md px-2 py-1 text-muted hover:bg-surface-2" aria-label="Close">✕</button>
             </div>
-            <p className="mb-4 text-sm text-muted">Every number below comes from this run&apos;s real call log: {logs.length} calls{fallbacks ? `, including ${fallbacks} deterministic fallback step${fallbacks > 1 ? "s" : ""}` : ""}.</p>
+            <p className="mb-4 text-sm text-muted">
+              Every number below comes from this run&apos;s real call log: {logs.length} calls{fallbacks ? `, including ${fallbacks} deterministic fallback step${fallbacks > 1 ? "s" : ""}` : ""}.
+              {provider && <> Models served by {PROVIDER_NAME[provider] ?? provider}.</>}
+            </p>
 
             <h3 className="mb-2 text-xs font-semibold uppercase tracking-wide text-muted">Routing</h3>
             <div className="mb-5 overflow-x-auto">
@@ -79,6 +84,7 @@ export function RoutingDrawer({ logs, pricing, input }: { logs: ModelCallLog[]; 
                   <p className="text-xs tabular-nums text-muted">~{(summary.ultraOnlyLatencyMs / 1000).toFixed(1)}s summed model time</p>
                 </div>
                 <p className="col-span-2 text-xs text-muted">
+                  {provider && provider !== "nebius" && <>Costs use Nebius Token Factory list prices as an estimate (this run used {PROVIDER_NAME[provider] ?? provider}). </>}
                   Same token counts re-priced at Ultra rates ({summary.pricing.ultra?.join(" / ")} USD per 1M in/out). Latency basis: {summary.latencyBasis}. Token counts for Ultra would differ in practice; this is an estimate.
                 </p>
               </div>

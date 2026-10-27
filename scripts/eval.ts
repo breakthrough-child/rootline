@@ -10,7 +10,7 @@ const DIR = path.join(__dirname, "..", "fixtures");
 
 async function main() {
   const rerun = process.argv.includes("--rerun");
-  if (rerun && !(process.env.NEBIUS_API_KEY && process.env.TAVILY_API_KEY)) process.env.OFFLINE_MOCK = "true";
+  if (rerun && !((process.env.LLM_API_KEY || process.env.NEBIUS_API_KEY) && process.env.TAVILY_API_KEY)) process.env.OFFLINE_MOCK = "true";
   const files = (await readdir(DIR)).filter((f) => f.endsWith(".json")).sort();
   const rows: Record<string, string | number>[] = [];
   for (const f of files) {

@@ -1,4 +1,5 @@
-// Nebius Token Factory client (OpenAI-compatible chat completions) with Zod validation,
+// OpenAI-compatible chat-completions client (Nebius Token Factory by default; any provider via
+// LLM_BASE_URL / LLM_API_KEY / MODEL_*) with Zod validation,
 // one retry on malformed JSON, and a log entry for every call.
 import { z } from "zod";
 import { config, llmAvailable, type Tier } from "./config";
@@ -62,12 +63,14 @@ export function extractJson(raw: string): unknown {
   throw new Error("unterminated JSON");
 }
 
-const disabledThinkingParam = new Set<string>();
+// Per-model memory of optional parameters a provider rejected, so we only pay the retry once.
+const unsupported = { thinking: new Set<string>(), json: new Set<string>() };
 
 export async function chat(ctx: RunContext, opts: ChatOpts): Promise<{ text: string; tokensIn: number; tokensOut: number }> {
   if (!llmAvailable(opts.tier)) throw new LlmUnavailable(`${opts.tier} model not configured`);
-  const model = config.nebius.models[opts.tier];
-  const baseUrl = opts.tier === "vision" || opts.tier === "asr" ? config.nebius.visionBaseUrl : config.nebius.baseUrl;
+  const { provider, apiKey } = config.llm;
+  const model = config.llm.models[opts.tier];
+  const baseUrl = opts.tier === "vision" || opts.tier === "asr" ? config.llm.visionBaseUrl : config.llm.baseUrl;
   const t0 = Date.now();
   const body: Record<string, unknown> = {
     model,
@@ -75,9 +78,10 @@ export async function chat(ctx: RunContext, opts: ChatOpts): Promise<{ text: str
     max_tokens: opts.maxTokens ?? 1200,
     temperature: opts.temperature ?? 0.1,
   };
-  if (opts.json) body.response_format = { type: "json_object" };
+  // JSON mode is a hint only: output is always parsed and Zod-validated, so dropping it is safe.
+  if (opts.json && config.llm.jsonMode && !unsupported.json.has(model)) body.response_format = { type: "json_object" };
   // Nemotron 3 models reason by default; for structured extraction we turn thinking off where supported.
-  if (config.nebius.disableThinking && !disabledThinkingParam.has(model)) body.chat_template_kwargs = { enable_thinking: false };
+  if (config.llm.disableThinking && !unsupported.thinking.has(model)) body.chat_template_kwargs = { enable_thinking: false };
 
   const doFetch = async (payload: Record<string, unknown>) => {
     const ac = new AbortController();
@@ -85,7 +89,7 @@ export async function chat(ctx: RunContext, opts: ChatOpts): Promise<{ text: str
     try {
       return await fetch(`${baseUrl}/chat/completions`, {
         method: "POST",
-        headers: { Authorization: `Bearer ${config.nebius.apiKey}`, "Content-Type": "application/json" },
+        headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
         body: JSON.stringify(payload),
         signal: ac.signal,
       });
@@ -96,13 +100,15 @@ export async function chat(ctx: RunContext, opts: ChatOpts): Promise<{ text: str
 
   try {
     let res = await doFetch(body);
-    if (res.status === 400 && body.chat_template_kwargs) {
-      // Some models reject chat_template_kwargs; remember and retry without it.
-      disabledThinkingParam.add(model);
-      delete body.chat_template_kwargs;
+    // Providers differ in which optional parameters they accept. On a 400, drop them one at a
+    // time (thinking toggle first, then JSON mode), remember that for this model, and retry.
+    for (const [key, memo] of [["chat_template_kwargs", unsupported.thinking], ["response_format", unsupported.json]] as const) {
+      if (res.status !== 400 || !(key in body)) continue;
+      memo.add(model);
+      delete body[key];
       res = await doFetch(body);
     }
-    if (!res.ok) throw new Error(`Nebius ${res.status}: ${(await res.text()).slice(0, 300)}`);
+    if (!res.ok) throw new Error(`${provider} ${res.status}: ${(await res.text()).slice(0, 300)}`);
     const data = (await res.json()) as {
       choices: { message: { content: string | null; reasoning_content?: string } }[];
       usage?: { prompt_tokens: number; completion_tokens: number };
@@ -110,10 +116,10 @@ export async function chat(ctx: RunContext, opts: ChatOpts): Promise<{ text: str
     const text = data.choices?.[0]?.message?.content ?? "";
     const tokensIn = data.usage?.prompt_tokens ?? 0;
     const tokensOut = data.usage?.completion_tokens ?? 0;
-    ctx.log({ provider: "nebius", model, tier: opts.tier, stage: opts.stage, tokensIn, tokensOut, latencyMs: Date.now() - t0, ok: true });
+    ctx.log({ provider, model, tier: opts.tier, stage: opts.stage, tokensIn, tokensOut, latencyMs: Date.now() - t0, ok: true });
     return { text, tokensIn, tokensOut };
   } catch (err) {
-    ctx.log({ provider: "nebius", model, tier: opts.tier, stage: opts.stage, tokensIn: 0, tokensOut: 0, latencyMs: Date.now() - t0, ok: false, note: String((err as Error).message).slice(0, 200) });
+    ctx.log({ provider, model, tier: opts.tier, stage: opts.stage, tokensIn: 0, tokensOut: 0, latencyMs: Date.now() - t0, ok: false, note: String((err as Error).message).slice(0, 200) });
     throw err;
   }
 }

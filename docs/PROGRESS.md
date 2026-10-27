@@ -2,6 +2,8 @@
 
 _Last updated: 2026-10-27_
 
+**Provider:** the LLM client is provider-agnostic. Nebius Token Factory is the documented default; while Token Factory access is blocked by its billing-country restriction, develop against NVIDIA's API (build.nvidia.com) by setting `LLM_BASE_URL`, `LLM_API_KEY` and the `MODEL_*` IDs (see README → "Switching LLM providers"). Switching back is env-only.
+
 ## Status by tier
 
 | Tier | Scope | Status |
@@ -16,13 +18,13 @@ _Last updated: 2026-10-27_
 
 ## Verified in this build
 
-- `npm run lint`, `npm run typecheck`, `npm test` (47 tests, incl. a real OCR pass on a scanned PDF) and `npm run build` all pass.
+- `npm run lint`, `npm run typecheck`, `npm test` (53 tests, incl. a real OCR pass on a scanned PDF) and `npm run build` all pass.
 - In a running dev server (`OFFLINE_MOCK=true`): `/api/run` (text), `/api/extract` (PDF and screenshot via Tesseract OCR), `/r/[id]` share page, Watchlist add + re-run. Browser-checked: replay of the perfume and screenshot examples, tree, node panel (desktop side panel + mobile bottom sheet at 375 px), dark and light modes, no horizontal scroll on mobile.
 - Not verified: anything that needs real API keys (Nemotron calls, Tavily, vision, ASR), the video adapter on a real clip, Supabase storage, Vercel deployment.
 
 ## Blocked on you
 
-- **API keys**: `NEBIUS_API_KEY`, `TAVILY_API_KEY` (+ verify `MODEL_*` with `npm run models`). Until then, fixtures were generated with `OFFLINE_MOCK` against a fictional corpus and are labelled as such in the UI. Regenerate with `npm run fixtures` once keys are set.
+- **API keys**: `LLM_API_KEY` (an NVIDIA `nvapi-` key works now; Token Factory once available) and `TAVILY_API_KEY` (+ verify `MODEL_*` with `npm run models`). Before submitting, regenerate fixtures and record the demo on Token Factory if your account is unblocked, since the hackathon requires inference there. Until then, fixtures were generated with `OFFLINE_MOCK` against a fictional corpus and are labelled as such in the UI. Regenerate with `npm run fixtures` once keys are set.
 - **Vercel deploy** and **GitHub repo creation** need your login (commands in README / final summary).
 - **Voice-note fixture**: no TTS was available in the build environment, so fixture 4 uses the transcript text. Record a short clip of yourself (or a clearly synthetic voice) reading `fixtures/files/voice-note-transcript.txt` and save it as `fixtures/files/voice-note.ogg`.
 

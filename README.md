@@ -64,7 +64,7 @@ Progress streams to the browser over server-sent events at every stage ("Reading
 
 ## How Nemotron, Token Factory and NVIDIA models are used
 
-All model calls go through `src/lib/llm.ts`, an OpenAI-compatible client for Token Factory (`/v1/chat/completions`). Every output is validated with **Zod**; malformed JSON is retried once with the validation error fed back, then the stage **degrades gracefully** to a deterministic fallback (logged as such). Every call — provider, model, stage, tokens in/out, latency — is logged and shown in the **"How this was built"** routing panel.
+All model calls go through `src/lib/llm.ts`, an OpenAI-compatible client (`/v1/chat/completions`) pointed at **Nebius Token Factory by default**. Every output is validated with **Zod**; malformed JSON is retried once with the validation error fed back, then the stage **degrades gracefully** to a deterministic fallback (logged as such). Every call — provider, model, stage, tokens in/out, latency — is logged and shown in the **"How this was built"** routing panel.
 
 Each tier does the job it is best value for:
 
@@ -79,6 +79,26 @@ Each tier does the job it is best value for:
 The routing panel computes a real cost from the logged token counts and Token Factory list prices, and compares it with re-pricing the same calls at Ultra rates (with an explicitly estimated latency).
 
 Nemotron 3 models reason by default; for structured stages Rootline sends `chat_template_kwargs: {"enable_thinking": false}` (and automatically retries without it if a model rejects the parameter), and strips any `<think>` blocks before parsing.
+
+### Switching LLM providers (env only)
+
+The provider is configured entirely by environment variables, so the same build runs on Nebius Token Factory or on NVIDIA's API at [build.nvidia.com](https://build.nvidia.com) (same Nemotron family) without code changes:
+
+| | Nebius Token Factory (default) | NVIDIA API (development) |
+|---|---|---|
+| `LLM_BASE_URL` | `https://api.tokenfactory.nebius.com/v1` | `https://integrate.api.nvidia.com/v1` |
+| `LLM_API_KEY` | Token Factory key | `nvapi-…` key |
+| `MODEL_NANO` | `nvidia/nvidia-nemotron-3-nano-30b-a3b` | `nvidia/nemotron-nano-3-30b-a3b` |
+| `MODEL_SUPER` | `nvidia/nemotron-3-super-120b-a12b` | `nvidia/nemotron-3-super-120b-a12b` |
+| `MODEL_ULTRA` | `nvidia/Nemotron-3-Ultra-550b-a55b` | `nvidia/nemotron-3-ultra-550b-a55b` |
+| `MODEL_VISION` | verify with `npm run models` | `nvidia/nemotron-3.5-super-vl-120b-a12b` |
+
+- `npm run models` lists the Nemotron/NVIDIA models on whichever `LLM_BASE_URL` is set and suggests `MODEL_*` values.
+- The provider label (`nebius` / `nvidia` / `openai-compatible`) is inferred from the URL (or `LLM_PROVIDER`) and shown in the routing panel and call log.
+- Providers differ in which optional parameters they accept. If a model returns HTTP 400 for `chat_template_kwargs` (the thinking toggle) or `response_format` (JSON mode), the client drops that parameter, remembers it for that model, and retries. JSON is Zod-validated either way.
+- Cost in the routing panel uses Token Factory list prices; on another provider it is labelled as an estimate. Override with `PRICE_*`.
+- The older `NEBIUS_API_KEY` / `NEBIUS_BASE_URL` / `NEBIUS_VISION_BASE_URL` names still work; `LLM_*` wins when both are set.
+- NVIDIA's speech models (Parakeet/Canary) on build.nvidia.com use Riva gRPC, not the OpenAI audio API, so voice notes still need `ASR_ENDPOINT_URL` (below).
 
 ### Speech on Nebius (deploying Parakeet / Whisper)
 
@@ -118,7 +138,7 @@ Requirements: Node 20+ (22 recommended). `ffmpeg` is bundled via `ffmpeg-static`
 ```bash
 npm install
 cp .env.example .env.local   # fill in keys
-npm run models               # lists Nemotron/NVIDIA models for your key and suggests MODEL_* values
+npm run models               # lists Nemotron/NVIDIA models on LLM_BASE_URL and suggests MODEL_* values
 npm run dev                  # http://localhost:3000
 ```
 
@@ -131,7 +151,7 @@ OFFLINE_MOCK=true npm run dev  # live pipeline against a FICTIONAL built-in corp
 
 ### Environment variables
 
-See [`.env.example`](.env.example). Key ones: `NEBIUS_API_KEY`, `NEBIUS_BASE_URL`, `MODEL_NANO|SUPER|ULTRA|VISION|ASR`, `ASR_ENDPOINT_URL`, `TAVILY_API_KEY`, `NEXT_PUBLIC_SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `DEMO_MODE`, `OFFLINE_MOCK`. All keys stay server-side.
+See [`.env.example`](.env.example). Key ones: `LLM_BASE_URL`, `LLM_API_KEY`, `MODEL_NANO|SUPER|ULTRA|VISION|ASR`, `ASR_ENDPOINT_URL`, `TAVILY_API_KEY`, `NEXT_PUBLIC_SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `DEMO_MODE`, `OFFLINE_MOCK`. All keys stay server-side.
 
 ### Supabase (optional)
 
@@ -140,7 +160,7 @@ Run [`supabase/schema.sql`](supabase/schema.sql) in the SQL editor, then set `NE
 ### Demo mode and fixtures
 
 - `/fixtures/*.json` are full saved runs (variants, edges, checks and routing logs). Example chips always replay them with realistic streamed timing, labelled **"Replay of a saved run."** With `DEMO_MODE=true`, pasting a demo message also replays.
-- Regenerate: `npm run fixtures` (uses the live pipeline when `NEBIUS_API_KEY`, `MODEL_NANO` and `TAVILY_API_KEY` are set; otherwise the offline mock — and the fixture says so in the UI).
+- Regenerate: `npm run fixtures` (uses the live pipeline when `LLM_API_KEY`, `MODEL_NANO` and `TAVILY_API_KEY` are set; otherwise the offline mock — and the fixture says so in the UI).
 - Source files: `fixtures/files` (regenerate with `scripts/make-fixture-files.sh`).
 - `npm run eval` prints node counts, edge confidence, latency and cost for every fixture (`--rerun` to run them again).
 
@@ -153,13 +173,13 @@ Run [`supabase/schema.sql`](supabase/schema.sql) in the SQL editor, then set `NE
 | `npm run lint` / `typecheck` | ESLint / `tsc --noEmit` |
 | `npm run fixtures` | regenerate demo fixtures |
 | `npm run eval` | fixture metrics |
-| `npm run models` | list Token Factory models for your key |
+| `npm run models` | list Nemotron/NVIDIA models on the configured provider |
 
 ### Deploy (Vercel)
 
 ```bash
 npx vercel link
-npx vercel env add NEBIUS_API_KEY        # repeat for each variable in .env.example
+npx vercel env add LLM_API_KEY           # repeat for each variable in .env.example
 npx vercel --prod
 ```
 
