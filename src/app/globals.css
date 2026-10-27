@@ -1,0 +1,119 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+:root {
+  --bg: #f7f6f2;
+  --surface: #ffffff;
+  --surface-2: #f0eee8;
+  --border: #e3e0d7;
+  --ink: #1c1d1a;
+  --muted: #6b6a63;
+  --accent: #1f6f5c;
+  --accent-ink: #ffffff;
+  --accent-soft: #e2f0eb;
+  --amber: #a35c00;
+  --amber-soft: #fbefdc;
+  --rose: #b4233c;
+  --rose-soft: #fbe5e8;
+  --blue: #2457a6;
+  --blue-soft: #e4ecf8;
+  --shadow: 0 1px 2px rgb(0 0 0 / 0.04), 0 4px 16px rgb(0 0 0 / 0.05);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #121412;
+    --surface: #1a1d1a;
+    --surface-2: #222622;
+    --border: #2f342f;
+    --ink: #ecebe5;
+    --muted: #9a9b93;
+    --accent: #5cc3a5;
+    --accent-ink: #0d1f19;
+    --accent-soft: #1d3a31;
+    --amber: #f0b35a;
+    --amber-soft: #3a2c16;
+    --rose: #f08597;
+    --rose-soft: #3d1d24;
+    --blue: #8db4f0;
+    --blue-soft: #1c2a40;
+    --shadow: 0 1px 2px rgb(0 0 0 / 0.3), 0 4px 16px rgb(0 0 0 / 0.25);
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #121412;
+  --surface: #1a1d1a;
+  --surface-2: #222622;
+  --border: #2f342f;
+  --ink: #ecebe5;
+  --muted: #9a9b93;
+  --accent: #5cc3a5;
+  --accent-ink: #0d1f19;
+  --accent-soft: #1d3a31;
+  --amber: #f0b35a;
+  --amber-soft: #3a2c16;
+  --rose: #f08597;
+  --rose-soft: #3d1d24;
+  --blue: #8db4f0;
+  --blue-soft: #1c2a40;
+  --shadow: 0 1px 2px rgb(0 0 0 / 0.3), 0 4px 16px rgb(0 0 0 / 0.25);
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-line: var(--border);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+  --color-accent-soft: var(--accent-soft);
+  --color-amber: var(--amber);
+  --color-amber-soft: var(--amber-soft);
+  --color-rose: var(--rose);
+  --color-rose-soft: var(--rose-soft);
+  --color-blue: var(--blue);
+  --color-blue-soft: var(--blue-soft);
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-serif: ui-serif, Georgia, "Times New Roman", serif;
+}
+
+html,
+body {
+  background: var(--bg);
+  color: var(--ink);
+}
+body {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+}
+
+@keyframes node-in {
+  from { opacity: 0; transform: translateY(6px) scale(0.97); }
+  to { opacity: 1; transform: none; }
+}
+.node-in { animation: node-in 380ms ease-out both; }
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 0.35; }
+  50% { opacity: 1; }
+}
+.pulse-dot { animation: pulse-dot 1.2s ease-in-out infinite; }
+
+/* React Flow theming */
+.react-flow__attribution { display: none; }
+.react-flow__controls button { background: var(--surface); border-color: var(--border); color: var(--ink); fill: var(--ink); }
+.react-flow__edge-path { stroke: var(--muted); }
+
+@media (prefers-reduced-motion: reduce) {
+  .node-in, .pulse-dot { animation: none; }
+}
