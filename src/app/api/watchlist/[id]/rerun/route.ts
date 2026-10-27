@@ -27,7 +27,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
     await saveInvestigation(inv);
     const now = new Date().toISOString();
     const newCount = inv.claims.reduce((a, c) => a + c.variants.filter((v) => v.isNew).length, 0);
-    await saveWatch({ ...item, investigationId: inv.id, lastRunAt: now, runs: [...item.runs, { investigationId: inv.id, at: now, variantCount: inv.claims.reduce((a, c) => a + c.variants.length, 0), newCount }] });
+    await saveWatch({ ...item, investigationId: inv.id, lastRunAt: now, runs: [...item.runs, { investigationId: inv.id, at: now, variantCount: inv.claims.reduce((a, c) => a + c.variants.filter((v) => !v.isUserInput).length, 0), newCount }] });
     emit({ type: "result", investigation: inv });
   });
 }

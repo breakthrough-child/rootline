@@ -243,7 +243,10 @@ export function ReplyCard({ text, earliestDate, shareUrl }: { text: string; earl
   );
 }
 
-export function PostExistsPanel({ check, platform }: { check: PostExistsCheck; platform?: string }) {
+const PLATFORM_NAME: Record<string, string> = { x: "X", facebook: "Facebook", instagram: "Instagram", tiktok: "TikTok", whatsapp: "WhatsApp", news_site: "a news site" };
+
+export function PostExistsPanel({ check, platform: rawPlatform }: { check: PostExistsCheck; platform?: string }) {
+  const platform = rawPlatform ? PLATFORM_NAME[rawPlatform] : undefined;
   const tone = check.outcome === "found_matching" ? "accent" : check.outcome === "found_altered" ? "amber" : "rose";
   const title = check.outcome === "found_matching" ? "Matching post found" : check.outcome === "found_altered" ? "A post was found, but the wording differs" : "No evidence this post exists";
   return (

@@ -33,7 +33,7 @@ export async function POST(req: Request) {
     investigationId: inv.id,
     createdAt: now,
     lastRunAt: now,
-    runs: [{ investigationId: inv.id, at: now, variantCount: inv.claims.reduce((a, c) => a + c.variants.length, 0), newCount: 0 }],
+    runs: [{ investigationId: inv.id, at: now, variantCount: inv.claims.reduce((a, c) => a + c.variants.filter((v) => !v.isUserInput).length, 0), newCount: 0 }],
   };
   await saveWatch(item);
   return Response.json(item);

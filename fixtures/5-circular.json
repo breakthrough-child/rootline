@@ -5,7 +5,7 @@
  "description": "A circular from the fictional Federal Office of Civic Readiness announcing school closures.",
  "investigation": {
   "id": "fixture-5-circular",
-  "createdAt": "2026-10-27T17:20:27.695Z",
+  "createdAt": "2026-10-27T17:25:56.123Z",
   "mode": "offline_mock",
   "modeNote": "Offline mock: sources come from a FICTIONAL built-in corpus (.example domains) and model stages use deterministic heuristics. Not a real web trace.",
   "input": {
@@ -246,11 +246,11 @@
     "stage": "claims: extract",
     "tokensIn": 0,
     "tokensOut": 0,
-    "latencyMs": 4,
+    "latencyMs": 3,
     "ok": true,
     "note": "nano not configured; used deterministic fallback",
     "id": "c1",
-    "at": 1793121627613
+    "at": 1793121956040
    },
    {
     "provider": "heuristic",
@@ -263,7 +263,7 @@
     "ok": true,
     "note": "super not configured; used deterministic fallback",
     "id": "c2",
-    "at": 1793121627613
+    "at": 1793121956040
    },
    {
     "provider": "heuristic",
@@ -272,11 +272,11 @@
     "stage": "check: official fields",
     "tokensIn": 0,
     "tokensOut": 0,
-    "latencyMs": 4,
+    "latencyMs": 3,
     "ok": true,
     "note": "nano not configured; used deterministic fallback",
     "id": "c3",
-    "at": 1793121627618
+    "at": 1793121956045
    },
    {
     "provider": "mock",
@@ -289,7 +289,7 @@
     "ok": true,
     "note": "0 results",
     "id": "c4",
-    "at": 1793121627629
+    "at": 1793121956057
    },
    {
     "provider": "heuristic",
@@ -302,7 +302,7 @@
     "ok": true,
     "note": "nano not configured; used deterministic fallback",
     "id": "c5",
-    "at": 1793121627632
+    "at": 1793121956060
    },
    {
     "provider": "mock",
@@ -311,11 +311,11 @@
     "stage": "check: official",
     "tokensIn": 0,
     "tokensOut": 0,
-    "latencyMs": 5,
+    "latencyMs": 6,
     "ok": true,
     "note": "0 results",
     "id": "c6",
-    "at": 1793121627637
+    "at": 1793121956066
    },
    {
     "provider": "mock",
@@ -328,7 +328,7 @@
     "ok": true,
     "note": "2 results",
     "id": "c7",
-    "at": 1793121627645
+    "at": 1793121956074
    },
    {
     "provider": "mock",
@@ -337,11 +337,11 @@
     "stage": "check: official (gov domains)",
     "tokensIn": 0,
     "tokensOut": 0,
-    "latencyMs": 0,
+    "latencyMs": 1,
     "ok": true,
     "note": "0 results",
     "id": "c8",
-    "at": 1793121627646
+    "at": 1793121956075
    },
    {
     "provider": "mock",
@@ -350,11 +350,11 @@
     "stage": "B: search",
     "tokensIn": 0,
     "tokensOut": 0,
-    "latencyMs": 6,
+    "latencyMs": 5,
     "ok": true,
     "note": "3 results",
     "id": "c9",
-    "at": 1793121627652
+    "at": 1793121956080
    },
    {
     "provider": "mock",
@@ -367,7 +367,7 @@
     "ok": true,
     "note": "5 results",
     "id": "c10",
-    "at": 1793121627658
+    "at": 1793121956086
    },
    {
     "provider": "mock",
@@ -380,7 +380,7 @@
     "ok": true,
     "note": "2 results",
     "id": "c11",
-    "at": 1793121627663
+    "at": 1793121956091
    },
    {
     "provider": "mock",
@@ -389,11 +389,11 @@
     "stage": "B: search",
     "tokensIn": 0,
     "tokensOut": 0,
-    "latencyMs": 6,
+    "latencyMs": 5,
     "ok": true,
     "note": "5 results",
     "id": "c12",
-    "at": 1793121627669
+    "at": 1793121956096
    },
    {
     "provider": "heuristic",
@@ -406,7 +406,7 @@
     "ok": true,
     "note": "nano not configured; used deterministic fallback",
     "id": "c13",
-    "at": 1793121627670
+    "at": 1793121956098
    },
    {
     "provider": "mock",
@@ -415,11 +415,11 @@
     "stage": "B: search",
     "tokensIn": 0,
     "tokensOut": 0,
-    "latencyMs": 5,
+    "latencyMs": 7,
     "ok": true,
     "note": "4 results",
     "id": "c14",
-    "at": 1793121627676
+    "at": 1793121956105
    },
    {
     "provider": "mock",
@@ -428,11 +428,11 @@
     "stage": "B: extract",
     "tokensIn": 0,
     "tokensOut": 0,
-    "latencyMs": 1,
+    "latencyMs": 0,
     "ok": true,
     "note": "5 pages",
     "id": "c15",
-    "at": 1793121627677
+    "at": 1793121956105
    },
    {
     "provider": "heuristic",
@@ -445,7 +445,7 @@
     "ok": true,
     "note": "nano not configured; used deterministic fallback",
     "id": "c16",
-    "at": 1793121627679
+    "at": 1793121956107
    },
    {
     "provider": "heuristic",
@@ -458,7 +458,7 @@
     "ok": true,
     "note": "nano not configured; used deterministic fallback",
     "id": "c17",
-    "at": 1793121627682
+    "at": 1793121956110
    },
    {
     "provider": "heuristic",
@@ -471,7 +471,7 @@
     "ok": true,
     "note": "nano not configured; used deterministic fallback",
     "id": "c18",
-    "at": 1793121627683
+    "at": 1793121956111
    },
    {
     "provider": "heuristic",
@@ -484,7 +484,7 @@
     "ok": true,
     "note": "nano not configured; used deterministic fallback",
     "id": "c19",
-    "at": 1793121627684
+    "at": 1793121956112
    },
    {
     "provider": "heuristic",
@@ -497,20 +497,7 @@
     "ok": true,
     "note": "nano not configured; used deterministic fallback",
     "id": "c20",
-    "at": 1793121627688
-   },
-   {
-    "provider": "heuristic",
-    "model": "rootline-heuristic",
-    "tier": "local",
-    "stage": "D: mutations",
-    "tokensIn": 0,
-    "tokensOut": 0,
-    "latencyMs": 1,
-    "ok": true,
-    "note": "nano not configured; used deterministic fallback",
-    "id": "c21",
-    "at": 1793121627693
+    "at": 1793121956116
    },
    {
     "provider": "heuristic",
@@ -522,8 +509,21 @@
     "latencyMs": 0,
     "ok": true,
     "note": "nano not configured; used deterministic fallback",
+    "id": "c21",
+    "at": 1793121956121
+   },
+   {
+    "provider": "heuristic",
+    "model": "rootline-heuristic",
+    "tier": "local",
+    "stage": "D: mutations",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 1,
+    "ok": true,
+    "note": "nano not configured; used deterministic fallback",
     "id": "c22",
-    "at": 1793121627693
+    "at": 1793121956122
    },
    {
     "provider": "heuristic",
@@ -536,7 +536,7 @@
     "ok": true,
     "note": "nano not configured; used deterministic fallback",
     "id": "c23",
-    "at": 1793121627694
+    "at": 1793121956122
    },
    {
     "provider": "heuristic",
@@ -545,11 +545,11 @@
     "stage": "D: mutations",
     "tokensIn": 0,
     "tokensOut": 0,
-    "latencyMs": 0,
+    "latencyMs": 1,
     "ok": true,
     "note": "nano not configured; used deterministic fallback",
     "id": "c24",
-    "at": 1793121627694
+    "at": 1793121956123
    },
    {
     "provider": "heuristic",
@@ -562,7 +562,7 @@
     "ok": true,
     "note": "nano not configured; used deterministic fallback",
     "id": "c25",
-    "at": 1793121627694
+    "at": 1793121956123
    },
    {
     "provider": "heuristic",
@@ -575,7 +575,7 @@
     "ok": true,
     "note": "super not configured; used deterministic fallback",
     "id": "c26",
-    "at": 1793121627695
+    "at": 1793121956123
    },
    {
     "provider": "heuristic",
@@ -588,7 +588,7 @@
     "ok": true,
     "note": "ultra not configured; used deterministic fallback",
     "id": "c27",
-    "at": 1793121627695
+    "at": 1793121956123
    },
    {
     "provider": "heuristic",
@@ -601,10 +601,10 @@
     "ok": true,
     "note": "super not configured; used deterministic fallback",
     "id": "c28",
-    "at": 1793121627695
+    "at": 1793121956123
    }
   ],
-  "totalLatencyMs": 82,
+  "totalLatencyMs": 83,
   "pricing": {
    "nano": [
     0.06,
@@ -626,7 +626,7 @@
   "fixture": {
    "id": "5-circular",
    "title": "Circular from a fictional organisation",
-   "generatedAt": "2026-10-27T17:20:27.695Z",
+   "generatedAt": "2026-10-27T17:25:56.124Z",
    "generatedWith": "offline_mock"
   }
  }

@@ -5,7 +5,7 @@
  "description": "A text forward offering a government cash grant via a link.",
  "investigation": {
   "id": "fixture-2-grant",
-  "createdAt": "2026-10-27T17:20:20.019Z",
+  "createdAt": "2026-10-27T17:25:48.271Z",
   "mode": "offline_mock",
   "modeNote": "Offline mock: sources come from a FICTIONAL built-in corpus (.example domains) and model stages use deterministic heuristics. Not a real web trace.",
   "input": {
@@ -322,7 +322,7 @@
     "ok": true,
     "note": "nano not configured; used deterministic fallback",
     "id": "c1",
-    "at": 1793121619948
+    "at": 1793121948200
    },
    {
     "provider": "mock",
@@ -331,11 +331,11 @@
     "stage": "B: search",
     "tokensIn": 0,
     "tokensOut": 0,
-    "latencyMs": 5,
+    "latencyMs": 6,
     "ok": true,
     "note": "6 results",
     "id": "c2",
-    "at": 1793121619954
+    "at": 1793121948208
    },
    {
     "provider": "mock",
@@ -348,7 +348,7 @@
     "ok": true,
     "note": "6 results",
     "id": "c3",
-    "at": 1793121619959
+    "at": 1793121948213
    },
    {
     "provider": "mock",
@@ -361,7 +361,7 @@
     "ok": true,
     "note": "4 results",
     "id": "c4",
-    "at": 1793121619965
+    "at": 1793121948219
    },
    {
     "provider": "mock",
@@ -370,11 +370,11 @@
     "stage": "B: search",
     "tokensIn": 0,
     "tokensOut": 0,
-    "latencyMs": 4,
+    "latencyMs": 6,
     "ok": true,
     "note": "6 results",
     "id": "c5",
-    "at": 1793121619969
+    "at": 1793121948225
    },
    {
     "provider": "mock",
@@ -387,7 +387,7 @@
     "ok": true,
     "note": "2 results",
     "id": "c6",
-    "at": 1793121619975
+    "at": 1793121948231
    },
    {
     "provider": "mock",
@@ -400,7 +400,7 @@
     "ok": true,
     "note": "6 pages",
     "id": "c7",
-    "at": 1793121619975
+    "at": 1793121948231
    },
    {
     "provider": "heuristic",
@@ -413,7 +413,7 @@
     "ok": true,
     "note": "nano not configured; used deterministic fallback",
     "id": "c8",
-    "at": 1793121619979
+    "at": 1793121948235
    },
    {
     "provider": "heuristic",
@@ -426,7 +426,7 @@
     "ok": true,
     "note": "nano not configured; used deterministic fallback",
     "id": "c9",
-    "at": 1793121619981
+    "at": 1793121948237
    },
    {
     "provider": "heuristic",
@@ -439,7 +439,7 @@
     "ok": true,
     "note": "nano not configured; used deterministic fallback",
     "id": "c10",
-    "at": 1793121619984
+    "at": 1793121948240
    },
    {
     "provider": "heuristic",
@@ -452,7 +452,7 @@
     "ok": true,
     "note": "nano not configured; used deterministic fallback",
     "id": "c11",
-    "at": 1793121619989
+    "at": 1793121948246
    },
    {
     "provider": "heuristic",
@@ -465,7 +465,7 @@
     "ok": true,
     "note": "nano not configured; used deterministic fallback",
     "id": "c12",
-    "at": 1793121619990
+    "at": 1793121948247
    },
    {
     "provider": "heuristic",
@@ -478,7 +478,7 @@
     "ok": true,
     "note": "nano not configured; used deterministic fallback",
     "id": "c13",
-    "at": 1793121619996
+    "at": 1793121948253
    },
    {
     "provider": "heuristic",
@@ -491,7 +491,7 @@
     "ok": true,
     "note": "nano not configured; used deterministic fallback",
     "id": "c14",
-    "at": 1793121620008
+    "at": 1793121948263
    },
    {
     "provider": "heuristic",
@@ -500,11 +500,11 @@
     "stage": "D: mutations",
     "tokensIn": 0,
     "tokensOut": 0,
-    "latencyMs": 1,
+    "latencyMs": 0,
     "ok": true,
     "note": "nano not configured; used deterministic fallback",
     "id": "c15",
-    "at": 1793121620009
+    "at": 1793121948263
    },
    {
     "provider": "heuristic",
@@ -517,7 +517,7 @@
     "ok": true,
     "note": "nano not configured; used deterministic fallback",
     "id": "c16",
-    "at": 1793121620010
+    "at": 1793121948264
    },
    {
     "provider": "heuristic",
@@ -530,7 +530,7 @@
     "ok": true,
     "note": "nano not configured; used deterministic fallback",
     "id": "c17",
-    "at": 1793121620010
+    "at": 1793121948264
    },
    {
     "provider": "heuristic",
@@ -539,11 +539,11 @@
     "stage": "D: mutations",
     "tokensIn": 0,
     "tokensOut": 0,
-    "latencyMs": 6,
+    "latencyMs": 3,
     "ok": true,
     "note": "nano not configured; used deterministic fallback",
     "id": "c18",
-    "at": 1793121620016
+    "at": 1793121948267
    },
    {
     "provider": "heuristic",
@@ -556,7 +556,7 @@
     "ok": true,
     "note": "nano not configured; used deterministic fallback",
     "id": "c19",
-    "at": 1793121620017
+    "at": 1793121948268
    },
    {
     "provider": "heuristic",
@@ -565,11 +565,11 @@
     "stage": "D: mutations",
     "tokensIn": 0,
     "tokensOut": 0,
-    "latencyMs": 0,
+    "latencyMs": 1,
     "ok": true,
     "note": "nano not configured; used deterministic fallback",
     "id": "c20",
-    "at": 1793121620017
+    "at": 1793121948269
    },
    {
     "provider": "heuristic",
@@ -582,7 +582,7 @@
     "ok": true,
     "note": "nano not configured; used deterministic fallback",
     "id": "c21",
-    "at": 1793121620017
+    "at": 1793121948269
    },
    {
     "provider": "heuristic",
@@ -595,7 +595,7 @@
     "ok": true,
     "note": "nano not configured; used deterministic fallback",
     "id": "c22",
-    "at": 1793121620018
+    "at": 1793121948270
    },
    {
     "provider": "heuristic",
@@ -608,7 +608,7 @@
     "ok": true,
     "note": "super not configured; used deterministic fallback",
     "id": "c23",
-    "at": 1793121620018
+    "at": 1793121948270
    },
    {
     "provider": "heuristic",
@@ -621,7 +621,7 @@
     "ok": true,
     "note": "ultra not configured; used deterministic fallback",
     "id": "c24",
-    "at": 1793121620018
+    "at": 1793121948270
    },
    {
     "provider": "heuristic",
@@ -634,10 +634,10 @@
     "ok": true,
     "note": "super not configured; used deterministic fallback",
     "id": "c25",
-    "at": 1793121620019
+    "at": 1793121948270
    }
   ],
-  "totalLatencyMs": 79,
+  "totalLatencyMs": 80,
   "pricing": {
    "nano": [
     0.06,
@@ -659,7 +659,7 @@
   "fixture": {
    "id": "2-grant",
    "title": "“Free government cash grant” scam chain",
-   "generatedAt": "2026-10-27T17:20:20.019Z",
+   "generatedAt": "2026-10-27T17:25:48.271Z",
    "generatedWith": "offline_mock"
   }
  }

@@ -14,6 +14,12 @@ _Last updated: 2026-10-27_
 | 6 · Video | ffmpeg audio → ASR, keyframes → vision/OCR, merge | **Code complete.** Not yet exercised end-to-end on a real video. |
 | 7 · XLSX + PPTX | SheetJS labeled cells + notes, OOXML slides + speaker notes | **Code complete, parsers tested.** |
 
+## Verified in this build
+
+- `npm run lint`, `npm run typecheck`, `npm test` (47 tests, incl. a real OCR pass on a scanned PDF) and `npm run build` all pass.
+- In a running dev server (`OFFLINE_MOCK=true`): `/api/run` (text), `/api/extract` (PDF and screenshot via Tesseract OCR), `/r/[id]` share page, Watchlist add + re-run. Browser-checked: replay of all example chips, tree, node panel (desktop side panel + mobile bottom sheet at 375 px), dark and light modes, no horizontal scroll on mobile.
+- Not verified: anything that needs real API keys (Nemotron calls, Tavily, vision, ASR), the video adapter on a real clip, Supabase storage, Vercel deployment.
+
 ## Blocked on you
 
 - **API keys**: `NEBIUS_API_KEY`, `TAVILY_API_KEY` (+ verify `MODEL_*` with `npm run models`). Until then, fixtures were generated with `OFFLINE_MOCK` against a fictional corpus and are labelled as such in the UI. Regenerate with `npm run fixtures` once keys are set.

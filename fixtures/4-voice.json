@@ -5,7 +5,7 @@
  "description": "A voice note repeating the grant rumour in Nigerian Pidgin.",
  "investigation": {
   "id": "fixture-4-voice",
-  "createdAt": "2026-10-27T17:20:24.158Z",
+  "createdAt": "2026-10-27T17:25:52.524Z",
   "mode": "offline_mock",
   "modeNote": "Offline mock: sources come from a FICTIONAL built-in corpus (.example domains) and model stages use deterministic heuristics. Not a real web trace.",
   "input": {
@@ -388,11 +388,11 @@
     "stage": "A: understand",
     "tokensIn": 0,
     "tokensOut": 0,
-    "latencyMs": 3,
+    "latencyMs": 2,
     "ok": true,
     "note": "nano not configured; used deterministic fallback",
     "id": "c1",
-    "at": 1793121624094
+    "at": 1793121952458
    },
    {
     "provider": "mock",
@@ -401,11 +401,11 @@
     "stage": "B: search",
     "tokensIn": 0,
     "tokensOut": 0,
-    "latencyMs": 5,
+    "latencyMs": 4,
     "ok": true,
     "note": "6 results",
     "id": "c2",
-    "at": 1793121624101
+    "at": 1793121952465
    },
    {
     "provider": "mock",
@@ -414,11 +414,11 @@
     "stage": "B: search",
     "tokensIn": 0,
     "tokensOut": 0,
-    "latencyMs": 5,
+    "latencyMs": 6,
     "ok": true,
     "note": "5 results",
     "id": "c3",
-    "at": 1793121624106
+    "at": 1793121952471
    },
    {
     "provider": "mock",
@@ -431,7 +431,7 @@
     "ok": true,
     "note": "4 results",
     "id": "c4",
-    "at": 1793121624112
+    "at": 1793121952477
    },
    {
     "provider": "mock",
@@ -440,11 +440,11 @@
     "stage": "B: search",
     "tokensIn": 0,
     "tokensOut": 0,
-    "latencyMs": 5,
+    "latencyMs": 4,
     "ok": true,
     "note": "6 results",
     "id": "c5",
-    "at": 1793121624117
+    "at": 1793121952481
    },
    {
     "provider": "mock",
@@ -457,7 +457,7 @@
     "ok": true,
     "note": "7 results",
     "id": "c6",
-    "at": 1793121624122
+    "at": 1793121952487
    },
    {
     "provider": "mock",
@@ -470,7 +470,7 @@
     "ok": true,
     "note": "6 results",
     "id": "c7",
-    "at": 1793121624127
+    "at": 1793121952492
    },
    {
     "provider": "mock",
@@ -483,7 +483,7 @@
     "ok": true,
     "note": "7 pages",
     "id": "c8",
-    "at": 1793121624127
+    "at": 1793121952492
    },
    {
     "provider": "heuristic",
@@ -496,7 +496,7 @@
     "ok": true,
     "note": "nano not configured; used deterministic fallback",
     "id": "c9",
-    "at": 1793121624130
+    "at": 1793121952494
    },
    {
     "provider": "heuristic",
@@ -509,7 +509,7 @@
     "ok": true,
     "note": "nano not configured; used deterministic fallback",
     "id": "c10",
-    "at": 1793121624131
+    "at": 1793121952496
    },
    {
     "provider": "heuristic",
@@ -522,7 +522,7 @@
     "ok": true,
     "note": "nano not configured; used deterministic fallback",
     "id": "c11",
-    "at": 1793121624136
+    "at": 1793121952500
    },
    {
     "provider": "heuristic",
@@ -535,7 +535,7 @@
     "ok": true,
     "note": "nano not configured; used deterministic fallback",
     "id": "c12",
-    "at": 1793121624136
+    "at": 1793121952500
    },
    {
     "provider": "heuristic",
@@ -548,7 +548,7 @@
     "ok": true,
     "note": "nano not configured; used deterministic fallback",
     "id": "c13",
-    "at": 1793121624141
+    "at": 1793121952506
    },
    {
     "provider": "heuristic",
@@ -561,7 +561,7 @@
     "ok": true,
     "note": "nano not configured; used deterministic fallback",
     "id": "c14",
-    "at": 1793121624143
+    "at": 1793121952508
    },
    {
     "provider": "heuristic",
@@ -574,7 +574,7 @@
     "ok": true,
     "note": "nano not configured; used deterministic fallback",
     "id": "c15",
-    "at": 1793121624144
+    "at": 1793121952509
    },
    {
     "provider": "heuristic",
@@ -587,7 +587,7 @@
     "ok": true,
     "note": "nano not configured; used deterministic fallback",
     "id": "c16",
-    "at": 1793121624154
+    "at": 1793121952520
    },
    {
     "provider": "heuristic",
@@ -600,7 +600,7 @@
     "ok": true,
     "note": "nano not configured; used deterministic fallback",
     "id": "c17",
-    "at": 1793121624154
+    "at": 1793121952520
    },
    {
     "provider": "heuristic",
@@ -613,7 +613,7 @@
     "ok": true,
     "note": "nano not configured; used deterministic fallback",
     "id": "c18",
-    "at": 1793121624155
+    "at": 1793121952521
    },
    {
     "provider": "heuristic",
@@ -626,7 +626,7 @@
     "ok": true,
     "note": "nano not configured; used deterministic fallback",
     "id": "c19",
-    "at": 1793121624155
+    "at": 1793121952521
    },
    {
     "provider": "heuristic",
@@ -639,7 +639,7 @@
     "ok": true,
     "note": "nano not configured; used deterministic fallback",
     "id": "c20",
-    "at": 1793121624156
+    "at": 1793121952522
    },
    {
     "provider": "heuristic",
@@ -652,20 +652,7 @@
     "ok": true,
     "note": "nano not configured; used deterministic fallback",
     "id": "c21",
-    "at": 1793121624156
-   },
-   {
-    "provider": "heuristic",
-    "model": "rootline-heuristic",
-    "tier": "local",
-    "stage": "D: mutations",
-    "tokensIn": 0,
-    "tokensOut": 0,
-    "latencyMs": 0,
-    "ok": true,
-    "note": "nano not configured; used deterministic fallback",
-    "id": "c22",
-    "at": 1793121624156
+    "at": 1793121952522
    },
    {
     "provider": "heuristic",
@@ -677,8 +664,8 @@
     "latencyMs": 1,
     "ok": true,
     "note": "nano not configured; used deterministic fallback",
-    "id": "c23",
-    "at": 1793121624157
+    "id": "c22",
+    "at": 1793121952523
    },
    {
     "provider": "heuristic",
@@ -690,8 +677,21 @@
     "latencyMs": 0,
     "ok": true,
     "note": "nano not configured; used deterministic fallback",
+    "id": "c23",
+    "at": 1793121952523
+   },
+   {
+    "provider": "heuristic",
+    "model": "rootline-heuristic",
+    "tier": "local",
+    "stage": "D: mutations",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 1,
+    "ok": true,
+    "note": "nano not configured; used deterministic fallback",
     "id": "c24",
-    "at": 1793121624157
+    "at": 1793121952524
    },
    {
     "provider": "heuristic",
@@ -704,7 +704,7 @@
     "ok": true,
     "note": "super not configured; used deterministic fallback",
     "id": "c25",
-    "at": 1793121624157
+    "at": 1793121952524
    },
    {
     "provider": "heuristic",
@@ -717,7 +717,7 @@
     "ok": true,
     "note": "ultra not configured; used deterministic fallback",
     "id": "c26",
-    "at": 1793121624157
+    "at": 1793121952524
    },
    {
     "provider": "heuristic",
@@ -730,10 +730,10 @@
     "ok": true,
     "note": "super not configured; used deterministic fallback",
     "id": "c27",
-    "at": 1793121624158
+    "at": 1793121952524
    }
   ],
-  "totalLatencyMs": 67,
+  "totalLatencyMs": 69,
   "pricing": {
    "nano": [
     0.06,
@@ -755,7 +755,7 @@
   "fixture": {
    "id": "4-voice",
    "title": "Voice note in Pidgin (fictional speaker)",
-   "generatedAt": "2026-10-27T17:20:24.158Z",
+   "generatedAt": "2026-10-27T17:25:52.524Z",
    "generatedWith": "offline_mock"
   }
  }

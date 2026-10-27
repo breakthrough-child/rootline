@@ -5,7 +5,7 @@
  "description": "A text forward claiming kidnappers drug women with perfume samples.",
  "investigation": {
   "id": "fixture-1-perfume",
-  "createdAt": "2026-10-27T17:20:19.934Z",
+  "createdAt": "2026-10-27T17:25:48.185Z",
   "mode": "offline_mock",
   "modeNote": "Offline mock: sources come from a FICTIONAL built-in corpus (.example domains) and model stages use deterministic heuristics. Not a real web trace.",
   "input": {
@@ -417,20 +417,7 @@
     "ok": true,
     "note": "nano not configured; used deterministic fallback",
     "id": "c1",
-    "at": 1793121619733
-   },
-   {
-    "provider": "mock",
-    "model": "fictional-corpus",
-    "tier": "search",
-    "stage": "B: search",
-    "tokensIn": 0,
-    "tokensOut": 0,
-    "latencyMs": 13,
-    "ok": true,
-    "note": "5 results",
-    "id": "c2",
-    "at": 1793121619751
+    "at": 1793121947975
    },
    {
     "provider": "mock",
@@ -441,9 +428,22 @@
     "tokensOut": 0,
     "latencyMs": 8,
     "ok": true,
+    "note": "5 results",
+    "id": "c2",
+    "at": 1793121947987
+   },
+   {
+    "provider": "mock",
+    "model": "fictional-corpus",
+    "tier": "search",
+    "stage": "B: search",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 7,
+    "ok": true,
     "note": "7 results",
     "id": "c3",
-    "at": 1793121619759
+    "at": 1793121947994
    },
    {
     "provider": "mock",
@@ -456,20 +456,7 @@
     "ok": true,
     "note": "2 results",
     "id": "c4",
-    "at": 1793121619766
-   },
-   {
-    "provider": "mock",
-    "model": "fictional-corpus",
-    "tier": "search",
-    "stage": "B: search",
-    "tokensIn": 0,
-    "tokensOut": 0,
-    "latencyMs": 10,
-    "ok": true,
-    "note": "7 results",
-    "id": "c5",
-    "at": 1793121619776
+    "at": 1793121948002
    },
    {
     "provider": "mock",
@@ -481,8 +468,21 @@
     "latencyMs": 8,
     "ok": true,
     "note": "7 results",
+    "id": "c5",
+    "at": 1793121948010
+   },
+   {
+    "provider": "mock",
+    "model": "fictional-corpus",
+    "tier": "search",
+    "stage": "B: search",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 10,
+    "ok": true,
+    "note": "7 results",
     "id": "c6",
-    "at": 1793121619786
+    "at": 1793121948022
    },
    {
     "provider": "mock",
@@ -495,20 +495,7 @@
     "ok": true,
     "note": "8 pages",
     "id": "c7",
-    "at": 1793121619789
-   },
-   {
-    "provider": "heuristic",
-    "model": "rootline-heuristic",
-    "tier": "local",
-    "stage": "C: confirm",
-    "tokensIn": 0,
-    "tokensOut": 0,
-    "latencyMs": 2,
-    "ok": true,
-    "note": "nano not configured; used deterministic fallback",
-    "id": "c8",
-    "at": 1793121619806
+    "at": 1793121948025
    },
    {
     "provider": "heuristic",
@@ -520,8 +507,21 @@
     "latencyMs": 1,
     "ok": true,
     "note": "nano not configured; used deterministic fallback",
+    "id": "c8",
+    "at": 1793121948044
+   },
+   {
+    "provider": "heuristic",
+    "model": "rootline-heuristic",
+    "tier": "local",
+    "stage": "C: confirm",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 0,
+    "ok": true,
+    "note": "nano not configured; used deterministic fallback",
     "id": "c9",
-    "at": 1793121619817
+    "at": 1793121948057
    },
    {
     "provider": "heuristic",
@@ -534,7 +534,7 @@
     "ok": true,
     "note": "nano not configured; used deterministic fallback",
     "id": "c10",
-    "at": 1793121619829
+    "at": 1793121948070
    },
    {
     "provider": "heuristic",
@@ -547,7 +547,7 @@
     "ok": true,
     "note": "nano not configured; used deterministic fallback",
     "id": "c11",
-    "at": 1793121619837
+    "at": 1793121948079
    },
    {
     "provider": "heuristic",
@@ -560,7 +560,7 @@
     "ok": true,
     "note": "nano not configured; used deterministic fallback",
     "id": "c12",
-    "at": 1793121619841
+    "at": 1793121948083
    },
    {
     "provider": "heuristic",
@@ -569,11 +569,11 @@
     "stage": "C: confirm",
     "tokensIn": 0,
     "tokensOut": 0,
-    "latencyMs": 0,
+    "latencyMs": 1,
     "ok": true,
     "note": "nano not configured; used deterministic fallback",
     "id": "c13",
-    "at": 1793121619851
+    "at": 1793121948094
    },
    {
     "provider": "heuristic",
@@ -586,7 +586,7 @@
     "ok": true,
     "note": "nano not configured; used deterministic fallback",
     "id": "c14",
-    "at": 1793121619856
+    "at": 1793121948098
    },
    {
     "provider": "heuristic",
@@ -599,7 +599,7 @@
     "ok": true,
     "note": "nano not configured; used deterministic fallback",
     "id": "c15",
-    "at": 1793121619863
+    "at": 1793121948106
    },
    {
     "provider": "heuristic",
@@ -612,7 +612,7 @@
     "ok": true,
     "note": "nano not configured; used deterministic fallback",
     "id": "c16",
-    "at": 1793121619925
+    "at": 1793121948172
    },
    {
     "provider": "heuristic",
@@ -625,7 +625,7 @@
     "ok": true,
     "note": "nano not configured; used deterministic fallback",
     "id": "c17",
-    "at": 1793121619926
+    "at": 1793121948173
    },
    {
     "provider": "heuristic",
@@ -638,7 +638,7 @@
     "ok": true,
     "note": "nano not configured; used deterministic fallback",
     "id": "c18",
-    "at": 1793121619927
+    "at": 1793121948174
    },
    {
     "provider": "heuristic",
@@ -651,7 +651,7 @@
     "ok": true,
     "note": "nano not configured; used deterministic fallback",
     "id": "c19",
-    "at": 1793121619927
+    "at": 1793121948174
    },
    {
     "provider": "heuristic",
@@ -664,7 +664,7 @@
     "ok": true,
     "note": "nano not configured; used deterministic fallback",
     "id": "c20",
-    "at": 1793121619928
+    "at": 1793121948175
    },
    {
     "provider": "heuristic",
@@ -673,11 +673,11 @@
     "stage": "D: mutations",
     "tokensIn": 0,
     "tokensOut": 0,
-    "latencyMs": 0,
+    "latencyMs": 1,
     "ok": true,
     "note": "nano not configured; used deterministic fallback",
     "id": "c21",
-    "at": 1793121619928
+    "at": 1793121948176
    },
    {
     "provider": "heuristic",
@@ -690,7 +690,7 @@
     "ok": true,
     "note": "nano not configured; used deterministic fallback",
     "id": "c22",
-    "at": 1793121619929
+    "at": 1793121948177
    },
    {
     "provider": "heuristic",
@@ -703,7 +703,7 @@
     "ok": true,
     "note": "nano not configured; used deterministic fallback",
     "id": "c23",
-    "at": 1793121619929
+    "at": 1793121948177
    },
    {
     "provider": "heuristic",
@@ -716,7 +716,7 @@
     "ok": true,
     "note": "nano not configured; used deterministic fallback",
     "id": "c24",
-    "at": 1793121619930
+    "at": 1793121948178
    },
    {
     "provider": "heuristic",
@@ -729,7 +729,7 @@
     "ok": true,
     "note": "nano not configured; used deterministic fallback",
     "id": "c25",
-    "at": 1793121619930
+    "at": 1793121948178
    },
    {
     "provider": "heuristic",
@@ -738,11 +738,11 @@
     "stage": "D: mutations",
     "tokensIn": 0,
     "tokensOut": 0,
-    "latencyMs": 0,
+    "latencyMs": 1,
     "ok": true,
     "note": "nano not configured; used deterministic fallback",
     "id": "c26",
-    "at": 1793121619930
+    "at": 1793121948179
    },
    {
     "provider": "heuristic",
@@ -755,7 +755,7 @@
     "ok": true,
     "note": "nano not configured; used deterministic fallback",
     "id": "c27",
-    "at": 1793121619930
+    "at": 1793121948179
    },
    {
     "provider": "heuristic",
@@ -768,7 +768,7 @@
     "ok": true,
     "note": "nano not configured; used deterministic fallback",
     "id": "c28",
-    "at": 1793121619931
+    "at": 1793121948180
    },
    {
     "provider": "heuristic",
@@ -781,7 +781,7 @@
     "ok": true,
     "note": "super not configured; used deterministic fallback",
     "id": "c29",
-    "at": 1793121619931
+    "at": 1793121948181
    },
    {
     "provider": "heuristic",
@@ -794,7 +794,7 @@
     "ok": true,
     "note": "ultra not configured; used deterministic fallback",
     "id": "c30",
-    "at": 1793121619932
+    "at": 1793121948181
    },
    {
     "provider": "heuristic",
@@ -807,10 +807,10 @@
     "ok": true,
     "note": "super not configured; used deterministic fallback",
     "id": "c31",
-    "at": 1793121619934
+    "at": 1793121948184
    }
   ],
-  "totalLatencyMs": 228,
+  "totalLatencyMs": 239,
   "pricing": {
    "nano": [
     0.06,
@@ -832,7 +832,7 @@
   "fixture": {
    "id": "1-perfume",
    "title": "“Perfume sample” kidnapping scare",
-   "generatedAt": "2026-10-27T17:20:19.935Z",
+   "generatedAt": "2026-10-27T17:25:48.185Z",
    "generatedWith": "offline_mock"
   }
  }

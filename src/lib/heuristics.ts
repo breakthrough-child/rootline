@@ -155,29 +155,29 @@ export function heuristicMutations(parent: string, child: string): Mutation[] {
 }
 
 export function mutationChip(m: Mutation): string {
+  const change = (fallback: string) => (m.before && m.after ? `${m.before} → ${m.after}` : m.after ? `+ ${m.after}` : m.before ? `− ${m.before}` : fallback);
+  const short = (s: string) => truncate(s, 28);
   switch (m.type) {
     case "number_changed":
-      return `${m.before || "?"} → ${m.after || "?"}`;
-    case "authority_added":
-      return `+ ${m.after}`;
-    case "authority_removed":
-      return `− ${m.before}`;
     case "location_changed":
-      return `${m.before || "?"} → ${m.after || "?"}`;
-    case "urgency_added":
-      return `+ urgency`;
-    case "call_to_action_added":
-      return `+ "forward/act"`;
-    case "emotional_framing_added":
-      return `+ emotion`;
     case "date_changed":
-      return `date: ${m.after || "changed"}`;
-    case "detail_added":
-      return `+ detail`;
-    case "detail_removed":
-      return `− detail`;
+      return short(change("changed"));
     case "target_changed":
-      return `target → ${m.after}`;
+      return short(change("target changed"));
+    case "authority_added":
+      return short(`+ ${m.after || "authority"}`);
+    case "authority_removed":
+      return short(`− ${m.before || "authority"}`);
+    case "urgency_added":
+      return "+ urgency";
+    case "call_to_action_added":
+      return '+ "forward / act"';
+    case "emotional_framing_added":
+      return "+ emotion";
+    case "detail_added":
+      return "+ detail";
+    case "detail_removed":
+      return "− detail";
     default:
       return "reworded";
   }

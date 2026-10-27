@@ -18,7 +18,7 @@ function VariantNode({ data }: NodeProps<Node<VNodeData>>) {
   return (
     <button
       onClick={() => data.onSelect(v.id)}
-      className={`node-in w-[270px] rounded-xl border bg-surface p-3 text-left shadow-sm transition hover:shadow-md ${data.selected ? "border-accent ring-2 ring-accent/30" : v.isUserInput ? "border-blue" : "border-line"}`}
+      className={`node-in w-[270px] rounded-xl border-2 bg-surface p-3 text-left shadow-md transition hover:border-accent ${data.selected ? "border-accent ring-2 ring-accent/30" : v.isUserInput ? "border-blue" : data.earliest ? "border-accent/70" : "border-line"}`}
     >
       <Handle type="target" position={Position.Left} className="!border-0 !bg-transparent" />
       <div className="mb-1.5 flex flex-wrap items-center gap-1.5">
@@ -96,7 +96,7 @@ export function TreeView(props: { variants: Variant[]; edges: LineageEdge[]; ear
   }, [variants, edges, rootId, earliestId, selectedId, onSelect, thumb, sourceKind]);
 
   return (
-    <div className="h-[460px] w-full overflow-hidden rounded-xl border border-line bg-surface-2/60 sm:h-[540px]" role="region" aria-label="Lineage tree">
+    <div className="h-[460px] w-full overflow-hidden rounded-xl border border-line bg-bg sm:h-[540px]" role="region" aria-label="Lineage tree">
       <ReactFlowProvider>
         <ReactFlow nodes={nodes} edges={flowEdges} nodeTypes={nodeTypes} edgeTypes={edgeTypes} fitView minZoom={0.2} maxZoom={1.6} nodesConnectable={false} proOptions={{ hideAttribution: true }}>
           <Controls showInteractive={false} position="bottom-right" />
