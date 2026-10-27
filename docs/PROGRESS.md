@@ -17,7 +17,7 @@ _Last updated: 2026-10-27_
 ## Verified in this build
 
 - `npm run lint`, `npm run typecheck`, `npm test` (47 tests, incl. a real OCR pass on a scanned PDF) and `npm run build` all pass.
-- In a running dev server (`OFFLINE_MOCK=true`): `/api/run` (text), `/api/extract` (PDF and screenshot via Tesseract OCR), `/r/[id]` share page, Watchlist add + re-run. Browser-checked: replay of all example chips, tree, node panel (desktop side panel + mobile bottom sheet at 375 px), dark and light modes, no horizontal scroll on mobile.
+- In a running dev server (`OFFLINE_MOCK=true`): `/api/run` (text), `/api/extract` (PDF and screenshot via Tesseract OCR), `/r/[id]` share page, Watchlist add + re-run. Browser-checked: replay of the perfume and screenshot examples, tree, node panel (desktop side panel + mobile bottom sheet at 375 px), dark and light modes, no horizontal scroll on mobile.
 - Not verified: anything that needs real API keys (Nemotron calls, Tavily, vision, ASR), the video adapter on a real clip, Supabase storage, Vercel deployment.
 
 ## Blocked on you
