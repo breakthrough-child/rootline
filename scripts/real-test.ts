@@ -76,6 +76,7 @@ async function main() {
       if (e.type === "stage" && /^(A|B|C|D|E|F|G|check)$/.test(e.stage)) process.stdout.write(`  · ${e.message}\n`);
     });
     ctx.pages = new Map();
+    ctx.trace = [];
     console.log(`\n▶ ${id}`);
     const fileCase = id === "screenshot" ? ["screenshot-kemi-reports.png", "image/png"] : id === "circular" ? ["circular-focr.pdf", "application/pdf"] : null;
     const input = fileCase ? await fileToInput(ctx, [{ name: fileCase[0], mime: fileCase[1], buf: await readFile(path.join("fixtures", "files", fileCase[0])) }]) : textToInput(RUMORS[id].text);
@@ -89,6 +90,7 @@ async function main() {
     if (id === "screenshot") console.log(`  read via: ${input.adapterPath.join(" → ")}\n  text: ${input.text}\n  fields: ${JSON.stringify({ ...input.screenshot, post_text: undefined })}`);
     const inv = await investigate(ctx, input, [{ id: "k0", text: claimText }], { id: `real-${id}` });
     await writeFile(path.join(OUT, `${id}.json`), JSON.stringify(inv, null, 1));
+    await writeFile(path.join(OUT, `${id}.review.json`), JSON.stringify(ctx.trace ?? [], null, 1));
     await writeFile(path.join(OUT, `${id}.pages.json`), JSON.stringify(Object.fromEntries(ctx.pages ?? [])));
     const c = inv.claims[0];
     if (!c) {

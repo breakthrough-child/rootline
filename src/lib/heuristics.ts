@@ -1,6 +1,6 @@
 // Deterministic fallbacks for every model stage. Used when a model is not configured, when a
 // call fails validation twice, and in OFFLINE_MOCK mode. They are conservative by design.
-import { bestExcerpt, canonical, clip, contentTokens, relatedness, splitSentences, tokens, truncate, wordCount, wordDiff } from "./text";
+import { bestExcerpt, canonical, clip, stemCoverage, contentTokens, relatedness, splitSentences, tokens, truncate, wordCount, wordDiff } from "./text";
 import type { Confidence, LineageEdge, Mutation, PageType, Understanding, Variant, Verdict } from "./types";
 
 const NUMBER_RE = /(?:[₦$£€]|\bN|\bNGN\s?|\bRs\.?\s?|\bR\$\s?)?\d[\d,.]*(?:\s?(?:k|m|bn|million|billion|thousand|%|percent))?/gi;
@@ -218,6 +218,12 @@ export function looksLikeQuestion(s: string) {
 
 const NUMBER_WORDS = /\b(?:one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety|hundred|thousand|million|billion|dozens?|several|many|half)\b/i;
 
+const ADDED_TYPES = new Set(["authority_added", "urgency_added", "call_to_action_added", "emotional_framing_added", "detail_added"]);
+const REMOVED_TYPES = new Set(["authority_removed", "detail_removed"]);
+/** An added item is dropped if at least this share of its content words already occur in the earlier text. */
+export const ALREADY_PRESENT = 0.8;
+/** A removed item is dropped if at least this share of its content words still occur in the later text. */
+export const STILL_PRESENT = 0.6;
 const PLATFORM_WORDS = new Set(["whatsapp", "facebook", "twitter", "instagram", "youtube", "tiktok", "telegram", "google", "x", "email", "sms"]);
 const AUTHORITY_WORDS = /\b(?:police|government|govt|ministry|minister|president|governor|army|military|officials?|authorities|doctors?|dr\.?|professors?|experts?|scientists?|researchers?|hospital|university|institute|agency|commission|council|department|bureau|office|sheriff|garda|who|unicef|nafdac|ncdc|cnn|bbc|reuters|nasa|fbi|cdc)\b/i;
 const URGENCY_WORDS = /\b(?:urgent(?:ly)?|immediately|hurry|quickly|asap|deadline|closes|closing|expires?|expiring|last chance|right away|at once|breaking|tonight|before (?:friday|monday|tuesday|wednesday|thursday|saturday|sunday|midnight|the end|it'?s too late)|within \d+ (?:hours?|minutes?|days?)|\d+ (?:hours?|minutes?) (?:left|only))\b/i;
@@ -294,6 +300,10 @@ export function validateMutations(ms: Mutation[], earlier: string, later: string
         if (!before || !after) continue;
         break;
     }
+    // "Added" content must really be new (not already in the earlier text in other words); "removed" content must
+    // really be gone (not merely reworded in the later text).
+    if (ADDED_TYPES.has(m.type) && !before && stemCoverage(after, earlier) >= ALREADY_PRESENT) continue;
+    if (REMOVED_TYPES.has(m.type) && !after && stemCoverage(before, later) >= STILL_PRESENT) continue;
     const key = `${m.type}|${canonical(before)}|${canonical(after)}`;
     if (seen.has(key)) continue;
     seen.add(key);
@@ -301,4 +311,26 @@ export function validateMutations(ms: Mutation[], earlier: string, later: string
     if (out.length >= max) break;
   }
   return out;
+}
+
+/** Words that mark a fact-checker's/journalist's own commentary about a message rather than the message itself. */
+const COMMENTARY_RE = /\b(?:hoax(?:es)?|myth|fake|falsely|debunk\w*|fact[- ]?check\w*|no evidence|non-existent|nonexistent|long-running|circulat\w*|resurfac\w*|versions?|translated|known (?:scam|hoax)|urban legend|rumou?rs?)\b/i;
+
+/**
+ * Fact-check, news and official pages mix the message they quote with their own commentary (calling it a hoax,
+ * describing its history or spread). A label whose text is that commentary is not a mutation of the message.
+ * Posts and the user's own copy are exempt: there such words are part of the message.
+ */
+export function dropCommentary(ms: Mutation[], laterPageType: string, earlierPageType?: string): Mutation[] {
+  const commentary = (t: string) => COMMENTARY_RE.test(t);
+  return ms.filter((m) => {
+    const addedSide = ["debunk", "news", "official"].includes(laterPageType) ? m.after : "";
+    const removedSide = earlierPageType && ["debunk", "news", "official"].includes(earlierPageType) ? m.before : "";
+    return !(addedSide && commentary(addedSide)) && !(removedSide && commentary(removedSide));
+  });
+}
+
+/** A call to action is an instruction, not a single word: "click" alone is a fragment of something else. */
+export function dropFragments(ms: Mutation[]): Mutation[] {
+  return ms.filter((m) => !(m.type === "call_to_action_added" && wordCount(m.after) < 2));
 }

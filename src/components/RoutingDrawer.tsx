@@ -7,7 +7,7 @@ const DEFAULT_PRICING: Record<string, [number, number]> = { nano: [0.06, 0.24], 
 
 const WHY: Record<string, string> = {
   nano: "Nano — high-volume, parallel, narrow jobs: claim parsing, page membership, pairwise mutations, checks.",
-  super: "Super — judgement across many items: clustering variants, ranking claims, writing the verdict and reply.",
+  super: "Super — judgement across many items: clustering variants, reviewing mutation labels, ranking claims, writing the verdict and reply.",
   ultra: "Ultra — one hard reasoning call: refining the whole lineage tree under constraints.",
   vision: "Vision — reading screenshots, scanned pages and video keyframes.",
   asr: "Speech — transcribing voice notes and video audio.",

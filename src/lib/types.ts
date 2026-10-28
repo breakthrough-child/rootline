@@ -178,7 +178,7 @@ export interface ClaimResult {
   limited: boolean;
   verdict: Verdict;
   branches: { name: string; variantIds: string[] }[];
-  stats: { queries: number; pagesSearched: number; pagesConfirmed: number; pairsCompared: number };
+  stats: { queries: number; pagesSearched: number; pagesConfirmed: number; pairsCompared: number; mutationReview?: { reviewed: number; kept: number; retyped: number; dropped: number } };
   warnings: string[];
 }
 

@@ -155,3 +155,44 @@ describe("platform names are not authorities", () => {
     expect(out.map((x) => x.after)).toEqual(["CNN and BBC"]);
   });
 });
+
+describe("added/removed labels must really be new/gone (real Martinelli + perfume cases)", () => {
+  const m = (type: string, before: string, after: string) => ({ type: type as never, before, after, explanation: "" });
+  it("drops content that is already in the earlier text", () => {
+    const earlier = "Warning from An Garda. An IT expert has advised that a video comes out tomorrow called martinelli, it hacks your phone and nothing will fix it. Spread the word.";
+    const later = "If you know anyone using WhatsApp you might pass on this. An IT colleague has advised that a video comes out tomorrow called martinelli, it hacks your phone. Spread the word.";
+    expect(validateMutations([m("call_to_action_added", "", "Spread the word"), m("detail_added", "", "it hacks your phone")], earlier, later)).toEqual([]);
+  });
+  it("drops 'removed' content that the later text merely rewords, keeps genuine removals", () => {
+    const earlier = "Seven women have died after inhaling a free perfume sample that was mailed to them. The government is afraid this is a terrorist act.";
+    const later = "A chain message claims women died after inhaling poisonous free perfume samples that were mailed to them.";
+    const out = validateMutations([m("detail_removed", "Seven women have died after inhaling a free perfume sample", ""), m("authority_removed", "The government", "")], earlier, later);
+    expect(out.map((x) => x.type)).toEqual(["authority_removed"]);
+  });
+  it("still accepts genuinely new content", () => {
+    const earlier = "Have you seen this chain message claiming women died after inhaling free perfume samples mailed to them?";
+    const later = "Please be careful ladies! Men at filling stations give women free perfume. Once you smell it you will faint and they will kidnap you. Please share this with every woman you know.";
+    const out = validateMutations([m("call_to_action_added", "", "Please share this with every woman you know"), m("detail_added", "", "Once you smell it you will faint and they will kidnap you")], earlier, later);
+    expect(out).toHaveLength(2);
+  });
+});
+
+import { dropCommentary } from "@/lib/heuristics";
+describe("dropCommentary", () => {
+  const m = (type: string, before: string, after: string) => ({ type: type as never, before, after, explanation: "" });
+  it("drops hoax-history commentary on fact-check pages but keeps message content and exempts posts/your copy", () => {
+    const labels = [m("detail_added", "", "secondary message to this hoax message"), m("other", "", "various translated versions"), m("detail_added", "", "non-existent WhatsApp Gold version"), m("detail_added", "", "that video will change the combinations in your phone")];
+    expect(dropCommentary(labels, "debunk").map((x) => x.after)).toEqual(["that video will change the combinations in your phone"]);
+    expect(dropCommentary(labels, "social")).toHaveLength(4);
+    expect(dropCommentary([m("authority_added", "", "CNN and BBC")], "user_input")).toHaveLength(1);
+    expect(dropCommentary([m("detail_removed", "this is a hoax that keeps resurfacing", "")], "social", "debunk")).toEqual([]);
+  });
+});
+
+import { dropFragments } from "@/lib/heuristics";
+describe("dropFragments", () => {
+  it("drops one-word call-to-action fragments only", () => {
+    const m = (type: string, after: string) => ({ type: type as never, before: "", after, explanation: "" });
+    expect(dropFragments([m("call_to_action_added", "click"), m("call_to_action_added", "Spread the word"), m("urgency_added", "urgent")]).map((x) => x.after)).toEqual(["Spread the word", "urgent"]);
+  });
+});

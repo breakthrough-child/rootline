@@ -1,9 +1,9 @@
 // The Rootline core pipeline: Understand → Find relatives → Confirm → Mutations → Cluster → Lineage → Verdict.
 import pLimit from "p-limit";
 import { config, llmAvailable } from "./config";
-import { guessPageType, heuristicMembership, heuristicMutations, heuristicUnderstanding, heuristicVerdict, validateMutations } from "./heuristics";
+import { guessPageType, heuristicMembership, heuristicMutations, heuristicUnderstanding, heuristicVerdict, validateMutations, dropCommentary, dropFragments } from "./heuristics";
 import { chatJson, RunContext, withFallback } from "./llm";
-import { ClusterSchema, LineageSchema, MembershipSchema, MutationsSchema, UnderstandingSchema, VerdictSchema } from "./schemas";
+import { ClusterSchema, LineageSchema, MembershipSchema, MutationsSchema, ReviewSchema, UnderstandingSchema, VerdictSchema } from "./schemas";
 import { extract, resolveDate, search, type SearchHit } from "./search";
 import { bestExcerpt, clip, excerptStrictlyIn, hashString, speaksTo, normalizeInput, relatedness, snapExcerptToPage, tokenCoverage, truncate, wordCount } from "./text";
 import { baselineTree, candidatePairs, dedupeVariants, markSpread, repairTree, validateTree } from "./tree";
@@ -222,6 +222,23 @@ Return JSON: {"relation": "same_message"|"reworded"|"related_only"|"unrelated", 
 }
 
 // ── Stage D ────────────────────────────────────────────────────────────────
+const SOURCE_LABEL: Record<string, string> = { debunk: "fact-check article", news: "news article", official: "official page", social: "social post", forum: "forum post", user_input: "the message you received", other: "web page" };
+
+/** Label definitions shared by the mutation prompt (Stage D) and the review pass (D2). */
+const MUTATION_DEFINITIONS = `- number_changed: a quantity, count, amount, price or percentage differs (200 → 2,000; N30,000 → N50,000). Only for numbers.
+- location_changed: a place name differs (Ibadan → Lagos).
+- authority_added / authority_removed: a named person, organisation, official body or expert (police, WHO, a doctor, CNN, a ministry) is newly cited as a source or confirmer / is no longer cited.
+- urgency_added: new time pressure (urgent, immediately, before Friday).
+- date_changed: a date, day or time reference differs.
+- target_changed: the group of people said to be at risk or eligible differs (women → children).
+- call_to_action_added: a new instruction to forward, share, click, apply, call or register.
+- emotional_framing_added: new fear, outrage or pity wording.
+- detail_added / detail_removed: a material fact appears or disappears and no label above fits.
+- other: only if nothing above fits.`;
+
+/** Map entries in a stable order, so prompts (and the dev cache) don't depend on async completion order. */
+const sortedEntries = <V,>(m: Map<string, V>) => [...m.entries()].sort(([a], [b]) => a.localeCompare(b));
+
 const pairKey = (a: string, b: string) => `${a}>${b}`;
 /** Below this wording relatedness two texts are treated as different stories (no mutation labels, low confidence). */
 const MUTATION_MIN_RELATEDNESS = 0.2;
@@ -257,16 +274,7 @@ async function analyseMutations(ctx: RunContext, variants: Variant[], pairs: [st
                     role: "user",
                     content: `EARLIER version:\n"""${truncate(pa.text, 900)}"""\nLATER version:\n"""${truncate(cb.text, 900)}"""\n
 List the meaningful ways the LATER version differs from the EARLIER one. Use exactly these labels:
-- number_changed: a quantity, count, amount, price or percentage differs (200 → 2,000; N30,000 → N50,000). Only for numbers.
-- location_changed: a place name differs (Ibadan → Lagos).
-- authority_added / authority_removed: a named person, organisation, official body or expert (police, WHO, a doctor, CNN, a ministry) is newly cited as a source or confirmer / is no longer cited.
-- urgency_added: new time pressure (urgent, immediately, before Friday).
-- date_changed: a date, day or time reference differs.
-- target_changed: the group of people said to be at risk or eligible differs (women → children).
-- call_to_action_added: a new instruction to forward, share, click, apply, call or register.
-- emotional_framing_added: new fear, outrage or pity wording.
-- detail_added / detail_removed: a material fact appears or disappears and no label above fits.
-- other: only if nothing above fits.
+${MUTATION_DEFINITIONS}
 Rules: "before" = the exact words copied from the EARLIER text ("" if the item is new); "after" = the exact words copied from the LATER text ("" if the item was dropped); each at most 8 words. Do not report style, punctuation, greetings or rewording that keeps the meaning. Do not report something that appears in both. One entry per change, at most 5.
 Return JSON: {"mutations": [{"type": label, "before": string, "after": string, "explanation": "one short line"}]}. If nothing meaningful changed, return {"mutations": []}.`,
                   },
@@ -282,6 +290,85 @@ Return JSON: {"mutations": [{"type": label, "before": string, "after": string, "
     ),
   );
   return out;
+}
+
+
+// ── Stage D2: review ───────────────────────────────────────────────────────
+/**
+ * Super reviews each edge's labels against the exact parent/child text and the label definitions. It may keep,
+ * retype or drop a label; it cannot add one or change any text. Every surviving label must still pass the
+ * code-level grounding/type checks (validateMutations), so a model "correction" can never invent anything.
+ */
+export async function reviewMutations(ctx: RunContext, variants: Variant[], edges: LineageEdge[], claimId: string): Promise<{ edges: LineageEdge[]; stats: { reviewed: number; kept: number; retyped: number; dropped: number } }> {
+  const stats = { reviewed: 0, kept: 0, retyped: 0, dropped: 0 };
+  if (!llmAvailable("super")) return { edges, stats };
+  const byId = new Map(variants.map((v) => [v.id, v]));
+  const todo = edges.filter((e) => e.mutations.length);
+  if (!todo.length) return { edges, stats };
+  ctx.stage("D", `Reviewing ${todo.length} edges' mutation labels…`, claimId);
+  const limit = pLimit(config.limits.concurrency);
+  const reviewed = new Map<string, Mutation[]>();
+  await Promise.all(
+    todo.map((e) =>
+      limit(async () => {
+        const earlier = byId.get(e.from)!.text;
+        const later = byId.get(e.to)!.text;
+        try {
+          const out = await chatJson(ctx, ReviewSchema, {
+            tier: "super",
+            stage: "D2: review labels",
+            maxTokens: 700,
+            messages: [
+              { role: "system", content: SYSTEM },
+              {
+                role: "user",
+                content: `You are reviewing mutation labels between two versions of a circulating message.
+EARLIER version (${SOURCE_LABEL[byId.get(e.from)!.pageType] ?? "web page"}):\n"""${truncate(earlier, 900)}"""\nLATER version (${SOURCE_LABEL[byId.get(e.to)!.pageType] ?? "web page"}):\n"""${truncate(later, 900)}"""\n
+Note: a fact-check, news or official page mixes the message it quotes with its OWN commentary (calling the message a hoax, advice to readers, the history or spread of the hoax, "no evidence"). Only the message itself counts as content; the page's commentary never does.
+
+Label definitions:
+${MUTATION_DEFINITIONS}
+
+Proposed labels (index. type: what EARLIER says → what LATER says):
+${e.mutations.map((m, i) => `${i}. ${m.type}: ${m.before ? `EARLIER says "${m.before}"` : "EARLIER has nothing like it"} → ${m.after ? `LATER says "${m.after}"` : "LATER no longer has it"}`).join("\n")}
+
+For EACH label decide:
+- "keep": the change is real, the "after" content is asserted in the LATER version as part of the message, it is NOT already conveyed in the EARLIER version (even in other words), and the type is correct.
+- "retype": the change is real but the type is plainly wrong for the words involved; give the single correct type. If the proposed type already fits, keep it; never retype between two types that both fit.
+- "drop": any of these: the content is already in the EARLIER version (restated or reworded); it is commentary about the message (a fact-checker or page saying "this is a hoax", "no evidence") rather than part of the message; it describes what scammers or the hoax do rather than telling the reader to act (not call_to_action_added); a product, app or platform name labelled as an authority or a place; a trivial or meaningless difference; for detail_removed, authority_removed or number changes, the LATER version still conveys the same thing in other words or only drops a name or number while keeping the claim (a removal means the idea is really absent from the LATER version). A source that was cited in the EARLIER version and is truly not cited in the LATER one IS a valid authority_removed: keep it.
+You may only judge the labels listed: do not add labels and do not change any text. Return JSON: {"labels":[{"index": number, "verdict": "keep"|"retype"|"drop", "type": new type only when retyping, "reason": "five words"}]}`,
+              },
+            ],
+          });
+          const verdicts = new Map(out.labels.map((l) => [l.index, l]));
+          const kept: Mutation[] = [];
+          ctx.trace?.push({ kind: "review", from: e.from, to: e.to, earlier, later, labels: e.mutations.map((m, i) => ({ type: m.type, before: m.before, after: m.after, verdict: verdicts.get(i)?.verdict ?? "keep(unreviewed)", retype: verdicts.get(i)?.type, reason: verdicts.get(i)?.reason })) });
+          e.mutations.forEach((m, i) => {
+            stats.reviewed++;
+            const v = verdicts.get(i);
+            if (!v || v.verdict === "keep") {
+              kept.push(m);
+              stats.kept++;
+            } else if (v.verdict === "retype" && v.type && v.type !== m.type) {
+              // A retyped label must still be grounded and fit its new type, otherwise it is dropped.
+              const fixed = validateMutations([{ ...m, type: v.type }], earlier, later);
+              if (fixed.length) {
+                kept.push(fixed[0]);
+                stats.retyped++;
+              } else stats.dropped++;
+            } else if (v.verdict === "retype") {
+              kept.push(m);
+              stats.kept++;
+            } else stats.dropped++;
+          });
+          reviewed.set(`${e.from}>${e.to}`, kept);
+        } catch {
+          /* review unavailable for this edge: keep the validated labels as they are */
+        }
+      }),
+    ),
+  );
+  return { edges: edges.map((e) => ({ ...e, mutations: reviewed.get(`${e.from}>${e.to}`) ?? e.mutations })), stats };
 }
 
 // ── Stage E ────────────────────────────────────────────────────────────────
@@ -300,7 +387,7 @@ async function cluster(ctx: RunContext, variants: Variant[], mutations: Map<stri
           { role: "system", content: SYSTEM },
           {
             role: "user",
-            content: `Variants of one viral message (id | date | text):\n${variants.map((v) => `${v.id} | ${v.date ?? "unknown"} | ${truncate(v.text, 220)}`).join("\n")}\n\nPairwise mutations found:\n${[...mutations.entries()]
+            content: `Variants of one viral message (id | date | text):\n${variants.map((v) => `${v.id} | ${v.date ?? "unknown"} | ${truncate(v.text, 220)}`).join("\n")}\n\nPairwise mutations found:\n${sortedEntries(mutations)
               .slice(0, 60)
               .map(([k, ms]) => `${k}: ${ms.map((m) => `${m.type}(${truncate(m.before, 30)}→${truncate(m.after, 30)})`).join("; ") || "none"}`)
               .join("\n")}\n
@@ -356,7 +443,7 @@ Baseline tree (minimum spanning tree on wording, parent never later than child w
 ${baseline.edges.map((e) => `${e.from} -> ${e.to}`).join("\n")}
 
 Mutations between candidate pairs:
-${[...mutations.entries()].slice(0, 80).map(([k, ms]) => `${k}: ${ms.map((m) => m.type).join(", ") || "none"}`).join("\n")}
+${sortedEntries(mutations).slice(0, 80).map(([k, ms]) => `${k}: ${ms.map((m) => m.type).join(", ") || "none"}`).join("\n")}
 
 Refine parent edges using mutation logic (a child usually inherits its parent's changes and adds new ones). Constraints: use ONLY the ids above, do NOT add nodes, exactly one root, every other node has exactly one parent, a parent can never be dated after its child. "you" is the user's copy and must be a leaf.
 Return JSON: {"edges":[{"parent":id,"child":id,"confidence":"low"|"medium"|"high","reason":"one short line"}],"earliest_id":id,"evolution_summary":"2-3 plain sentences"}`,
@@ -513,7 +600,10 @@ export async function runClaim(ctx: RunContext, claimId: string, claimText: stri
         variants.find((v) => v.id === e.to)!.text,
       ),
   }));
-  edges = edges.map((e) => capConfidence(e, variants));
+  // Drop labels that are a fact-checker's own commentary rather than message content, then let Super review the rest.
+  edges = edges.map((e) => ({ ...e, mutations: dropFragments(dropCommentary(e.mutations, variants.find((v) => v.id === e.to)?.pageType ?? "other", variants.find((v) => v.id === e.from)?.pageType)) }));
+  const review = await reviewMutations(ctx, variants, edges, claimId);
+  edges = review.edges.map((e) => capConfidence(e, variants));
   edges = markSpread(variants, edges);
   for (const e of edges) ctx.emit({ type: "edge", claimId, edge: e });
   for (const b of branches) for (const id of b.variantIds) {
@@ -535,7 +625,7 @@ export async function runClaim(ctx: RunContext, claimId: string, claimText: stri
     limited,
     verdict: { ...v, whatChanged: v.whatChanged.length ? v.whatChanged : lin.summary ? [lin.summary] : [] },
     branches,
-    stats: { queries: u.queries.length, pagesSearched: pages.length, pagesConfirmed: confirmed.length, pairsCompared: pairs.length },
+    stats: { queries: u.queries.length, pagesSearched: pages.length, pagesConfirmed: confirmed.length, pairsCompared: pairs.length, mutationReview: review.stats },
     warnings,
   };
 }

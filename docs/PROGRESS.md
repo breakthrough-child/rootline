@@ -1,6 +1,6 @@
 # Progress
 
-_Last updated: 2026-10-28_
+_Last updated: 2026-10-29_
 
 **Provider:** the LLM client is provider-agnostic. Nebius Token Factory is the documented default; while Token Factory access is blocked by its billing-country restriction, develop against NVIDIA's API (build.nvidia.com) by setting `LLM_BASE_URL`, `LLM_API_KEY` and the `MODEL_*` IDs (see README → "Switching LLM providers"). Switching back is env-only.
 
@@ -22,8 +22,8 @@ Run with `npm run real-test` (responses cached in `.cache/` via `DEV_CACHE`; ~19
 
 | Case | Versions found | Edges (high/med/low) | Mutation labels | Excerpts verbatim | Earliest found | Cost* (all-Ultra*) | Notes |
 |---|---|---|---|---|---|---|---|
-| **Martinelli** WhatsApp hoax | 12 (15 sources) | 1 / 4 / 6 | 15 (11 correct on hand audit) | 15/15 | 2018-04-17 (Snopes, "An Garda") | $0.0097 ($0.074, 7.6×) | richest tree: An Garda → "IT colleague" + "Spread the word" → BBC-radio version → WhatsApp Gold → your "CNN and BBC" |
-| **Perfume** kidnapping | 9 (9) | 0 / 1 / 8 | 9 (grounded) | 9/9 | 2001-11-03 (Snopes: *mailed* poisoned samples) | $0.0089 ($0.073, 8.3×) | strong story (2001 mailed poison → malls/filling stations/kidnap) but most edges are cross-story → low confidence, few mutations |
+| **Martinelli** WhatsApp hoax | 12 (15 sources) | 1 / 4 / 6 | 5 shown after review (3 correct, 4 on a lenient reading; see "Mutation label accuracy") | 15/15 | 2018-04-17 (Snopes, "An Garda") | $0.0097 ($0.074, 7.6×) | richest tree: An Garda → "IT colleague" + "Spread the word" → BBC-radio version → WhatsApp Gold → your "CNN and BBC" |
+| **Perfume** kidnapping | 9 (9) | 0 / 1 / 7 | 5 shown after review (4 correct, 5 lenient) | 9/9 | 2001-11-03 (Snopes: *mailed* poisoned samples) | $0.0089 ($0.073, 8.3×) | strong story (2001 mailed poison → malls/filling stations/kidnap) but most edges are cross-story → low confidence, few mutations |
 | **Screenshot** (fictional @kemi_reports_247) | 6 (6) | 0 / 1 / 5 | 13 (grounded) | 6/6 | 2023-03-31 | $0.0068 ($0.048, 7.0×) | vision read all fields exactly (5.8 s); **post-exists → `not_found`** ✔ |
 | **Grant** ("FG N30,000 palliative") | 3 (3) | 1 / 1 / 1 | 14 (grounded) | 3/3 | 2020-07-07 (Daily Trust) | $0.0081 ($0.080, 10×) | thin: this wording is only covered by a few debunks |
 | **5G / phones cause cancer** | 2 (2) | 0 / 0 / 2 | 0 | 2/2 | – | $0.0085 | correctly **limited**: a general science claim, not a discrete message chain (explainer pages are rejected) |
@@ -41,12 +41,46 @@ Run with `npm run real-test` (responses cached in `.cache/` via `DEV_CACHE`; ~19
 | Truncated JSON (`unterminated JSON`) silently dropped pages | retry now doubles the output budget |
 | Excerpts not verbatim (ellipses, stitched passages, trailing "…") | strict check + snap-to-page; no `…` appended; unverifiable ⇒ page rejected (audit: 100% verbatim on all runs) |
 | Junk "versions" (TikTok hashtags, Reddit threads, health explainers, shop pages) | evidence-based membership: ≥2 message elements, each quoted from the page and verified in code; "circulating message" marker gate; ≥8-word excerpts; relevance pre-filter (saves ~40% of Nano calls) |
-| Mutation labels like `number_changed(seven women died → a person)`, `authority_added("Click the link below")` | exact label definitions in the prompt + code validation: text must appear in parent/child *and* fit the label type; rule-based fallback held to the same validator (audit: 100% grounded; ~73% semantically correct on a 15-label hand audit — remaining slips are e.g. a "call to action" that describes scammer behaviour) |
+| Mutation labels like `number_changed(seven women died → a person)`, `authority_added("Click the link below")` | exact label definitions in the prompt + code validation: text must appear in parent/child *and* fit the label type; rule-based fallback held to the same validator (audit: 100% grounded; semantic accuracy is much lower than "grounded" implies — see "Mutation label accuracy" below, which corrects the earlier 11/15 figure) |
 | Overconfident edges (2001 → 2026 "high") and "wider spread" with no data | confidence capped by wording similarity; spread flag needs ≥3 *dated* later sources |
 | Ultra's tree rejected whole → silent baseline | `repairTree`: keep every valid Ultra parent, repair only the broken ones |
 | Fact-check of a *different* rumor cited as contradicting a claim | a source contradicts only if it speaks to the statement's specifics (names, numbers) |
 | Document claims were fragments ("Lassa variant X outbreak") | claims must be full sentences (≥8 words); limited family with no evidence ⇒ plain honest verdict |
 | Tesseract wrote `eng.traineddata` into the read-only working dir (breaks on Vercel) | cache path = temp dir |
+
+## Mutation label accuracy (2026-10-29): review pass + guards
+
+**Correction.** The earlier "11 of 15 correct" hand audit was too generous: I had compared labels with parent texts truncated at 170 characters. Re-scored against the *full* parent/child text with one fixed rubric, the same kind of labels were only **35% correct (strict)**.
+
+**Rubric.** A label is correct only if it describes a change in the *message content* between the two versions that is genuinely new in the later text, with the right type. Strict = borderline cases count as wrong; lenient = borderline counts as right. Commentary by a fact-checker/news page ("this is a hoax", where it circulated, advice to readers) is not message content.
+
+**What was added** (all after lineage, so rule-based fallback labels are covered too; every label still passes the grounding and type-fit validator):
+1. **Stage D2 — Super review** (`reviewMutations`): one Super call per edge gets the full parent/child text, the page types, the label definitions and the proposed labels, and may only *keep*, *retype* or *drop* each label. It cannot add labels or change text; a retype must pass the validator for its new type or the label is dropped; labels it does not mention are kept; a failed call leaves labels untouched (6 unit tests).
+2. Code guards: "added" content already ≥80% present in the earlier text, or "removed" content still ≥60% present in the later text, is dropped; commentary words (hoax, versions, translated…) on fact-check/news/official pages are dropped; one-word calls to action ("click") are dropped.
+3. Prompt: label wording shows explicitly which side is absent (fixes the reviewer wrongly dropping genuine `authority_removed` labels); notes that fact-check pages mix message and commentary.
+4. Determinism: pair results are now sorted before going into the Ultra/Super prompts (async completion order used to change the prompt and the cache key).
+
+**Hand audit, same rubric, full texts** (small samples; the LLM and trees vary between runs, so treat differences of ±10 points as noise):
+
+| Set | Labels given to review | Correct before review | Labels kept | Correct after review (strict / lenient) |
+|---|---|---|---|---|
+| Baseline, old pipeline (Martinelli + perfume) | 26 | 9 (35%) strict, 11 lenient (42%) | 26 | 35% / 42% |
+| **Final config, Martinelli + perfume** (tuned on these) | 15 | 7 (47%) strict | 10 | **7 of 10 = 70% / 9 of 10 = 90%** |
+| **Held-out: screenshot case** | 8 | 3 (38%) | 5 | 3 of 5 = 60% |
+| **Held-out: grant** | 11 | 4 (36%) | 9 | 3 of 9 = 33% |
+| Held-out combined | 19 | 7 (37%) | 14 | 6 of 14 = 43% |
+| All four cases, final config | 34 | 14 (41%) | 24 | 13 of 24 = **54%** |
+
+Round-by-round on Martinelli + perfume (strict, post-review): 57% → 53% → 55% → 71% → 71% → 64% → 70% across seven rounds as the prompt and guards were added (n = 7–17 labels per round, so this is noise-level movement, not a trend); the review pass alone (round 1) took 35% → 57%. The review dropped 5–10 labels per Martinelli run and wrongly dropped one genuinely correct label in some rounds (it kept all genuinely correct ones in the final configuration).
+
+**What this does and does not show.** The review pass and guards roughly double label precision on the cases they were tuned on (35% → ~70%), but on cases I did not tune against the gain is small (37% → 43%; one case improved, one did not). Treat ~55% strict as the realistic current figure, not 70%.
+
+**Remaining failure modes** (all visible in the held-out audit):
+- Labels computed on an edge whose child is a fact-check/rebuttal article describe the *article's* content (e.g. the Swiss/World-Bank funding agreement in a rebuttal about a different cash-transfer programme). Root cause is upstream: a related article admitted as a "version"; the review cannot fix that.
+- A "removed" label where the later text merely rewords the idea (`detail_removed "There's a video launching tomorrow…"`).
+- Commentary about *who* debunked it (e.g. "Randolph County" as a location, the sheriff as an authority "removed").
+- The review can only remove or retype: real changes that Nano never proposed (e.g. "Don't take anything from strangers!") are never added, so recall of real changes is unmeasured and probably low.
+- Suggested next step: only compute message mutations on edges where both ends are *copies* of the message (social/forum/your copy), and describe fact-check pages only as "evidence", or extract the quoted message from a fact-check page before comparing.
 
 **Nano-tier decision.** `nemotron-nano-3-30b-a3b` could not be tested (404 for this account). Compared on the Martinelli membership stage and end to end: Lightning (30B-A3B) vs Nano-Omni-30B (thinking off) vs Bolt-e4b. Models agree on ~11 of 15 accepted pages (differences are borderline pages). Nano-Omni is slower (p50 5.7 s, p95 19.9 s). Bolt has similar p50 (3.4 s) and better p95 but end to end **missed the 2018 Snopes origin** (earliest 2020), found fewer versions (9 vs 12) and fewer mutations (12 vs 21). **Decision: Lightning for the Nano tier** (small sample; the margin is not statistically strong, but "earliest version found" is the core promise).
 
@@ -58,7 +92,7 @@ Avoid as headline demos: **5G/cancer** (a general science topic, correctly "limi
 
 ## Verified in this build
 
-- `npm run lint`, `npm run typecheck`, `npm test` (68 tests) and `npm run build` pass.
+- `npm run lint`, `npm run typecheck`, `npm test` (79 tests) and `npm run build` pass.
 - Real APIs exercised: NVIDIA chat completions (4 models + vision), Tavily search/extract, Supabase (server round-trips; anon key blocked by RLS).
 - Browser-checked earlier (offline fixtures): replay, tree, node panel (desktop + 375 px), dark/light, share page, Watchlist add + re-run.
 - Real Martinelli result (12 versions) rendered in the browser via the share page (`/r/<id>`): tree, edges, mutation chips and panels display correctly (tree is small at fit-to-screen for 12+ nodes; zoom controls work). Other real results were audited via JSON/logs only.

@@ -38,6 +38,18 @@ export const MutationSchema = z.object({
 });
 export const MutationsSchema = z.object({ mutations: z.array(MutationSchema).max(12).default([]) });
 
+/** Super's review of one parent→child pair's labels: it may keep, retype or drop each label, never add one. */
+export const ReviewSchema = z.object({
+  labels: z.array(
+    z.object({
+      index: z.coerce.number().int(),
+      verdict: z.enum(["keep", "retype", "drop"]).catch("keep"),
+      type: z.enum(MUTATION_TYPES).optional().catch(undefined),
+      reason: z.coerce.string().default(""),
+    }),
+  ),
+});
+
 export const ClusterSchema = z.object({
   merges: z.array(z.object({ keep: str, merge: str })).default([]),
   branches: z.array(z.object({ name: str, variant_ids: z.array(str) })).default([]),

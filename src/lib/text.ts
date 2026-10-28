@@ -240,3 +240,11 @@ export function speaksTo(statement: string, source: string, minShared = 3): bool
   const src = new Set(canonical(source).split(" ").map(stem));
   return spec.some((t) => src.has(t));
 }
+
+/** Like tokenCoverage but compares stems ("hacks" ~ "hack", "samples" ~ "sample"). */
+export function stemCoverage(a: string, b: string): number {
+  const A = [...new Set(contentTokens(a).map(stem))];
+  if (!A.length) return 0;
+  const B = new Set(contentTokens(b).map(stem));
+  return A.filter((t) => B.has(t)).length / A.length;
+}

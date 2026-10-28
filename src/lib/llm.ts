@@ -10,6 +10,8 @@ export class RunContext {
   logs: ModelCallLog[] = [];
   /** Dev/test only: set to a Map to capture extracted page text per URL (used by scripts/real-test.ts audits). */
   pages: Map<string, string> | null = null;
+  /** Dev/test only: when set, stages push decision traces here (e.g. the mutation review) for hand audits. */
+  trace: Record<string, unknown>[] | null = null;
   private seq = 0;
   constructor(private readonly emitFn?: (e: RunEvent) => void) {}
   emit(e: RunEvent) {
