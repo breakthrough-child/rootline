@@ -105,6 +105,11 @@ export interface Variant {
   isUserInput?: boolean;
   isNew?: boolean; // watchlist re-run: new since last run
   branch?: string;
+  /**
+   * true (default): `text` is a copy of the message (a post, a forward, or the rumor quoted verbatim on a fact-check page).
+   * false: a dated evidence page with no clean quoted copy; `text` is the page's own passage and no changes are labelled on its edges.
+   */
+  isCopy?: boolean;
 }
 
 export interface Mutation {
@@ -112,6 +117,8 @@ export interface Mutation {
   before: string;
   after: string;
   explanation: string;
+  /** strong = confirmed by the Super review and a high-signal type; weak = shown only behind an expand toggle. */
+  strength?: "strong" | "weak";
 }
 
 export interface LineageEdge {
@@ -121,6 +128,7 @@ export interface LineageEdge {
   reason: string;
   mutations: Mutation[];
   spreadJump?: boolean; // this change coincided with wider spread
+  evidenceOnly?: boolean; // an end of this edge is an evidence page without a clean quoted copy: no changes are labelled
 }
 
 export interface Understanding {

@@ -130,3 +130,26 @@ describe("repairTree", () => {
     expect(edges.map((e) => `${e.from}>${e.to}`).sort()).toEqual(baseline.map((e) => `${e.from}>${e.to}`).sort());
   });
 });
+
+describe("evidence pages are leaves", () => {
+  const ev = (id: string, date: string | null): Variant => ({ ...v(id, `Fact check: the message says a video will hack your phone ${id}`, date), isCopy: false, pageType: "debunk" });
+  it("never become parents, may predate the copy they discuss, and the root is the earliest copy", () => {
+    const copy1 = v("c1", "A video called Martinelli will hack your phone. Spread the word.", "2019-01-01");
+    const copy2 = v("c2", "A video called Martinelli will hack your phone. Spread the word. Confirmed by BBC.", "2021-01-01");
+    const e1 = ev("e1", "2018-04-17"); // earlier than every copy
+    const e2 = ev("e2", "2022-01-01");
+    const vs = [e1, copy2, e2, copy1];
+    const { rootId, edges } = baselineTree(vs);
+    expect(rootId).toBe("c1");
+    expect(edges.every((e) => !["e1", "e2"].includes(e.from))).toBe(true);
+    expect(edges).toHaveLength(3);
+    expect(validateTree(vs, edges).ok).toBe(true);
+    // an evidence parent is rejected by validation
+    expect(validateTree(vs, [{ from: "e1", to: "c1" }, { from: "c1", to: "c2" }, { from: "c1", to: "e2" }]).ok).toBe(false);
+  });
+  it("with no copies at all the old rules still produce a valid tree", () => {
+    const vs = [ev("x", "2020-01-01"), ev("y", "2021-01-01")];
+    const { edges } = baselineTree(vs);
+    expect(edges).toHaveLength(1);
+  });
+});

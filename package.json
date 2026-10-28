@@ -14,7 +14,8 @@
     "models": "tsx scripts/list-models.ts",
     "probe": "tsx scripts/probe-models.ts",
     "real-test": "tsx scripts/real-test.ts",
-    "compare-nano": "tsx scripts/compare-nano.ts"
+    "compare-nano": "tsx scripts/compare-nano.ts",
+    "verify-nebius": "tsx scripts/verify-nebius.ts"
   },
   "dependencies": {
     "@napi-rs/canvas": "^0.1.100",

@@ -1,6 +1,7 @@
 // Demo fixtures: saved full pipeline runs replayed with realistic streamed timing.
 import { readFile, readdir } from "node:fs/promises";
 import path from "node:path";
+import { replayNote } from "./provenance";
 import type { Investigation, RunEvent } from "./types";
 
 export interface Fixture {
@@ -84,5 +85,5 @@ export async function replay(fx: Fixture, emit: (e: RunEvent) => void, speed = 1
   }
   if (inv.checks.postExists || inv.checks.official) emit({ type: "check", ...inv.checks });
   pushLogs(logs.length);
-  emit({ type: "result", investigation: { ...inv, mode: "replay", modeNote: `Replay of a saved run${inv.fixture?.generatedWith === "offline_mock" ? " (generated offline with the FICTIONAL mock corpus; sources are .example placeholders)" : ""}.` } });
+  emit({ type: "result", investigation: { ...inv, mode: "replay", modeNote: replayNote(inv, inv.fixture?.generatedAt) } });
 }

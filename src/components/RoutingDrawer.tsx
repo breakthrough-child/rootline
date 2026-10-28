@@ -1,6 +1,7 @@
 "use client";
 import { useMemo, useState } from "react";
 import { summarizeCost } from "@/lib/cost";
+import { PROVIDER_NAME, provenanceOf } from "@/lib/provenance";
 import type { ExtractedInput, ModelCallLog } from "@/lib/types";
 
 const DEFAULT_PRICING: Record<string, [number, number]> = { nano: [0.06, 0.24], super: [0.3, 0.9], ultra: [1, 3], vision: [0.3, 0.9] };
@@ -16,11 +17,13 @@ const WHY: Record<string, string> = {
   local: "Local — OCR or deterministic fallbacks (no model call).",
 };
 
-const PROVIDER_NAME: Record<string, string> = { nebius: "Nebius Token Factory", nvidia: "NVIDIA API (build.nvidia.com)", "openai-compatible": "an OpenAI-compatible endpoint" };
 
-export function RoutingDrawer({ logs, pricing, input, provider }: { logs: ModelCallLog[]; pricing?: Record<string, [number, number]>; input?: ExtractedInput; provider?: string }) {
+export function RoutingDrawer({ logs, pricing, input, provider: providerProp }: { logs: ModelCallLog[]; pricing?: Record<string, [number, number]>; input?: ExtractedInput; provider?: string }) {
   const [open, setOpen] = useState(false);
   const summary = useMemo(() => summarizeCost(logs, pricing ?? DEFAULT_PRICING), [logs, pricing]);
+  // The provider comes from the run's own call log; the stored label is only a fallback for runs without model calls.
+  const prov = useMemo(() => provenanceOf(logs, providerProp), [logs, providerProp]);
+  const provider = prov.provider ?? undefined;
   const tiers = [...new Set(summary.rows.map((r) => r.tier))];
   const fallbacks = logs.filter((l) => l.provider === "heuristic").length;
   const usd = (n: number) => (n < 0.01 ? `$${n.toFixed(4)}` : `$${n.toFixed(3)}`);
@@ -81,7 +84,7 @@ export function RoutingDrawer({ logs, pricing, input, provider }: { logs: ModelC
                 <div className="rounded-lg bg-surface-2 p-3">
                   <p className="text-xs text-muted">All on Ultra (estimate)</p>
                   <p className="text-lg font-semibold tabular-nums">{usd(summary.ultraOnlyCostUsd)}</p>
-                  <p className="text-xs tabular-nums text-muted">~{(summary.ultraOnlyLatencyMs / 1000).toFixed(1)}s summed model time</p>
+                  <p className="text-xs tabular-nums text-muted">{summary.latencyBasis.startsWith("no Ultra") ? "latency not estimated (no Ultra call measured in this run)" : `~${(summary.ultraOnlyLatencyMs / 1000).toFixed(1)}s summed model time (estimate)`}</p>
                 </div>
                 <p className="col-span-2 text-xs text-muted">
                   {provider && provider !== "nebius" && <>Costs use Nebius Token Factory list prices as an estimate (this run used {PROVIDER_NAME[provider] ?? provider}). </>}

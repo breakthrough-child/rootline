@@ -1,5 +1,6 @@
 // Adapter dispatcher: upload validation, then conversion to ExtractedInput. A failing adapter
 // throws a clear message; it never breaks the core pipeline.
+import { config } from "../config";
 import type { RunContext } from "../llm";
 import type { ExtractedInput, SourceKind } from "../types";
 import { AsrUnavailable, audioToInput, fmtTime, transcribe } from "./audio";
@@ -118,6 +119,8 @@ export async function fileToInput(ctx: RunContext, files: { name: string; mime: 
   const kinds = new Set(checked.map((c) => c.kind));
   if (kinds.size > 1) throw new UploadError("Please upload one kind of file at a time.");
   const kind = checked[0].kind;
+  if ((kind === "audio" || kind === "video") && !config.asr.enabled)
+    throw new UploadError("Voice notes and video are not enabled on this deployment (they need a speech endpoint: ASR_ENDPOINT_URL). Paste what is said instead, or upload a screenshot or document.");
   if (kind !== "image" && checked.length > 1) throw new UploadError("Multiple files are only supported for screenshots.");
   const f = checked[0];
   switch (kind) {

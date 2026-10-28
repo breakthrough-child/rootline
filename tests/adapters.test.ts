@@ -61,3 +61,18 @@ describe("upload validation", () => {
     expect(validateUpload("x.png", await F("screenshot-kemi-reports.png"))).toEqual({ ext: "png", kind: "image" });
   });
 });
+
+describe("voice notes and video are a feature flag (off unless ASR_ENDPOINT_URL is set)", () => {
+  it("rejects audio and video uploads with a clear message when no speech endpoint is configured", async () => {
+    delete process.env.ASR_ENDPOINT_URL;
+    const mp3 = Buffer.concat([Buffer.from("ID3"), Buffer.alloc(64)]);
+    await expect(fileToInput(new RunContext(), [{ name: "note.mp3", mime: "audio/mpeg", buf: mp3 }])).rejects.toThrow(/not enabled on this deployment.*ASR_ENDPOINT_URL/);
+    const mp4 = Buffer.concat([Buffer.alloc(4), Buffer.from("ftypisom"), Buffer.alloc(64)]);
+    await expect(fileToInput(new RunContext(), [{ name: "clip.mp4", mime: "video/mp4", buf: mp4 }])).rejects.toThrow(UploadError);
+  });
+  it("the public status reports the flag", async () => {
+    delete process.env.ASR_ENDPOINT_URL;
+    const { publicStatus } = await import("@/lib/config");
+    expect(publicStatus().asr).toBe(false);
+  });
+});

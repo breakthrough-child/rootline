@@ -23,6 +23,7 @@ function VariantNode({ data }: NodeProps<Node<VNodeData>>) {
       <Handle type="target" position={Position.Left} className="!border-0 !bg-transparent" />
       <div className="mb-1.5 flex flex-wrap items-center gap-1.5">
         {data.earliest && <span className="rounded-full bg-accent px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-accent-ink">Earliest version found</span>}
+        {v.isCopy === false && <span title="A dated page about this claim with no clean quoted copy of the message, so no changes are labelled" className="rounded-full bg-surface-2 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-muted">Evidence page</span>}
         {v.isUserInput && <span className="rounded-full bg-blue-soft px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-blue">Your copy</span>}
         {v.isNew && <span className="rounded-full bg-amber-soft px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-amber">New since last run</span>}
       </div>
@@ -46,11 +47,11 @@ function VariantNode({ data }: NodeProps<Node<VNodeData>>) {
 function MutationEdge({ id, sourceX, sourceY, targetX, targetY, sourcePosition, targetPosition, data }: EdgeProps<Edge<VEdgeData>>) {
   const [path, lx, ly] = getBezierPath({ sourceX, sourceY, targetX, targetY, sourcePosition, targetPosition });
   const e = data!.edge;
-  const chips = e.mutations.filter((m) => m.type !== "other").slice(0, 3);
-  const dash = e.confidence === "low" ? "6 5" : e.confidence === "medium" ? "2 0" : undefined;
+  const chips = e.mutations.filter((m) => m.strength === "strong" || (m.strength === undefined && m.type !== "other" && m.type !== "detail_added" && m.type !== "detail_removed")).slice(0, 3);
+  const dash = e.evidenceOnly ? "2 5" : e.confidence === "low" ? "6 5" : e.confidence === "medium" ? "2 0" : undefined;
   return (
     <>
-      <BaseEdge id={id} path={path} style={{ strokeDasharray: dash, strokeWidth: e.confidence === "high" ? 2.4 : 1.6, stroke: e.spreadJump ? "var(--amber)" : "var(--muted)", opacity: e.confidence === "low" ? 0.7 : 1 }} />
+      <BaseEdge id={id} path={path} style={{ strokeDasharray: dash, strokeWidth: e.confidence === "high" ? 2.4 : 1.6, stroke: e.spreadJump ? "var(--amber)" : "var(--muted)", opacity: e.evidenceOnly ? 0.55 : e.confidence === "low" ? 0.7 : 1 }} />
       <EdgeLabelRenderer>
         <div style={{ transform: `translate(-50%, -50%) translate(${lx}px,${ly}px)`, pointerEvents: "none" }} className="nodrag nopan absolute flex max-w-[170px] flex-col items-center gap-0.5">
           {e.spreadJump && <span className="rounded-full bg-amber px-1.5 py-0.5 text-[9px] font-bold uppercase text-surface">wider spread</span>}
@@ -79,8 +80,9 @@ function Fitter({ count }: { count: number }) {
 
 export function TreeView(props: { variants: Variant[]; edges: LineageEdge[]; earliestId: string | null; selectedId: string | null; onSelect: (id: string) => void; thumb?: string; sourceKind?: string }) {
   const { variants, edges, earliestId, selectedId, onSelect, thumb, sourceKind } = props;
-  const rootId = earliestId ?? (edges.length ? edges.find((e) => !edges.some((x) => x.to === e.from))?.from ?? null : null);
-  const { nodes, flowEdges } = useMemo(() => {
+  // Layout root = the node with no parent. (The "earliest version found" badge can sit on an evidence leaf, so it is not the root.)
+  const rootId = edges.length ? (variants.find((v) => !edges.some((x) => x.to === v.id))?.id ?? null) : earliestId;
+  const tree = useMemo(() => {
     let pos: { id: string; col: number; row: number }[];
     if (edges.length) pos = layoutTree(variants, edges, rootId);
     else {
@@ -92,15 +94,18 @@ export function TreeView(props: { variants: Variant[]; edges: LineageEdge[]; ear
       return { id: v.id, type: "variant", position: { x: p.col * COL_W, y: p.row * ROW_H }, data: { variant: v, earliest: v.id === earliestId, thumb, sourceKind, selected: v.id === selectedId, onSelect }, draggable: false };
     });
     const flowEdges: Edge<VEdgeData>[] = edges.map((e) => ({ id: `${e.from}-${e.to}`, source: e.from, target: e.to, type: "mutation", data: { edge: e } }));
-    return { nodes, flowEdges };
+    const maxRow = Math.max(0, ...pos.map((p) => p.row));
+    return { nodes, flowEdges, maxRow };
   }, [variants, edges, rootId, earliestId, selectedId, onSelect, thumb, sourceKind]);
+  // Wide, bushy trees (many evidence leaves under one copy) need more vertical room to stay readable at fit-to-screen.
+  const height = Math.min(900, Math.max(460, Math.round((tree.maxRow + 1) * 62)));
 
   return (
-    <div className="h-[460px] w-full overflow-hidden rounded-xl border border-line bg-bg sm:h-[540px]" role="region" aria-label="Lineage tree">
+    <div style={{ height }} className="w-full overflow-hidden rounded-xl border border-line bg-bg" role="region" aria-label="Lineage tree">
       <ReactFlowProvider>
-        <ReactFlow nodes={nodes} edges={flowEdges} nodeTypes={nodeTypes} edgeTypes={edgeTypes} fitView minZoom={0.2} maxZoom={1.6} nodesConnectable={false} proOptions={{ hideAttribution: true }}>
+        <ReactFlow nodes={tree.nodes} edges={tree.flowEdges} nodeTypes={nodeTypes} edgeTypes={edgeTypes} fitView minZoom={0.2} maxZoom={1.6} nodesConnectable={false} proOptions={{ hideAttribution: true }}>
           <Controls showInteractive={false} position="bottom-right" />
-          <Fitter count={nodes.length + flowEdges.length} />
+          <Fitter count={tree.nodes.length + tree.flowEdges.length} />
         </ReactFlow>
       </ReactFlowProvider>
     </div>

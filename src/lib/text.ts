@@ -248,3 +248,49 @@ export function stemCoverage(a: string, b: string): number {
   const B = new Set(contentTokens(b).map(stem));
   return A.filter((t) => B.has(t)).length / A.length;
 }
+
+const CURRENCY_RE = /(₦|\bNGN\s?|\bN(?=\s?\d)|\$|£|€|\bRs\.?\s?|\bR\$\s?|\bUSD\s?|\bGHS\s?|\bKES\s?)\s?\d[\d,.]*/gi;
+function currencyFamily(sym: string): string {
+  const x = sym.trim().toLowerCase().replace(/\s/g, "");
+  if (x === "₦" || x === "ngn" || x === "n") return "ngn";
+  if (x.startsWith("rs")) return "inr";
+  if (x === "r$") return "brl";
+  if (x === "$" || x === "usd") return "usd";
+  return x;
+}
+/** Currencies (as families) in which a text states an amount, e.g. "N30,000" → ngn. */
+export function currenciesIn(text: string): Set<string> {
+  return new Set([...text.matchAll(CURRENCY_RE)].map((m) => currencyFamily(m[1])));
+}
+/**
+ * Money-offer claims ("the government is giving N30,000") are only the same claim as a page that talks about an amount
+ * in the same currency. A page whose only amounts are in another currency/programme (e.g. "$322.5m recovered funds")
+ * is a different story. Claims with no currency amount are unconstrained.
+ */
+export function moneyCompatible(claim: string, page: string): boolean {
+  const need = currenciesIn(claim);
+  if (!need.size) return true;
+  const have = currenciesIn(page);
+  return [...need].some((c) => have.has(c));
+}
+
+const ORG_RE = /\b((?:[A-Z][A-Za-z]+\s+){0,5}(?:Office|Ministry|Agency|Commission|Department|Council|Board|Bureau|Authority|Institute|Corporation|Committee)(?:\s+(?:of|for)\s+(?:[A-Z][A-Za-z]+\s*){1,4})?)/g;
+const ORG_GENERIC = new Set("federal national state office ministry department agency commission council board bureau authority institute corporation committee of for the and public government nigeria nigerian ghana kenya india indian brazil united".split(" "));
+/** Distinctive words of organisations named in a claim ("Federal Office of Civic Readiness" → civic, readines). */
+export function orgTokens(claim: string): string[] {
+  const out = new Set<string>();
+  for (const m of claim.matchAll(ORG_RE)) for (const w of canonical(m[1]).split(" ")) if (w.length > 2 && !ORG_GENERIC.has(w)) out.add(stem(w));
+  return [...out];
+}
+/**
+ * If the claim names an issuing organisation (typical for circulars and notices), a page can only be about the same
+ * specific claim if it mentions a distinctive word of that organisation's name; a different body's similar announcement is not a version.
+ */
+export function orgCompatible(claim: string, page: string): boolean {
+  const need = orgTokens(claim);
+  if (!need.length) return true;
+  const have = new Set(canonical(page).split(" ").map(stem));
+  // The whole distinctive name must appear (a page that only shares one word, like "civic", is a different body).
+  const hits = need.filter((t) => have.has(t)).length;
+  return hits >= (need.length <= 3 ? need.length : Math.ceil(need.length * 0.6));
+}

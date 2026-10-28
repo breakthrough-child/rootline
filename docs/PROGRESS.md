@@ -1,111 +1,83 @@
-# Progress
+# Progress (final)
 
 _Last updated: 2026-10-29_
 
-**Provider:** the LLM client is provider-agnostic. Nebius Token Factory is the documented default; while Token Factory access is blocked by its billing-country restriction, develop against NVIDIA's API (build.nvidia.com) by setting `LLM_BASE_URL`, `LLM_API_KEY` and the `MODEL_*` IDs (see README → "Switching LLM providers"). Switching back is env-only.
+**What is left is deployment on Nebius Token Factory by a teammate with their own key** (`docs/TEAMMATE_DEPLOY.md`). Everything else is built, tested and committed.
 
-## Status by tier
+**Provider:** the app is provider-agnostic (env vars only). Our account could not use Nebius Token Factory (billing-country restriction), so all development, measurements and the saved demo runs used **NVIDIA's hosted API** (same Nemotron family). Each saved run states which provider produced it, read from its own call log.
 
-| Tier | Scope | Status |
-|---|---|---|
-| 1 · Core | text → pipeline (A–G) → animated tree → summary → reply card → routing panel → demo replay → deploy | **Works on real data** (NVIDIA API, real Tavily). Deploy pending your Vercel login ([guide](DEPLOY_VERCEL_NVIDIA.md)). |
-| 2 · Screenshots | upload / drag-drop / clipboard paste, VLM or OCR path, "Does this post exist?" | **Works on real data.** VLM path (Nemotron 3.5 Super VL) read handle/name/timestamp/engagement exactly; post-exists check returned `not_found`. OCR path tested offline. |
-| 3 · Voice notes | ASR interface, transcript review with clickable timestamps, cleanup + translation | **Code complete.** Needs `MODEL_ASR` or `ASR_ENDPOINT_URL`. No recording bundled for fixture 4 (see below). |
-| 4 · PDF + DOCX | text layer, scanned PDF → vision/OCR, "Is this official?", claim selection, doc viewer | **Works on real data** for the fake circular (`no_official_record_found`; claims now full sentences). Parsers unit-tested. |
-| 5 · Watchlist + share pages | `/watchlist`, re-run with "new since last run", `/r/[id]` | **Code complete.** Supabase or local-JSON fallback. |
-| 6 · Video | ffmpeg audio → ASR, keyframes → vision/OCR, merge | **Code complete.** Not yet exercised end-to-end on a real video. |
-| 7 · XLSX + PPTX | SheetJS labeled cells + notes, OOXML slides + speaker notes | **Code complete, parsers tested.** |
+## What works / what is hidden / what was cut
 
-## Real-data test (NVIDIA API + real Tavily, 2026-10-28)
-
-Run with `npm run real-test` (responses cached in `.cache/` via `DEV_CACHE`; ~190 of 1,000 Tavily credits were used in total — a fresh live trace costs ~16–20 credits). Models: Nano = `nemotron-3.5-lightning-30b-a3b`, Super/Vision = `nemotron-3.5-super-vl-120b-a12b`, Ultra = `nemotron-3-ultra-550b-a55b`.
-
-| Case | Versions found | Edges (high/med/low) | Mutation labels | Excerpts verbatim | Earliest found | Cost* (all-Ultra*) | Notes |
-|---|---|---|---|---|---|---|---|
-| **Martinelli** WhatsApp hoax | 12 (15 sources) | 1 / 4 / 6 | 5 shown after review (3 correct, 4 on a lenient reading; see "Mutation label accuracy") | 15/15 | 2018-04-17 (Snopes, "An Garda") | $0.0097 ($0.074, 7.6×) | richest tree: An Garda → "IT colleague" + "Spread the word" → BBC-radio version → WhatsApp Gold → your "CNN and BBC" |
-| **Perfume** kidnapping | 9 (9) | 0 / 1 / 7 | 5 shown after review (4 correct, 5 lenient) | 9/9 | 2001-11-03 (Snopes: *mailed* poisoned samples) | $0.0089 ($0.073, 8.3×) | strong story (2001 mailed poison → malls/filling stations/kidnap) but most edges are cross-story → low confidence, few mutations |
-| **Screenshot** (fictional @kemi_reports_247) | 6 (6) | 0 / 1 / 5 | 13 (grounded) | 6/6 | 2023-03-31 | $0.0068 ($0.048, 7.0×) | vision read all fields exactly (5.8 s); **post-exists → `not_found`** ✔ |
-| **Grant** ("FG N30,000 palliative") | 3 (3) | 1 / 1 / 1 | 14 (grounded) | 3/3 | 2020-07-07 (Daily Trust) | $0.0081 ($0.080, 10×) | thin: this wording is only covered by a few debunks |
-| **5G / phones cause cancer** | 2 (2) | 0 / 0 / 2 | 0 | 2/2 | – | $0.0085 | correctly **limited**: a general science claim, not a discrete message chain (explainer pages are rejected) |
-| **Fake circular** (PDF, fictional org) | 2 (2) | 0 / 0 / 2 | 0 | 2/2 | – | $0.0057 | `no_official_record_found` ✔; limited family; no unsupported claim cited |
-
-\* Cost = logged tokens × Nebius Token Factory list prices (the NVIDIA API was used for the run); "all-Ultra" re-prices the same tokens at Ultra rates. Latency (successful calls): Nano p50 3.6 s / p95 12.8 s (n=235), Super p50 2.6 s, Ultra p50 14.3 s (n=6), Vision 5.8 s. A fresh live trace takes ~1–2.5 min on NVIDIA's free tier because Rootline throttles to 35 req/min; 41–58 model calls per trace ⇒ ≥ 70–100 s at that rate. Without the throttle (Nebius) the critical path is roughly 60–80 s (estimate, not measured).
-
-**What real data exposed, and what was fixed**
-
-| Problem seen | Fix |
+| Area | Status |
 |---|---|
-| `nemotron-nano-3-30b-a3b` and `nemotron-3-super-120b-a12b` are *listed* by NVIDIA but return `404 Function not found for account` for this key → every Nano call failed silently | `npm run probe` (calls every model); `.env.local` model IDs corrected; fallbacks now record *why* |
-| Default Nemotron 3.x "thinking" burns 400–600 tokens and 3–13 s per call | `enable_thinking:false` verified on all callable models (already sent; auto-dropped on HTTP 400) |
-| 429/503 under parallel load on the free API | shared throttle (`LLM_RPM`, 35 on NVIDIA), 5 retries with backoff/Retry-After |
-| Truncated JSON (`unterminated JSON`) silently dropped pages | retry now doubles the output budget |
-| Excerpts not verbatim (ellipses, stitched passages, trailing "…") | strict check + snap-to-page; no `…` appended; unverifiable ⇒ page rejected (audit: 100% verbatim on all runs) |
-| Junk "versions" (TikTok hashtags, Reddit threads, health explainers, shop pages) | evidence-based membership: ≥2 message elements, each quoted from the page and verified in code; "circulating message" marker gate; ≥8-word excerpts; relevance pre-filter (saves ~40% of Nano calls) |
-| Mutation labels like `number_changed(seven women died → a person)`, `authority_added("Click the link below")` | exact label definitions in the prompt + code validation: text must appear in parent/child *and* fit the label type; rule-based fallback held to the same validator (audit: 100% grounded; semantic accuracy is much lower than "grounded" implies — see "Mutation label accuracy" below, which corrects the earlier 11/15 figure) |
-| Overconfident edges (2001 → 2026 "high") and "wider spread" with no data | confidence capped by wording similarity; spread flag needs ≥3 *dated* later sources |
-| Ultra's tree rejected whole → silent baseline | `repairTree`: keep every valid Ultra parent, repair only the broken ones |
-| Fact-check of a *different* rumor cited as contradicting a claim | a source contradicts only if it speaks to the statement's specifics (names, numbers) |
-| Document claims were fragments ("Lassa variant X outbreak") | claims must be full sentences (≥8 words); limited family with no evidence ⇒ plain honest verdict |
-| Tesseract wrote `eng.traineddata` into the read-only working dir (breaks on Vercel) | cache path = temp dir |
+| Text forwards, full pipeline (A–G), animated tree, timeline, side panel, summary, reply card (PNG, copy, WhatsApp), routing drawer, replay of saved runs | **Works on real data** (NVIDIA API + real Tavily) |
+| Screenshots (vision model read handle/name/timestamp/engagement exactly; OCR fallback) + "Does this post exist?" | **Works on real data** (`not_found` on the fictional account) |
+| PDF/DOCX + "Is this official?" + claim selection | **Works on real data** (fake circular → `no_official_record_found`; honest empty family). Scanned PDF + OCR unit-tested |
+| XLSX/PPTX | Parsers unit-tested; not run through the full pipeline on real data |
+| Watchlist, share pages `/r/[id]` | **Works** (browser-checked with local storage; Supabase server round-trips verified, RLS blocks the public key) |
+| Detected changes: copies only, strong first, weaker behind a toggle, Super review pass | **Works; accuracy measured below** (modest) |
+| **Voice notes and video** | **Hidden behind a feature flag (OFF by default)**: appears only when `ASR_ENDPOINT_URL` is set; **untested** against a real speech endpoint; the README and UI do not claim otherwise |
+| Nebius Token Factory | **Not tested by us** (blocked). `npm run verify-nebius` is the teammate's PASS/FAIL checker; it passed everything except the expected "provider is not Nebius" warning when run against the NVIDIA API |
+| Cut | Supabase magic-link auth (the Watchlist is shared per deployment); Nebius Serverless speech deployment; long-video processing off-Vercel |
 
-## Mutation label accuracy (2026-10-29): review pass + guards
+## Saved demo runs (real, `npm run fixtures`)
 
-**Correction.** The earlier "11 of 15 correct" hand audit was too generous: I had compared labels with parent texts truncated at 170 characters. Re-scored against the *full* parent/child text with one fixed rubric, the same kind of labels were only **35% correct (strict)**.
+| Fixture | Nodes (copies / evidence pages) | Edges high/med/low (without labels) | Detected changes shown | Earliest found | Cost* (all-Ultra*) | Check |
+|---|---|---|---|---|---|---|
+| Perfume forward | 7 (3 / 3) | 0 / 2 / 4 (3) | 2 (1 strong) | 2001-11-03 (a fact-check quoting "Seven women have died after inhaling a free perfume sample that was mailed to them") | $0.0076 ($0.057, 7.6×) | n/a |
+| Screenshot (fictional @kemi_reports_247) | 9 (3 / 5) | 0 / 0 / 8 (5) | 0 | 2023-03-30 | $0.0070 ($0.041, 5.9×) | **No evidence this post exists** |
+| WhatsApp "Martinelli" | 18 (3 / 14) | 1 / 3 / 13 (14) | 5 (4 strong) | 2018-04-17 (Snopes quoting "Warning from An Garda…") | $0.0121 ($0.075, 6.2×) | n/a |
+| Fake circular (fictional org) | 1 (0 / 0) | none | 0 | none (limited) | $0.0041 ($0.063) | **No official record found** |
 
-**Rubric.** A label is correct only if it describes a change in the *message content* between the two versions that is genuinely new in the later text, with the right type. Strict = borderline cases count as wrong; lenient = borderline counts as right. Commentary by a fact-checker/news page ("this is a hoax", where it circulated, advice to readers) is not message content.
+\* Logged tokens × Nebius Token Factory list prices (the NVIDIA API served the runs); "all-Ultra" re-prices the same tokens at Ultra rates. Latency of successful calls in these runs: Nano p50 5.1 s / p95 15.6 s (n=120), Super p50 3.5 s / p95 12.7 s (n=11), Ultra p50 18.7 s / p95 25.1 s (n=3), vision 5.8 s (n=1). A fresh live trace takes roughly 1–3 minutes on NVIDIA's free tier (rate-limited to ~30 requests/min); `npm run verify-nebius` on the NVIDIA API took 138 s. Unthrottled Nebius timing is unmeasured.
 
-**What was added** (all after lineage, so rule-based fallback labels are covered too; every label still passes the grounding and type-fit validator):
-1. **Stage D2 — Super review** (`reviewMutations`): one Super call per edge gets the full parent/child text, the page types, the label definitions and the proposed labels, and may only *keep*, *retype* or *drop* each label. It cannot add labels or change text; a retype must pass the validator for its new type or the label is dropped; labels it does not mention are kept; a failed call leaves labels untouched (6 unit tests).
-2. Code guards: "added" content already ≥80% present in the earlier text, or "removed" content still ≥60% present in the later text, is dropped; commentary words (hoax, versions, translated…) on fact-check/news/official pages are dropped; one-word calls to action ("click") are dropped.
-3. Prompt: label wording shows explicitly which side is absent (fixes the reviewer wrongly dropping genuine `authority_removed` labels); notes that fact-check pages mix message and commentary.
-4. Determinism: pair results are now sorted before going into the Ultra/Super prompts (async completion order used to change the prompt and the cache key).
+## Detected-change accuracy (hand-scored, strict rubric, against the full parent/child texts)
 
-**Hand audit, same rubric, full texts** (small samples; the LLM and trees vary between runs, so treat differences of ±10 points as noise):
+**Rubric.** A label is correct only if it describes a change in the *message content* that is genuinely new in the later text, with the right type. Fact-checker commentary ("this is a hoax", where it circulated, officials' denials) is not message content. Borderline cases count as wrong (strict).
 
-| Set | Labels given to review | Correct before review | Labels kept | Correct after review (strict / lenient) |
+**Correction.** An earlier "11 of 15" figure was too generous (I compared against truncated parent text); scored properly the old labels were ~35% correct.
+
+| Configuration | Labels given to the final stage | Correct before review | Labels shown | Correct shown |
 |---|---|---|---|---|
-| Baseline, old pipeline (Martinelli + perfume) | 26 | 9 (35%) strict, 11 lenient (42%) | 26 | 35% / 42% |
-| **Final config, Martinelli + perfume** (tuned on these) | 15 | 7 (47%) strict | 10 | **7 of 10 = 70% / 9 of 10 = 90%** |
-| **Held-out: screenshot case** | 8 | 3 (38%) | 5 | 3 of 5 = 60% |
-| **Held-out: grant** | 11 | 4 (36%) | 9 | 3 of 9 = 33% |
-| Held-out combined | 19 | 7 (37%) | 14 | 6 of 14 = 43% |
-| All four cases, final config | 34 | 14 (41%) | 24 | 13 of 24 = **54%** |
+| Old pipeline: label validator only (Martinelli + perfume) | 26 | 9 (35%) | 26 | 9 of 26 = **35%** |
+| + Super review pass and guards (all four cases) | 34 | 14 (41%) | 24 | 13 of 24 = **54%** |
+| **Final: copies only, evidence pages as leaves, strong/weak labels** (all four cases) | 9 | 5 (56%) | 7 | 5 of 7 = **71%** (Martinelli 3/5, perfume 2/2, screenshot and grant: no labels) |
 
-Round-by-round on Martinelli + perfume (strict, post-review): 57% → 53% → 55% → 71% → 71% → 64% → 70% across seven rounds as the prompt and guards were added (n = 7–17 labels per round, so this is noise-level movement, not a trend); the review pass alone (round 1) took 35% → 57%. The review dropped 5–10 labels per Martinelli run and wrongly dropped one genuinely correct label in some rounds (it kept all genuinely correct ones in the final configuration).
+**How to read this.**
+- The final 71% is on **7 labels**. That is far too few to be a reliable rate (the plausible range is roughly 30–95%). The honest summary is "about half to three quarters of the changes shown are right, and we show few".
+- **The strict rules trade volume for precision**: shown labels fell from 24 to 7, and most edges now carry no labels because one end is an *evidence page* (a fact-check without a clean quoted copy of the rumor): 14 of 17 edges in Martinelli, 3 of 6 in perfume, 5 of 8 in the screenshot case.
+- **Untuned cases** (screenshot, grant) end up with **zero** labels, so their accuracy cannot be measured. Before the copies-only rule, a grant case scored 4 of 4 on its user-copy edge, then lost its labels when the tree's structure changed; this fragility is real.
+- The page-admission gates fixed the grant case: the "Swiss recovered funds / World Bank" rebuttal of a *different* programme is no longer admitted (a naira offer needs an amount in naira), and the circular no longer matches an unrelated US county's school-closure post (a claim naming an organisation needs the whole distinctive name on the page).
+- Remaining errors seen: a "removed" label where the later text still names the thing in other words, and a call-to-action that is a reworded repeat.
 
-**What this does and does not show.** The review pass and guards roughly double label precision on the cases they were tuned on (35% → ~70%), but on cases I did not tune against the gain is small (37% → 43%; one case improved, one did not). Treat ~55% strict as the realistic current figure, not 70%.
+## What real data exposed, and what was done (selected)
 
-**Remaining failure modes** (all visible in the held-out audit):
-- Labels computed on an edge whose child is a fact-check/rebuttal article describe the *article's* content (e.g. the Swiss/World-Bank funding agreement in a rebuttal about a different cash-transfer programme). Root cause is upstream: a related article admitted as a "version"; the review cannot fix that.
-- A "removed" label where the later text merely rewords the idea (`detail_removed "There's a video launching tomorrow…"`).
-- Commentary about *who* debunked it (e.g. "Randolph County" as a location, the sheriff as an authority "removed").
-- The review can only remove or retype: real changes that Nano never proposed (e.g. "Don't take anything from strangers!") are never added, so recall of real changes is unmeasured and probably low.
-- Suggested next step: only compute message mutations on edges where both ends are *copies* of the message (social/forum/your copy), and describe fact-check pages only as "evidence", or extract the quoted message from a fact-check page before comparing.
+| Problem | Fix |
+|---|---|
+| Models listed by NVIDIA returned `404 Function not found for account` → silent failures | `npm run probe`; fallbacks record the reason |
+| Default "thinking" burns hundreds of tokens per call | `enable_thinking:false` (auto-dropped on HTTP 400) |
+| 429 / 5xx / dropped connections on the free API | shared throttle (30/min on NVIDIA), backoff, network retry |
+| Small model could not copy quotes; echoed instructions | model answers with **sentence numbers**; quotes are verbatim by construction, re-checked |
+| Junk "versions" (hashtags, explainers, rebuttals of other schemes, other organisations' notices) | relation + same-specific-claim + money-currency + organisation + circulating-message + minimum-length gates |
+| Mutation labels grounded but wrong | review pass + guards (above); copies-only rule |
+| Overconfident edges / unsupported "wider spread" / commentary cited as contradiction | confidence cap, dated-evidence rule, specificity check |
+| Ultra's tree sometimes invalid | repaired edge by edge; evidence pages forced to be leaves |
+| Tree layout broke when "earliest" moved off the root | layout roots at the node with no parent; canvas grows with the tree |
+| Tesseract wrote into a read-only dir on Vercel | temp-dir cache path |
 
-**Nano-tier decision.** `nemotron-nano-3-30b-a3b` could not be tested (404 for this account). Compared on the Martinelli membership stage and end to end: Lightning (30B-A3B) vs Nano-Omni-30B (thinking off) vs Bolt-e4b. Models agree on ~11 of 15 accepted pages (differences are borderline pages). Nano-Omni is slower (p50 5.7 s, p95 19.9 s). Bolt has similar p50 (3.4 s) and better p95 but end to end **missed the 2018 Snopes origin** (earliest 2020), found fewer versions (9 vs 12) and fewer mutations (12 vs 21). **Decision: Lightning for the Nano tier** (small sample; the margin is not statistically strong, but "earliest version found" is the core promise).
+**Nano-tier decision.** `nemotron-nano-3-30b-a3b` returned 404 for our key, so we compared Lightning, Nano-Omni (thinking off) and Bolt-e4b: Lightning found the 2018 origin that Bolt missed and was faster than Nano-Omni. Lightning is the default Nano model on both providers.
 
-**Demo recommendation (richest and most accurate trees on real data)**
-1. **WhatsApp "Martinelli" warning** — 12 versions across 2018–2026 with real mutations (An Garda → "IT colleague", "Spread the word", the BBC-radio version, WhatsApp Gold, your copy's "CNN and BBC"), 15/15 verbatim excerpts, the only case with high-confidence edges. Not Nigeria-specific, but it is the cleanest demonstration of the product.
-2. **Perfume-sample kidnapping** (paste, then the screenshot variant) — the most striking origin story (a 2001 email about *mailed* poisoned samples became filling-station kidnappings) and it is the Nigeria-relevant one. Show it as a screenshot to get the **"No evidence this post exists"** moment (vision read verified). Expect mostly low-confidence edges: say so on camera, it supports the honesty message.
-3. **The fake circular** — for the **"No official record found"** beat only (limited family, no cited contradiction). Don't present its tree.
-Avoid as headline demos: **5G/cancer** (a general science topic, correctly "limited") and the **generic grant text** (only 3 versions). If you want a stronger scam demo, test a specific Nigerian forward (exact amount/agency wording) with `npm run real-test` first.
+## Demo
+
+See `docs/DEMO_SCRIPT.md`. Perfume gives the strongest origin story; Martinelli the deepest tree (mostly evidence pages around a few copies: say so); the screenshot and circular give the two honest "No evidence / No official record" moments.
 
 ## Verified in this build
 
-- `npm run lint`, `npm run typecheck`, `npm test` (79 tests) and `npm run build` pass.
-- Real APIs exercised: NVIDIA chat completions (4 models + vision), Tavily search/extract, Supabase (server round-trips; anon key blocked by RLS).
-- Browser-checked earlier (offline fixtures): replay, tree, node panel (desktop + 375 px), dark/light, share page, Watchlist add + re-run.
-- Real Martinelli result (12 versions) rendered in the browser via the share page (`/r/<id>`): tree, edges, mutation chips and panels display correctly (tree is small at fit-to-screen for 12+ nodes; zoom controls work). Other real results were audited via JSON/logs only.
-- **Not verified:** video adapter on a real clip; voice-note ASR; Vercel deployment; Nebius Token Factory itself (no account access); Supabase-backed share page in the UI.
+- `npm run lint`, `typecheck`, `test` (89 tests) and `build` pass; no secrets in the repo or git history.
+- Real APIs: NVIDIA chat completions (Nano/Super/Ultra/vision), Tavily search + extract, Supabase (server round-trips; anon key blocked).
+- Browser-checked with the real fixtures: home (voice/video hidden), replay, tree, side panel with detected changes, post-exists panel, official panel, reply card, routing drawer, Watchlist, share page, dark mode, 375 px.
+- **Not verified:** anything on Nebius Token Factory; voice/video/speech; a Vercel deployment; XLSX/PPTX end to end.
 
-## Blocked on you
+## Still to do (people)
 
-- **Nebius Token Factory**: still the hackathon requirement. A teammate with access follows [TEAMMATE_DEPLOY.md](TEAMMATE_DEPLOY.md) (own key, never shared), runs `npm run fixtures` against Nebius and deploys. The committed fixtures were generated offline against a fictional corpus (labelled in the UI); `npm run fixtures` now also adds a live-only "Martinelli" demo.
-- **Vercel deploy** and **GitHub repo creation** need your login (commands in README / final summary).
-- **Voice-note fixture**: no TTS was available in the build environment, so fixture 4 uses the transcript text. Record a short clip of yourself (or a clearly synthetic voice) reading `fixtures/files/voice-note-transcript.txt` and save it as `fixtures/files/voice-note.ogg`.
-
-## Cut / deferred
-
-- Supabase magic-link auth (Watchlist is shared per deployment).
-- Nebius Serverless deployment of Parakeet NIM was documented, not performed (needs NGC + Nebius accounts).
-- Media processing on a Nebius job for long videos (Vercel function limits apply; ≤3 min videos only).
+See the final report / `docs/TEAMMATE_DEPLOY.md` Step 8: deploy on Nebius, run `npm run verify-nebius`, `npm run fixtures`, re-record the shots marked in `docs/DEMO_SCRIPT.md`, resolve the `[CONFIRM AFTER NEBIUS RUN]` lines in `docs/SUBMISSION.md`, add the URLs, submit.

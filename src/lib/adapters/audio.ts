@@ -1,10 +1,8 @@
-// Voice-note adapter with a pluggable ASR provider interface.
-//   1. An audio-capable model on the configured LLM provider (MODEL_ASR, chat completions with input_audio).
-//   2. An OpenAI-compatible /v1/audio/transcriptions endpoint (ASR_ENDPOINT_URL) — e.g. NVIDIA Parakeet/Canary
-//      NIM or a Whisper server deployed on a Nebius Serverless Endpoint.
-//   3. Otherwise ASR is unavailable and the user types/pastes the transcript (the UI offers this).
+// Voice-note adapter with a pluggable ASR provider interface. UNTESTED against a real speech endpoint (see README):
+// it is only enabled when ASR_ENDPOINT_URL points at an OpenAI-compatible /v1/audio/transcriptions server
+// (e.g. an NVIDIA Parakeet/Canary NIM or a Whisper server on a Nebius endpoint). Otherwise it is off.
 import { config } from "../config";
-import { chat, chatJson, RunContext, withFallback } from "../llm";
+import { chatJson, RunContext, withFallback } from "../llm";
 import { CleanupSchema } from "../schemas";
 import { normalizeInput } from "../text";
 import type { ExtractedInput, InputLocation, TranscriptSegment } from "../types";
@@ -25,34 +23,9 @@ export interface AsrProvider {
   transcribe(ctx: RunContext, wav: Buffer, durationSec: number): Promise<Transcript>;
 }
 
-const tokenFactoryAsr: AsrProvider = {
-  name: "tokenfactory",
-  available: () => !config.offlineMock && !!config.llm.apiKey && !!config.llm.models.asr && !config.asr.endpointUrl,
-  async transcribe(ctx, wav, durationSec) {
-    // Token Factory exposes chat completions; audio-capable models accept OpenAI-style input_audio parts.
-    const { text } = await chat(ctx, {
-      tier: "asr", // routed through the multimodal base URL
-      stage: "audio: transcribe",
-      maxTokens: 4000,
-      timeoutMs: 120_000,
-      messages: [
-        {
-          role: "user",
-          content: [
-            { type: "text", text: "Transcribe this audio verbatim in its original language (it may be Nigerian Pidgin, Yoruba, Igbo, Hausa or English). Output only the transcript." },
-            { type: "input_audio", input_audio: { data: wav.toString("base64"), format: "wav" } },
-          ],
-        },
-      ],
-    });
-    const clean = text.replace(/<think>[\s\S]*?<\/think>/g, "").trim();
-    return { text: clean, segments: evenSegments(clean, durationSec), language: "unknown", path: `asr:${config.llm.provider}:${config.llm.models.asr}` };
-  },
-};
-
 const endpointAsr: AsrProvider = {
   name: "endpoint",
-  available: () => !config.offlineMock && !!config.asr.endpointUrl,
+  available: () => config.asr.enabled,
   async transcribe(ctx, wav) {
     const t0 = Date.now();
     const form = new FormData();
@@ -76,7 +49,7 @@ const endpointAsr: AsrProvider = {
   },
 };
 
-export const ASR_PROVIDERS: AsrProvider[] = [tokenFactoryAsr, endpointAsr];
+export const ASR_PROVIDERS: AsrProvider[] = [endpointAsr];
 
 /** When a provider gives no timestamps, spread sentences evenly across the duration. */
 export function evenSegments(text: string, durationSec: number): TranscriptSegment[] {

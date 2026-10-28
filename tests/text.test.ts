@@ -196,3 +196,42 @@ describe("dropFragments", () => {
     expect(dropFragments([m("call_to_action_added", "click"), m("call_to_action_added", "Spread the word"), m("urgency_added", "urgent")]).map((x) => x.after)).toEqual(["Spread the word", "urgent"]);
   });
 });
+
+import { moneyCompatible, currenciesIn } from "@/lib/text";
+describe("money-offer claims only match pages with amounts in the same currency", () => {
+  const claim = "The Federal Government is giving N30,000 to every Nigerian as COVID-19 palliative.";
+  it("detects currencies", () => {
+    expect([...currenciesIn("N30,000 and ₦5,000 and $322.5m and £10")].sort()).toEqual(["gbp".replace("gbp", "£"), "ngn", "usd"].sort());
+  });
+  it("accepts a debunk of a different amount in naira, rejects a dollar-only programme page, ignores claims without money", () => {
+    expect(moneyCompatible(claim, "A message claims N20,000 is being distributed to one million Nigerians.")).toBe(true);
+    expect(moneyCompatible(claim, "The funding is from recovered funds totalling $322.5m from Switzerland.")).toBe(false);
+    expect(moneyCompatible("Men give free perfume samples at filling stations.", "anything")).toBe(true);
+  });
+});
+
+import { looksLikeCommentary } from "@/lib/heuristics";
+describe("looksLikeCommentary (a fact-check's own words are not a quoted rumor)", () => {
+  it("rejects commentary seen in real fact-check pages and accepts real quoted rumors", () => {
+    expect(looksLikeCommentary("The Martinelli Whatsapp video is a known hoax message which circulated originally in 2017.")).toBe(true);
+    expect(looksLikeCommentary("That viral warning about perfume samples being used to kidnap women? The Randolph County Sheriff's Office says there are currently no verified reports.")).toBe(true);
+    expect(looksLikeCommentary("Snopes first saw this rumor in 2018.")).toBe(true);
+    expect(looksLikeCommentary("If you know anyone using WhatsApp you might pass on this. An IT colleague has advised that a video comes out tomorrow called martinelli, do not open it. Spread the word.")).toBe(false);
+    expect(looksLikeCommentary("URGENT News from Glen Eagles Hospital. Seven women have died after inhaling a free perfume sample that was mailed to them.")).toBe(false);
+  });
+});
+
+import { orgCompatible, orgTokens } from "@/lib/text";
+describe("a claim that names an organisation only matches pages that mention it", () => {
+  const claim = "The Federal Office of Civic Readiness announced that all schools nationwide will close for three weeks from Monday 12th October 2026.";
+  it("extracts the distinctive words of the organisation", () => {
+    expect(orgTokens(claim).sort()).toEqual(["civic", "readines"]);
+    expect(orgTokens("Men give women free perfume samples at filling stations.")).toEqual([]);
+    expect(orgTokens("Police say the Ministry of Health confirmed it.")).toEqual(["health"]);
+  });
+  it("rejects a different body's similar announcement, accepts pages naming the organisation", () => {
+    expect(orgCompatible(claim, "All schools will be closed on Monday for the Columbus Day holiday. Classes resume Tuesday.")).toBe(false);
+    expect(orgCompatible(claim, "A circular signed by the Federal Office of Civic Readiness says all schools close; the Office says it has no record.")).toBe(true);
+    expect(orgCompatible("Men give women free perfume samples.", "anything")).toBe(true);
+  });
+});

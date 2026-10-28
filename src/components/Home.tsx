@@ -17,7 +17,9 @@ interface Status {
   fixtures: { id: string; title: string; chip: string; description: string }[];
 }
 
-const ACCEPT = ".png,.jpg,.jpeg,.webp,.mp3,.m4a,.ogg,.opus,.wav,.mp4,.mov,.webm,.pdf,.docx,.xlsx,.pptx";
+const BASE_ACCEPT = ".png,.jpg,.jpeg,.webp,.pdf,.docx,.xlsx,.pptx";
+const MEDIA_ACCEPT = ".mp3,.m4a,.ogg,.opus,.wav,.mp4,.mov,.webm";
+const MEDIA_RE = /\.(mp3|m4a|ogg|opus|wav|mp4|mov|webm)$/i;
 
 export function Home() {
   const [text, setText] = useState("");
@@ -30,6 +32,14 @@ export function Home() {
   const run = useRun();
   const [drag, setDrag] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
+  const [fileNote, setFileNote] = useState<string | null>(null);
+  // Voice notes and video are a feature flag: shown only when the deployment has a speech endpoint configured.
+  const mediaOn = !!status?.asr;
+  const setPicked = (list: File[]) => {
+    const ok = mediaOn ? list : list.filter((f) => !MEDIA_RE.test(f.name));
+    setFileNote(ok.length < list.length ? "Voice notes and video aren't enabled on this deployment. Paste what is said, or upload a screenshot or document." : null);
+    setFiles(ok);
+  };
 
   useEffect(() => {
     fetch("/api/status")
@@ -146,7 +156,7 @@ export function Home() {
           onDrop={(e) => {
             e.preventDefault();
             setDrag(false);
-            setFiles([...e.dataTransfer.files]);
+            setPicked([...e.dataTransfer.files]);
           }}
           onClick={() => fileRef.current?.click()}
           role="button"
@@ -169,18 +179,18 @@ export function Home() {
             </span>
           ) : (
             <span className="text-muted">
-              Or drop / paste a <b className="font-medium text-ink">screenshot</b>, <b className="font-medium text-ink">voice note</b>, video or document
-              <span className="block text-xs">PNG · JPG · WebP · MP3 · M4A · OGG · WAV · MP4 · MOV · PDF · DOCX · XLSX · PPTX</span>
+              Or drop / paste a <b className="font-medium text-ink">screenshot</b>{mediaOn ? <>, <b className="font-medium text-ink">voice note</b>, video</> : null} or document
+              <span className="block text-xs">{mediaOn ? "PNG · JPG · WebP · MP3 · M4A · OGG · WAV · MP4 · MOV · PDF · DOCX · XLSX · PPTX" : "PNG · JPG · WebP · PDF · DOCX · XLSX · PPTX"}</span>
             </span>
           )}
           <input
             ref={fileRef}
             type="file"
             multiple
-            accept={ACCEPT}
+            accept={mediaOn ? `${BASE_ACCEPT},${MEDIA_ACCEPT}` : BASE_ACCEPT}
             className="hidden"
             onChange={(e) => {
-              setFiles([...(e.target.files ?? [])]);
+              setPicked([...(e.target.files ?? [])]);
               e.target.value = "";
             }}
           />
@@ -193,6 +203,7 @@ export function Home() {
         </div>
       </div>
 
+      {fileNote && <p className="mt-3 rounded-lg bg-amber-soft px-3 py-2 text-sm text-amber" role="status">{fileNote}</p>}
       {phase === "extracting" && (
         <div className="mt-4 flex items-center gap-2 text-sm text-muted" aria-live="polite">
           <Spinner /> {extract.state.stages[extract.state.stages.length - 1]?.message ?? "Uploading…"}
@@ -239,8 +250,8 @@ export function Home() {
           <p className="text-muted">Every version links to a real source with the exact excerpt found. Edges are labelled “likely lineage” with confidence.</p>
         </div>
         <div>
-          <h2 className="mb-1 font-semibold">See the mutation</h2>
-          <p className="text-muted">Spot where a number was inflated, a place swapped, or a fake authority added — and when it spread.</p>
+          <h2 className="mb-1 font-semibold">See what changed</h2>
+          <p className="text-muted">Spot detected changes between copies — a new authority cited, urgency added, a call to forward — with the sources behind each one.</p>
         </div>
         <div>
           <h2 className="mb-1 font-semibold">Reply kindly</h2>

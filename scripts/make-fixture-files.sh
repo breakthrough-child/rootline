@@ -41,15 +41,11 @@ convert -density 110 circular-focr.pdf[0] -flatten -colorspace Gray -rotate 0.4 
 convert scanned-page.jpg -page A4 scanned-circular.pdf
 rm -f scanned-page.jpg
 
-# 4) Text forwards.
+# 4) Text forwards used by the demo fixtures (real, widely-circulated rumors, paraphrased as they typically arrive).
 cat > forward-perfume.txt <<'TXT'
-*URGENT* 🚨🚨 Men are offering free perfume samples at filling stations in Lekki and Abuja. You smell it and you faint immediately, then they kidnap you. 2,000 women missing this month!!! Police have confirmed and Dr. Ama Felix of Bluewater Teaching Hospital confirmed it. Forward to every woman you know 🙏🙏
+Please be careful ladies!!! Some men are standing at filling stations and malls giving women free perfume samples. Once you smell it you will faint and they will kidnap you and harvest your organs. Many women have gone missing. Please share this with every woman you know. Don't take anything from strangers!
 TXT
-cat > forward-grant.txt <<'TXT'
-Forwarded many times
-Good news!!! Approved by the Ministry of Citizen Welfare: The Federal Government is giving N75,000 relief grant to every citizen. Click here to apply before Friday midnight: fg-grant-portal.example/apply. Share to 10 groups to activate your payment 🙏🙏
-TXT
-cat > voice-note-transcript.txt <<'TXT'
-Abeg una hear am? Federal Government dey give fifty thousand naira relief grant to every citizen. Make you click the link apply before Friday. Share am for ten groups make dem activate your payment.
+cat > forward-martinelli.txt <<'TXT'
+WARNING! If you receive a video called MARTINELLI do not open it. It is a virus that will hack your phone and nothing can stop it, even if it comes from a friend. This has been confirmed by CNN and BBC. Please pass this to everyone in your contact list.
 TXT
 ls -la

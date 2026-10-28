@@ -53,3 +53,17 @@ describe("pipeline (offline mock)", () => {
     expect(inv.mode).toBe("offline_mock");
   });
 });
+
+describe("copy-only mutation edges", () => {
+  it("never labels changes on an edge that touches an evidence page without a clean quoted copy", () => {
+    for (const e of inv.claims[0].edges) {
+      const ends = [e.from, e.to].map((id) => inv.claims[0].variants.find((v) => v.id === id)!);
+      if (ends.some((v) => v.isCopy === false)) {
+        expect(e.mutations).toEqual([]);
+        expect(e.evidenceOnly).toBe(true);
+      }
+    }
+    // fact-check pages found by the offline heuristic have no clean quote, so they must be evidence pages
+    expect(inv.claims[0].variants.filter((v) => v.pageType === "debunk").every((v) => v.isCopy === false)).toBe(true);
+  });
+});

@@ -128,11 +128,22 @@ export async function chat(ctx: RunContext, opts: ChatOpts): Promise<{ text: str
 
   // Retry transient failures (rate limits, 5xx) with backoff; honour Retry-After.
   const fetchWithBackoff = async (payload: Record<string, unknown>) => {
-    let res = await doFetch(payload);
-    for (let attempt = 0; attempt < 5 && (res.status === 429 || res.status >= 500); attempt++) {
+    const attempt = async (): Promise<Response> => {
+      // A dropped connection ("fetch failed") is transient: retry it like a 5xx.
+      for (let n = 0; ; n++) {
+        try {
+          return await doFetch(payload);
+        } catch (e) {
+          if (n >= 2 || (e as Error).name === "AbortError") throw e;
+          await new Promise((r) => setTimeout(r, 1500 * (n + 1)));
+        }
+      }
+    };
+    let res = await attempt();
+    for (let n = 0; n < 5 && (res.status === 429 || res.status >= 500); n++) {
       const ra = Number(res.headers.get("retry-after"));
-      await new Promise((r) => setTimeout(r, (Number.isFinite(ra) && ra > 0 ? Math.min(ra, 30) : Math.min(2 ** attempt * 3, 30)) * 1000));
-      res = await doFetch(payload);
+      await new Promise((r) => setTimeout(r, (Number.isFinite(ra) && ra > 0 ? Math.min(ra, 30) : Math.min(2 ** n * 3, 30)) * 1000));
+      res = await attempt();
     }
     return res;
   };

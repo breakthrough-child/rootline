@@ -19,14 +19,26 @@ export const UnderstandingSchema = z.object({
   key_elements: z.array(z.coerce.string().trim().min(3)).max(6).default([]),
 });
 
+// The model sees the page as numbered sentences and answers with sentence numbers, so every quote is verbatim by construction.
+const range = z
+  .union([z.array(z.coerce.number().int()).min(1).max(2), z.null()])
+  .optional()
+  .catch(null)
+  .transform((v) => (v && v.length ? ([v[0], v[v.length - 1]] as [number, number]) : null));
+
 export const MembershipSchema = z.object({
   contains_version: z.boolean(),
   // same_message / reworded count as a version; related_only (same topic, different story) and unrelated do not.
   relation: z.enum(["same_message", "reworded", "related_only", "unrelated"]).catch("reworded").default("reworded"),
-  excerpt: z.string().default(""),
-  normalized: z.string().default(""),
-  // For each message element the page expresses: the exact words on the page that express it (verified in code).
-  evidence: z.array(z.object({ element: z.coerce.number().int(), phrase: z.coerce.string() })).default([]),
+  // Same specific claim/programme (not merely the same topic or a different scheme/event)?
+  same_specific_claim: z.boolean().catch(true).default(true),
+  // For each message element the page expresses: the number of the sentence that expresses it.
+  // Tolerant: a null/garbled number becomes -1 and is ignored (one bad entry must not discard the whole answer).
+  evidence: z.array(z.object({ element: z.coerce.number().int().catch(-1), sentence: z.coerce.number().int().catch(-1) })).default([]),
+  // [first, last] sentence numbers of the passage that best shows the message (at most 4 sentences).
+  excerpt_sentences: range,
+  // [first, last] sentence numbers of the rumor exactly as quoted/forwarded on the page, WITHOUT the page's own commentary (null if only described).
+  quoted_sentences: range,
   page_type: z.enum(["debunk", "news", "social", "forum", "official", "other"]).catch("other"),
 });
 

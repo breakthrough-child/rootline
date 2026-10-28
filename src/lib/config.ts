@@ -42,11 +42,13 @@ export const config = {
     disableThinking: (env("LLM_DISABLE_THINKING") || env("NEBIUS_DISABLE_THINKING")) !== "false",
     jsonMode: env("LLM_JSON_MODE") !== "false",
     /** Max requests per minute across all tiers (shared throttle). 0 = unlimited. NVIDIA's free API is rate limited (~40/min). */
-    rpm: Number(env("LLM_RPM") || (providerFromUrl(llmBaseUrl, env("LLM_PROVIDER")) === "nvidia" ? 35 : 0)),
+    rpm: Number(env("LLM_RPM") || (providerFromUrl(llmBaseUrl, env("LLM_PROVIDER")) === "nvidia" ? 30 : 0)),
   },
   asr: {
     endpointUrl: env("ASR_ENDPOINT_URL"),
     apiKey: env("ASR_API_KEY") || env("LLM_API_KEY") || env("NEBIUS_API_KEY"),
+    /** Feature flag: voice notes and video are available ONLY when a speech endpoint is configured. Off by default. */
+    enabled: !!env("ASR_ENDPOINT_URL") && env("OFFLINE_MOCK") !== "true",
   },
   tavily: { apiKey: env("TAVILY_API_KEY") },
   supabase: {
@@ -86,7 +88,7 @@ export function publicStatus() {
     demoMode: config.demoMode,
     offlineMock: config.offlineMock,
     llm: { nano: llmAvailable("nano"), super: llmAvailable("super"), ultra: llmAvailable("ultra"), vision: llmAvailable("vision") },
-    asr: !config.offlineMock && (!!config.asr.endpointUrl || (!!config.llm.apiKey && !!config.llm.models.asr)),
+    asr: config.asr.enabled,
     search: searchAvailable(),
     storage: config.supabase.url && config.supabase.serviceKey ? "supabase" : "local-json",
     llmProvider: config.llm.provider,

@@ -30,7 +30,7 @@ export function Watchlist() {
   return (
     <div className="pt-8">
       <h1 className="font-serif text-3xl">Watchlist</h1>
-      <p className="mt-1 text-sm text-muted">For newsrooms, fact-checkers, NGOs and comms teams: save investigations and re-run them to catch new mutations.</p>
+      <p className="mt-1 text-sm text-muted">For newsrooms, fact-checkers, NGOs and comms teams: save investigations and re-run them to catch new versions.</p>
       {storage === "local-json" && <p className="mt-2 text-xs text-muted">Storage: local JSON (Supabase not configured). Items may not persist across server restarts or deployments.</p>}
 
       <div className="mt-6 space-y-3">

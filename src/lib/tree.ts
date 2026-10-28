@@ -48,8 +48,13 @@ function compareSources(a: SourceRef, b: SourceRef): number {
 }
 
 /** A parent may not be later than its child when both dates are known; the user's copy is always a leaf. */
-export function edgeAllowed(parent: Variant, child: Variant): boolean {
+export function edgeAllowed(parent: Variant, child: Variant, evidenceLeaves = false): boolean {
   if (parent.isUserInput) return false;
+  if (evidenceLeaves) {
+    // Evidence pages (no clean quoted copy) only discuss a version: they hang off a copy as leaves, in either time order.
+    if (parent.isCopy === false) return false;
+    if (child.isCopy === false) return true;
+  }
   const p = dateMs(parent.date);
   const c = dateMs(child.date);
   if (p === null || c === null) return true;
@@ -69,11 +74,15 @@ export function distanceMatrix(variants: Variant[]): number[][] {
 }
 
 /** Root = earliest dated variant; if nothing is dated, the medoid (most central) variant. User input is never the root unless alone. */
-export function pickRoot(variants: Variant[], dist: number[][]): number {
+/** True when at least one non-user node is a real copy of the message (so evidence pages can be leaves under it). */
+export const hasCopies = (variants: Variant[]) => variants.some((v) => !v.isUserInput && v.isCopy !== false);
+
+export function pickRoot(variants: Variant[], dist: number[][], evidenceLeaves = false): number {
   let best = -1;
   let bestT = Infinity;
   variants.forEach((v, i) => {
     const t = dateMs(v.date);
+    if (evidenceLeaves && v.isCopy === false) return;
     if (t !== null && t < bestT && !v.isUserInput) {
       bestT = t;
       best = i;
@@ -83,6 +92,7 @@ export function pickRoot(variants: Variant[], dist: number[][]): number {
   let bestSum = Infinity;
   variants.forEach((v, i) => {
     if (v.isUserInput && variants.length > 1) return;
+    if (evidenceLeaves && v.isCopy === false) return;
     const s = dist[i].reduce((a, b) => a + b, 0);
     if (s < bestSum) {
       bestSum = s;
@@ -116,17 +126,18 @@ export function baselineTree(variants: Variant[]): { rootId: string | null; edge
   const n = variants.length;
   if (n === 0) return { rootId: null, edges: [] };
   const dist = distanceMatrix(variants);
-  const root = pickRoot(variants, dist);
+  const ev = hasCopies(variants);
+  const root = pickRoot(variants, dist, ev);
   const inTree = new Set([root]);
   const edges: LineageEdge[] = [];
   // Attach dated versions first (they anchor the timeline), then undated ones, and the user's copy last.
-  const phase = (i: number) => (variants[i].isUserInput ? 2 : dateMs(variants[i].date) === null ? 1 : 0);
+  const phase = (i: number) => (variants[i].isUserInput ? 3 : ev && variants[i].isCopy === false ? 2 : dateMs(variants[i].date) === null ? 1 : 0);
   while (inTree.size < n) {
     let best: { u: number; v: number; d: number } | null = null;
     const currentPhase = Math.min(...[...Array(n).keys()].filter((i) => !inTree.has(i)).map(phase));
     for (const u of inTree)
       for (let v = 0; v < n; v++) {
-        if (inTree.has(v) || phase(v) !== currentPhase || !edgeAllowed(variants[u], variants[v])) continue;
+        if (inTree.has(v) || phase(v) !== currentPhase || !edgeAllowed(variants[u], variants[v], ev)) continue;
         // Wording distance plus a small penalty for long time gaps (mutations accumulate forward-to-forward).
         const d = dist[u][v] + timePenalty(variants[u], variants[v]);
         if (!best || d < best.d - 1e-9) best = { u, v, d };
@@ -145,7 +156,7 @@ export function baselineTree(variants: Variant[]): { rootId: string | null; edge
       from: parent.id,
       to: child.id,
       confidence: confidenceFor(best.d, parent, child),
-      reason: `Closest earlier version by wording (similarity ${(1 - best.d).toFixed(2)}).`,
+      reason: child.isCopy === false && ev ? "Evidence page that discusses this version (no clean quoted copy)." : `Closest earlier version by wording (similarity ${(1 - best.d).toFixed(2)}).`,
       mutations: [],
     });
   }
@@ -158,12 +169,13 @@ export function validateTree(
   edges: { from: string; to: string }[],
 ): { ok: true } | { ok: false; reason: string } {
   const ids = new Map(variants.map((v) => [v.id, v]));
+  const ev = hasCopies(variants);
   const parent = new Map<string, string>();
   for (const e of edges) {
     if (!ids.has(e.from) || !ids.has(e.to)) return { ok: false, reason: `unknown node id in edge ${e.from}->${e.to}` };
     if (e.from === e.to) return { ok: false, reason: "self edge" };
     if (parent.has(e.to)) return { ok: false, reason: `node ${e.to} has two parents` };
-    if (!edgeAllowed(ids.get(e.from)!, ids.get(e.to)!)) return { ok: false, reason: `parent ${e.from} is dated after child ${e.to}` };
+    if (!edgeAllowed(ids.get(e.from)!, ids.get(e.to)!, ev)) return { ok: false, reason: `parent ${e.from} is dated after child ${e.to}` };
     parent.set(e.to, e.from);
   }
   const roots = variants.filter((v) => !parent.has(v.id));
@@ -195,7 +207,7 @@ export function candidatePairs(variants: Variant[], treeEdges: { from: string; t
   variants.forEach((child, j) => {
     const cands = variants
       .map((p, i) => ({ i, d: dist[i][j] }))
-      .filter(({ i }) => i !== j && edgeAllowed(variants[i], child))
+      .filter(({ i }) => i !== j && edgeAllowed(variants[i], child, hasCopies(variants)))
       .sort((a, b) => a.d - b.d)
       .slice(0, k);
     for (const c of cands) push(variants[c.i].id, child.id);
@@ -283,6 +295,7 @@ export function repairTree<E extends { from: string; to: string }>(
   proposedRootId?: string,
 ): { edges: E[]; rejected: number } {
   const byId = new Map(variants.map((v) => [v.id, v]));
+  const ev = hasCopies(variants);
   const parentOf = new Map<string, E>();
   const wouldCycle = (parent: string, child: string) => {
     for (let cur: string | undefined = parent; cur !== undefined; cur = parentOf.get(cur)?.from) if (cur === child) return true;
@@ -292,7 +305,7 @@ export function repairTree<E extends { from: string; to: string }>(
   for (const e of proposed) {
     const p = byId.get(e.from);
     const c = byId.get(e.to);
-    if (!p || !c || e.from === e.to || parentOf.has(e.to) || !edgeAllowed(p, c) || wouldCycle(e.from, e.to)) {
+    if (!p || !c || e.from === e.to || parentOf.has(e.to) || !edgeAllowed(p, c, ev) || wouldCycle(e.from, e.to)) {
       rejected++;
       continue;
     }
@@ -300,14 +313,14 @@ export function repairTree<E extends { from: string; to: string }>(
   }
   // The root: the proposed earliest if it is parentless and not the user's copy, otherwise the baseline's root.
   const baselineRoot = variants.find((v) => !baseline.some((b) => b.to === v.id))?.id ?? variants[0].id;
-  const root = proposedRootId && byId.has(proposedRootId) && !parentOf.has(proposedRootId) && !byId.get(proposedRootId)!.isUserInput ? proposedRootId : baselineRoot;
+  const root = proposedRootId && byId.has(proposedRootId) && !parentOf.has(proposedRootId) && !byId.get(proposedRootId)!.isUserInput && !(ev && byId.get(proposedRootId)!.isCopy === false) ? proposedRootId : baselineRoot;
   parentOf.delete(root);
   for (const v of variants) {
     if (v.id === root || parentOf.has(v.id)) continue;
     const b = baseline.find((x) => x.to === v.id);
-    const fallbackParent = b && !wouldCycle(b.from, v.id) && edgeAllowed(byId.get(b.from)!, v) ? b : undefined;
+    const fallbackParent = b && !wouldCycle(b.from, v.id) && edgeAllowed(byId.get(b.from)!, v, ev) ? b : undefined;
     const rootEdge = { ...(b ?? baseline[0] ?? ({} as E)), from: root, to: v.id } as E;
-    parentOf.set(v.id, fallbackParent ?? (edgeAllowed(byId.get(root)!, v) ? rootEdge : (b as E)));
+    parentOf.set(v.id, fallbackParent ?? (edgeAllowed(byId.get(root)!, v, ev) ? rootEdge : (b as E)));
     rejected++;
   }
   return { edges: [...parentOf.values()], rejected };

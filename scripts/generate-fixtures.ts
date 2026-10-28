@@ -1,115 +1,99 @@
-// Runs each demo case through the REAL pipeline and saves the full result (incl. routing logs)
-// to fixtures/<id>.json. With LLM_API_KEY (or NEBIUS_API_KEY) + MODEL_NANO + TAVILY_API_KEY set it uses
-// the live web and Nemotron on the configured provider; otherwise it falls back to OFFLINE_MOCK (fictional corpus) and labels the fixture so.
-//   npx tsx scripts/generate-fixtures.ts            (all)
-//   npx tsx scripts/generate-fixtures.ts perfume    (one)
+// Regenerates the demo fixtures from REAL runs (real Tavily search + the configured LLM provider) and saves the full
+// result, including its routing log, to fixtures/<id>.json. Whatever provider is configured in .env.local produces
+// them (NVIDIA API today; run it again with Nebius env vars and the saved runs are labelled Nebius automatically,
+// because the provider is read from each run's own call log).
+//
+//   npm run fixtures            # all four
+//   npm run fixtures -- martinelli   # one (substring match on the id)
+//
+// Uses roughly 15–20 Tavily credits per fixture. Set DEV_CACHE=true to replay cached responses while iterating.
+// There is deliberately no offline/fictional-corpus mode: a demo fixture must come from a real run.
 import "./load-env";
-import { readFile, writeFile } from "node:fs/promises";
+import { readFile, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
-
-const live = !!((process.env.LLM_API_KEY || process.env.NEBIUS_API_KEY) && process.env.TAVILY_API_KEY && process.env.MODEL_NANO);
-if (!live) process.env.OFFLINE_MOCK = "true";
 
 const ROOT = path.join(__dirname, "..");
 const FILES = path.join(ROOT, "fixtures", "files");
 
 async function main() {
+  process.env.OFFLINE_MOCK = "false";
+  const { config, llmAvailable, searchAvailable } = await import("../src/lib/config");
+  if (!llmAvailable("nano") || !searchAvailable()) {
+    console.error("Fixtures need real keys: set LLM_API_KEY, MODEL_NANO/SUPER/ULTRA and TAVILY_API_KEY in .env.local (see .env.example).");
+    process.exit(1);
+  }
   const { RunContext } = await import("../src/lib/llm");
   const { investigate } = await import("../src/lib/investigate");
   const { extractClaims } = await import("../src/lib/claims");
   const { textToInput } = await import("../src/lib/adapters/text");
   const { fileToInput } = await import("../src/lib/adapters");
-  const { normalizeInput } = await import("../src/lib/text");
+  const { provenanceOf } = await import("../src/lib/provenance");
   type ExtractedInput = import("../src/lib/types").ExtractedInput;
 
-  const cases: { id: string; title: string; chip: string; description: string; build: (ctx: InstanceType<typeof RunContext>) => Promise<ExtractedInput> }[] = [
+  const cases: { id: string; title: string; chip: string; description: string; build: (ctx: InstanceType<typeof RunContext>) => Promise<{ input: ExtractedInput; claimText?: string }> }[] = [
     {
       id: "1-perfume",
       title: "“Perfume sample” kidnapping scare",
       chip: "Perfume kidnapping forward",
-      description: "A text forward claiming kidnappers drug women with perfume samples.",
-      build: async () => textToInput(await readFile(path.join(FILES, "forward-perfume.txt"), "utf8")),
+      description: "A text forward claiming kidnappers drug women with perfume samples, traced from a 2001 email hoax.",
+      build: async () => ({ input: textToInput(await readFile(path.join(FILES, "forward-perfume.txt"), "utf8")) }),
     },
     {
-      id: "2-grant",
-      title: "“Free government cash grant” scam chain",
-      chip: "Government grant scam",
-      description: "A text forward offering a government cash grant via a link.",
-      build: async () => textToInput(await readFile(path.join(FILES, "forward-grant.txt"), "utf8")),
-    },
-    {
-      id: "3-screenshot",
+      id: "2-screenshot",
       title: "Screenshot of a post from a fictional account",
       chip: "Screenshot of a post",
-      description: "A screenshot of a post from a fictional account (@kemi_reports_247).",
-      build: async (ctx) => fileToInput(ctx, [{ name: "screenshot-kemi-reports.png", mime: "image/png", buf: await readFile(path.join(FILES, "screenshot-kemi-reports.png")) }]),
+      description: "A screenshot of a post from a FICTIONAL account (@kemi_reports_247): the post does not exist, but its words have a long family tree.",
+      build: async (ctx) => ({ input: await fileToInput(ctx, [{ name: "screenshot-kemi-reports.png", mime: "image/png", buf: await readFile(path.join(FILES, "screenshot-kemi-reports.png")) }]) }),
     },
     {
-      id: "4-voice",
-      title: "Voice note in Pidgin (fictional speaker)",
-      chip: "Voice note (Pidgin)",
-      description: "A voice note repeating the grant rumour in Nigerian Pidgin.",
-      build: async () => {
-        // No audio recording is bundled yet (see fixtures/files/README.md): the transcript stands in for ASR output.
-        const t = normalizeInput(await readFile(path.join(FILES, "voice-note-transcript.txt"), "utf8"));
-        const segs = t.split(/(?<=[.?!])\s+/).map((s, i) => ({ start: i * 4, end: i * 4 + 4, text: s }));
-        let text = "";
-        const locations = segs.map((s) => {
-          const start = text.length + (text ? 1 : 0);
-          text += (text ? " " : "") + s.text;
-          return { label: `00:${String(s.start).padStart(2, "0")}`, start, end: text.length, seconds: s.start };
-        });
-        return {
-          sourceKind: "audio",
-          original: { kind: "upload", filename: "voice-note.ogg", mime: "audio/ogg" },
-          text,
-          englishText: "Did you hear? The Federal Government is giving a fifty thousand naira relief grant to every citizen. Click the link and apply before Friday. Share it to ten groups so they activate your payment.",
-          language: "pcm",
-          locations,
-          segments: segs,
-          unverifiedMetadata: { duration: `${segs.length * 4}s` },
-          adapterPath: ["asr:fixture-transcript (no recording bundled)", "translate:fixture"],
-          notes: ["Auto-transcribed; may contain errors, especially for Pidgin and local languages."],
-        } satisfies ExtractedInput;
-      },
-    },
-    {
-      id: "5-circular",
-      title: "Circular from a fictional organisation",
-      chip: "“Official” school circular (PDF)",
-      description: "A circular from the fictional Federal Office of Civic Readiness announcing school closures.",
-      build: async (ctx) => fileToInput(ctx, [{ name: "circular-focr.pdf", mime: "application/pdf", buf: await readFile(path.join(FILES, "circular-focr.pdf")) }]),
-    },
-  ];
-
-  // Richest real-web case found in testing (see docs/PROGRESS.md). Only meaningful against the live web, so live mode only.
-  if (live)
-    cases.push({
-      id: "6-martinelli",
+      id: "3-martinelli",
       title: "“Martinelli” video hacks your phone (WhatsApp hoax)",
       chip: "WhatsApp “Martinelli” warning",
       description: "A long-running WhatsApp chain warning, traced from 2018 to today.",
-      build: async () => textToInput(await readFile(path.join(FILES, "forward-martinelli.txt"), "utf8")),
-    });
+      build: async () => ({ input: textToInput(await readFile(path.join(FILES, "forward-martinelli.txt"), "utf8")) }),
+    },
+    {
+      id: "4-circular",
+      title: "Circular from a fictional organisation",
+      chip: "“Official” school circular (PDF)",
+      description: "A circular from the FICTIONAL Federal Office of Civic Readiness announcing school closures: no official record exists.",
+      build: async (ctx) => {
+        const input = await fileToInput(ctx, [{ name: "circular-focr.pdf", mime: "application/pdf", buf: await readFile(path.join(FILES, "circular-focr.pdf")) }]);
+        const claims = await extractClaims(ctx, input);
+        return { input, claimText: claims[0].text };
+      },
+    },
+  ];
 
   const only = process.argv[2];
-  for (const c of cases.filter((x) => !only || x.id.includes(only))) {
+  const selected = cases.filter((x) => !only || x.id.includes(only));
+  if (!selected.length) throw new Error(`No fixture matches "${only}". Ids: ${cases.map((c) => c.id).join(", ")}`);
+  console.log(`Provider: ${config.llm.provider} (${config.llm.baseUrl})  nano=${config.llm.models.nano}  super=${config.llm.models.super}  ultra=${config.llm.models.ultra}  vision=${config.llm.models.vision || "(none, OCR)"}\n`);
+
+  for (const c of selected) {
     const ctx = new RunContext((e) => {
-      if (e.type === "stage") console.log(`  [${c.id}] ${e.message}`);
+      if (e.type === "stage" && /^(A|B|C|D|E|F|G|check)$/.test(e.stage)) console.log(`  [${c.id}] ${e.message}`);
       if (e.type === "error") console.log(`  [${c.id}] ERROR ${e.message}`);
     });
-    console.log(`\n▶ ${c.id} (${live ? `live via ${process.env.LLM_BASE_URL || process.env.NEBIUS_BASE_URL || "Nebius Token Factory"}` : "offline mock"})`);
-    const input = await c.build(ctx);
-    const claims = await extractClaims(ctx, input);
-    const inv = await investigate(ctx, input, claims.slice(0, c.id === "5-circular" ? 1 : 3).map((k) => ({ id: k.id, text: k.text })), { id: `fixture-${c.id}` });
+    console.log(`▶ ${c.id}`);
+    const { input, claimText } = await c.build(ctx);
+    const inv = await investigate(ctx, input, [{ id: "k0", text: claimText ?? input.text }], { id: `fixture-${c.id}` });
+    if (!inv.claims[0]) throw new Error(`${c.id}: the pipeline produced no result`);
+    const prov = provenanceOf(inv.logs, inv.llmProvider);
+    if (!prov.provider) throw new Error(`${c.id}: no model call succeeded, refusing to save a fixture that was not produced by a real provider`);
     inv.fixture = { id: c.id, title: c.title, generatedAt: new Date().toISOString(), generatedWith: inv.mode };
     await writeFile(path.join(ROOT, "fixtures", `${c.id}.json`), JSON.stringify({ id: c.id, title: c.title, chip: c.chip, description: c.description, investigation: inv }, null, 1));
     const cl = inv.claims[0];
-    console.log(`  ✓ ${inv.claims.length} claim(s); ${cl?.variants.length ?? 0} nodes, ${cl?.edges.length ?? 0} edges, earliest=${cl?.earliestId}, limited=${cl?.limited}; checks=${JSON.stringify(Object.fromEntries(Object.entries(inv.checks).map(([k, v]) => [k, v?.outcome])))}`);
+    const strong = cl.edges.flatMap((e) => e.mutations).filter((m) => m.strength === "strong").length;
+    console.log(`  ✓ ${prov.providerName}: ${cl.variants.length} nodes, ${cl.edges.length} edges, ${strong} strong changes, earliest=${cl.variants.find((v) => v.id === cl.earliestId)?.date ?? "-"}, limited=${cl.limited}, checks=${JSON.stringify(Object.fromEntries(Object.entries(inv.checks).map(([k, v]) => [k, v?.outcome])))}`);
   }
+  // Stale fixtures from older fixture sets (e.g. the removed offline-corpus ones) must not linger.
+  const keep = new Set(cases.map((c) => `${c.id}.json`));
+  const { readdir } = await import("node:fs/promises");
+  for (const f of await readdir(path.join(ROOT, "fixtures"))) if (f.endsWith(".json") && !keep.has(f) && !only) await rm(path.join(ROOT, "fixtures", f));
 }
 
 main().catch((e) => {
-  console.error(e);
+  console.error(e.message ?? e);
   process.exit(1);
 });

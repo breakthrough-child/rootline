@@ -97,7 +97,7 @@ export function heuristicUnderstanding(text: string, englishText?: string, langu
 const DEBUNK_RE = /\b(?:fact[- ]?check|false|fake|hoax|debunk|misleading|no evidence|untrue|not true|rumou?r|baseless|misinformation|disinformation|clarif)/i;
 const OFFICIAL_RE = /(?:\.gov(?:\.\w\w)?|\.gob\.|gov\.ng|\.mil|official)/i;
 
-export function guessPageType(url: string, title: string, content: string): PageType {
+export function guessPageType(url: string, title: string, content: string): Exclude<PageType, "user_input"> {
   const u = url.toLowerCase();
   if (DEBUNK_RE.test(title) || /factcheck|fact-check|snopes|africacheck|dubawa|boomlive|altnews|aosfatos|factline|verify/.test(u)) return "debunk";
   if (OFFICIAL_RE.test(u)) return "official";
@@ -333,4 +333,17 @@ export function dropCommentary(ms: Mutation[], laterPageType: string, earlierPag
 /** A call to action is an instruction, not a single word: "click" alone is a fragment of something else. */
 export function dropFragments(ms: Mutation[]): Mutation[] {
   return ms.filter((m) => !(m.type === "call_to_action_added" && wordCount(m.after) < 2));
+}
+
+/** Label types that carry a clear, checkable signal. the detail_ labels and "other" are the noisiest and are "weak" by default. */
+export const STRONG_TYPES = new Set(["number_changed", "location_changed", "authority_added", "authority_removed", "urgency_added", "call_to_action_added", "emotional_framing_added", "date_changed", "target_changed"]);
+export const isStrong = (m: Mutation) => m.strength === "strong";
+
+const QUOTE_COMMENTARY_RE = /\b(?:no verified|not aware of|there (?:are|is) (?:currently )?no (?:verified|credible|evidence|reports?)|first saw this|has been dismissed|dismissed as|according to (?:the )?(?:sheriff|police|snopes|fact)|fact check|fact-check|is a (?:known )?(?:hoax|scam|myth|rumou?r))\b/i;
+/**
+ * A "quoted rumor" taken from a fact-check/news/official page must read like the message, not like the page's own
+ * commentary about it. Text that calls the message a hoax, reports officials' denials, or describes its history is rejected.
+ */
+export function looksLikeCommentary(text: string): boolean {
+  return COMMENTARY_RE.test(text) || QUOTE_COMMENTARY_RE.test(text);
 }

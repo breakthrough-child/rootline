@@ -35,6 +35,48 @@ export function StageProgress({ stages, running }: { stages: { stage: string; me
   );
 }
 
+function DetectedChanges({ edge, parent }: { edge: LineageEdge; parent?: Variant }) {
+  const [showWeak, setShowWeak] = useState(false);
+  const strong = edge.mutations.filter((m) => m.strength === "strong" || (m.strength === undefined && !["detail_added", "detail_removed", "other"].includes(m.type)));
+  const weak = edge.mutations.filter((m) => !strong.includes(m));
+  const row = (m: LineageEdge["mutations"][number], i: number) => (
+    <li key={i} className="rounded-lg border border-line p-2">
+      <span className="mr-1 rounded bg-amber-soft px-1.5 py-0.5 text-[11px] font-semibold text-amber">{m.type.replace(/_/g, " ")}</span>
+      <span className="text-[13px]">{mutationChip(m)}</span>
+      {m.explanation && <p className="mt-1 text-xs text-muted">{m.explanation}</p>}
+    </li>
+  );
+  return (
+    <section>
+      <h4 className="mb-1 text-xs font-semibold uppercase tracking-wide text-muted">Detected changes from its likely parent</h4>
+      <p className="mb-2 text-xs text-muted">
+        Likely lineage · <ConfidencePill c={edge.confidence} /> {edge.reason && <>— {edge.reason}</>}
+      </p>
+      {parent && <p className="mb-2 line-clamp-3 text-xs text-muted">Parent: “{parent.excerpt}”</p>}
+      {edge.evidenceOnly ? (
+        <p className="rounded-lg bg-surface-2 p-2 text-xs text-muted">One end of this link is an evidence page with no clean quoted copy of the message, so no changes are labelled here.</p>
+      ) : (
+        <>
+          <ul className="space-y-1.5">{strong.length ? strong.map(row) : <li className="text-xs text-muted">No strong changes detected.</li>}</ul>
+          {weak.length > 0 && (
+            <>
+              <button onClick={() => setShowWeak((x) => !x)} className="mt-2 text-xs text-accent underline" aria-expanded={showWeak}>
+                {showWeak ? "Hide" : "Show"} {weak.length} weaker change{weak.length > 1 ? "s" : ""}
+              </button>
+              {showWeak && (
+                <>
+                  <p className="mt-1 text-[11px] text-muted">Less certain: lower-signal types or labels the review pass changed. Treat with caution.</p>
+                  <ul className="mt-1 space-y-1.5 opacity-80">{weak.map(row)}</ul>
+                </>
+              )}
+            </>
+          )}
+        </>
+      )}
+    </section>
+  );
+}
+
 export function NodePanel({ variant, edges, variants, onClose }: { variant: Variant; edges: LineageEdge[]; variants: Variant[]; onClose: () => void }) {
   const incoming = edges.find((e) => e.to === variant.id);
   const parent = incoming ? variants.find((v) => v.id === incoming.from) : undefined;
@@ -58,28 +100,7 @@ export function NodePanel({ variant, edges, variants, onClose }: { variant: Vari
           <DateBadge date={variant.date} provenance={variant.dateProvenance} />
           <p className="mt-1 text-xs text-muted">{PROVENANCE_LABEL[variant.dateProvenance]}.</p>
         </section>
-        {incoming && (
-          <section>
-            <h4 className="mb-1 text-xs font-semibold uppercase tracking-wide text-muted">What changed from its likely parent</h4>
-            <p className="mb-2 text-xs text-muted">
-              Likely lineage · <ConfidencePill c={incoming.confidence} /> {incoming.reason && <>— {incoming.reason}</>}
-            </p>
-            {parent && <p className="mb-2 line-clamp-3 text-xs text-muted">Parent: “{parent.excerpt}”</p>}
-            <ul className="space-y-1.5">
-              {incoming.mutations.length ? (
-                incoming.mutations.map((m, i) => (
-                  <li key={i} className="rounded-lg border border-line p-2">
-                    <span className="mr-1 rounded bg-amber-soft px-1.5 py-0.5 text-[11px] font-semibold text-amber">{m.type.replace(/_/g, " ")}</span>
-                    <span className="text-[13px]">{mutationChip(m)}</span>
-                    {m.explanation && <p className="mt-1 text-xs text-muted">{m.explanation}</p>}
-                  </li>
-                ))
-              ) : (
-                <li className="text-xs text-muted">No meaningful wording changes found.</li>
-              )}
-            </ul>
-          </section>
-        )}
+        {incoming && <DetectedChanges edge={incoming} parent={parent} />}
         <section>
           <h4 className="mb-1 text-xs font-semibold uppercase tracking-wide text-muted">Sources ({variant.sources.length})</h4>
           <ul className="space-y-2">
@@ -163,7 +184,7 @@ export function SummaryPanel({ result }: { result: ClaimResult }) {
       )}
       {v.whatChanged.length > 0 && (
         <>
-          <h4 className="mb-1 mt-4 text-xs font-semibold uppercase tracking-wide text-muted">What changed</h4>
+          <h4 className="mb-1 mt-4 text-xs font-semibold uppercase tracking-wide text-muted">Detected changes</h4>
           <ul className="list-disc space-y-1 pl-5 text-sm">
             {v.whatChanged.map((w, i) => (
               <li key={i}>{w}</li>

@@ -1,17 +1,21 @@
 // The Rootline core pipeline: Understand → Find relatives → Confirm → Mutations → Cluster → Lineage → Verdict.
 import pLimit from "p-limit";
 import { config, llmAvailable } from "./config";
-import { guessPageType, heuristicMembership, heuristicMutations, heuristicUnderstanding, heuristicVerdict, validateMutations, dropCommentary, dropFragments } from "./heuristics";
+import { guessPageType, heuristicMembership, heuristicMutations, heuristicUnderstanding, heuristicVerdict, validateMutations, dropCommentary, dropFragments, STRONG_TYPES, isStrong, looksLikeCommentary } from "./heuristics";
 import { chatJson, RunContext, withFallback } from "./llm";
 import { ClusterSchema, LineageSchema, MembershipSchema, MutationsSchema, ReviewSchema, UnderstandingSchema, VerdictSchema } from "./schemas";
 import { extract, resolveDate, search, type SearchHit } from "./search";
-import { bestExcerpt, clip, excerptStrictlyIn, hashString, speaksTo, normalizeInput, relatedness, snapExcerptToPage, tokenCoverage, truncate, wordCount } from "./text";
+import { bestExcerpt, clip, moneyCompatible, orgCompatible, sharedContentWords, splitSentences, stemCoverage, excerptStrictlyIn, hashString, speaksTo, normalizeInput, relatedness, snapExcerptToPage, tokenCoverage, truncate, wordCount } from "./text";
 import { baselineTree, candidatePairs, dedupeVariants, markSpread, repairTree, validateTree } from "./tree";
-import type { ClaimResult, Confidence, ExtractedInput, LineageEdge, Mutation, SourceRef, Understanding, Variant, Verdict } from "./types";
+import type { ClaimResult, Confidence, PageType, ExtractedInput, LineageEdge, Mutation, SourceRef, Understanding, Variant, Verdict } from "./types";
 
 /** Pages whose best passage scores below this against the claim are not worth a model call. */
 export const PREFILTER_SCORE = 0.14;
+/** A page must express at least this many distinct elements of the message (when the message has 2 or more). */
+export const MIN_VERIFIED_ELEMENTS = 1;
 export const MIN_EXCERPT_WORDS = 8;
+/** A rumor quoted on a fact-check page must be at least this long to count as a clean copy. */
+export const MIN_QUOTE_WORDS = 6;
 /** A fact-check "contradicts" a statement only if they share at least this many content words. */
 export const MIN_CONTRADICTION_OVERLAP = 3;
 export const LIMITED_THRESHOLD = 3; // fewer confirmed relatives than this → "Limited family found"
@@ -136,7 +140,9 @@ function focusWindow(content: string, claim: string, size = 5000): string {
   return content.slice(start, start + size);
 }
 
-export async function confirmMembership(ctx: RunContext, claim: string, elements: string[], pages: CandidatePage[], claimId: string): Promise<Variant[]> {
+export async function confirmMembership(ctx: RunContext, claim: string, elements: string[], pages: CandidatePage[], claimId: string, anchorText = claim): Promise<Variant[]> {
+  // The specific-claim gates (amount, organisation) read the ORIGINAL text too: the model's paraphrase may drop a name or amount.
+  const anchors = `${anchorText}\n${claim}`;
   const limit = pLimit(config.limits.concurrency);
   let checked = 0;
   let skipped = 0;
@@ -150,69 +156,92 @@ export async function confirmMembership(ctx: RunContext, claim: string, elements
           skipped++;
           return null;
         }
-        const { value } = await withFallback(
+        const { value } = await withFallback<{ contains: boolean; excerpt: string; normalized: string; pageType: Exclude<PageType, "user_input">; quoted?: string }>(
           ctx,
           "C: confirm",
           "nano",
           async () => {
+            const window = focusWindow(p.content, claim);
+            const sents = splitSentences(window).slice(0, 70); // full sentences: quotes built from them stay verbatim (only the prompt view is clipped)
             const out = await chatJson(ctx, MembershipSchema, {
               tier: "nano",
               stage: "C: confirm",
-              maxTokens: 600,
+              maxTokens: 500,
               messages: [
                 { role: "system", content: SYSTEM },
                 {
                   role: "user",
-                  content: `Claim being traced:\n"""${truncate(claim, 1200)}"""\n\nWeb page (${p.url}):\n"""${focusWindow(p.content, claim)}"""\n
+                  content: `Claim being traced:\n"""${truncate(claim, 1200)}"""\n\nWeb page (${p.url}), as numbered sentences:\n${sents.map((x) => clip(x, 500)).map((x, i) => `[${i}] ${x}`).join("\n")}\n
 ${elements.length ? `The message's distinctive elements (a reworded copy still expresses them):\n${elements.map((e, i) => `${i}. ${e}`).join("\n")}\n\n` : ""}Does this page contain a version of the SAME message (the same warning/offer/rumor, even if reworded or with different numbers, places or names)?
 - "same_message" or "reworded": the page quotes, forwards or reposts this message, or a fact-check quotes/describes this very message. These count.
 - "related_only": same topic but not this message: a news report of one specific incident, a product page, general advice, or a general health/science/consumer explainer that never quotes or describes this circulating message. These do NOT count.
 - "unrelated": not about this at all.
-Return JSON: {"relation": "same_message"|"reworded"|"related_only"|"unrelated", "contains_version": true only for same_message/reworded, "excerpt": ONE continuous passage copied character-for-character from the page (max 400 chars; no ellipses; "" if none), "normalized": the message as it appears there, in plain words, copying the page's wording and omitting commentary,${elements.length ? ' "evidence": [{"element": element number, "phrase": the exact words copied from the page that express that element}] listing ONLY elements the page really expresses,' : ""} "page_type": "debunk"|"news"|"social"|"forum"|"official"|"other"}`,
+"same_specific_claim" is true for the same rumor in another country, city, language or wording, and for copies with different numbers or names. It is false ONLY when the page is about a different named programme, scheme, organisation, product or event that merely resembles this claim (e.g. a different government cash programme, a different company's offer, a different disease or incident).
+Answer with SENTENCE NUMBERS from the list above, never with copied text.
+Return JSON: {"relation": "same_message"|"reworded"|"related_only"|"unrelated", "contains_version": true only for same_message/reworded, "same_specific_claim": true|false,${elements.length ? ' "evidence": [{"element": element number, "sentence": number of the sentence that expresses it}] listing ONLY elements the page really expresses,' : ""} "excerpt_sentences": [first, last] numbers of the passage (at most 4 sentences) that best shows the message, "quoted_sentences": [first, last] numbers of the rumor exactly as quoted or forwarded on the page WITHOUT the page's own commentary, or null if the page only describes it, "page_type": "debunk"|"news"|"social"|"forum"|"official"|"other"}`,
                 },
               ],
             });
-            // A real version must express at least two distinct elements of the message, each backed by a phrase that
-            // is verifiably on the page (this is what rejects pages that merely share the topic or a few keywords).
-            const verified = new Set(out.evidence.filter((e) => e.element >= 0 && e.element < elements.length && excerptStrictlyIn(e.phrase, p.content)).map((e) => e.element));
-            const enoughEvidence = elements.length < 2 || verified.size >= 2;
-            const counts = out.contains_version && (out.relation === "same_message" || out.relation === "reworded") && enoughEvidence;
+            const inRange = (k: number) => Number.isInteger(k) && k >= 0 && k < sents.length;
+            const pick = (r: [number, number] | null, max: number) => {
+              if (!r || !inRange(r[0]) || !inRange(r[1]) || r[1] < r[0]) return "";
+              return sents.slice(r[0], Math.min(r[1], r[0] + max - 1) + 1).join(" ");
+            };
+            // A real version must express at least two distinct elements, each tied to a real sentence of the page that
+            // actually shares words with the element (rejects pages that merely share the topic or a few keywords).
+            const verifiedByModel = out.evidence.filter((e) => e.element >= 0 && e.element < elements.length && inRange(e.sentence) && sharedContentWords(sents[e.sentence], elements[e.element]) >= 1).map((e) => e.element);
+            // Fallback that does not depend on the model pointing at the right sentence: an element is also expressed if any
+            // 3-sentence span of the page covers at least two thirds of its content words.
+            const spans = sents.map((_, i) => sents.slice(i, i + 3).join(" "));
+            const verifiedByText = elements.map((el, i) => (spans.some((sp) => stemCoverage(el, sp) >= 0.67) ? i : -1)).filter((i) => i >= 0);
+            const verified = new Set([...verifiedByModel, ...verifiedByText]);
+            const enoughEvidence = elements.length < 2 || verified.size >= MIN_VERIFIED_ELEMENTS;
+            // Same specific claim/programme: the model must say so, and a money offer must involve an amount in the same currency.
+            const sameClaim = out.same_specific_claim !== false && moneyCompatible(anchors, window) && orgCompatible(anchors, window);
+            const counts = out.contains_version && (out.relation === "same_message" || out.relation === "reworded") && enoughEvidence && sameClaim;
+            ctx.trace?.push({ kind: "membership", url: p.url, contains: out.contains_version, relation: out.relation, sameSpecificClaim: out.same_specific_claim, moneyOk: moneyCompatible(anchors, window), verifiedElements: verified.size, elements: elements.length, pageType: out.page_type, counts, quotedSentences: out.quoted_sentences, ev: out.evidence.map((e) => `${e.element}->${e.sentence}:${(sents[e.sentence] ?? "OUT_OF_RANGE").slice(0, 60)}`), els: elements });
             if (!counts) return { contains: false, excerpt: "", normalized: "", pageType: out.page_type };
-            // Honesty: the excerpt must be a verbatim passage of the page. Snap it, else use the best real passage, else reject.
-            const window = focusWindow(p.content, claim);
             // A page that merely explains the topic (health, science, shopping) is not a copy of a circulating message.
             if (messageMarkers(window) < 2 && out.page_type !== "social" && out.page_type !== "forum") return { contains: false, excerpt: "", normalized: "", pageType: out.page_type };
-            let excerpt = snapExcerptToPage(out.excerpt, p.content);
-            if (!excerpt) excerpt = h.score >= 0.25 ? h.excerpt : null;
-            // The excerpt must show the message, not boilerplate: if the passage around the verified evidence resembles the claim more, quote that instead.
-            const evidence = out.evidence.filter((e) => excerptStrictlyIn(e.phrase, p.content)).map((e) => e.phrase);
-            if (evidence.length) {
-              const around = bestExcerpt(p.content, evidence.join(". "), 4).excerpt;
+            let excerpt: string | null = pick(out.excerpt_sentences, 4) || (h.score >= 0.25 ? h.excerpt : null);
+            // The excerpt must show the message, not boilerplate: prefer the passage around the evidence sentences if it resembles the claim more.
+            const evSents = [...new Set(out.evidence.filter((e) => inRange(e.sentence)).map((e) => e.sentence))].sort((a, b) => a - b);
+            if (evSents.length) {
+              const around = sents.slice(evSents[0], Math.min(evSents[evSents.length - 1], evSents[0] + 3) + 1).join(" ");
               if (around && (!excerpt || relatedness(around, claim) > relatedness(excerpt, claim) + 0.05)) excerpt = around;
             }
             // A quoted message is sentence-length; a menu label or slogan is not a version of it.
+            if (excerpt && !excerptStrictlyIn(excerpt, p.content)) excerpt = snapExcerptToPage(excerpt, p.content);
             if (!excerpt || wordCount(excerpt) < MIN_EXCERPT_WORDS) return { contains: false, excerpt: "", normalized: "", pageType: out.page_type };
-            return { contains: true, excerpt, normalized: out.normalized || excerpt, pageType: out.page_type };
+            // Fact-check/news/official pages: the node text is ONLY the rumor as quoted on the page, never the article's commentary.
+            let quoted = pick(out.quoted_sentences, 4);
+            if (quoted && !excerptStrictlyIn(quoted, p.content)) quoted = snapExcerptToPage(quoted, p.content) ?? "";
+            return { contains: true, excerpt, normalized: excerpt, pageType: out.page_type, quoted: quoted && wordCount(quoted) >= MIN_QUOTE_WORDS && !looksLikeCommentary(quoted) ? quoted : "" };
           },
           // With a model configured, a page the model could not confirm is NOT admitted on heuristics alone
           // (only the no-model/offline path may rely on them): unverified pages must not enter the tree.
-          () => ({ contains: !llmAvailable("nano") && h.contains, excerpt: h.excerpt, normalized: h.excerpt, pageType: guessPageType(p.url, p.title, p.content) }),
+          () => ({ contains: !llmAvailable("nano") && h.contains, excerpt: h.excerpt, normalized: h.excerpt, pageType: guessPageType(p.url, p.title, p.content), quoted: "" }),
         );
         checked++;
         if (checked % 5 === 0 || checked === pages.length) ctx.stage("C", `Checking pages… ${checked}/${pages.length}`, claimId);
         if (!value.contains || !value.excerpt) return null;
-        const excerpt = clip(value.excerpt, 600);
+        const commentaryPage = ["debunk", "news", "official"].includes(value.pageType);
+        const quoted = commentaryPage && value.quoted ? clip(value.quoted, 600) : "";
+        // A fact-check page without a clean quoted copy stays as a dated evidence node (no changes are labelled on its edges).
+        const isCopy = !commentaryPage || !!quoted;
+        const excerpt = quoted || clip(value.excerpt, 600);
         // Use the model's normalized wording only if it is really the page's wording; otherwise the verbatim excerpt.
         const normalized = value.normalized ? clip(normalizeInput(value.normalized), 600) : "";
-        const useNormalized = wordCount(normalized) >= 4 && tokenCoverage(normalized, p.content) >= 0.85;
+        const useNormalized = !commentaryPage && wordCount(normalized) >= 4 && tokenCoverage(normalized, p.content) >= 0.85;
         return {
           id: `v${idx}-${hashString(p.url).slice(0, 5)}`,
-          text: useNormalized ? normalized : excerpt,
+          text: quoted || (useNormalized ? normalized : excerpt),
           excerpt,
           sources: [{ url: p.url, title: p.title, excerpt, pageType: value.pageType, date: p.date, dateProvenance: p.dateProvenance }],
           date: p.date,
           dateProvenance: p.dateProvenance,
           pageType: value.pageType,
+          isCopy,
         };
       }),
     ),
@@ -253,6 +282,11 @@ async function analyseMutations(ctx: RunContext, variants: Variant[], pairs: [st
       limit(async () => {
         const pa = byId.get(a)!;
         const cb = byId.get(b)!;
+        // Changes are only detected between copies of the message; evidence pages have no clean quoted copy.
+        if (pa.isCopy === false || cb.isCopy === false) {
+          out.set(pairKey(a, b), []);
+          return;
+        }
         // Texts that share almost nothing are different stories, not parent/child: don't force labels onto them.
         if (relatedness(pa.text, cb.text) < MUTATION_MIN_RELATEDNESS) {
           out.set(pairKey(a, b), []);
@@ -301,7 +335,9 @@ Return JSON: {"mutations": [{"type": label, "before": string, "after": string, "
  */
 export async function reviewMutations(ctx: RunContext, variants: Variant[], edges: LineageEdge[], claimId: string): Promise<{ edges: LineageEdge[]; stats: { reviewed: number; kept: number; retyped: number; dropped: number } }> {
   const stats = { reviewed: 0, kept: 0, retyped: 0, dropped: 0 };
-  if (!llmAvailable("super")) return { edges, stats };
+  const byType = (ms: Mutation[]): Mutation[] => ms.map((m) => ({ ...m, strength: STRONG_TYPES.has(m.type) ? "strong" : "weak" }));
+  // Without a review model, strength follows the label type alone.
+  if (!llmAvailable("super")) return { edges: edges.map((e) => ({ ...e, mutations: byType(e.mutations) })), stats };
   const byId = new Map(variants.map((v) => [v.id, v]));
   const todo = edges.filter((e) => e.mutations.length);
   if (!todo.length) return { edges, stats };
@@ -346,18 +382,19 @@ You may only judge the labels listed: do not add labels and do not change any te
           e.mutations.forEach((m, i) => {
             stats.reviewed++;
             const v = verdicts.get(i);
+            // strong = Super confirmed it unchanged AND it is a high-signal type; a retyped or unreviewed label is weak.
             if (!v || v.verdict === "keep") {
-              kept.push(m);
+              kept.push({ ...m, strength: v && STRONG_TYPES.has(m.type) ? "strong" : "weak" });
               stats.kept++;
             } else if (v.verdict === "retype" && v.type && v.type !== m.type) {
               // A retyped label must still be grounded and fit its new type, otherwise it is dropped.
               const fixed = validateMutations([{ ...m, type: v.type }], earlier, later);
               if (fixed.length) {
-                kept.push(fixed[0]);
+                kept.push({ ...fixed[0], strength: "weak" });
                 stats.retyped++;
               } else stats.dropped++;
             } else if (v.verdict === "retype") {
-              kept.push(m);
+              kept.push({ ...m, strength: STRONG_TYPES.has(m.type) ? "strong" : "weak" });
               stats.kept++;
             } else stats.dropped++;
           });
@@ -368,7 +405,8 @@ You may only judge the labels listed: do not add labels and do not change any te
       }),
     ),
   );
-  return { edges: edges.map((e) => ({ ...e, mutations: reviewed.get(`${e.from}>${e.to}`) ?? e.mutations })), stats };
+  // Edges whose review call failed keep their validated labels, all marked weak (unconfirmed).
+  return { edges: edges.map((e) => ({ ...e, mutations: reviewed.get(`${e.from}>${e.to}`) ?? e.mutations.map((m) => ({ ...m, strength: "weak" as const })) })), stats };
 }
 
 // ── Stage E ────────────────────────────────────────────────────────────────
@@ -431,13 +469,13 @@ async function lineage(ctx: RunContext, variants: Variant[], baseline: ReturnTyp
         tier: "ultra",
         stage: "F: lineage",
         maxTokens: 2000,
-        timeoutMs: 90_000,
+        timeoutMs: 170_000, // Ultra can queue for a minute or more on shared/free tiers
         messages: [
           { role: "system", content: SYSTEM },
           {
             role: "user",
             content: `You are refining a likely-lineage tree of one viral message. Nodes (id | date | date provenance | source type | text):
-${variants.map((v) => `${v.id} | ${v.date ?? "unknown"} | ${v.dateProvenance} | ${v.pageType} | ${truncate(v.text, 260)}`).join("\n")}
+${variants.map((v) => `${v.id} | ${v.date ?? "unknown"} | ${v.dateProvenance} | ${v.isCopy === false ? "EVIDENCE" : v.pageType} | ${truncate(v.text, 260)}`).join("\n")}
 
 Baseline tree (minimum spanning tree on wording, parent never later than child when both dated):
 ${baseline.edges.map((e) => `${e.from} -> ${e.to}`).join("\n")}
@@ -445,7 +483,7 @@ ${baseline.edges.map((e) => `${e.from} -> ${e.to}`).join("\n")}
 Mutations between candidate pairs:
 ${sortedEntries(mutations).slice(0, 80).map(([k, ms]) => `${k}: ${ms.map((m) => m.type).join(", ") || "none"}`).join("\n")}
 
-Refine parent edges using mutation logic (a child usually inherits its parent's changes and adds new ones). Constraints: use ONLY the ids above, do NOT add nodes, exactly one root, every other node has exactly one parent, a parent can never be dated after its child. "you" is the user's copy and must be a leaf.
+Refine parent edges using mutation logic (a child usually inherits its parent's changes and adds new ones). Constraints: use ONLY the ids above, do NOT add nodes, exactly one root, every other node has exactly one parent, a parent can never be dated after its child, EXCEPT that pages marked EVIDENCE are not copies of the message: they must be leaves, hang under the copy they discuss, and may be dated before it. "you" is the user's copy and must be a leaf.
 Return JSON: {"edges":[{"parent":id,"child":id,"confidence":"low"|"medium"|"high","reason":"one short line"}],"earliest_id":id,"evolution_summary":"2-3 plain sentences"}`,
           },
         ],
@@ -480,7 +518,8 @@ export function capConfidence(e: LineageEdge, variants: Variant[]): LineageEdge 
 
 // ── Stage G ────────────────────────────────────────────────────────────────
 async function verdict(ctx: RunContext, claim: string, variants: Variant[], edges: LineageEdge[], earliestId: string | null, limited: boolean, evolution: string): Promise<Verdict> {
-  const fallback = () => heuristicVerdict(variants, edges, earliestId, limited);
+  const strongEdges = edges.map((e) => ({ ...e, mutations: e.mutations.filter(isStrong) }));
+  const fallback = () => heuristicVerdict(variants, strongEdges, earliestId, limited);
   // A limited family with no fact-check/official source gives a model nothing real to summarise; say so plainly
   // instead of letting it narrate unrelated pages. (Finding little is not evidence the claim is true or false.)
   const hasEvidence = variants.some((v) => !v.isUserInput && v.sources.some((s) => s.pageType === "debunk" || s.pageType === "official"));
@@ -506,7 +545,7 @@ async function verdict(ctx: RunContext, claim: string, variants: Variant[], edge
             content: `Claim the user received:\n"""${truncate(claim, 800)}"""
 Earliest version found (${earliestId}): ${truncate(variants.find((v) => v.id === earliestId)?.text ?? "none", 300)} — dated ${variants.find((v) => v.id === earliestId)?.date ?? "unknown"}
 Lineage summary: ${evolution || "(none)"}
-Mutations along the tree: ${edges.flatMap((e) => e.mutations.map((m) => `${m.type}: ${m.before}→${m.after}`)).slice(0, 25).join("; ") || "none recorded"}
+Detected changes along the tree: ${edges.flatMap((e) => e.mutations.filter(isStrong).map((m) => `${m.type}: ${m.before}→${m.after}`)).slice(0, 25).join("; ") || "none recorded"}
 Evidence from fact-check/official/news sources:\n${evidence.join("\n") || "(none found)"}
 Family size: ${variants.length - 1} related versions found${limited ? " (LIMITED family)" : ""}.
 
@@ -554,7 +593,7 @@ export async function runClaim(ctx: RunContext, claimId: string, claimText: stri
   if (!pages.length) warnings.push("Search returned no pages. Check your search configuration or try different wording.");
 
   ctx.stage("C", `Checking ${pages.length} pages for versions of this message…`, claimId);
-  const confirmed = await confirmMembership(ctx, u.claim || claimText, u.keyElements, pages, claimId);
+  const confirmed = await confirmMembership(ctx, u.claim || claimText, u.keyElements, pages, claimId, claimText);
   let variants = dedupeVariants([...confirmed, userInputVariant(input, claimText)]);
   if (opts.previousSourceUrls)
     variants = variants.map((v) => ({ ...v, isNew: !v.isUserInput && v.sources.every((s) => !opts.previousSourceUrls!.has(s.url)) }));
@@ -588,6 +627,12 @@ export async function runClaim(ctx: RunContext, claimId: string, claimText: stri
   if (lin.repaired) warnings.push(`${lin.repaired} lineage edge${lin.repaired > 1 ? "s were" : " was"} repaired from the baseline tree (the refined tree proposed an invalid parent).`);
   if (lin.usedFallback && variants.length > 2) warnings.push("Lineage uses the algorithmic baseline tree (model refinement unavailable).");
 
+  // Ultra may re-parent nodes: run the same model-based change detection on any final copy→copy edge Stage D never compared.
+  const unanalysed = lin.edges.filter((e) => !mutations.has(pairKey(e.from, e.to)) && variants.find((v) => v.id === e.from)?.isCopy !== false && variants.find((v) => v.id === e.to)?.isCopy !== false);
+  if (unanalysed.length) {
+    const extra = await analyseMutations(ctx, variants, unanalysed.map((e) => [e.from, e.to] as [string, string]), claimId);
+    for (const [k, v] of extra) mutations.set(k, v);
+  }
   // Fill mutations for every final edge (heuristic for any pair the model didn't analyse).
   let edges: LineageEdge[] = lin.edges.map((e) => ({
     ...e,
@@ -600,6 +645,11 @@ export async function runClaim(ctx: RunContext, claimId: string, claimText: stri
         variants.find((v) => v.id === e.to)!.text,
       ),
   }));
+  // No changes are labelled on edges that touch an evidence page without a clean quoted copy.
+  edges = edges.map((e) => {
+    const ends = [variants.find((v) => v.id === e.from), variants.find((v) => v.id === e.to)];
+    return ends.some((v) => v?.isCopy === false) ? { ...e, mutations: [], evidenceOnly: true } : e;
+  });
   // Drop labels that are a fact-checker's own commentary rather than message content, then let Super review the rest.
   edges = edges.map((e) => ({ ...e, mutations: dropFragments(dropCommentary(e.mutations, variants.find((v) => v.id === e.to)?.pageType ?? "other", variants.find((v) => v.id === e.from)?.pageType)) }));
   const review = await reviewMutations(ctx, variants, edges, claimId);
@@ -612,7 +662,9 @@ export async function runClaim(ctx: RunContext, claimId: string, claimText: stri
   }
 
   ctx.stage("G", "Writing summary and reply card…", claimId);
-  const earliestId = lin.rootId && !variants.find((v) => v.id === lin.rootId)?.isUserInput ? lin.rootId : null;
+  // "Earliest version found" is the earliest dated page of any kind (a copy or an evidence page); the tree's root is a copy.
+  const datedPages = variants.filter((v) => !v.isUserInput && v.date).sort((a, b) => a.date!.localeCompare(b.date!));
+  const earliestId = datedPages[0]?.id ?? (lin.rootId && !variants.find((v) => v.id === lin.rootId)?.isUserInput ? lin.rootId : null);
   const v = await verdict(ctx, claimText, variants, edges, earliestId, limited, lin.summary);
 
   return {

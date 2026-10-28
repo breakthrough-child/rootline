@@ -1,70 +1,88 @@
-# Rootline — Devpost submission (draft)
+# Rootline: Devpost submission (final text, ready to paste)
 
-**Tagline:** See where it really came from before you forward it.
+Text marked **[CONFIRM AFTER NEBIUS RUN]** is true only once a teammate has deployed on Nebius Token Factory and `npm run verify-nebius` passes. Confirm or delete each one before submitting.
 
-**Track:** Best Apps and Agents · also entering Best Use of Tavily
+---
 
-**Built entirely during the submission period** of the Nebius × NVIDIA Global AI Hackathon (Oct 2026).
+## Project name
+Rootline
+
+## Tagline
+See where it really came from before you forward it.
+
+## Track
+Best Apps and Agents · also entering Best Use of Tavily
+
+## Short description (one paragraph)
+Rootline traces a forwarded message, screenshot or "official" circular back through the web, builds a family tree of its earlier versions, shows what changed along the way, and writes a kind reply you can send back to the group chat. Every version links to a real page with the exact words found, and Rootline says plainly when it can't find enough. Powered by NVIDIA Nemotron models, with Tavily for search. **[CONFIRM AFTER NEBIUS RUN]** Inference runs on Nebius Token Factory.
+
+---
 
 ## Inspiration
+In Nigeria, India and Brazil, the most dangerous misinformation rarely arrives as a news article. It arrives as a forward from someone you trust: *"URGENT, men are drugging women with perfume samples. Police have confirmed. Forward to every woman you know."* It comes as a screenshot of a post, or a "circular" on official-looking letterhead. It leads to scams, panic and sometimes violence.
 
-In Nigeria, India and Brazil, the most dangerous misinformation doesn't arrive as a news article. It arrives as a forward from a relative: "URGENT, men are drugging women with perfume samples, 2,000 missing, police confirmed, forward to every woman you know." It comes as a screenshot of a post, a voice note in Pidgin, or a "circular" on official-looking letterhead. It leads to scams, panic and sometimes mob violence.
-
-Fact-checks say *false*. They rarely show the thing that actually changes minds: how the message *mutated*. A 2017 forum post about a stranger and a business card becomes, three forwards later, "2,000 women missing, police confirmed", and later gains a doctor who doesn't exist. When people see the mutation, they stop forwarding.
+Fact-checks say *false*. They rarely show the thing that actually changes minds: **how the message changed.** A 2001 email about poisoned samples *mailed to people's homes* turns up years later as men at filling stations kidnapping women. When people can see where the scary details were added, they stop forwarding.
 
 ## What it does
+You paste a forward, upload a screenshot or a PDF/Word/Excel/PowerPoint file. Rootline:
 
-Rootline takes a forwarded message, screenshot, voice note, video or document and:
+1. pulls out the checkable claim,
+2. searches the web for earlier and parallel versions (Tavily),
+3. keeps a page only if it is about the *same specific claim*, and quotes the message **word for word**,
+4. builds a likely-lineage tree with confidence on every link, and marks the **earliest version found**,
+5. shows the **detected changes** between copies (a new authority, new urgency, a new call to forward), strongest first, weaker ones behind a toggle,
+6. writes a calm reply card under 60 words, with "Share to WhatsApp",
+7. for screenshots asks **"Does this post actually exist?"**; for documents asks **"Is this official?"**,
+8. lets teams save a rumor to a **Watchlist** and re-run it to see new versions.
 
-1. extracts the checkable claim(s),
-2. finds earlier and parallel versions across the web (Tavily),
-3. builds an evolutionary family tree of those versions,
-4. labels each mutation between parent and child (number inflated, location swapped, fake authority added, urgency added, call to action added…),
-5. shows the earliest version found and which mutation coincided with wider spread,
-6. writes a kind, under-60-word reply card for the family group chat, with a "Share to WhatsApp" button,
-7. for screenshots, checks **"Does this post actually exist?"**; for documents, **"Is this official?"**,
-8. lets newsrooms, fact-checkers and NGOs save investigations to a **Watchlist** and re-run them to catch new mutations.
-
-It is honest by construction: every node links to a real source with the exact excerpt (verified to appear on the page), every date shows its provenance, edges are "likely lineage" with confidence, and when little is found it says "Limited family found" instead of padding the tree.
+It is built to be honest. Dates always say where they came from. Edges are inferences, never certainties. Rootline never calls anything "fake": it says *"No evidence this post exists"* or *"No official record found. Verify directly with the organization before acting."* When it finds little, it shows a "Limited family found" state instead of padding the tree.
 
 ## How we built it
-
-- **Next.js (App Router) + TypeScript + Tailwind**, deployed on **Vercel**; React Flow for the animated, time-ordered tree; server-sent events stream every stage.
-- **Nebius Token Factory** (OpenAI-compatible) runs all inference with **NVIDIA Nemotron**, routed by job:
-  - **Nano**: high-volume parallel work: query planning, page membership with exact excerpts, pairwise mutation labelling, checks, OCR/transcript cleanup and translation.
-  - **Super**: clustering variants into branches, ranking claims, writing the verdict and reply card.
-  - **Ultra**: one hard call per claim, refining the lineage tree. It starts from an algorithmic baseline (a minimum spanning tree on wording distance, constrained so a parent is never later than its child) and may not add nodes. Its output is validated or discarded.
-  - **NVIDIA vision** for screenshots, scanned pages and video keyframes (Tesseract.js fallback); an **ASR interface** for NVIDIA Parakeet/Canary or a Whisper endpoint on Nebius.
-- **Tavily** search + extract is the backbone: verbatim-phrase and paraphrase queries (in the original language and English), extraction for exact quotes, domain-restricted searches for post-exists and official checks, and published dates for ordering.
-- **Zod** validates every model output, with one corrective retry and a deterministic fallback per stage, so a bad response never blanks the screen.
-- Every call is logged; the **"How this was built"** panel shows model, stage, tokens and latency, and compares the real cost with running everything on Ultra.
+- **Next.js (App Router) + TypeScript + Tailwind**, deployed on **Vercel**; React Flow for the animated tree; server-sent events stream every stage.
+- **NVIDIA Nemotron, routed by job:** a small Nemotron model does the high-volume work (query planning, page-by-page checks, change detection); **Nemotron Super** clusters versions, **reviews every change label against the exact text** (it can keep, retype or drop a label but never invent one) and writes the verdict; **Nemotron Ultra** makes one hard call per claim to refine the lineage tree, starting from an algorithmic baseline and never allowed to add nodes. A vision-language model reads screenshots; Tesseract OCR is the fallback. Every output is validated with Zod.
+- **Tavily** is the backbone: verbatim-phrase and paraphrase queries, page extraction for exact quotes, domain-aware searches for the post-exists and official checks, published dates for ordering.
+- **Provider-agnostic by design:** the whole app talks to any OpenAI-compatible endpoint. Switching providers is only environment variables. **[CONFIRM AFTER NEBIUS RUN]** The deployed demo uses Nebius Token Factory.
+- **Honesty is code, not copy:** quotes are built from numbered page sentences so they are verbatim by construction; every label must appear in the text and fit its type; changes are only computed between copies of the message (fact-check commentary is never compared); confidence is capped by wording similarity.
+- Every model call is logged; the **"How this was built"** drawer shows model, tokens, latency and cost per tier against running everything on the biggest model.
 
 ## Challenges we ran into
-
-- **Not inventing anything.** LLMs love to "tidy up" quotes. We verify every excerpt against the page text and fall back to the verbatim best-matching passage, or drop the page.
-- **Dates lie.** Search-reported dates can be last-updated dates, and screenshot timestamps can be faked. We track provenance per date and never order the tree by unverified dates.
-- **Keeping Ultra honest.** A free-form "draw the tree" prompt invents edges and nodes. Giving Ultra a constrained baseline and validating its output made it a refiner, not a storyteller.
-- **Finding model IDs and speech support** in Token Factory took real time (details in `docs/FEEDBACK.md`).
-- **Media on serverless:** ffmpeg, OCR and pdf.js inside Vercel functions.
+- **Not inventing anything.** Small models "tidy up" quotes and echo instructions. We stopped asking them to copy text and made them answer with sentence numbers instead.
+- **Real data is messy.** On real runs, topic explainers, shop pages and rebuttals of *different* schemes were mistaken for versions of the message, and fact-check commentary was mistaken for the message. We added a same-specific-claim gate, a money-offer currency check and a copies-only rule for detecting changes.
+- **Measuring ourselves honestly.** Our first hand-audit of change labels was too generous (we compared against truncated text). Re-scored properly, raw labels were only about a third correct, which pushed us to add a review pass and strict guards. We publish the real numbers in `docs/PROGRESS.md`.
+- **Rate limits and flaky reasoning models.** Default "thinking" burns hundreds of tokens per call; free-tier limits return 429s. We added a throttle, backoff, and per-model parameter fallbacks.
+- **Access.** We could not use Nebius Token Factory ourselves: **our billing country is not supported, so we were blocked at account creation.** We built and measured everything on NVIDIA's hosted API (the same Nemotron family) behind an env-var provider switch. A teammate with access deploys it on Nebius using `docs/TEAMMATE_DEPLOY.md` and a one-command checker (`npm run verify-nebius`). We have **not** tested Rootline on Token Factory ourselves. **[CONFIRM AFTER NEBIUS RUN]** The teammate's run passed.
 
 ## Accomplishments that we're proud of
-
-- A tree that reads like a story: you can point at the exact edge where "200" became "2,000" and "police confirmed" appeared.
-- Honest failure states that are designed, not error pages: "Limited family found", "No evidence this post exists", "No official record found — verify directly with the organization".
-- One pipeline for seven input types, each behind a clean adapter.
+- A tree that reads like a story: you can click the 2001 page and see the exact words, then follow the links to the version in your family chat.
+- Honest failure states that are designed, not error pages: "Limited family found", "No evidence this post exists", "No official record found".
+- A detector that *measures its own accuracy* and hides what it isn't sure about.
+- One command (`npm run verify-nebius`) that tells a teammate in minutes whether a Nebius deployment is healthy.
 
 ## What we learned
-
-- Model routing is a product decision as much as a cost one: Nano is excellent at many narrow, verifiable questions; Ultra earns its price on the single step that needs global reasoning.
-- Showing *provenance* (where a date or quote came from) builds more trust than confident verdicts.
+- Routing is a product decision as much as a cost one: small models are good at many narrow, checkable questions; the biggest model earns its price on the single step that needs global reasoning; a mid-size model is a good *reviewer*. On our runs a trace cost roughly a cent (estimated at Token Factory list prices), several times less than routing everything through the biggest model.
+- Showing *provenance* (where a date or quote came from) builds more trust than a confident verdict.
+- Grounded is not the same as correct: a label can quote the text perfectly and still be the wrong kind of change. Measure both.
 
 ## What's next
-
-- WhatsApp bot entry point (forward a message to Rootline, get the reply card back).
-- More languages for search and ASR (Yoruba, Igbo, Hausa, Hindi, Portuguese).
-- Organization workspaces with auth, alerts when a watched rumour mutates, and an API for newsroom tools.
-- Partnerships with fact-checkers to link debunks directly into the tree.
+- Compute changes against the nearest earlier *copy* even when the tree passes through a fact-check page, so more edges get labels.
+- A WhatsApp entry point (forward a message, get the reply card back) and more languages for search (Yoruba, Igbo, Hausa, Hindi, Portuguese).
+- Voice notes and video are already in the code behind a feature flag; they need a speech endpoint and real testing before we switch them on.
+- Organisation workspaces with sign-in, alerts when a watched rumor changes, and an API for newsroom tools.
 
 ## Built with
+Nebius Token Factory · NVIDIA Nemotron (Nano-class Lightning, Super, Ultra, vision-language) · Tavily · Next.js · TypeScript · Tailwind CSS · React Flow · Zod · Supabase · pdf.js · mammoth · SheetJS · Tesseract.js · Vercel
 
-Nebius Token Factory · NVIDIA Nemotron 3 (Nano, Super, Ultra) · NVIDIA vision/speech models · Tavily · Next.js · TypeScript · Tailwind CSS · React Flow · Zod · Supabase · pdf.js · mammoth · SheetJS · Tesseract.js · ffmpeg · Vercel
+## Try it out
+- Live demo: `<VERCEL URL: add after the Nebius deployment>`
+- Code: `<GITHUB URL>` (MIT licence)
+- Demo video: `<VIDEO URL>`
+
+---
+
+## Hackathon requirements (for the judges)
+- **Inference platform:** the code targets Nebius Token Factory by default (`LLM_BASE_URL=https://api.tokenfactory.nebius.com/v1`) and uses NVIDIA Nemotron models. **[CONFIRM AFTER NEBIUS RUN]** The submitted deployment and demo run on Nebius Token Factory. Development and the measurements in the repo were done on NVIDIA's hosted API because of the access issue above; each saved demo run states which provider produced it.
+- **NVIDIA models used:** a Nano-class model (Lightning), Super, Ultra and a vision-language model (when available). Exact IDs are in the README.
+- **Tavily:** search + extract, used for finding versions, exact quotes, the post-exists check and the official check.
+- **Feedback prize:** `docs/FEEDBACK.md` lists what we measured and what we could only read in docs, with numbers.
+- **Built during the submission period:** yes, entirely.
+- **Repo:** public, MIT `LICENSE` at the root, README with setup, architecture diagram and per-model rationale.
