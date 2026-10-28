@@ -61,7 +61,8 @@ Avoid as headline demos: **5G/cancer** (a general science topic, correctly "limi
 - `npm run lint`, `npm run typecheck`, `npm test` (68 tests) and `npm run build` pass.
 - Real APIs exercised: NVIDIA chat completions (4 models + vision), Tavily search/extract, Supabase (server round-trips; anon key blocked by RLS).
 - Browser-checked earlier (offline fixtures): replay, tree, node panel (desktop + 375 px), dark/light, share page, Watchlist add + re-run.
-- **Not verified:** the new real-data results in the browser UI (checked via JSON/logs and audits only); video adapter on a real clip; voice-note ASR; Vercel deployment; Nebius Token Factory itself (no account access); Supabase-backed share page in the UI.
+- Real Martinelli result (12 versions) rendered in the browser via the share page (`/r/<id>`): tree, edges, mutation chips and panels display correctly (tree is small at fit-to-screen for 12+ nodes; zoom controls work). Other real results were audited via JSON/logs only.
+- **Not verified:** video adapter on a real clip; voice-note ASR; Vercel deployment; Nebius Token Factory itself (no account access); Supabase-backed share page in the UI.
 
 ## Blocked on you
 
