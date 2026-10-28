@@ -173,7 +173,8 @@ export async function chatJson<T>(ctx: RunContext, schema: z.ZodType<T>, opts: O
   let messages = opts.messages;
   let lastErr: unknown;
   for (let attempt = 0; attempt < 2; attempt++) {
-    const { text } = await chat(ctx, { ...opts, messages, json: true, stage: attempt ? `${opts.stage} (retry)` : opts.stage });
+    // A retry usually follows truncated JSON (output hit max_tokens), so give it a bigger budget.
+    const { text } = await chat(ctx, { ...opts, maxTokens: attempt ? Math.min(4000, (opts.maxTokens ?? 1200) * 2) : opts.maxTokens, messages, json: true, stage: attempt ? `${opts.stage} (retry)` : opts.stage });
     try {
       const parsed = schema.safeParse(extractJson(text));
       if (parsed.success) return parsed.data;

@@ -82,6 +82,16 @@ async function main() {
     },
   ];
 
+  // Richest real-web case found in testing (see docs/PROGRESS.md). Only meaningful against the live web, so live mode only.
+  if (live)
+    cases.push({
+      id: "6-martinelli",
+      title: "“Martinelli” video hacks your phone (WhatsApp hoax)",
+      chip: "WhatsApp “Martinelli” warning",
+      description: "A long-running WhatsApp chain warning, traced from 2018 to today.",
+      build: async () => textToInput(await readFile(path.join(FILES, "forward-martinelli.txt"), "utf8")),
+    });
+
   const only = process.argv[2];
   for (const c of cases.filter((x) => !only || x.id.includes(only))) {
     const ctx = new RunContext((e) => {

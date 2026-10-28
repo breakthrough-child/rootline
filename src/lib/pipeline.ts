@@ -5,14 +5,15 @@ import { guessPageType, heuristicMembership, heuristicMutations, heuristicUnders
 import { chatJson, RunContext, withFallback } from "./llm";
 import { ClusterSchema, LineageSchema, MembershipSchema, MutationsSchema, UnderstandingSchema, VerdictSchema } from "./schemas";
 import { extract, resolveDate, search, type SearchHit } from "./search";
-import { bestExcerpt, clip, excerptStrictlyIn, hashString, normalizeInput, relatedness, snapExcerptToPage, tokenCoverage, truncate, wordCount } from "./text";
+import { bestExcerpt, clip, excerptStrictlyIn, hashString, speaksTo, normalizeInput, relatedness, snapExcerptToPage, tokenCoverage, truncate, wordCount } from "./text";
 import { baselineTree, candidatePairs, dedupeVariants, markSpread, repairTree, validateTree } from "./tree";
 import type { ClaimResult, Confidence, ExtractedInput, LineageEdge, Mutation, SourceRef, Understanding, Variant, Verdict } from "./types";
-import { MUTATION_TYPES } from "./types";
 
 /** Pages whose best passage scores below this against the claim are not worth a model call. */
 export const PREFILTER_SCORE = 0.14;
 export const MIN_EXCERPT_WORDS = 8;
+/** A fact-check "contradicts" a statement only if they share at least this many content words. */
+export const MIN_CONTRADICTION_OVERLAP = 3;
 export const LIMITED_THRESHOLD = 3; // fewer confirmed relatives than this → "Limited family found"
 
 const SYSTEM = `You are a careful misinformation analyst inside Rootline, a tool that traces how viral messages mutate.
@@ -393,7 +394,11 @@ export function capConfidence(e: LineageEdge, variants: Variant[]): LineageEdge 
 // ── Stage G ────────────────────────────────────────────────────────────────
 async function verdict(ctx: RunContext, claim: string, variants: Variant[], edges: LineageEdge[], earliestId: string | null, limited: boolean, evolution: string): Promise<Verdict> {
   const fallback = () => heuristicVerdict(variants, edges, earliestId, limited);
-  const knownUrls = new Set(variants.flatMap((v) => v.sources.map((s) => s.url)));
+  // A limited family with no fact-check/official source gives a model nothing real to summarise; say so plainly
+  // instead of letting it narrate unrelated pages. (Finding little is not evidence the claim is true or false.)
+  const hasEvidence = variants.some((v) => !v.isUserInput && v.sources.some((s) => s.pageType === "debunk" || s.pageType === "official"));
+  if (limited && !hasEvidence) return fallback();
+  const sourcesByUrl = new Map(variants.flatMap((v) => v.sources.map((s) => [s.url, s] as const)));
   const evidence = variants
     .flatMap((v) => v.sources.filter((s) => ["debunk", "official", "news"].includes(s.pageType)))
     .slice(0, 8)
@@ -418,7 +423,7 @@ Mutations along the tree: ${edges.flatMap((e) => e.mutations.map((m) => `${m.typ
 Evidence from fact-check/official/news sources:\n${evidence.join("\n") || "(none found)"}
 Family size: ${variants.length - 1} related versions found${limited ? " (LIMITED family)" : ""}.
 
-Write a calm, non-preachy verdict. Say "earliest version found" (not "origin"). Only mark statements as unsupported if a listed source contradicts them, and cite those exact URLs. Never call anything definitely fake.
+${limited ? "The family is LIMITED: say plainly that few earlier versions were found and that this does not show the claim is true or false. Do not describe pages that are not about this claim.\n" : ""}Write a calm, non-preachy verdict. Say "earliest version found" (not "origin"). Only mark statements as unsupported if a listed source contradicts them, and cite those exact URLs. Never call anything definitely fake.
 reply_card: under 60 words, for a family WhatsApp group; kind, never condescending, no links.
 Return JSON: {"summary": 2-3 sentences, "what_changed": [short lines], "unsupported": [{"statement": string, "source_urls": [url]}], "confidence": "low"|"medium"|"high", "reply_card": string}`,
           },
@@ -428,7 +433,16 @@ Return JSON: {"summary": 2-3 sentences, "what_changed": [short lines], "unsuppor
       return {
         summary: out.summary,
         whatChanged: out.what_changed,
-        unsupported: out.unsupported.map((u) => ({ statement: u.statement, sourceUrls: u.source_urls.filter((x) => knownUrls.has(x)) })).filter((u) => u.sourceUrls.length),
+        // A source only "contradicts" a statement if it is a fact-check/official page that shares the statement's specifics.
+        unsupported: out.unsupported
+          .map((u) => ({
+            statement: u.statement,
+            sourceUrls: u.source_urls.filter((x) => {
+              const src = sourcesByUrl.get(x);
+              return !!src && (src.pageType === "debunk" || src.pageType === "official") && speaksTo(u.statement, src.excerpt, MIN_CONTRADICTION_OVERLAP);
+            }),
+          }))
+          .filter((u) => u.sourceUrls.length),
         confidence: limited ? "low" : out.confidence,
         replyCard: out.reply_card,
       };
@@ -490,7 +504,14 @@ export async function runClaim(ctx: RunContext, claimId: string, claimText: stri
   // Fill mutations for every final edge (heuristic for any pair the model didn't analyse).
   let edges: LineageEdge[] = lin.edges.map((e) => ({
     ...e,
-    mutations: mutations.get(pairKey(e.from, e.to)) ?? heuristicMutations(variants.find((v) => v.id === e.from)!.text, variants.find((v) => v.id === e.to)!.text),
+    // Pairs the model never saw (Ultra re-parented a node) get rule-based labels, held to the same validator.
+    mutations:
+      mutations.get(pairKey(e.from, e.to)) ??
+      validateMutations(
+        heuristicMutations(variants.find((v) => v.id === e.from)!.text, variants.find((v) => v.id === e.to)!.text),
+        variants.find((v) => v.id === e.from)!.text,
+        variants.find((v) => v.id === e.to)!.text,
+      ),
   }));
   edges = edges.map((e) => capConfidence(e, variants));
   edges = markSpread(variants, edges);

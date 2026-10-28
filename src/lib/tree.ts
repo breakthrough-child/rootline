@@ -300,8 +300,8 @@ export function repairTree<E extends { from: string; to: string }>(
   }
   // The root: the proposed earliest if it is parentless and not the user's copy, otherwise the baseline's root.
   const baselineRoot = variants.find((v) => !baseline.some((b) => b.to === v.id))?.id ?? variants[0].id;
-  let root = proposedRootId && byId.has(proposedRootId) && !parentOf.has(proposedRootId) && !byId.get(proposedRootId)!.isUserInput ? proposedRootId : baselineRoot;
-  if (parentOf.has(root)) parentOf.delete(root);
+  const root = proposedRootId && byId.has(proposedRootId) && !parentOf.has(proposedRootId) && !byId.get(proposedRootId)!.isUserInput ? proposedRootId : baselineRoot;
+  parentOf.delete(root);
   for (const v of variants) {
     if (v.id === root || parentOf.has(v.id)) continue;
     const b = baseline.find((x) => x.to === v.id);

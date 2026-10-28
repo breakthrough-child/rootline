@@ -15,7 +15,7 @@ Goal: you run Rootline **on your own accounts**, using **your own Nebius Token F
 | A GitHub account | github.com | free |
 | A Vercel account (sign in with GitHub) | vercel.com | free "Hobby" plan |
 | A **Nebius Token Factory** account + API key | tokenfactory.nebius.com | pay-as-you-go; a full demo run costs a few cents |
-| A **Tavily** account + API key | app.tavily.com | free tier: 1,000 credits/month |
+| A **Tavily** account + API key | app.tavily.com | free tier: 1,000 credits/month (one live trace ≈ 16–20 credits, so ~50 traces; `npm run fixtures` uses ~100) |
 | Node.js 20 or newer and Git on your computer | nodejs.org, git-scm.com | free |
 | *(optional)* a Supabase project | supabase.com | free; only needed so share links and the Watchlist survive |
 

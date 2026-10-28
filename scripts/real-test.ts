@@ -68,7 +68,7 @@ async function main() {
   await mkdir(OUT, { recursive: true });
 
   const wanted = process.argv.slice(2);
-  const ids = [...Object.keys(RUMORS), "screenshot"].filter((id) => !wanted.length || wanted.includes(id));
+  const ids = [...Object.keys(RUMORS), "screenshot", "circular"].filter((id) => !wanted.length || wanted.includes(id));
   const rows: Row[] = [];
 
   for (const id of ids) {
@@ -77,12 +77,17 @@ async function main() {
     });
     ctx.pages = new Map();
     console.log(`\n▶ ${id}`);
-    const input =
-      id === "screenshot"
-        ? await fileToInput(ctx, [{ name: "screenshot-kemi-reports.png", mime: "image/png", buf: await readFile(path.join("fixtures", "files", "screenshot-kemi-reports.png")) }])
-        : textToInput(RUMORS[id].text);
+    const fileCase = id === "screenshot" ? ["screenshot-kemi-reports.png", "image/png"] : id === "circular" ? ["circular-focr.pdf", "application/pdf"] : null;
+    const input = fileCase ? await fileToInput(ctx, [{ name: fileCase[0], mime: fileCase[1], buf: await readFile(path.join("fixtures", "files", fileCase[0])) }]) : textToInput(RUMORS[id].text);
+    let claimText = input.text;
+    if (id === "circular") {
+      const { extractClaims } = await import("../src/lib/claims");
+      const claims = await extractClaims(ctx, input);
+      console.log(`  claims: ${claims.map((c) => `[${c.score.toFixed(2)} ${c.location ?? ""}] ${c.text.slice(0, 70)}`).join("\n          ")}`);
+      claimText = claims[0].text;
+    }
     if (id === "screenshot") console.log(`  read via: ${input.adapterPath.join(" → ")}\n  text: ${input.text}\n  fields: ${JSON.stringify({ ...input.screenshot, post_text: undefined })}`);
-    const inv = await investigate(ctx, input, [{ id: "k0", text: input.text }], { id: `real-${id}` });
+    const inv = await investigate(ctx, input, [{ id: "k0", text: claimText }], { id: `real-${id}` });
     await writeFile(path.join(OUT, `${id}.json`), JSON.stringify(inv, null, 1));
     await writeFile(path.join(OUT, `${id}.pages.json`), JSON.stringify(Object.fromEntries(ctx.pages ?? [])));
     const c = inv.claims[0];
@@ -123,7 +128,6 @@ async function main() {
     const cost = summarizeCost(inv.logs, inv.pricing ?? {});
     const conf = { high: 0, medium: 0, low: 0 };
     for (const e of c.edges) conf[e.confidence]++;
-    const llm = inv.logs.filter((l) => ["nvidia", "nebius", "openai-compatible"].includes(l.provider));
     rows.push({
       run: id,
       nodes: c.variants.length,
@@ -145,7 +149,7 @@ async function main() {
     });
 
     // ── Human audit view
-    console.log(`  checks: ${JSON.stringify(Object.fromEntries(Object.entries(inv.checks).map(([k, v]) => [k, v?.outcome])))}`);
+    console.log(`  checks: ${JSON.stringify(Object.fromEntries(Object.entries(inv.checks).map(([k, v]) => [k, v ? { outcome: v.outcome, url: (v as { url?: string }).url, note: v.note } : v])))}`);
     console.log(`  queries: ${c.understanding.queries.join("  ||  ")}`);
     console.log(`  stats: ${JSON.stringify(c.stats)}  limited=${c.limited}  branches=${c.branches.map((b) => b.name).join("; ")}`);
     for (const v of [...c.variants].sort((a, b) => (a.date ?? "9999").localeCompare(b.date ?? "9999")))

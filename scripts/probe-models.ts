@@ -1,5 +1,6 @@
 // Sends a 1-token request to every candidate model on the configured provider, to see which ones your key can really call.
 // (A model can be listed by /v1/models yet return 404 "Function not found for account".)
+// Sends the same thinking-off setting the app uses, so the reply shown is what the app would get.
 //   npm run probe
 import "./load-env";
 
@@ -16,7 +17,7 @@ async function main() {
       const res = await fetch(`${base}/chat/completions`, {
         method: "POST",
         headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
-        body: JSON.stringify({ model: id, messages: [{ role: "user", content: "Reply with the single word: ok" }], max_tokens: 8, temperature: 0 }),
+        body: JSON.stringify({ model: id, messages: [{ role: "user", content: "Reply with the single word: ok" }], max_tokens: 16, temperature: 0, chat_template_kwargs: { enable_thinking: false } }),
         signal: AbortSignal.timeout(60_000),
       });
       const t = await res.text();

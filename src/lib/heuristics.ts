@@ -6,7 +6,7 @@ import type { Confidence, LineageEdge, Mutation, PageType, Understanding, Varian
 const NUMBER_RE = /(?:[₦$£€]|\bN|\bNGN\s?|\bRs\.?\s?|\bR\$\s?)?\d[\d,.]*(?:\s?(?:k|m|bn|million|billion|thousand|%|percent))?/gi;
 const AUTHORITY_RE =
   /\b(?:WHO|UN|UNICEF|police|army|government|federal government|ministry(?: of [A-Z][\w]+(?: [A-Z][\w]+)*)?|minister|president|governor|senator|commissioner|doctor|dr\.? [A-Z][\w-]+(?: [A-Z][\w-]+)?|professor|prof\.? [A-Z][\w-]+|hospital|university|board|council|agency|commission|bureau|office of [A-Z][\w]+(?: [A-Z][\w]+)*)\b/gi;
-const URGENCY_RE = /\b(?:urgent|urgently|immediately|now|today|tonight|before (?:friday|monday|tuesday|wednesday|thursday|saturday|sunday|midnight|[\w]+ ends)|deadline|last chance|breaking|act fast|hurry|within \d+ (?:hours|days))\b/gi;
+const URGENCY_RE = /\b(?:urgent|urgently|immediately|tonight|before (?:friday|monday|tuesday|wednesday|thursday|saturday|sunday|midnight|[\w]+ ends)|deadline|last chance|breaking|act fast|hurry|within \d+ (?:hours|days))\b/gi;
 const CTA_RE = /\b(?:forward|share|send (?:this|it)|click|apply|register|call|tell (?:everyone|every|your)|broadcast|pass (?:it|this) on|don'?t (?:ignore|keep quiet))\b[^.!?\n]*/gi;
 const EMOTION_RE = /\b(?:shocking|horrible|terrifying|evil|wicked|heartbreaking|god help us|may god|pray|beware|be careful|scary|devastating|abeg|chai)\b/gi;
 const DATE_RE = /\b(?:\d{1,2}(?:st|nd|rd|th)?\s+(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\.?(?:\s+\d{4})?|(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\.?\s+\d{1,2}(?:st|nd|rd|th)?(?:,?\s+\d{4})?|\d{4}-\d{2}-\d{2}|(?:mon|tues|wednes|thurs|fri|satur|sun)day|this month|this week|next week)\b/gi;
@@ -41,7 +41,7 @@ export function findPlaces(s: string): string[] {
   const fromList = PLACES.filter((p) => c.includes(` ${p} `));
   const fromPrep = [...s.matchAll(/\b(?:in|at|around|across|near|from)\s+([A-Z][a-zA-Z]+(?:\s[A-Z][a-zA-Z]+)?)/g)]
     .map((m) => m[1])
-    .filter((p) => !/^(?:The|This|That|Our|Your|My|Every|All|Nigeria's|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday|January|February|March|April|May|June|July|August|September|October|November|December)$/.test(p.split(" ")[0]));
+    .filter((p) => !PLATFORM_WORDS.has(p.toLowerCase()) && !/^(?:The|This|That|Our|Your|My|Every|All|Nigeria's|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday|January|February|March|April|May|June|July|August|September|October|November|December)$/.test(p.split(" ")[0]));
   return norm([...fromList.map((p) => p.replace(/\b\w/g, (m) => m.toUpperCase())), ...fromPrep]);
 }
 
@@ -197,15 +197,18 @@ export function heuristicVerdict(variants: Variant[], edges: LineageEdge[], earl
   ).slice(0, 6);
   const dateTxt = earliest?.date ? `from ${earliest.date.slice(0, 10)}` : "with no reliable date";
   const summary = limited
-    ? `Rootline found only ${variants.filter((v) => !v.isUserInput).length} related version(s) online, so the family is limited. ${earliest ? `The earliest found is ${dateTxt}.` : ""}`.trim()
+    ? `Rootline found ${variants.filter((v) => !v.isUserInput).length === 0 ? "no earlier versions" : `only ${variants.filter((v) => !v.isUserInput).length} related version${variants.filter((v) => !v.isUserInput).length === 1 ? "" : "s"}`} of this message online, so the family is limited. Finding little is not evidence that the message is true or false.${earliest ? ` The earliest found is ${dateTxt}.` : ""}`.trim()
     : `The earliest version found is ${dateTxt}. As it was forwarded, it changed ${changes.length} time${changes.length === 1 ? "" : "s"}${whatChanged.length ? ` (for example, ${whatChanged[0].charAt(0).toLowerCase()}${whatChanged[0].slice(1)})` : ""}.${debunks.length ? ` ${debunks.length} fact-check or official source${debunks.length === 1 ? "" : "s"} address it.` : ""}`;
   const unsupported = debunks.length
     ? [{ statement: "The claim is disputed by the fact-check/official sources found.", sourceUrls: uniq(debunks.map((d) => d.url)).slice(0, 3) }]
     : [];
   const confidence: Confidence = limited ? "low" : edges.some((e) => e.confidence === "high") ? "medium" : "low";
+  const relatives = variants.filter((v) => !v.isUserInput).length;
   const replyCard = debunks.length
     ? `I looked this up before forwarding. Versions of this message have circulated since ${earliest?.date?.slice(0, 4) ?? "earlier"}, and the details keep changing. Fact-checkers say it isn't supported. Maybe let's not forward it until there's an official source. 🙏`
-    : `I looked this up before forwarding. Earlier versions of this message exist and the details have changed as it spread. I couldn't find an official source, so let's hold off forwarding for now. 🙏`;
+    : relatives < 2
+      ? `I tried to trace this message before forwarding and couldn't find earlier copies or an official source. That doesn't mean it's true or false, so let's check with an official source before sharing it. 🙏`
+      : `I looked this up before forwarding. Earlier versions of this message exist and the details have changed as it spread. I couldn't find an official source, so let's hold off forwarding for now. 🙏`;
   return { summary, whatChanged, unsupported, confidence, replyCard };
 }
 
@@ -217,7 +220,7 @@ const NUMBER_WORDS = /\b(?:one|two|three|four|five|six|seven|eight|nine|ten|elev
 
 const PLATFORM_WORDS = new Set(["whatsapp", "facebook", "twitter", "instagram", "youtube", "tiktok", "telegram", "google", "x", "email", "sms"]);
 const AUTHORITY_WORDS = /\b(?:police|government|govt|ministry|minister|president|governor|army|military|officials?|authorities|doctors?|dr\.?|professors?|experts?|scientists?|researchers?|hospital|university|institute|agency|commission|council|department|bureau|office|sheriff|garda|who|unicef|nafdac|ncdc|cnn|bbc|reuters|nasa|fbi|cdc)\b/i;
-const URGENCY_WORDS = /\b(?:urgent|urgently|immediately|now|today|tonight|tomorrow|hurry|quick(?:ly)?|fast|asap|deadline|before|closes?|closing|expires?|expiring|limited|last chance|right away|at once|breaking|within|hours?|minutes?|days?|monday|tuesday|wednesday|thursday|friday|saturday|sunday|midnight)\b/i;
+const URGENCY_WORDS = /\b(?:urgent(?:ly)?|immediately|hurry|quickly|asap|deadline|closes|closing|expires?|expiring|last chance|right away|at once|breaking|tonight|before (?:friday|monday|tuesday|wednesday|thursday|saturday|sunday|midnight|the end|it'?s too late)|within \d+ (?:hours?|minutes?|days?)|\d+ (?:hours?|minutes?) (?:left|only))\b/i;
 const CTA_WORDS = /\b(?:forward|share|send|click|tap|apply|register|sign ?up|call|text|tell|inform|alert|warn|spread|pass|circulate|broadcast|post|repost|retweet|contact|visit|join|subscribe|download|follow|reply|delete|ignore|avoid|stop|don'?t|do not|never|please)\b/i;
 const EMOTION_WORDS = /\b(?:beware|careful|danger(?:ous)?|deadly|fatal|terrif\w*|scar(?:y|ed)|shock\w*|horr\w*|evil|wicked|pray|god|please|sad|heartbreaking|panic|kill\w*|die[ds]?|death|dead|victims?|children|innocent|warning|alert|urgent|help)\b|!/i;
 const DATE_WORDS = /\d|\b(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\b|\b(?:mon|tues|wednes|thurs|fri|satur|sun)day\b|\b(?:today|tomorrow|tonight|yesterday|week|month|year|weekend)\b/i;
@@ -225,6 +228,8 @@ const DATE_WORDS = /\d|\b(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z
 /** Does `phrase` look like a named person/organisation/official body (a capitalised word that isn't just a sentence start, or an authority term)? */
 function looksLikeAuthority(phrase: string): boolean {
   if (AUTHORITY_WORDS.test(phrase)) return true;
+  // "WhatsApp Gold version" is a product, not an authority.
+  if (new RegExp(`\\b(?:${[...PLATFORM_WORDS].join("|")})\\b`, "i").test(phrase)) return false;
   const words = phrase.split(/\s+/).filter(Boolean);
   return words.slice(1).some((w) => /^[A-Z][A-Za-z'’.-]+$/.test(w) && !/^(?:The|A|An|And|Of|In|On|At|To|For|It|This|That|Please|I|We|You)$/.test(w)) || /^[A-Z]{2,}$/.test(words[0] ?? "");
 }

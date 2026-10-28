@@ -83,3 +83,9 @@ In the browser: open an example chip (replay), then paste a rumor and trace it l
 - Voice notes need `ASR_ENDPOINT_URL` (NVIDIA's speech models use Riva gRPC, which Rootline doesn't speak); everything else works.
 - The Tesseract OCR fallback downloads its English model on first use (needs outbound network; cached in `/tmp`).
 - No auth: anyone with the URL can use your credits and see the shared Watchlist. Don't publish the URL widely.
+
+## 6. Budget notes (measured)
+
+- **Tavily:** one fresh live trace costs about 16–20 credits (8 searches + about 8 to extract 40 pages). The free tier's 1,000 credits/month is therefore roughly 50 traces. `MAX_CANDIDATE_PAGES=24` (set above) cuts extraction to ~5 credits; `MAX_QUERIES=5` saves 3 more. Each *new* visitor trace costs credits, so don't share the URL publicly; example chips (replays) are free.
+- **NVIDIA API:** a trace makes ~40–55 model calls; at the 35/min throttle that is ≥ 70–100 s of pure queueing. Fits Vercel's 300 s limit with the settings above; if you see "function timed out", lower `MAX_CANDIDATE_PAGES` further.
+- Estimated model cost per trace at Nebius list prices: ~$0.006–0.010 (≈ 7–10× cheaper than routing everything through Ultra).

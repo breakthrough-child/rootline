@@ -6,7 +6,7 @@ Rootline traces where a viral claim came from and how it mutated as it spread. G
 
 Built for the **Nebius × NVIDIA Global AI Hackathon** (track: Best Apps and Agents; also targeting Best Use of Tavily). All AI inference runs on **Nebius Token Factory** with **NVIDIA Nemotron** models.
 
-> Status, what's done and what was cut: [`docs/PROGRESS.md`](docs/PROGRESS.md)
+> Status, real-data results and what was cut: [`docs/PROGRESS.md`](docs/PROGRESS.md) · Deploying on Nebius as a teammate: [`docs/TEAMMATE_DEPLOY.md`](docs/TEAMMATE_DEPLOY.md) · Vercel test deployment on the NVIDIA API: [`docs/DEPLOY_VERCEL_NVIDIA.md`](docs/DEPLOY_VERCEL_NVIDIA.md) · Honest vendor feedback: [`docs/FEEDBACK.md`](docs/FEEDBACK.md)
 
 ## Why
 
@@ -176,6 +176,9 @@ Run [`supabase/schema.sql`](supabase/schema.sql) in the SQL editor, then set `NE
 | `npm run fixtures` | regenerate demo fixtures |
 | `npm run eval` | fixture metrics |
 | `npm run models` | list Nemotron/NVIDIA models on the configured provider |
+| `npm run probe` | send a tiny request to each model: which ones can your key actually call? |
+| `npm run real-test` | run real rumors + a screenshot + a fake circular end to end and audit the results (excerpts verbatim? mutation labels grounded? cost, latency). Uses `DEV_CACHE` |
+| `npm run compare-nano -- <rumor> <modelA> <modelB>` | compare Nano-tier candidates on the real membership stage |
 
 ### Deploy (Vercel)
 

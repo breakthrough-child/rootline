@@ -127,3 +127,31 @@ describe("messageMarkers", () => {
     expect(messageMarkers("Cell phones emit radiofrequency radiation. Studies have found no increased risk of brain tumours.")).toBeLessThan(2);
   });
 });
+
+import { specificTokens, speaksTo } from "@/lib/text";
+describe("a source only contradicts a statement that it speaks to", () => {
+  const circular = "The Federal Office of Civic Readiness announced that all schools nationwide will close for three weeks from Monday 12th October 2026.";
+  it("extracts specifics (names, numbers), not sentence starters", () => {
+    expect(specificTokens(circular)).toEqual(expect.arrayContaining(["federal", "office", "civic", "readines", "monday", "12th", "2026"]));
+    expect(specificTokens("Men at filling stations give women free perfume samples.")).toEqual([]);
+  });
+  it("rejects a fact-check about a different school-closure rumor, accepts one about the same message", () => {
+    const indian = "There is no nationwide closure order. Milad-un-Nabi is a Gazetted holiday for central government offices, but school closures are decided by states. Only three national holidays bind all schools.";
+    expect(speaksTo(circular, indian)).toBe(false);
+    const same = "Fact check: a circular from the Federal Office of Civic Readiness says all schools nationwide close for three weeks; the office has no record of it.";
+    expect(speaksTo(circular, same)).toBe(true);
+  });
+  it("applies only the general-overlap rule when a statement has no specifics", () => {
+    const s = "Men at filling stations give women free perfume samples that make them faint so they can be kidnapped.";
+    expect(speaksTo(s, "A viral message says men are giving women free perfume samples at filling stations; police found no kidnappings.")).toBe(true);
+    expect(speaksTo(s, "Department stores sell fragrance at counters near the entrance.")).toBe(false);
+  });
+});
+
+describe("platform names are not authorities", () => {
+  it("drops 'WhatsApp Gold version' but keeps real authorities", () => {
+    const m = (after: string) => ({ type: "authority_added" as const, before: "", after, explanation: "" });
+    const out = validateMutations([m("WhatsApp Gold version"), m("CNN and BBC")], "a hoax", "a hoax. WhatsApp Gold version. CNN and BBC");
+    expect(out.map((x) => x.after)).toEqual(["CNN and BBC"]);
+  });
+});

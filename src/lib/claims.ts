@@ -5,6 +5,9 @@ import { ClaimsSchema, RankSchema } from "./schemas";
 import { canonical, splitSentences, truncate, wordCount } from "./text";
 import type { CandidateClaim, ExtractedInput } from "./types";
 
+/** A checkable claim is a full sentence: fragments like "Lassa variant X outbreak" trace unrelated pages. */
+export const MIN_CLAIM_WORDS = 8;
+
 const SYSTEM = "You extract checkable factual claims from documents. Copy claims closely from the text; never add facts. Reply with one JSON object.";
 
 /** Short inputs (a forward, a post) are traced as a single claim. */
@@ -22,7 +25,7 @@ export function locationFor(input: ExtractedInput, claim: string): string | unde
 }
 
 export function heuristicClaims(input: ExtractedInput): CandidateClaim[] {
-  const sents = splitSentences(input.text).filter((s) => wordCount(s) >= 6 && wordCount(s) <= 80);
+  const sents = splitSentences(input.text).filter((s) => wordCount(s) >= MIN_CLAIM_WORDS && wordCount(s) <= 80);
   return sents
     .map((s, i) => {
       const score = Math.min(1, 0.15 + 0.25 * Math.min(2, findNumbers(s).length) + 0.2 * Math.min(1, findAuthorities(s).length) + 0.15 * Math.min(1, findPlaces(s).length) + 0.1 * Math.min(1, findUrgency(s).length));
@@ -48,11 +51,14 @@ export async function extractClaims(ctx: RunContext, input: ExtractedInput): Pro
           { role: "system", content: SYSTEM },
           {
             role: "user",
-            content: `Text (with location markers like [page 2]):\n"""${truncate(withMarkers(input), 12000)}"""\nList up to 12 checkable factual claims (who/what/numbers/dates that could be verified online). Return JSON: {"claims":[{"text": claim close to the original wording, "location": marker label or null}]}`,
+            content: `Text (with location markers like [page 2]):\n"""${truncate(withMarkers(input), 12000)}"""\nList up to 12 checkable factual claims. Each claim must be ONE complete, self-contained sentence (at least 8 words) asserting something that web sources could confirm or refute (an event, an offer, a number, an official decision), written close to the original wording and including who/what/where/when if the text gives it. Do NOT list headings, titles, reference numbers, the document's own date, signatures, greetings, bare topics or instructions.
+Return JSON: {"claims":[{"text": the full-sentence claim, "location": marker label or null}]}`,
           },
         ],
       });
-      return out.claims.map((c, i) => ({ id: `k${i}`, text: c.text, location: c.location ?? locationFor(input, c.text), score: 0.5 }));
+      const full = out.claims.filter((c) => wordCount(c.text) >= MIN_CLAIM_WORDS);
+      if (!full.length) throw new Error("no full-sentence claims");
+      return full.map((c, i) => ({ id: `k${i}`, text: c.text, location: c.location ?? locationFor(input, c.text), score: 0.5 }));
     },
     () => heuristicClaims(input),
   );

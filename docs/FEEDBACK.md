@@ -2,7 +2,16 @@
 
 Collected while building Rootline (Oct 27–30, 2026). Each item says what we hit, where, and what would have helped. Items marked **[pre-key]** were found from the public docs before we had an API key; **[live]** items come from real calls.
 
-> Honest status: at the time of writing, the build was done without API keys in the build environment, so the live-call sections (latency, JSON reliability, model behaviour) are not filled in yet. Add them after `npm run fixtures` with real keys — see the TODOs below. Nothing here is invented.
+> Honest status: Token Factory itself was **not** available to us (billing-country restriction), so everything under "NVIDIA API (build.nvidia.com)" below was measured on NVIDIA's hosted API with the same Nemotron family, and the Token Factory sections are still docs-only. Nemotron/Tavily numbers are from a real-data run on 2026-10-28 (6 cases, ~280 model calls; see `docs/PROGRESS.md`). Nothing here is invented; TODOs mark what we could not measure.
+
+## NVIDIA API (build.nvidia.com) — measured
+
+1. **`/v1/models` lists models a key can't call.** `nvidia/nemotron-nano-3-30b-a3b`, `nvidia/nemotron-3-super-120b-a12b` and the 4 older Nemotron instruct models are listed but return `404 {"detail":"Function '…': Not found for account '…'"}`. Callable for us: Lightning 30B-A3B, Super-VL 120B-A12B, Ultra 550B, Nano-Omni 30B (reasoning), Bolt-e4b. The 404 body is an opaque NVCF function id; a clear "model not enabled for your account" message and a `/models` filter for what the key can invoke would have saved an hour (we built `npm run probe`).
+2. **Thinking is on by default and expensive.** Without `chat_template_kwargs:{"enable_thinking":false}`, a 40-token JSON answer took 478–600 completion tokens and 3–13 s on Lightning, Nano-Omni and Super-VL; Ultra put its reasoning *in `content`* (no `reasoning_content` split), which corrupts naive JSON parsing. With the toggle, answers were 26–35 tokens in 0.8–3.4 s. This should be in the model cards for every Nemotron 3.x model. `response_format: json_object` worked on all callable models.
+3. **Rate limits.** The free tier returns `429 Too Many Requests` after ~40 requests/min with no `Retry-After`, and `503 ResourceExhausted: Worker local total request limit reached (16/16)` under bursts. A pipeline that fans out 6 parallel calls hits it immediately; we added a shared throttle (35/min) and backoff. Publishing the numeric limits per model would help.
+4. **Latency measured (successful calls, 6 real traces):** Lightning p50 3.6 s / p95 12.8 s (n=235; p95 includes provider queueing), Super-VL p50 2.6 s / p95 4.2 s (n=11), Ultra p50 14.3 s / p95 18.5 s (n=6; one probe call queued 61 s), vision 5.8 s (1 call). Nano-Omni (thinking off): p50 5.7 s / p95 19.9 s. Bolt-e4b: p50 3.4 s / p95 5.0 s.
+5. **Behaviour.** Lightning follows "copy the excerpt character-for-character" imperfectly (we saw ellipses, stitched passages, and JSON truncated at the output limit about 3 times per run); we verify every excerpt in code (final audit: 100% verbatim). It over-accepted topical pages as "same message" (health explainers, shop pages) and, in a hand audit of 15 mutation labels, put 4 under the wrong label (a real phrase, wrong type), so Rootline validates before showing. Bolt-e4b paraphrased instead of quoting and, end to end, missed the 2018 origin that Lightning found. Ultra's refined lineage trees were sometimes invalid (an unknown/duplicated parent or a parent dated after its child; seen in at least 3 runs), hence tree repair rather than discarding the tree. **Vision:** Super-VL read a screenshot's handle, display name, timestamp, engagement counts and post text perfectly on the first try.
+6. **Model IDs differ between NVIDIA and Nebius for the same weights** (case, word order: `nemotron-nano-3-30b-a3b` vs `nvidia-nemotron-3-nano-30b-a3b`), so "switch provider by env" needs a different `MODEL_*` set, not just a base URL.
 
 ## Nebius Token Factory
 
@@ -20,12 +29,12 @@ Collected while building Rootline (Oct 27–30, 2026). Each item says what we hi
 
 ## NVIDIA Nemotron (model behaviour)
 
-- **TODO [live]:** whether Nano follows the "copy the excerpt character-for-character" instruction (we measure this: every excerpt is checked against the page and the rejection rate is visible in logs); whether Ultra respects "do not add nodes" (validated, fallback counted); tone of Super's reply cards; Pidgin translation quality.
+- (Measured above for NVIDIA API.) **TODO on Token Factory:** whether Nano follows the "copy the excerpt character-for-character" instruction (we measure this: every excerpt is checked against the page and the rejection rate is visible in logs); whether Ultra respects "do not add nodes" (validated, fallback counted); tone of Super's reply cards; Pidgin translation quality.
 
 ## NVIDIA vision / speech models
 
 - **[pre-key]** Unclear which NVIDIA VLM is serverless on Token Factory (Super VL vs Nano Omni), and under what exact ID. `npm run models` in this repo filters `/v1/models` for NVIDIA models to make this quick.
-- **TODO [live]:** screenshot field extraction accuracy vs Tesseract fallback on the fixture screenshot.
+- Screenshot: Super-VL read all fields exactly on the fixture screenshot (see above). **TODO:** compare with the Tesseract fallback on the same image, and test on a real-world screenshot with compression/noise.
 
 ## Nebius Serverless / AI Cloud
 
@@ -36,7 +45,8 @@ Collected while building Rootline (Oct 27–30, 2026). Each item says what we hi
 1. **[pre-key] Clear, complete docs.** Parameter tables, error codes and limits (20 URLs per extract, `failed_results` returned on HTTP 200) were all where we expected. The `exact_match` flag is a great fit for tracing verbatim phrases.
 2. **[pre-key] `published_date` semantics.** The docs say it is "Tavily's best estimate of when the source was published or last updated" and can be later than the original date. For provenance-sensitive apps, separate `published_date` and `last_updated` fields (or a `date_source` hint) would be valuable; today we have to label both as "reported by the source".
 3. **[pre-key] Extract + query.** `query` + `chunks_per_source` on `/extract` reduces the text we send to Nano; it would help to document the max total characters returned per URL.
-4. **TODO [live]:** recall for verbatim quoted phrases vs paraphrases; how often `published_date` was present; latency per call.
+4. **[live]** Latency: search p50 ~2.2–3.2 s, extract (20 URLs) ~7–10 s. `published_date` was present on 46% of 729 search results; extraction failed for 190 of 576 URLs (Facebook alone 91, then africacheck.org, reddit, instagram, quora), and those pages fall back to the search snippet, whose passages are stitched with "…" (we split on those to keep excerpts verbatim). Quoted distinctive phrases found real copies of the message; paraphrase queries more often returned general explainers (qualitative impression, not measured). **Credits:** one live trace costs ~16–20 credits (8 searches + ~8 for extracting 40 pages); ~190 credits for this whole test campaign. A "max total credits per request" guard and a response header with remaining credits would help budget-conscious demos.
+5. `include_usage:true` would have let us log real credit use per call; we estimate instead.
 
 ## Developer environment note (not a vendor issue)
 

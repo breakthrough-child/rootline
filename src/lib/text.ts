@@ -198,3 +198,45 @@ export function tokenCoverage(a: string, b: string): number {
   const B = new Set(contentTokens(b));
   return A.filter((t) => B.has(t)).length / A.length;
 }
+
+/** Very light stemmer for overlap checks only (plurals, -ing/-ed). */
+export function stem(t: string): string {
+  if (t.length > 5 && t.endsWith("ing")) return t.slice(0, -3);
+  if (t.length > 4 && t.endsWith("ed")) return t.slice(0, -2);
+  if (t.length > 4 && t.endsWith("es")) return t.slice(0, -2);
+  if (t.length > 3 && t.endsWith("s")) return t.slice(0, -1);
+  return t;
+}
+
+/** Number of distinct (stemmed) content words two texts share. */
+export function sharedContentWords(a: string, b: string): number {
+  const A = new Set(contentTokens(a).map(stem));
+  return new Set(contentTokens(b).map(stem).filter((t) => A.has(t))).size;
+}
+
+/** The statement's specifics: tokens with digits, and capitalised words that don't merely start a sentence. */
+export function specificTokens(statement: string): string[] {
+  const out: string[] = [];
+  const sentences = statement.split(/(?<=[.!?])\s+/);
+  for (const sent of sentences) {
+    const words = sent.split(/\s+/).filter(Boolean);
+    words.forEach((w, i) => {
+      const clean = w.replace(/^[^\p{L}\p{N}]+|[^\p{L}\p{N}]+$/gu, "");
+      if (clean.length < 2) return;
+      if (/\d/.test(clean) || (i > 0 && /^\p{Lu}/u.test(clean) && !/^(?:I|The|A|An|And|Of|In|On|At|To|For|It|This|That|Please)$/.test(clean))) out.push(stem(canonical(clean)));
+    });
+  }
+  return [...new Set(out)].filter(Boolean);
+}
+
+/**
+ * Does `source` really speak to `statement`? It must share enough general content words, and, if the statement names
+ * specifics (an organisation, a number, a date), at least one of those specifics must appear in the source too.
+ */
+export function speaksTo(statement: string, source: string, minShared = 3): boolean {
+  if (sharedContentWords(statement, source) < minShared) return false;
+  const spec = specificTokens(statement);
+  if (!spec.length) return true;
+  const src = new Set(canonical(source).split(" ").map(stem));
+  return spec.some((t) => src.has(t));
+}
