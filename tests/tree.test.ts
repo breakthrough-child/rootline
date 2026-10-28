@@ -83,8 +83,12 @@ describe("candidatePairs + spread", () => {
     const many = { ...C, sources: [...C.sources, ...[1, 2, 3].map((i) => ({ ...C.sources[0], url: `https://x.example/c${i}` }))] };
     const vs = [A, B, many, D];
     const { edges } = baselineTree(vs);
-    const marked = markSpread(vs, edges);
-    expect(marked.filter((e) => e.spreadJump).length).toBe(1);
+    const withMutations = edges.map((e) => ({ ...e, mutations: [{ type: "number_changed" as const, before: "200", after: "2,000", explanation: "" }] }));
+    expect(markSpread(vs, withMutations).filter((e) => e.spreadJump).length).toBe(1);
+    // Unsupported without evidence: no mutations, or undated data => nothing is flagged.
+    expect(markSpread(vs, edges).filter((e) => e.spreadJump).length).toBe(0);
+    const undated = vs.map((x) => ({ ...x, date: null, sources: x.sources.map((s) => ({ ...s, date: null })) }));
+    expect(markSpread(undated, withMutations).filter((e) => e.spreadJump).length).toBe(0);
   });
 });
 
@@ -94,5 +98,35 @@ describe("user copy", () => {
     const { edges } = baselineTree([you, A, B, C]);
     expect(edges.some((e) => e.from === "you")).toBe(false);
     expect(validateTree([you, A, B, C], [{ from: "you", to: "a" }, { from: "a", to: "b" }, { from: "b", to: "c" }]).ok).toBe(false);
+  });
+});
+
+import { repairTree } from "@/lib/tree";
+
+describe("repairTree", () => {
+  const E = (from: string, to: string) => ({ from, to });
+  it("keeps valid proposed parents and repairs invalid ones from the baseline", () => {
+    const vs = [A, B, C, D];
+    const baseline = baselineTree(vs).edges;
+    // proposal: valid a->b, invalid unknown id, date violation (c->a), and d left without a parent
+    const { edges, rejected } = repairTree(vs, [E("a", "b"), E("zzz", "c"), E("c", "a")], baseline, "a");
+    expect(validateTree(vs, edges).ok).toBe(true);
+    expect(edges.find((e) => e.to === "b")).toMatchObject({ from: "a" });
+    expect(edges).toHaveLength(3);
+    expect(rejected).toBeGreaterThanOrEqual(2);
+  });
+  it("breaks cycles and keeps the user's copy a leaf", () => {
+    const you = { ...A, id: "you", isUserInput: true, date: null, dateProvenance: "unknown" as const };
+    const vs = [A, B, C, you];
+    const baseline = baselineTree(vs).edges;
+    const { edges } = repairTree(vs, [E("b", "c"), E("c", "b"), E("you", "b")], baseline, "you");
+    expect(validateTree(vs, edges).ok).toBe(true);
+    expect(edges.some((e) => e.from === "you")).toBe(false);
+  });
+  it("an empty proposal falls back to the baseline tree", () => {
+    const vs = [A, B, C, D];
+    const baseline = baselineTree(vs).edges;
+    const { edges } = repairTree(vs, [], baseline);
+    expect(edges.map((e) => `${e.from}>${e.to}`).sort()).toEqual(baseline.map((e) => `${e.from}>${e.to}`).sort());
   });
 });

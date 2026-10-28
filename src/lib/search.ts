@@ -1,5 +1,6 @@
 // Tavily search + extract (https://docs.tavily.com), with an offline mock over a fictional corpus.
 import { config } from "./config";
+import { cacheGet, cachePut } from "./devcache";
 import type { RunContext } from "./llm";
 import { mockExtract, mockSearch } from "./mock/corpus";
 import type { DateProvenance } from "./types";
@@ -23,6 +24,14 @@ export interface SearchOptions {
 const TAVILY = "https://api.tavily.com";
 
 async function tavily<T>(path: string, body: Record<string, unknown>, timeoutMs: number): Promise<T> {
+  const cached = await cacheGet<T>("tavily", { path, body });
+  if (cached) return cached;
+  const data = await tavilyFetch<T>(path, body, timeoutMs);
+  await cachePut("tavily", { path, body }, data);
+  return data;
+}
+
+async function tavilyFetch<T>(path: string, body: Record<string, unknown>, timeoutMs: number): Promise<T> {
   const ac = new AbortController();
   const timer = setTimeout(() => ac.abort(), timeoutMs);
   try {

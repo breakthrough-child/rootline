@@ -41,6 +41,8 @@ export const config = {
     },
     disableThinking: (env("LLM_DISABLE_THINKING") || env("NEBIUS_DISABLE_THINKING")) !== "false",
     jsonMode: env("LLM_JSON_MODE") !== "false",
+    /** Max requests per minute across all tiers (shared throttle). 0 = unlimited. NVIDIA's free API is rate limited (~40/min). */
+    rpm: Number(env("LLM_RPM") || (providerFromUrl(llmBaseUrl, env("LLM_PROVIDER")) === "nvidia" ? 35 : 0)),
   },
   asr: {
     endpointUrl: env("ASR_ENDPOINT_URL"),

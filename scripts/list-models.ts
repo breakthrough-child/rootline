@@ -2,6 +2,7 @@
 // Works with Nebius Token Factory (default) and the NVIDIA API (build.nvidia.com):
 //   LLM_API_KEY=... npm run models
 //   LLM_BASE_URL=https://integrate.api.nvidia.com/v1 LLM_API_KEY=nvapi-... npm run models
+import "./load-env";
 const base = (process.env.LLM_BASE_URL || process.env.NEBIUS_BASE_URL || "https://api.tokenfactory.nebius.com/v1").replace(/\/$/, "");
 const key = process.env.LLM_API_KEY || process.env.NEBIUS_API_KEY;
 

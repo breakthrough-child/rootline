@@ -131,6 +131,7 @@ export interface Understanding {
   authorities: string[];
   callToAction: string | null;
   queries: string[];
+  keyElements: string[];
   language: string;
 }
 

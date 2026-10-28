@@ -3,6 +3,7 @@
 // the live web and Nemotron on the configured provider; otherwise it falls back to OFFLINE_MOCK (fictional corpus) and labels the fixture so.
 //   npx tsx scripts/generate-fixtures.ts            (all)
 //   npx tsx scripts/generate-fixtures.ts perfume    (one)
+import "./load-env";
 import { readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 

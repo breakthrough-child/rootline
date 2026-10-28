@@ -26,7 +26,9 @@ export async function makeThumbnail(buf: Buffer, width = 320): Promise<string | 
 export async function ocr(ctx: RunContext, buf: Buffer, stage = "image: ocr"): Promise<string> {
   const t0 = Date.now();
   const { createWorker } = await import("tesseract.js");
-  const worker = await createWorker("eng");
+  // cachePath: the working directory is read-only on serverless platforms (Vercel); the temp dir is writable.
+  const { tmpdir } = await import("node:os");
+  const worker = await createWorker("eng", 1, { cachePath: tmpdir() });
   try {
     const { data } = await worker.recognize(buf);
     ctx.log({ provider: "tesseract", model: "tesseract.js/eng", tier: "local", stage, tokensIn: 0, tokensOut: 0, latencyMs: Date.now() - t0, ok: true, note: `confidence ${Math.round(data.confidence)}` });

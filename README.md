@@ -88,12 +88,14 @@ The provider is configured entirely by environment variables, so the same build 
 |---|---|---|
 | `LLM_BASE_URL` | `https://api.tokenfactory.nebius.com/v1` | `https://integrate.api.nvidia.com/v1` |
 | `LLM_API_KEY` | Token Factory key | `nvapi-…` key |
-| `MODEL_NANO` | `nvidia/nvidia-nemotron-3-nano-30b-a3b` | `nvidia/nemotron-nano-3-30b-a3b` |
-| `MODEL_SUPER` | `nvidia/nemotron-3-super-120b-a12b` | `nvidia/nemotron-3-super-120b-a12b` |
+| `MODEL_NANO` | `nvidia/Nemotron-3_5-Lightning` | `nvidia/nemotron-3.5-lightning-30b-a3b` |
+| `MODEL_SUPER` | `nvidia/nemotron-3-super-120b-a12b` | `nvidia/nemotron-3.5-super-vl-120b-a12b` |
 | `MODEL_ULTRA` | `nvidia/Nemotron-3-Ultra-550b-a55b` | `nvidia/nemotron-3-ultra-550b-a55b` |
 | `MODEL_VISION` | verify with `npm run models` | `nvidia/nemotron-3.5-super-vl-120b-a12b` |
 
-- `npm run models` lists the Nemotron/NVIDIA models on whichever `LLM_BASE_URL` is set and suggests `MODEL_*` values.
+- `npm run models` lists the Nemotron/NVIDIA models on whichever `LLM_BASE_URL` is set and suggests `MODEL_*` values; **`npm run probe` then sends a tiny request to each to show which your key can actually call** (NVIDIA lists models that return `404 Function not found for account` for a free key).
+- Rate limits: `LLM_RPM` throttles all calls (default 35/min on the NVIDIA API, unlimited elsewhere); 429/5xx responses are retried with backoff.
+- Dev: `DEV_CACHE=true` caches Tavily and LLM responses in `.cache/` so re-runs cost nothing; `npm run real-test` audits real rumors end to end.
 - The provider label (`nebius` / `nvidia` / `openai-compatible`) is inferred from the URL (or `LLM_PROVIDER`) and shown in the routing panel and call log.
 - Providers differ in which optional parameters they accept. If a model returns HTTP 400 for `chat_template_kwargs` (the thinking toggle) or `response_format` (JSON mode), the client drops that parameter, remembers it for that model, and retries. JSON is Zod-validated either way.
 - Cost in the routing panel uses Token Factory list prices; on another provider it is labelled as an estimate. Override with `PRICE_*`.

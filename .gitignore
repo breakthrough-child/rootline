@@ -45,3 +45,8 @@ next-env.d.ts
 *.traineddata
 !.env.example
 .claude/
+.cache/
+
+# internal build briefs (kept locally, not part of the public repo)
+docs/BUILD_BRIEF.md
+docs/ROOTLINE_BUILD_PROMPT.md

@@ -1,6 +1,6 @@
 // Deterministic fallbacks for every model stage. Used when a model is not configured, when a
 // call fails validation twice, and in OFFLINE_MOCK mode. They are conservative by design.
-import { bestExcerpt, canonical, contentTokens, relatedness, splitSentences, tokens, truncate, wordCount, wordDiff } from "./text";
+import { bestExcerpt, canonical, clip, contentTokens, relatedness, splitSentences, tokens, truncate, wordCount, wordDiff } from "./text";
 import type { Confidence, LineageEdge, Mutation, PageType, Understanding, Variant, Verdict } from "./types";
 
 const NUMBER_RE = /(?:[₦$£€]|\bN|\bNGN\s?|\bRs\.?\s?|\bR\$\s?)?\d[\d,.]*(?:\s?(?:k|m|bn|million|billion|thousand|%|percent))?/gi;
@@ -89,6 +89,7 @@ export function heuristicUnderstanding(text: string, englishText?: string, langu
     authorities: findAuthorities(base),
     callToAction: ctas[0] ?? null,
     queries: queries.length >= 2 ? queries : [base.slice(0, 80), `${base.slice(0, 60)} fact check`],
+    keyElements: [],
     language,
   };
 }
@@ -210,4 +211,89 @@ export function heuristicVerdict(variants: Variant[], edges: LineageEdge[], earl
 
 export function looksLikeQuestion(s: string) {
   return tokens(s).length < 4;
+}
+
+const NUMBER_WORDS = /\b(?:one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety|hundred|thousand|million|billion|dozens?|several|many|half)\b/i;
+
+const PLATFORM_WORDS = new Set(["whatsapp", "facebook", "twitter", "instagram", "youtube", "tiktok", "telegram", "google", "x", "email", "sms"]);
+const AUTHORITY_WORDS = /\b(?:police|government|govt|ministry|minister|president|governor|army|military|officials?|authorities|doctors?|dr\.?|professors?|experts?|scientists?|researchers?|hospital|university|institute|agency|commission|council|department|bureau|office|sheriff|garda|who|unicef|nafdac|ncdc|cnn|bbc|reuters|nasa|fbi|cdc)\b/i;
+const URGENCY_WORDS = /\b(?:urgent|urgently|immediately|now|today|tonight|tomorrow|hurry|quick(?:ly)?|fast|asap|deadline|before|closes?|closing|expires?|expiring|limited|last chance|right away|at once|breaking|within|hours?|minutes?|days?|monday|tuesday|wednesday|thursday|friday|saturday|sunday|midnight)\b/i;
+const CTA_WORDS = /\b(?:forward|share|send|click|tap|apply|register|sign ?up|call|text|tell|inform|alert|warn|spread|pass|circulate|broadcast|post|repost|retweet|contact|visit|join|subscribe|download|follow|reply|delete|ignore|avoid|stop|don'?t|do not|never|please)\b/i;
+const EMOTION_WORDS = /\b(?:beware|careful|danger(?:ous)?|deadly|fatal|terrif\w*|scar(?:y|ed)|shock\w*|horr\w*|evil|wicked|pray|god|please|sad|heartbreaking|panic|kill\w*|die[ds]?|death|dead|victims?|children|innocent|warning|alert|urgent|help)\b|!/i;
+const DATE_WORDS = /\d|\b(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\b|\b(?:mon|tues|wednes|thurs|fri|satur|sun)day\b|\b(?:today|tomorrow|tonight|yesterday|week|month|year|weekend)\b/i;
+
+/** Does `phrase` look like a named person/organisation/official body (a capitalised word that isn't just a sentence start, or an authority term)? */
+function looksLikeAuthority(phrase: string): boolean {
+  if (AUTHORITY_WORDS.test(phrase)) return true;
+  const words = phrase.split(/\s+/).filter(Boolean);
+  return words.slice(1).some((w) => /^[A-Z][A-Za-z'’.-]+$/.test(w) && !/^(?:The|A|An|And|Of|In|On|At|To|For|It|This|That|Please|I|We|You)$/.test(w)) || /^[A-Z]{2,}$/.test(words[0] ?? "");
+}
+function looksLikePlace(phrase: string): boolean {
+  const toks = phrase.split(/[\s,]+/).filter(Boolean);
+  const caps = toks.filter((w) => /^[A-Z][A-Za-z'’.-]+$/.test(w) && !PLATFORM_WORDS.has(w.toLowerCase()));
+  return caps.length > 0;
+}
+
+/**
+ * Honesty gate for mutation labels: a mutation survives only if its "before" really occurs in the earlier text,
+ * its "after" really occurs in the later text, and its label is consistent with what changed. Anything the
+ * model invented or mislabelled is dropped rather than shown.
+ */
+export function validateMutations(ms: Mutation[], earlier: string, later: string, max = 6): Mutation[] {
+  const E = canonical(earlier);
+  const L = canonical(later);
+  const parts = (x: string) => x.split(/\s*(?:,|;|\|)\s*/).map((y) => canonical(y)).filter((y) => y.length > 1);
+  const seen = new Set<string>();
+  const out: Mutation[] = [];
+  for (const m of ms) {
+    const before = m.before.trim();
+    const after = m.after.trim();
+    if (!before && !after) continue;
+    if (canonical(before) === canonical(after)) continue;
+    if (parts(before).some((p) => !E.includes(p))) continue;
+    if (parts(after).some((p) => !L.includes(p))) continue;
+    const hasNum = (x: string) => /\d/.test(x) || NUMBER_WORDS.test(x);
+    // Each label must be consistent with the words it points at (a grounded phrase can still be mislabelled).
+    switch (m.type) {
+      case "number_changed":
+        if ((before && !hasNum(before)) || (after && !hasNum(after))) continue;
+        break;
+      case "authority_added":
+        if (!after || !looksLikeAuthority(after)) continue;
+        break;
+      case "authority_removed":
+        if (!before || !looksLikeAuthority(before)) continue;
+        break;
+      case "urgency_added":
+        if (!after || !URGENCY_WORDS.test(after)) continue;
+        break;
+      case "call_to_action_added":
+        if (!after || !CTA_WORDS.test(after)) continue;
+        break;
+      case "emotional_framing_added":
+        if (!after || !EMOTION_WORDS.test(after)) continue;
+        break;
+      case "detail_added":
+        if (!after) continue;
+        break;
+      case "detail_removed":
+        if (!before) continue;
+        break;
+      case "location_changed":
+        if ((before && !looksLikePlace(before)) || (after && !looksLikePlace(after)) || (!before && !after)) continue;
+        break;
+      case "date_changed":
+        if ((before && !DATE_WORDS.test(before)) || (after && !DATE_WORDS.test(after)) || (!before && !after)) continue;
+        break;
+      case "target_changed":
+        if (!before || !after) continue;
+        break;
+    }
+    const key = `${m.type}|${canonical(before)}|${canonical(after)}`;
+    if (seen.has(key)) continue;
+    seen.add(key);
+    out.push({ ...m, before: clip(before, 80), after: clip(after, 80), explanation: clip(m.explanation, 140) });
+    if (out.length >= max) break;
+  }
+  return out;
 }

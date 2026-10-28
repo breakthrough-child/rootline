@@ -15,12 +15,18 @@ export const UnderstandingSchema = z.object({
   call_to_action: nullableStr,
   language: z.string().default("en"),
   queries: z.array(str.min(2)).min(2).max(12),
+  // Distinctive parts of the message (lure/offer, claimed effect, claimed harm, demanded action) used to verify page membership.
+  key_elements: z.array(z.coerce.string().trim().min(3)).max(6).default([]),
 });
 
 export const MembershipSchema = z.object({
   contains_version: z.boolean(),
+  // same_message / reworded count as a version; related_only (same topic, different story) and unrelated do not.
+  relation: z.enum(["same_message", "reworded", "related_only", "unrelated"]).catch("reworded").default("reworded"),
   excerpt: z.string().default(""),
   normalized: z.string().default(""),
+  // For each message element the page expresses: the exact words on the page that express it (verified in code).
+  evidence: z.array(z.object({ element: z.coerce.number().int(), phrase: z.coerce.string() })).default([]),
   page_type: z.enum(["debunk", "news", "social", "forum", "official", "other"]).catch("other"),
 });
 

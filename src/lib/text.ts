@@ -161,3 +161,40 @@ export function redactPrivate(s: string): string {
     .replace(/[\w.+-]+@[\w-]+\.[\w.]+/g, "[email removed]")
     .replace(/(?:\+?\d[\d\s-]{8,}\d)/g, (m) => (m.replace(/\D/g, "").length >= 9 ? "[number removed]" : m));
 }
+
+/** Strict check: the excerpt appears in the page after case/punctuation/whitespace normalisation (no trimmed-ends leniency). */
+export function excerptStrictlyIn(excerpt: string, page: string): boolean {
+  const e = canonical(excerpt);
+  return e.length >= 12 && canonical(page).includes(e);
+}
+
+/**
+ * Make a model-provided excerpt verbatim: strip ellipses and, if the excerpt stitched together separate
+ * passages ("A ... B"), keep the longest segment that really appears on the page. Returns null if none does.
+ */
+export function snapExcerptToPage(excerpt: string, page: string): string | null {
+  const trimmed = excerpt.trim().replace(/^[.…\s]+|[.…\s]+$/g, (m) => (/[.!?]$/.test(m.trim()) && m.trim().length === 1 ? m : ""));
+  if (excerptStrictlyIn(trimmed, page)) return trimmed;
+  const segs = excerpt
+    .split(/\.{3,}|…|\[\.\.\.\]|\s\|\s/)
+    .map((x) => x.trim())
+    .filter((x) => x.length >= 30 && excerptStrictlyIn(x, page))
+    .sort((a, b) => b.length - a.length);
+  return segs[0] ?? null;
+}
+
+/** Clip to at most n characters at a word boundary, WITHOUT appending an ellipsis (quotes must stay verbatim). */
+export function clip(s: string, n: number): string {
+  if (s.length <= n) return s;
+  const cut = s.slice(0, n);
+  const sp = cut.lastIndexOf(" ");
+  return (sp > n * 0.6 ? cut.slice(0, sp) : cut).trimEnd();
+}
+
+/** Share of the content tokens of `a` that also occur in `b`. */
+export function tokenCoverage(a: string, b: string): number {
+  const A = contentTokens(a);
+  if (!A.length) return 0;
+  const B = new Set(contentTokens(b));
+  return A.filter((t) => B.has(t)).length / A.length;
+}

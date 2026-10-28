@@ -1,6 +1,7 @@
 // Prints node counts, edge confidence, latency and cost for every fixture.
 //   npx tsx scripts/eval.ts          (saved fixtures)
 //   npx tsx scripts/eval.ts --rerun  (re-run each fixture's input through the pipeline now)
+import "./load-env";
 import { readdir, readFile } from "node:fs/promises";
 import path from "node:path";
 import { summarizeCost } from "../src/lib/cost";

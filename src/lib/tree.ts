@@ -181,7 +181,7 @@ export function validateTree(
 }
 
 /** Candidate pairs for mutation analysis: tree edges first, then nearest earlier neighbours, capped. */
-export function candidatePairs(variants: Variant[], treeEdges: { from: string; to: string }[], cap: number, k = 2): [string, string][] {
+export function candidatePairs(variants: Variant[], treeEdges: { from: string; to: string }[], cap: number, k = 1): [string, string][] {
   const key = (a: string, b: string) => `${a}|${b}`;
   const seen = new Set<string>();
   const out: [string, string][] = [];
@@ -203,28 +203,29 @@ export function candidatePairs(variants: Variant[], treeEdges: { from: string; t
   return out;
 }
 
-/** Mark edges where the child's subtree carries notably more sources than the parent alone (wider spread). */
+const SPREAD_TYPES = new Set(["number_changed", "authority_added", "urgency_added", "call_to_action_added", "location_changed", "target_changed"]);
+
+/**
+ * Flag at most one edge whose mutation "coincided with wider spread": the child's subtree must contain at least 3
+ * DATED sources published on/after the child's own date, making up at least half of all dated sources. With sparse
+ * or undated data nothing is flagged: we would rather make no claim than an unsupported one.
+ */
 export function markSpread(variants: Variant[], edges: LineageEdge[]): LineageEdge[] {
   const children = new Map<string, string[]>();
   for (const e of edges) children.set(e.from, [...(children.get(e.from) ?? []), e.to]);
   const byId = new Map(variants.map((v) => [v.id, v]));
-  const memo = new Map<string, number>();
-  const subtree = (id: string): number => {
-    if (memo.has(id)) return memo.get(id)!;
-    const own = byId.get(id)?.isUserInput ? 0 : (byId.get(id)?.sources.length ?? 0);
-    const total = own + (children.get(id) ?? []).reduce((a, c) => a + subtree(c), 0);
-    memo.set(id, total);
-    return total;
-  };
-  const totalSources = variants.reduce((a, v) => a + (v.isUserInput ? 0 : v.sources.length), 0);
+  const subtreeIds = (id: string): string[] => [id, ...(children.get(id) ?? []).flatMap(subtreeIds)];
+  const datedSources = (ids: string[]) => ids.flatMap((i) => (byId.get(i)?.isUserInput ? [] : (byId.get(i)?.sources ?? []))).filter((s) => dateMs(s.date) !== null);
+  const totalDated = datedSources(variants.map((v) => v.id)).length;
   let bestIdx = -1;
   let bestScore = 0;
   edges.forEach((e, i) => {
-    const s = subtree(e.to);
-    const parentOwn = byId.get(e.from)?.sources.length ?? 0;
-    const score = s - parentOwn;
-    if (s >= 3 && s >= totalSources * 0.4 && score > bestScore) {
-      bestScore = score;
+    if (!e.mutations.some((m) => SPREAD_TYPES.has(m.type))) return;
+    const childDate = dateMs(byId.get(e.to)?.date ?? null);
+    if (childDate === null) return;
+    const after = datedSources(subtreeIds(e.to)).filter((s) => dateMs(s.date)! >= childDate);
+    if (after.length >= 3 && after.length >= totalDated * 0.5 && after.length > bestScore) {
+      bestScore = after.length;
       bestIdx = i;
     }
   });
@@ -267,4 +268,47 @@ export function layoutTree(variants: Variant[], edges: { from: string; to: strin
   if (rootId) place(rootId);
   for (const v of variants) if (!rows.has(v.id)) place(v.id);
   return variants.map((v) => ({ id: v.id, col: depth.get(v.id) ?? 0, row: rows.get(v.id) ?? 0 }));
+}
+
+/**
+ * Merge a model-proposed parent assignment with the baseline tree without ever trusting invalid parts:
+ * every proposed edge is kept only if both ids exist, the parent isn't dated after the child, the user's copy
+ * stays a leaf, the child has no earlier parent and no cycle results. Every node still without a parent (except
+ * the single root) takes its baseline parent, or the root if that would create a cycle.
+ */
+export function repairTree<E extends { from: string; to: string }>(
+  variants: Variant[],
+  proposed: E[],
+  baseline: E[],
+  proposedRootId?: string,
+): { edges: E[]; rejected: number } {
+  const byId = new Map(variants.map((v) => [v.id, v]));
+  const parentOf = new Map<string, E>();
+  const wouldCycle = (parent: string, child: string) => {
+    for (let cur: string | undefined = parent; cur !== undefined; cur = parentOf.get(cur)?.from) if (cur === child) return true;
+    return false;
+  };
+  let rejected = 0;
+  for (const e of proposed) {
+    const p = byId.get(e.from);
+    const c = byId.get(e.to);
+    if (!p || !c || e.from === e.to || parentOf.has(e.to) || !edgeAllowed(p, c) || wouldCycle(e.from, e.to)) {
+      rejected++;
+      continue;
+    }
+    parentOf.set(e.to, e);
+  }
+  // The root: the proposed earliest if it is parentless and not the user's copy, otherwise the baseline's root.
+  const baselineRoot = variants.find((v) => !baseline.some((b) => b.to === v.id))?.id ?? variants[0].id;
+  let root = proposedRootId && byId.has(proposedRootId) && !parentOf.has(proposedRootId) && !byId.get(proposedRootId)!.isUserInput ? proposedRootId : baselineRoot;
+  if (parentOf.has(root)) parentOf.delete(root);
+  for (const v of variants) {
+    if (v.id === root || parentOf.has(v.id)) continue;
+    const b = baseline.find((x) => x.to === v.id);
+    const fallbackParent = b && !wouldCycle(b.from, v.id) && edgeAllowed(byId.get(b.from)!, v) ? b : undefined;
+    const rootEdge = { ...(b ?? baseline[0] ?? ({} as E)), from: root, to: v.id } as E;
+    parentOf.set(v.id, fallbackParent ?? (edgeAllowed(byId.get(root)!, v) ? rootEdge : (b as E)));
+    rejected++;
+  }
+  return { edges: [...parentOf.values()], rejected };
 }

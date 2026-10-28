@@ -3,10 +3,13 @@
 // one retry on malformed JSON, and a log entry for every call.
 import { z } from "zod";
 import { config, llmAvailable, type Tier } from "./config";
+import { cacheGet, cachePut } from "./devcache";
 import type { ModelCallLog, RunEvent } from "./types";
 
 export class RunContext {
   logs: ModelCallLog[] = [];
+  /** Dev/test only: set to a Map to capture extracted page text per URL (used by scripts/real-test.ts audits). */
+  pages: Map<string, string> | null = null;
   private seq = 0;
   constructor(private readonly emitFn?: (e: RunEvent) => void) {}
   emit(e: RunEvent) {
@@ -63,6 +66,18 @@ export function extractJson(raw: string): unknown {
   throw new Error("unterminated JSON");
 }
 
+// Shared throttle so parallel stages stay under the provider's requests-per-minute limit.
+let nextSlot = 0;
+async function throttle() {
+  const rpm = config.llm.rpm;
+  if (!rpm) return;
+  const gap = 60_000 / rpm;
+  const now = Date.now();
+  const at = Math.max(now, nextSlot);
+  nextSlot = at + gap;
+  if (at > now) await new Promise((r) => setTimeout(r, at - now));
+}
+
 // Per-model memory of optional parameters a provider rejected, so we only pay the retry once.
 const unsupported = { thinking: new Set<string>(), json: new Set<string>() };
 
@@ -83,7 +98,18 @@ export async function chat(ctx: RunContext, opts: ChatOpts): Promise<{ text: str
   // Nemotron 3 models reason by default; for structured extraction we turn thinking off where supported.
   if (config.llm.disableThinking && !unsupported.thinking.has(model)) body.chat_template_kwargs = { enable_thinking: false };
 
+  // Dev-only response cache (DEV_CACHE=true). The log keeps the originally measured latency/tokens.
+  const cacheKey = { baseUrl, body };
+  const hit = await cacheGet<{ text: string; tokensIn: number; tokensOut: number; latencyMs: number }>("llm", cacheKey);
+  if (hit) {
+    ctx.log({ provider, model, tier: opts.tier, stage: opts.stage, tokensIn: hit.tokensIn, tokensOut: hit.tokensOut, latencyMs: hit.latencyMs, ok: true, note: "dev cache (original latency)" });
+    return { text: hit.text, tokensIn: hit.tokensIn, tokensOut: hit.tokensOut };
+  }
+
+  let attemptStart = Date.now();
   const doFetch = async (payload: Record<string, unknown>) => {
+    await throttle();
+    attemptStart = Date.now();
     const ac = new AbortController();
     const timer = setTimeout(() => ac.abort(), opts.timeoutMs ?? 45_000);
     try {
@@ -98,15 +124,26 @@ export async function chat(ctx: RunContext, opts: ChatOpts): Promise<{ text: str
     }
   };
 
+  // Retry transient failures (rate limits, 5xx) with backoff; honour Retry-After.
+  const fetchWithBackoff = async (payload: Record<string, unknown>) => {
+    let res = await doFetch(payload);
+    for (let attempt = 0; attempt < 5 && (res.status === 429 || res.status >= 500); attempt++) {
+      const ra = Number(res.headers.get("retry-after"));
+      await new Promise((r) => setTimeout(r, (Number.isFinite(ra) && ra > 0 ? Math.min(ra, 30) : Math.min(2 ** attempt * 3, 30)) * 1000));
+      res = await doFetch(payload);
+    }
+    return res;
+  };
+
   try {
-    let res = await doFetch(body);
+    let res = await fetchWithBackoff(body);
     // Providers differ in which optional parameters they accept. On a 400, drop them one at a
     // time (thinking toggle first, then JSON mode), remember that for this model, and retry.
     for (const [key, memo] of [["chat_template_kwargs", unsupported.thinking], ["response_format", unsupported.json]] as const) {
       if (res.status !== 400 || !(key in body)) continue;
       memo.add(model);
       delete body[key];
-      res = await doFetch(body);
+      res = await fetchWithBackoff(body);
     }
     if (!res.ok) throw new Error(`${provider} ${res.status}: ${(await res.text()).slice(0, 300)}`);
     const data = (await res.json()) as {
@@ -116,7 +153,11 @@ export async function chat(ctx: RunContext, opts: ChatOpts): Promise<{ text: str
     const text = data.choices?.[0]?.message?.content ?? "";
     const tokensIn = data.usage?.prompt_tokens ?? 0;
     const tokensOut = data.usage?.completion_tokens ?? 0;
-    ctx.log({ provider, model, tier: opts.tier, stage: opts.stage, tokensIn, tokensOut, latencyMs: Date.now() - t0, ok: true });
+    // Latency of the successful request itself; time spent in our own throttle/backoff is reported in the note.
+    const latencyMs = Date.now() - attemptStart;
+    const waited = attemptStart - t0;
+    ctx.log({ provider, model, tier: opts.tier, stage: opts.stage, tokensIn, tokensOut, latencyMs, ok: true, note: waited > 1500 ? `+${(waited / 1000).toFixed(1)}s throttle/retry wait` : undefined });
+    await cachePut("llm", cacheKey, { text, tokensIn, tokensOut, latencyMs });
     return { text, tokensIn, tokensOut };
   } catch (err) {
     ctx.log({ provider, model, tier: opts.tier, stage: opts.stage, tokensIn: 0, tokensOut: 0, latencyMs: Date.now() - t0, ok: false, note: String((err as Error).message).slice(0, 200) });
@@ -151,11 +192,13 @@ export async function chatJson<T>(ctx: RunContext, schema: z.ZodType<T>, opts: O
 
 /** Run `primary` (a model call); on any failure, log and run the deterministic `fallback`. */
 export async function withFallback<T>(ctx: RunContext, stage: string, tier: Tier, primary: () => Promise<T>, fallback: () => T): Promise<{ value: T; usedFallback: boolean }> {
+  let reason = "";
   if (llmAvailable(tier)) {
     try {
       return { value: await primary(), usedFallback: false };
-    } catch {
-      // fall through to heuristic; the failed call is already logged
+    } catch (e) {
+      // fall through to the heuristic; transport failures are already logged, validation rejections are recorded below
+      reason = String((e as Error).message ?? e).slice(0, 160);
     }
   }
   const t0 = Date.now();
@@ -169,7 +212,7 @@ export async function withFallback<T>(ctx: RunContext, stage: string, tier: Tier
     tokensOut: 0,
     latencyMs: Date.now() - t0,
     ok: true,
-    note: llmAvailable(tier) ? `${tier} call failed; used deterministic fallback` : `${tier} not configured; used deterministic fallback`,
+    note: llmAvailable(tier) ? `${tier} output rejected or call failed (${reason}); used deterministic fallback` : `${tier} not configured; used deterministic fallback`,
   });
   return { value, usedFallback: true };
 }

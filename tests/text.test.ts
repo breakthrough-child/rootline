@@ -48,3 +48,82 @@ describe("privacy + diff", () => {
     expect(wordDiff("200 women missing", "2000 women missing today")).toEqual({ removed: ["200"], added: ["2000", "today"] });
   });
 });
+
+import { clip, excerptStrictlyIn, snapExcerptToPage, tokenCoverage } from "@/lib/text";
+import { validateMutations } from "@/lib/heuristics";
+
+describe("verbatim excerpts", () => {
+  const page = "Intro. Men are offering free perfume samples at filling stations in Lagos. Unrelated middle text about football. They ask you to smell it and you faint, then they kidnap you.";
+  it("strict check rejects lenient head/tail matches", () => {
+    expect(excerptStrictlyIn("Men are offering free perfume samples at filling stations in Lagos.", page)).toBe(true);
+    expect(excerptStrictlyIn("Men are offering free perfume samples at filling stations in Lagos. They ask you to smell it and you faint, then they kidnap you.", page)).toBe(false);
+  });
+  it("snap removes ellipses and keeps the longest real segment", () => {
+    const stitched = "Men are offering free perfume samples at filling stations in Lagos. ... They ask you to smell it and you faint, then they kidnap you.";
+    const snapped = snapExcerptToPage(stitched, page)!;
+    expect(excerptStrictlyIn(snapped, page)).toBe(true);
+    expect(snapExcerptToPage("Totally invented quote that is not on the page at all, honestly", page)).toBeNull();
+  });
+  it("clip never appends an ellipsis; coverage measures grounding", () => {
+    expect(clip("one two three four five six seven", 15)).toBe("one two three");
+    expect(tokenCoverage("free perfume samples", page)).toBe(1);
+    expect(tokenCoverage("secret government cover up", page)).toBe(0);
+  });
+});
+
+describe("validateMutations (honesty gate)", () => {
+  const earlier = "Seven women have died after inhaling a free perfume sample. Please pass this on.";
+  const later = "Free perfume samples at filling stations. 2,000 women missing. Police have confirmed. Forward to everyone!";
+  const m = (type: string, before: string, after: string) => ({ type: type as never, before, after, explanation: "" });
+  it("keeps grounded, correctly labelled mutations", () => {
+    const out = validateMutations([m("number_changed", "Seven women", "2,000 women"), m("authority_added", "", "Police"), m("call_to_action_added", "", "Forward to everyone")], earlier, later);
+    expect(out.map((x) => x.type)).toEqual(["number_changed", "authority_added", "call_to_action_added"]);
+  });
+  it("drops invented text, wrong-type numbers, empty and duplicate entries", () => {
+    const out = validateMutations(
+      [m("authority_added", "", "WHO"), m("number_changed", "seven women died", "a person"), m("number_changed", "Seven women", "2,000 women"), m("number_changed", "Seven women", "2,000 women"), m("urgency_added", "", ""), m("location_changed", "Ibadan", "filling stations")],
+      earlier,
+      later,
+    );
+    expect(out).toHaveLength(1);
+    expect(out[0]).toMatchObject({ type: "number_changed", after: "2,000 women" });
+  });
+});
+
+describe("mutation label consistency", () => {
+  const m = (type: string, before: string, after: string) => ({ type: type as never, before, after, explanation: "" });
+  const earlier = "Warning from WhatsApp users in Jersey. Seven women fell ill. Click the link below. I have just received information about a video called Martinelli.";
+  const later = "An IT expert and the Randolph County Sheriff's Office say 2,000 women are missing. Hurry, registration closes Friday. Please share this with everyone. Beware of fraud.";
+  it("rejects labels that don't fit the words they point at", () => {
+    const bad = [
+      m("authority_added", "", "Click the link below"),
+      m("authority_added", "", "I have just received information"),
+      m("location_changed", "WhatsApp", ""),
+      m("number_changed", "Seven women", "Beware of fraud"),
+      m("urgency_added", "", "Please share this with everyone"),
+      m("target_changed", "Seven women", ""),
+    ];
+    expect(validateMutations(bad, earlier + " " + later, earlier + " " + later)).toEqual([]);
+  });
+  it("accepts labels that fit", () => {
+    const e = "Seven women fell ill in Jersey. Click the link below.";
+    const l = "The Randolph County Sheriff's Office says 2,000 women are missing in Lagos. Hurry, registration closes Friday. Please share this with everyone. Beware of fraud.";
+    const good = [
+      m("authority_added", "", "Randolph County Sheriff's Office"),
+      m("number_changed", "Seven women", "2,000 women"),
+      m("location_changed", "Jersey", "Lagos"),
+      m("urgency_added", "", "Hurry, registration closes Friday"),
+      m("call_to_action_added", "", "Please share this with everyone"),
+      m("emotional_framing_added", "", "Beware of fraud"),
+    ];
+    expect(validateMutations(good, e, l, 10).map((x) => x.type)).toEqual(good.map((x) => x.type));
+  });
+});
+
+import { messageMarkers } from "@/lib/pipeline";
+describe("messageMarkers", () => {
+  it("separates circulating-message pages from topic explainers", () => {
+    expect(messageMarkers("A viral message is being forwarded on WhatsApp; fact-checkers say the claim is false.")).toBeGreaterThanOrEqual(4);
+    expect(messageMarkers("Cell phones emit radiofrequency radiation. Studies have found no increased risk of brain tumours.")).toBeLessThan(2);
+  });
+});
