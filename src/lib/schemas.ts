@@ -50,6 +50,9 @@ export const MutationSchema = z.object({
 });
 export const MutationsSchema = z.object({ mutations: z.array(MutationSchema).max(12).default([]) });
 
+/** Super's one-line description of what differs between a parent and a child text. */
+export const ChangeNoteSchema = z.object({ note: z.coerce.string().default("") });
+
 /** Super's review of one parent→child pair's labels: it may keep, retype or drop each label, never add one. */
 export const ReviewSchema = z.object({
   labels: z.array(

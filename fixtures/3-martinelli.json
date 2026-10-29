@@ -5,7 +5,7 @@
  "description": "A long-running WhatsApp chain warning, traced from 2018 to today.",
  "investigation": {
   "id": "fixture-3-martinelli",
-  "createdAt": "2026-10-29T11:34:04.808Z",
+  "createdAt": "2026-10-29T14:34:36.095Z",
   "mode": "live",
   "input": {
    "sourceKind": "text",
@@ -61,47 +61,7 @@
     },
     "variants": [
      {
-      "id": "v0-1lokp",
-      "text": "The Martinelli Whatsapp video is a known hoax message which circulated originally in 2017. (originally in Spanish language) and since then there have been various translated versions. The message is a warning related to a video that will be released and this has been dismissed as a hoax message.",
-      "excerpt": "The Martinelli Whatsapp video is a known hoax message which circulated originally in 2017. (originally in Spanish language) and since then there have been various translated versions. The message is a warning related to a video that will be released and this has been dismissed as a hoax message.",
-      "sources": [
-       {
-        "url": "http://www.police.gi/news/recent-warning-on-possible-whatsapp-malicious-video-17",
-        "title": "Royal Gibraltar Police - News",
-        "excerpt": "The Martinelli Whatsapp video is a known hoax message which circulated originally in 2017. (originally in Spanish language) and since then there have been various translated versions. The message is a warning related to a video that will be released and this has been dismissed as a hoax message.",
-        "pageType": "debunk",
-        "date": null,
-        "dateProvenance": "unknown"
-       }
-      ],
-      "date": null,
-      "dateProvenance": "unknown",
-      "pageType": "debunk",
-      "isCopy": false,
-      "branch": "hoax_warning_no_authority"
-     },
-     {
-      "id": "v1-3b4h1",
-      "text": "A viral video called “Martinelli” will be shared on WhatsApp tomorrow. It will hack your phone if opened. Our verdict This is a hoax.",
-      "excerpt": "A viral video called “Martinelli” will be shared on WhatsApp tomorrow. It will hack your phone if opened. Our verdict This is a hoax.",
-      "sources": [
-       {
-        "url": "https://fullfact.org/online/whatsapp-gold",
-        "title": "WhatsApp Gold scams are real, but these other threats are made up – Full Fact",
-        "excerpt": "A viral video called “Martinelli” will be shared on WhatsApp tomorrow. It will hack your phone if opened. Our verdict This is a hoax.",
-        "pageType": "debunk",
-        "date": "2020-07-21",
-        "dateProvenance": "published_date"
-       }
-      ],
-      "date": "2020-07-21",
-      "dateProvenance": "published_date",
-      "pageType": "debunk",
-      "isCopy": false,
-      "branch": "hoax_warning_no_authority"
-     },
-     {
-      "id": "v2-1jx3x",
+      "id": "v0-1jx3x",
       "text": "The message, posted to Facebook but also seen on WhatsApp itself, reads as follows: Dear friends, this is a warning that was aired on BBC radio this morning: If you are a WhatsApp user, please pay attention. A video titled ‘Martinelli’ will be released tomorrow. Please don’t open it – it will hack your phone and the impact cannot be reversed.",
       "excerpt": "The message, posted to Facebook but also seen on WhatsApp itself, reads as follows: Dear friends, this is a warning that was aired on BBC radio this morning: If you are a WhatsApp user, please pay attention. A video titled ‘Martinelli’ will be released tomorrow. Please don’t open it – it will hack your phone and the impact cannot be reversed.",
       "sources": [
@@ -118,7 +78,47 @@
       "dateProvenance": "published_date",
       "pageType": "debunk",
       "isCopy": true,
-      "branch": "hoax_warning_no_authority"
+      "branch": "BBC radio warning"
+     },
+     {
+      "id": "v1-1lokp",
+      "text": "The Martinelli Whatsapp video is a known hoax message which circulated originally in 2017. (originally in Spanish language) and since then there have been various translated versions. The message is a warning related to a video that will be released and this has been dismissed as a hoax message.",
+      "excerpt": "The Martinelli Whatsapp video is a known hoax message which circulated originally in 2017. (originally in Spanish language) and since then there have been various translated versions. The message is a warning related to a video that will be released and this has been dismissed as a hoax message.",
+      "sources": [
+       {
+        "url": "http://www.police.gi/news/recent-warning-on-possible-whatsapp-malicious-video-17",
+        "title": "Royal Gibraltar Police - News",
+        "excerpt": "The Martinelli Whatsapp video is a known hoax message which circulated originally in 2017. (originally in Spanish language) and since then there have been various translated versions. The message is a warning related to a video that will be released and this has been dismissed as a hoax message.",
+        "pageType": "debunk",
+        "date": null,
+        "dateProvenance": "unknown"
+       }
+      ],
+      "date": null,
+      "dateProvenance": "unknown",
+      "pageType": "debunk",
+      "isCopy": false,
+      "branch": "Fact-check debunk"
+     },
+     {
+      "id": "v2-3b4h1",
+      "text": "A viral video called “Martinelli” will be shared on WhatsApp tomorrow. It will hack your phone if opened. Our verdict This is a hoax.",
+      "excerpt": "A viral video called “Martinelli” will be shared on WhatsApp tomorrow. It will hack your phone if opened. Our verdict This is a hoax.",
+      "sources": [
+       {
+        "url": "https://fullfact.org/online/whatsapp-gold",
+        "title": "WhatsApp Gold scams are real, but these other threats are made up – Full Fact",
+        "excerpt": "A viral video called “Martinelli” will be shared on WhatsApp tomorrow. It will hack your phone if opened. Our verdict This is a hoax.",
+        "pageType": "debunk",
+        "date": "2020-07-21",
+        "dateProvenance": "published_date"
+       }
+      ],
+      "date": "2020-07-21",
+      "dateProvenance": "published_date",
+      "pageType": "debunk",
+      "isCopy": false,
+      "branch": "Fact-check debunk"
      },
      {
       "id": "v4-1atev",
@@ -154,10 +154,10 @@
       "dateProvenance": "published_date",
       "pageType": "debunk",
       "isCopy": false,
-      "branch": "hoax_warning_no_authority"
+      "branch": "IT colleague warning"
      },
      {
-      "id": "v5-7a09f",
+      "id": "v6-7a09f",
       "text": "No video will be sent tomorrow spreading the Martinelli virus No! No video will be sent tomorrow spreading the Martinelli virus /sites/default/files/banners/pexels-tracy-le-blanc-607812.jpg",
       "excerpt": "No video will be sent tomorrow spreading the Martinelli virus No! No video will be sent tomorrow spreading the Martinelli virus /sites/default/files/banners/pexels-tracy-le-blanc-607812.jpg",
       "sources": [
@@ -166,15 +166,15 @@
         "title": "No! No video will be sent tomorrow spreading the Martinelli ...",
         "excerpt": "No video will be sent tomorrow spreading the Martinelli virus No! No video will be sent tomorrow spreading the Martinelli virus /sites/default/files/banners/pexels-tracy-le-blanc-607812.jpg",
         "pageType": "debunk",
-        "date": null,
-        "dateProvenance": "unknown"
+        "date": "2021-12-03",
+        "dateProvenance": "published_date"
        }
       ],
-      "date": null,
-      "dateProvenance": "unknown",
+      "date": "2021-12-03",
+      "dateProvenance": "published_date",
       "pageType": "debunk",
       "isCopy": false,
-      "branch": "hoax_warning_no_authority"
+      "branch": "No video tomorrow"
      },
      {
       "id": "v8-1awr3",
@@ -194,7 +194,7 @@
       "dateProvenance": "unknown",
       "pageType": "debunk",
       "isCopy": false,
-      "branch": "hoax_warning_no_authority"
+      "branch": "Fact-check debunk"
      },
      {
       "id": "v10-unm08",
@@ -214,7 +214,7 @@
       "dateProvenance": "unknown",
       "pageType": "debunk",
       "isCopy": false,
-      "branch": "hoax_warning_no_authority"
+      "branch": "Fact-check debunk"
      },
      {
       "id": "v11-1vaci",
@@ -234,27 +234,27 @@
       "dateProvenance": "published_date",
       "pageType": "debunk",
       "isCopy": false,
-      "branch": "hoax_warning_no_authority"
+      "branch": "Fact-check debunk"
      },
      {
       "id": "v15-gvfar",
-      "text": "The “Martinelli” video story and the push to “update to WhatsApp Gold” are recycled scare-chain messages that have circulated since 2017. There’s no verified video called Martinelli that infects phones just by opening it, and “WhatsApp Gold” is not an official WhatsApp upgrade — links to it are part of scams that try to get you to download malware or visit phishing pages. It's a hoax, been circulating for years!",
-      "excerpt": "The “Martinelli” video story and the push to “update to WhatsApp Gold” are recycled scare-chain messages that have circulated since 2017. There’s no verified video called Martinelli that infects phones just by opening it, and “WhatsApp Gold” is not an official WhatsApp upgrade — links to it are part of scams that try to get you to download malware or visit phishing pages. It's a hoax, been circulating for years!",
+      "text": "There's a video launching tomorrow on WhatsApp called Martinelli. Don't open it. It puts spyware into your mobile phone, and apparently there is nothing you can do will fix it If you receive a message asking you to update to WhatsApp Gold, don't open it!",
+      "excerpt": "There's a video launching tomorrow on WhatsApp called Martinelli. Don't open it. It puts spyware into your mobile phone, and apparently there is nothing you can do will fix it If you receive a message asking you to update to WhatsApp Gold, don't open it!",
       "sources": [
        {
         "url": "https://www.linkedin.com/posts/david-mckelvey-2338479_a-warning-do-not-open-any-activity-7383713331771101184-M3jA",
         "title": "David McKELVEY's Post",
-        "excerpt": "The “Martinelli” video story and the push to “update to WhatsApp Gold” are recycled scare-chain messages that have circulated since 2017. There’s no verified video called Martinelli that infects phones just by opening it, and “WhatsApp Gold” is not an official WhatsApp upgrade — links to it are part of scams that try to get you to download malware or visit phishing pages. It's a hoax, been circulating for years!",
-        "pageType": "debunk",
+        "excerpt": "There's a video launching tomorrow on WhatsApp called Martinelli. Don't open it. It puts spyware into your mobile phone, and apparently there is nothing you can do will fix it If you receive a message asking you to update to WhatsApp Gold, don't open it!",
+        "pageType": "official",
         "date": "2025-10-28",
         "dateProvenance": "published_date"
        }
       ],
       "date": "2025-10-28",
       "dateProvenance": "published_date",
-      "pageType": "debunk",
-      "isCopy": false,
-      "branch": "hoax_warning_no_authority"
+      "pageType": "official",
+      "isCopy": true,
+      "branch": "Future warning"
      },
      {
       "id": "v16-1k52f",
@@ -274,7 +274,7 @@
       "dateProvenance": "published_date",
       "pageType": "debunk",
       "isCopy": false,
-      "branch": "hoax_warning_no_authority"
+      "branch": "Fact-check debunk"
      },
      {
       "id": "v17-2brzv",
@@ -294,7 +294,7 @@
       "dateProvenance": "page_metadata",
       "pageType": "official",
       "isCopy": false,
-      "branch": "hoax_warning_no_authority"
+      "branch": "Fact-check debunk"
      },
      {
       "id": "v20-1bu3t",
@@ -314,7 +314,7 @@
       "dateProvenance": "unknown",
       "pageType": "debunk",
       "isCopy": false,
-      "branch": "hoax_warning_no_authority"
+      "branch": "Fact-check debunk"
      },
      {
       "id": "v33-2nnx7",
@@ -334,7 +334,7 @@
       "dateProvenance": "published_date",
       "pageType": "debunk",
       "isCopy": true,
-      "branch": "hoax_warning_no_authority"
+      "branch": "BBC radio warning"
      },
      {
       "id": "v36-1h5ky",
@@ -354,7 +354,7 @@
       "dateProvenance": "unknown",
       "pageType": "news",
       "isCopy": false,
-      "branch": "hoax_warning_no_authority"
+      "branch": "Fact-check debunk"
      },
      {
       "id": "v38-d5efb",
@@ -374,7 +374,7 @@
       "dateProvenance": "unknown",
       "pageType": "debunk",
       "isCopy": false,
-      "branch": "hoax_warning_no_authority"
+      "branch": "Fact-check debunk"
      },
      {
       "id": "you",
@@ -394,32 +394,51 @@
       "dateProvenance": "unknown",
       "pageType": "user_input",
       "isUserInput": true,
-      "branch": "authority_added_call_to_action"
+      "branch": "CNN and BBC confirmation"
      }
     ],
     "edges": [
      {
       "from": "v33-2nnx7",
-      "to": "v2-1jx3x",
+      "to": "v0-1jx3x",
       "confidence": "high",
-      "reason": "v33 is earliest dated debunk (2022-09-02) and v2 is later debunk (2022-09-05) with no mutations",
+      "reason": "Same BBC radio warning text; v33 dated 2022-09-02, v0 dated 2022-09-05",
       "mutations": [],
+      "changeNote": "Later version omits the warning about WhatsApp update messages and the RUN instruction.",
       "spreadJump": false
      },
      {
-      "from": "v33-2nnx7",
-      "to": "v0-1lokp",
+      "from": "v0-1jx3x",
+      "to": "v2-3b4h1",
+      "confidence": "medium",
+      "reason": "Mutation log shows no changes; v0 dated 2022-09-05, v2 dated 2020-07-21 but EVIDENCE leaf (Confidence capped: wording similarity 0.40.)",
+      "mutations": [],
+      "evidenceOnly": true,
+      "spreadJump": false
+     },
+     {
+      "from": "v0-1jx3x",
+      "to": "v8-1awr3",
       "confidence": "low",
-      "reason": "v0 references 2017 origin; v33 is earliest concrete node, undated v0 placed as sibling (Confidence capped: wording similarity 0.33.)",
+      "reason": "Mutation log shows no changes; v8 is EVIDENCE leaf discussing the message (Confidence capped: wording similarity 0.19.)",
       "mutations": [],
       "evidenceOnly": true,
       "spreadJump": false
      },
      {
       "from": "v33-2nnx7",
-      "to": "v5-7a09f",
+      "to": "v1-1lokp",
       "confidence": "low",
-      "reason": "v5 is undated evidence; v33 is earliest dated node, placed as sibling (Confidence capped: wording similarity 0.17.)",
+      "reason": "Mutation log shows no changes; v1 is EVIDENCE leaf discussing the hoax (Confidence capped: wording similarity 0.33.)",
+      "mutations": [],
+      "evidenceOnly": true,
+      "spreadJump": false
+     },
+     {
+      "from": "v33-2nnx7",
+      "to": "v6-7a09f",
+      "confidence": "low",
+      "reason": "Mutation log shows no changes; v6 is EVIDENCE leaf dated 2021-12-03 (Confidence capped: wording similarity 0.17.)",
       "mutations": [],
       "evidenceOnly": true,
       "spreadJump": false
@@ -427,17 +446,80 @@
      {
       "from": "v33-2nnx7",
       "to": "v15-gvfar",
-      "confidence": "low",
-      "reason": "v15 (2025) discusses hoax since 2017; v33 is earliest dated debunk, parent before child (Confidence capped: wording similarity 0.17.)",
+      "confidence": "medium",
+      "reason": "Mutation log shows target_changed; v33 dated 2022-09-02, v15 dated 2025-10-28 (Confidence capped: wording similarity 0.38.)",
+      "mutations": [],
+      "changeNote": "Later version omits BBC warning and WhatsApp update RUN instruction, changes hacking to spyware, and names WhatsApp Gold.",
+      "spreadJump": false
+     },
+     {
+      "from": "v15-gvfar",
+      "to": "v4-1atev",
+      "confidence": "medium",
+      "reason": "Mutation log shows no changes; v4 is EVIDENCE leaf dated 2020-03-23 (Confidence capped: wording similarity 0.53.)",
       "mutations": [],
       "evidenceOnly": true,
       "spreadJump": false
      },
      {
-      "from": "v33-2nnx7",
-      "to": "v38-d5efb",
+      "from": "v15-gvfar",
+      "to": "v11-1vaci",
+      "confidence": "medium",
+      "reason": "Mutation log shows no changes; v11 is EVIDENCE leaf dated 2018-04-17 (Confidence capped: wording similarity 0.37.)",
+      "mutations": [],
+      "evidenceOnly": true,
+      "spreadJump": false
+     },
+     {
+      "from": "v15-gvfar",
+      "to": "v16-1k52f",
       "confidence": "low",
-      "reason": "v38 is undated evidence quoting hoax; v33 is earliest dated debunk, sibling placement (Confidence capped: wording similarity 0.31.)",
+      "reason": "Mutation log shows no changes; v16 is EVIDENCE leaf dated 2026-07-29 (Confidence capped: wording similarity 0.29.)",
+      "mutations": [],
+      "evidenceOnly": true,
+      "spreadJump": false
+     },
+     {
+      "from": "v15-gvfar",
+      "to": "v17-2brzv",
+      "confidence": "medium",
+      "reason": "Mutation log shows no changes; v17 is EVIDENCE leaf dated 2025-10-13 (Confidence capped: wording similarity 0.43.)",
+      "mutations": [],
+      "evidenceOnly": true,
+      "spreadJump": false
+     },
+     {
+      "from": "v15-gvfar",
+      "to": "v20-1bu3t",
+      "confidence": "low",
+      "reason": "Mutation log shows no changes; v20 is EVIDENCE leaf (Confidence capped: wording similarity 0.32.)",
+      "mutations": [],
+      "evidenceOnly": true,
+      "spreadJump": false
+     },
+     {
+      "from": "v15-gvfar",
+      "to": "v36-1h5ky",
+      "confidence": "low",
+      "reason": "Mutation log shows no changes; v36 is EVIDENCE leaf (Confidence capped: wording similarity 0.24.)",
+      "mutations": [],
+      "evidenceOnly": true,
+      "spreadJump": false
+     },
+     {
+      "from": "v15-gvfar",
+      "to": "v38-d5efb",
+      "confidence": "medium",
+      "reason": "Mutation log shows no changes; v38 is EVIDENCE leaf (Confidence capped: wording similarity 0.54.)",
+      "mutations": [],
+      "evidenceOnly": true,
+      "spreadJump": false
+     },
+     {
+      "from": "v15-gvfar",
+      "to": "v10-unm08",
+      "confidence": "low",
+      "reason": "Mutation log shows no changes; v10 is EVIDENCE leaf (Confidence capped: wording similarity 0.24.)",
       "mutations": [],
       "evidenceOnly": true,
       "spreadJump": false
@@ -446,7 +528,7 @@
       "from": "v33-2nnx7",
       "to": "you",
       "confidence": "medium",
-      "reason": "you is user copy with authority_added/removed, call_to_action_added, detail_added mutations from v33 (Confidence capped: wording similarity 0.36.)",
+      "reason": "Mutation log shows authority_added, authority_removed, call_to_action_added, detail_added; you is user leaf (Confidence capped: wording similarity 0.36.)",
       "mutations": [
        {
         "type": "authority_added",
@@ -470,125 +552,66 @@
         "strength": "strong"
        }
       ],
-      "spreadJump": false
-     },
-     {
-      "from": "v2-1jx3x",
-      "to": "v1-3b4h1",
-      "confidence": "medium",
-      "reason": "v1 (2020-07-21) is evidence verdict; v2 (2022-09-05) is debunk, but v1 dated before v2, so v1 must be leaf under v2 as evidence discussing the hoax (Confidence capped: wording similarity 0.40.)",
-      "mutations": [],
-      "evidenceOnly": true,
-      "spreadJump": false
-     },
-     {
-      "from": "v2-1jx3x",
-      "to": "v4-1atev",
-      "confidence": "medium",
-      "reason": "v4 (2020-03-23) is evidence of hoax message; v2 (2022-09-05) debunk, v4 dated before v2, leaf under v2 (Confidence capped: wording similarity 0.37.)",
-      "mutations": [],
-      "evidenceOnly": true,
-      "spreadJump": false
-     },
-     {
-      "from": "v2-1jx3x",
-      "to": "v8-1awr3",
-      "confidence": "low",
-      "reason": "v8 is undated evidence (Snopes 2018); v2 is 2022 debunk, leaf under v2 (Confidence capped: wording similarity 0.19.)",
-      "mutations": [],
-      "evidenceOnly": true,
-      "spreadJump": false
-     },
-     {
-      "from": "v2-1jx3x",
-      "to": "v10-unm08",
-      "confidence": "low",
-      "reason": "v10 is undated evidence; v2 is 2022 debunk, leaf under v2 (Confidence capped: wording similarity 0.19.)",
-      "mutations": [],
-      "evidenceOnly": true,
-      "spreadJump": false
-     },
-     {
-      "from": "v2-1jx3x",
-      "to": "v11-1vaci",
-      "confidence": "low",
-      "reason": "v11 (2018-04-17) is evidence of hoax since 2017; v2 (2022) debunk, v11 dated before v2, leaf under v2 (Confidence capped: wording similarity 0.27.)",
-      "mutations": [],
-      "evidenceOnly": true,
-      "spreadJump": false
-     },
-     {
-      "from": "v2-1jx3x",
-      "to": "v16-1k52f",
-      "confidence": "low",
-      "reason": "v16 (2026-07-29) is evidence; v2 (2022) debunk, parent before child (Confidence capped: wording similarity 0.21.)",
-      "mutations": [],
-      "evidenceOnly": true,
-      "spreadJump": false
-     },
-     {
-      "from": "v2-1jx3x",
-      "to": "v17-2brzv",
-      "confidence": "low",
-      "reason": "v17 (2025-10-13) is evidence; v2 (2022) debunk, parent before child (Confidence capped: wording similarity 0.23.)",
-      "mutations": [],
-      "evidenceOnly": true,
-      "spreadJump": false
-     },
-     {
-      "from": "v2-1jx3x",
-      "to": "v20-1bu3t",
-      "confidence": "low",
-      "reason": "v20 is undated evidence; v2 is 2022 debunk, leaf under v2 (Confidence capped: wording similarity 0.24.)",
-      "mutations": [],
-      "evidenceOnly": true,
-      "spreadJump": false
-     },
-     {
-      "from": "v2-1jx3x",
-      "to": "v36-1h5ky",
-      "confidence": "low",
-      "reason": "v36 is undated evidence; v2 is 2022 debunk, leaf under v2 (Confidence capped: wording similarity 0.24.)",
-      "mutations": [],
-      "evidenceOnly": true,
+      "changeNote": "The later version adds CNN confirmation, friend transmission, and contact list forwarding.",
       "spreadJump": false
      }
     ],
     "earliestId": "v11-1vaci",
     "limited": false,
     "verdict": {
-     "summary": "The Martinelli warning has circulated since at least mid-2017 and is identified as a hoax by multiple fact-check sources. Your version adds claims that CNN and BBC confirmed it and asks recipients to forward it to everyone. Those additions are not supported by the listed sources.",
+     "summary": "The Martinelli warning is a long-circulating hoax about a WhatsApp video that supposedly hacks phones. The earliest version found dates to at least mid-2017, and your copy adds claims of CNN and BBC confirmation plus a request to forward it to everyone. Multiple fact-checks have debunked the Martinelli alert.",
      "whatChanged": [
-      "authority_added: CNN and BBC",
-      "call_to_action_added: pass this to everyone in your contact list"
+      "Added authority: CNN and BBC confirmation",
+      "Removed authority: BBC radio this morning",
+      "Added call to action: pass this to everyone in your contact list"
      ],
      "unsupported": [],
      "confidence": "high",
-     "replyCard": "Hi everyone, the Martinelli video warning has been shared for years and fact-checkers say it is a hoax. The version you received mentions CNN and BBC, but those sources are not listed in the checks I found. Please avoid forwarding it further."
+     "replyCard": "Hi everyone, the warning about a WhatsApp video called Martinelli has been circulating for years and has been checked by fact-checkers. It is not necessary to forward this message. Stay safe!"
     },
     "branches": [
      {
-      "name": "hoax_warning_no_authority",
+      "name": "BBC radio warning",
       "variantIds": [
-       "v0-1lokp",
-       "v1-3b4h1",
-       "v2-1jx3x",
-       "v4-1atev",
-       "v5-7a09f",
+       "v0-1jx3x",
+       "v33-2nnx7"
+      ]
+     },
+     {
+      "name": "IT colleague warning",
+      "variantIds": [
+       "v4-1atev"
+      ]
+     },
+     {
+      "name": "No video tomorrow",
+      "variantIds": [
+       "v6-7a09f"
+      ]
+     },
+     {
+      "name": "Fact-check debunk",
+      "variantIds": [
+       "v1-1lokp",
+       "v2-3b4h1",
        "v8-1awr3",
        "v10-unm08",
        "v11-1vaci",
-       "v15-gvfar",
        "v16-1k52f",
        "v17-2brzv",
        "v20-1bu3t",
-       "v33-2nnx7",
        "v36-1h5ky",
        "v38-d5efb"
       ]
      },
      {
-      "name": "authority_added_call_to_action",
+      "name": "Future warning",
+      "variantIds": [
+       "v15-gvfar"
+      ]
+     },
+     {
+      "name": "CNN and BBC confirmation",
       "variantIds": [
        "you"
       ]
@@ -598,12 +621,12 @@
      "queries": 8,
      "pagesSearched": 40,
      "pagesConfirmed": 17,
-     "pairsCompared": 16,
+     "pairsCompared": 18,
      "mutationReview": {
-      "reviewed": 4,
+      "reviewed": 5,
       "kept": 3,
       "retyped": 0,
-      "dropped": 1
+      "dropped": 2
      }
     },
     "warnings": []
@@ -622,7 +645,7 @@
     "ok": true,
     "note": "dev cache (original latency)",
     "id": "c1",
-    "at": 1793273640526
+    "at": 1793284390944
    },
    {
     "provider": "nvidia",
@@ -635,7 +658,46 @@
     "ok": true,
     "note": "dev cache (original latency)",
     "id": "c2",
-    "at": 1793273640532
+    "at": 1793284390945
+   },
+   {
+    "provider": "tavily",
+    "model": "search/basic",
+    "tier": "search",
+    "stage": "B: search",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 2,
+    "ok": true,
+    "note": "10 results",
+    "id": "c3",
+    "at": 1793284390952
+   },
+   {
+    "provider": "tavily",
+    "model": "search/basic",
+    "tier": "search",
+    "stage": "B: search",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 4,
+    "ok": true,
+    "note": "10 results",
+    "id": "c4",
+    "at": 1793284390954
+   },
+   {
+    "provider": "tavily",
+    "model": "search/basic",
+    "tier": "search",
+    "stage": "B: search",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 4,
+    "ok": true,
+    "note": "10 results",
+    "id": "c5",
+    "at": 1793284390954
    },
    {
     "provider": "tavily",
@@ -647,47 +709,8 @@
     "latencyMs": 8,
     "ok": true,
     "note": "10 results",
-    "id": "c3",
-    "at": 1793273640545
-   },
-   {
-    "provider": "tavily",
-    "model": "search/basic",
-    "tier": "search",
-    "stage": "B: search",
-    "tokensIn": 0,
-    "tokensOut": 0,
-    "latencyMs": 9,
-    "ok": true,
-    "note": "10 results",
-    "id": "c4",
-    "at": 1793273640546
-   },
-   {
-    "provider": "tavily",
-    "model": "search/basic",
-    "tier": "search",
-    "stage": "B: search",
-    "tokensIn": 0,
-    "tokensOut": 0,
-    "latencyMs": 9,
-    "ok": true,
-    "note": "10 results",
-    "id": "c5",
-    "at": 1793273640547
-   },
-   {
-    "provider": "tavily",
-    "model": "search/basic",
-    "tier": "search",
-    "stage": "B: search",
-    "tokensIn": 0,
-    "tokensOut": 0,
-    "latencyMs": 9,
-    "ok": true,
-    "note": "10 results",
     "id": "c6",
-    "at": 1793273640547
+    "at": 1793284390957
    },
    {
     "provider": "tavily",
@@ -700,7 +723,7 @@
     "ok": true,
     "note": "10 results",
     "id": "c7",
-    "at": 1793273640553
+    "at": 1793284390963
    },
    {
     "provider": "tavily",
@@ -709,24 +732,11 @@
     "stage": "B: search",
     "tokensIn": 0,
     "tokensOut": 0,
-    "latencyMs": 8,
+    "latencyMs": 10,
     "ok": true,
     "note": "10 results",
     "id": "c8",
-    "at": 1793273640554
-   },
-   {
-    "provider": "tavily",
-    "model": "search/basic",
-    "tier": "search",
-    "stage": "B: search",
-    "tokensIn": 0,
-    "tokensOut": 0,
-    "latencyMs": 7,
-    "ok": true,
-    "note": "10 results",
-    "id": "c9",
-    "at": 1793273640554
+    "at": 1793284390964
    },
    {
     "provider": "tavily",
@@ -738,8 +748,21 @@
     "latencyMs": 7,
     "ok": true,
     "note": "7 results",
+    "id": "c9",
+    "at": 1793284390964
+   },
+   {
+    "provider": "tavily",
+    "model": "search/basic",
+    "tier": "search",
+    "stage": "B: search",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 14,
+    "ok": true,
+    "note": "10 results",
     "id": "c10",
-    "at": 1793273640555
+    "at": 1793284390966
    },
    {
     "provider": "tavily",
@@ -748,11 +771,11 @@
     "stage": "B: extract",
     "tokensIn": 0,
     "tokensOut": 0,
-    "latencyMs": 6,
+    "latencyMs": 11049,
     "ok": true,
     "note": "15 ok, 5 failed",
     "id": "c11",
-    "at": 1793273640561
+    "at": 1793284402015
    },
    {
     "provider": "tavily",
@@ -761,11 +784,11 @@
     "stage": "B: extract",
     "tokensIn": 0,
     "tokensOut": 0,
-    "latencyMs": 6,
+    "latencyMs": 7,
     "ok": true,
     "note": "13 ok, 7 failed",
     "id": "c12",
-    "at": 1793273640567
+    "at": 1793284402022
    },
    {
     "provider": "nvidia",
@@ -778,7 +801,7 @@
     "ok": true,
     "note": "dev cache (original latency)",
     "id": "c13",
-    "at": 1793273641399
+    "at": 1793284402804
    },
    {
     "provider": "nvidia",
@@ -791,20 +814,7 @@
     "ok": true,
     "note": "dev cache (original latency)",
     "id": "c14",
-    "at": 1793273641435
-   },
-   {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
-    "tier": "nano",
-    "stage": "C: confirm",
-    "tokensIn": 1742,
-    "tokensOut": 500,
-    "latencyMs": 10025,
-    "ok": true,
-    "note": "dev cache (original latency)",
-    "id": "c15",
-    "at": 1793273641458
+    "at": 1793284402829
    },
    {
     "provider": "nvidia",
@@ -816,8 +826,21 @@
     "latencyMs": 6155,
     "ok": true,
     "note": "dev cache (original latency)",
+    "id": "c15",
+    "at": 1793284402851
+   },
+   {
+    "provider": "nvidia",
+    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+    "tier": "nano",
+    "stage": "C: confirm",
+    "tokensIn": 1742,
+    "tokensOut": 500,
+    "latencyMs": 10025,
+    "ok": true,
+    "note": "dev cache (original latency)",
     "id": "c16",
-    "at": 1793273641459
+    "at": 1793284403046
    },
    {
     "provider": "nvidia",
@@ -830,7 +853,7 @@
     "ok": true,
     "note": "dev cache (original latency)",
     "id": "c17",
-    "at": 1793273641616
+    "at": 1793284403047
    },
    {
     "provider": "nvidia",
@@ -843,7 +866,7 @@
     "ok": true,
     "note": "dev cache (original latency)",
     "id": "c18",
-    "at": 1793273641667
+    "at": 1793284403103
    },
    {
     "provider": "nvidia",
@@ -856,20 +879,7 @@
     "ok": true,
     "note": "dev cache (original latency)",
     "id": "c19",
-    "at": 1793273641781
-   },
-   {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
-    "tier": "nano",
-    "stage": "C: confirm (retry)",
-    "tokensIn": 2278,
-    "tokensOut": 507,
-    "latencyMs": 11804,
-    "ok": true,
-    "note": "dev cache (original latency)",
-    "id": "c20",
-    "at": 1793273642045
+    "at": 1793284403264
    },
    {
     "provider": "nvidia",
@@ -881,21 +891,8 @@
     "latencyMs": 4728,
     "ok": true,
     "note": "dev cache (original latency)",
-    "id": "c21",
-    "at": 1793273642201
-   },
-   {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
-    "tier": "nano",
-    "stage": "C: confirm",
-    "tokensIn": 891,
-    "tokensOut": 138,
-    "latencyMs": 8917,
-    "ok": true,
-    "note": "dev cache (original latency)",
-    "id": "c22",
-    "at": 1793273642321
+    "id": "c20",
+    "at": 1793284403593
    },
    {
     "provider": "nvidia",
@@ -907,8 +904,21 @@
     "latencyMs": 4494,
     "ok": true,
     "note": "dev cache (original latency)",
-    "id": "c23",
-    "at": 1793273642341
+    "id": "c21",
+    "at": 1793284403763
+   },
+   {
+    "provider": "nvidia",
+    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+    "tier": "nano",
+    "stage": "C: confirm (retry)",
+    "tokensIn": 2278,
+    "tokensOut": 507,
+    "latencyMs": 11804,
+    "ok": true,
+    "note": "dev cache (original latency)",
+    "id": "c22",
+    "at": 1793284403862
    },
    {
     "provider": "nvidia",
@@ -920,21 +930,21 @@
     "latencyMs": 11935,
     "ok": true,
     "note": "dev cache (original latency)",
-    "id": "c24",
-    "at": 1793273642372
+    "id": "c23",
+    "at": 1793284403889
    },
    {
     "provider": "nvidia",
     "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
     "tier": "nano",
     "stage": "C: confirm",
-    "tokensIn": 1605,
-    "tokensOut": 127,
-    "latencyMs": 3071,
+    "tokensIn": 891,
+    "tokensOut": 138,
+    "latencyMs": 8917,
     "ok": true,
     "note": "dev cache (original latency)",
-    "id": "c25",
-    "at": 1793273642580
+    "id": "c24",
+    "at": 1793284403908
    },
    {
     "provider": "nvidia",
@@ -946,8 +956,8 @@
     "latencyMs": 2108,
     "ok": true,
     "note": "dev cache (original latency)",
-    "id": "c26",
-    "at": 1793273642735
+    "id": "c25",
+    "at": 1793284404109
    },
    {
     "provider": "nvidia",
@@ -959,8 +969,8 @@
     "latencyMs": 9885,
     "ok": true,
     "note": "dev cache (original latency)",
-    "id": "c27",
-    "at": 1793273643482
+    "id": "c26",
+    "at": 1793284404283
    },
    {
     "provider": "nvidia",
@@ -972,21 +982,8 @@
     "latencyMs": 2276,
     "ok": true,
     "note": "dev cache (original latency)",
-    "id": "c28",
-    "at": 1793273643853
-   },
-   {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
-    "tier": "nano",
-    "stage": "C: confirm",
-    "tokensIn": 1203,
-    "tokensOut": 121,
-    "latencyMs": 9495,
-    "ok": true,
-    "note": "dev cache (original latency)",
-    "id": "c29",
-    "at": 1793273644012
+    "id": "c27",
+    "at": 1793284404936
    },
    {
     "provider": "nvidia",
@@ -998,21 +995,21 @@
     "latencyMs": 3889,
     "ok": true,
     "note": "dev cache (original latency)",
-    "id": "c30",
-    "at": 1793273644106
+    "id": "c28",
+    "at": 1793284405228
    },
    {
     "provider": "nvidia",
     "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
     "tier": "nano",
     "stage": "C: confirm",
-    "tokensIn": 1411,
-    "tokensOut": 254,
-    "latencyMs": 9818,
+    "tokensIn": 1605,
+    "tokensOut": 127,
+    "latencyMs": 3071,
     "ok": true,
     "note": "dev cache (original latency)",
-    "id": "c31",
-    "at": 1793273644198
+    "id": "c29",
+    "at": 1793284405418
    },
    {
     "provider": "nvidia",
@@ -1024,8 +1021,34 @@
     "latencyMs": 5777,
     "ok": true,
     "note": "dev cache (original latency)",
+    "id": "c30",
+    "at": 1793284405536
+   },
+   {
+    "provider": "nvidia",
+    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+    "tier": "nano",
+    "stage": "C: confirm",
+    "tokensIn": 1434,
+    "tokensOut": 116,
+    "latencyMs": 6147,
+    "ok": true,
+    "note": "dev cache (original latency)",
+    "id": "c31",
+    "at": 1793284405651
+   },
+   {
+    "provider": "nvidia",
+    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+    "tier": "nano",
+    "stage": "C: confirm",
+    "tokensIn": 1411,
+    "tokensOut": 254,
+    "latencyMs": 9818,
+    "ok": true,
+    "note": "dev cache (original latency)",
     "id": "c32",
-    "at": 1793273644212
+    "at": 1793284405674
    },
    {
     "provider": "nvidia",
@@ -1038,20 +1061,7 @@
     "ok": true,
     "note": "dev cache (original latency)",
     "id": "c33",
-    "at": 1793273644227
-   },
-   {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
-    "tier": "nano",
-    "stage": "C: confirm",
-    "tokensIn": 1434,
-    "tokensOut": 116,
-    "latencyMs": 6147,
-    "ok": true,
-    "note": "dev cache (original latency)",
-    "id": "c34",
-    "at": 1793273644228
+    "at": 1793284405693
    },
    {
     "provider": "nvidia",
@@ -1063,8 +1073,8 @@
     "latencyMs": 6486,
     "ok": true,
     "note": "dev cache (original latency)",
-    "id": "c35",
-    "at": 1793273644255
+    "id": "c34",
+    "at": 1793284405694
    },
    {
     "provider": "nvidia",
@@ -1076,8 +1086,8 @@
     "latencyMs": 9298,
     "ok": true,
     "note": "dev cache (original latency)",
-    "id": "c36",
-    "at": 1793273644265
+    "id": "c35",
+    "at": 1793284405707
    },
    {
     "provider": "nvidia",
@@ -1089,8 +1099,8 @@
     "latencyMs": 15223,
     "ok": true,
     "note": "dev cache (original latency)",
-    "id": "c37",
-    "at": 1793273644266
+    "id": "c36",
+    "at": 1793284405708
    },
    {
     "provider": "nvidia",
@@ -1102,21 +1112,20 @@
     "latencyMs": 24123,
     "ok": true,
     "note": "dev cache (original latency)",
-    "id": "c38",
-    "at": 1793273644277
+    "id": "c37",
+    "at": 1793284405727
    },
    {
     "provider": "nvidia",
     "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
     "tier": "nano",
-    "stage": "D: mutations",
-    "tokensIn": 634,
-    "tokensOut": 148,
-    "latencyMs": 3119,
+    "stage": "C: confirm",
+    "tokensIn": 1203,
+    "tokensOut": 119,
+    "latencyMs": 7238,
     "ok": true,
-    "note": "dev cache (original latency)",
-    "id": "c39",
-    "at": 1793273644635
+    "id": "c38",
+    "at": 1793284411334
    },
    {
     "provider": "nvidia",
@@ -1128,34 +1137,57 @@
     "latencyMs": 7688,
     "ok": true,
     "note": "dev cache (original latency)",
+    "id": "c39",
+    "at": 1793284411738
+   },
+   {
+    "provider": "nvidia",
+    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+    "tier": "nano",
+    "stage": "D: mutations",
+    "tokensIn": 634,
+    "tokensOut": 148,
+    "latencyMs": 3119,
+    "ok": true,
+    "note": "dev cache (original latency)",
     "id": "c40",
-    "at": 1793273644640
+    "at": 1793284411751
+   },
+   {
+    "provider": "nvidia",
+    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+    "tier": "nano",
+    "stage": "D: mutations",
+    "tokensIn": 616,
+    "tokensOut": 197,
+    "latencyMs": 3688,
+    "ok": true,
+    "id": "c41",
+    "at": 1793284415415
    },
    {
     "provider": "nvidia",
     "model": "nvidia/nemotron-3.5-super-vl-120b-a12b",
     "tier": "super",
     "stage": "E: cluster",
-    "tokensIn": 1591,
-    "tokensOut": 227,
-    "latencyMs": 5795,
+    "tokensIn": 1626,
+    "tokensOut": 272,
+    "latencyMs": 2711,
     "ok": true,
-    "note": "dev cache (original latency)",
-    "id": "c41",
-    "at": 1793273644647
+    "id": "c42",
+    "at": 1793284418174
    },
    {
     "provider": "nvidia",
     "model": "nvidia/nemotron-3-ultra-550b-a55b",
     "tier": "ultra",
     "stage": "F: lineage",
-    "tokensIn": 1999,
-    "tokensOut": 1172,
-    "latencyMs": 84550,
+    "tokensIn": 2007,
+    "tokensOut": 1014,
+    "latencyMs": 42146,
     "ok": true,
-    "note": "dev cache (original latency)",
-    "id": "c42",
-    "at": 1793273644778
+    "id": "c43",
+    "at": 1793284460471
    },
    {
     "provider": "nvidia",
@@ -1167,24 +1199,73 @@
     "latencyMs": 6418,
     "ok": true,
     "note": "dev cache (original latency)",
-    "id": "c43",
-    "at": 1793273644784
+    "id": "c44",
+    "at": 1793284460482
+   },
+   {
+    "provider": "nvidia",
+    "model": "nvidia/nemotron-3.5-super-vl-120b-a12b",
+    "tier": "super",
+    "stage": "D2: review labels",
+    "tokensIn": 942,
+    "tokensOut": 35,
+    "latencyMs": 1014,
+    "ok": true,
+    "id": "c45",
+    "at": 1793284461492
+   },
+   {
+    "provider": "nvidia",
+    "model": "nvidia/nemotron-3.5-super-vl-120b-a12b",
+    "tier": "super",
+    "stage": "D3: what changed",
+    "tokensIn": 347,
+    "tokensOut": 23,
+    "latencyMs": 1286,
+    "ok": true,
+    "id": "c46",
+    "at": 1793284463764
+   },
+   {
+    "provider": "nvidia",
+    "model": "nvidia/nemotron-3.5-super-vl-120b-a12b",
+    "tier": "super",
+    "stage": "D3: what changed",
+    "tokensIn": 328,
+    "tokensOut": 34,
+    "latencyMs": 1424,
+    "ok": true,
+    "note": "+3.0s throttle/retry wait",
+    "id": "c47",
+    "at": 1793284465903
+   },
+   {
+    "provider": "nvidia",
+    "model": "nvidia/nemotron-3.5-super-vl-120b-a12b",
+    "tier": "super",
+    "stage": "D3: what changed",
+    "tokensIn": 329,
+    "tokensOut": 21,
+    "latencyMs": 4741,
+    "ok": true,
+    "note": "+5.0s throttle/retry wait",
+    "id": "c48",
+    "at": 1793284471220
    },
    {
     "provider": "nvidia",
     "model": "nvidia/nemotron-3.5-super-vl-120b-a12b",
     "tier": "super",
     "stage": "G: verdict",
-    "tokensIn": 1277,
-    "tokensOut": 442,
-    "latencyMs": 5487,
+    "tokensIn": 1274,
+    "tokensOut": 452,
+    "latencyMs": 4865,
     "ok": true,
-    "note": "dev cache (original latency)",
-    "id": "c44",
-    "at": 1793273644806
+    "id": "c49",
+    "at": 1793284476091
    }
   ],
-  "totalLatencyMs": 4291,
+  "totalLatencyMs": 85156,
   "pricing": {
    "nano": [
     0.06,
@@ -1207,7 +1288,7 @@
   "fixture": {
    "id": "3-martinelli",
    "title": "“Martinelli” video hacks your phone (WhatsApp hoax)",
-   "generatedAt": "2026-10-29T11:34:04.808Z",
+   "generatedAt": "2026-10-29T14:34:36.096Z",
    "generatedWith": "live"
   }
  }

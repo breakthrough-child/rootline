@@ -3,7 +3,7 @@ import pLimit from "p-limit";
 import { config, llmAvailable } from "./config";
 import { guessPageType, heuristicMembership, heuristicMutations, heuristicUnderstanding, heuristicVerdict, validateMutations, dropCommentary, dropFragments, STRONG_TYPES, isStrong, looksLikeCommentary } from "./heuristics";
 import { chatJson, RunContext, withFallback } from "./llm";
-import { ClusterSchema, LineageSchema, MembershipSchema, MutationsSchema, ReviewSchema, UnderstandingSchema, VerdictSchema } from "./schemas";
+import { ChangeNoteSchema, ClusterSchema, LineageSchema, MembershipSchema, MutationsSchema, ReviewSchema, UnderstandingSchema, VerdictSchema } from "./schemas";
 import { extract, resolveDate, search, type SearchHit } from "./search";
 import { bestExcerpt, clip, moneyCompatible, orgCompatible, sharedContentWords, splitSentences, stemCoverage, excerptStrictlyIn, hashString, speaksTo, normalizeInput, relatedness, snapExcerptToPage, tokenCoverage, truncate, wordCount } from "./text";
 import { classifyInput, gatherReports, generalVerdict } from "./general";
@@ -419,6 +419,61 @@ You may only judge the labels listed: do not add labels and do not change any te
   return { edges: edges.map((e) => ({ ...e, mutations: reviewed.get(`${e.from}>${e.to}`) ?? e.mutations.map((m) => ({ ...m, strength: "weak" as const })) })), stats };
 }
 
+// ── Stage D3: "what changed" line ──────────────────────────────────────────
+const norm = (t: string) => t.toLowerCase().replace(/[^\p{L}\p{N}]+/gu, " ").trim();
+const VERDICT_WORDS = /\b(hoax|fake|false|untrue|debunk\w*|misleading|scam|lie|lies|true)\b/i;
+/** A note is shown only if every quoted fragment appears in the parent or child text, it is short, and it passes no verdict of its own. */
+export function validChangeNote(note: string, earlier: string, later: string): string | null {
+  const n = note.replace(/\s+/g, " ").trim().replace(/^what changed:?\s*/i, "");
+  if (!n || n.split(" ").length > 22 || n.length > 200) return null;
+  const hay = norm(`${earlier} ${later}`);
+  const quotes = [...n.matchAll(/["“”]([^"“”]{2,}?)["“”]/g)].map((m) => m[1]);
+  for (const q of quotes) if (!hay.includes(norm(q))) return null;
+  const outside = n.replace(/["“”][^"“”]*["“”]/g, "");
+  if (VERDICT_WORDS.test(outside) && !VERDICT_WORDS.test(`${earlier} ${later}`)) return null;
+  return n;
+}
+
+/** One Super call per copy→copy edge: a plain-English line describing only differences visible in both texts. */
+export async function describeChanges(ctx: RunContext, variants: Variant[], edges: LineageEdge[], claimId: string): Promise<LineageEdge[]> {
+  if (!llmAvailable("super")) return edges;
+  const byId = new Map(variants.map((v) => [v.id, v]));
+  const todo = edges.filter((e) => !e.evidenceOnly && byId.get(e.from)?.isCopy !== false && byId.get(e.to)?.isCopy !== false);
+  if (!todo.length) return edges;
+  ctx.stage("D", `Describing what changed on ${todo.length} edges…`, claimId);
+  const limit = pLimit(config.limits.concurrency);
+  const notes = new Map<string, string>();
+  await Promise.all(
+    todo.map((e) =>
+      limit(async () => {
+        const earlier = byId.get(e.from)!.text;
+        const later = byId.get(e.to)!.text;
+        try {
+          const out = await chatJson(ctx, ChangeNoteSchema, {
+            tier: "super",
+            stage: "D3: what changed",
+            maxTokens: 200,
+            messages: [
+              { role: "system", content: SYSTEM },
+              {
+                role: "user",
+                content: `Two versions of a circulating message. Describe in ONE plain sentence of at most 15 words what the LATER version says or adds differently from the EARLIER one.
+Rules: only differences you can see by comparing the two texts below; never say whether the message is true, false or a hoax; quote words only exactly as they appear; if the wording is essentially the same, answer "Same message, reworded." Answer "" if you cannot tell. Return JSON {"note": "..."}.
+EARLIER:\n"""${truncate(earlier, 900)}"""\nLATER:\n"""${truncate(later, 900)}"""`,
+              },
+            ],
+          });
+          const ok = validChangeNote(out.note, earlier, later);
+          if (ok) notes.set(`${e.from}>${e.to}`, ok);
+        } catch {
+          /* no note for this edge */
+        }
+      }),
+    ),
+  );
+  return edges.map((e) => (notes.has(`${e.from}>${e.to}`) ? { ...e, changeNote: notes.get(`${e.from}>${e.to}`) } : e));
+}
+
 // ── Stage E ────────────────────────────────────────────────────────────────
 async function cluster(ctx: RunContext, variants: Variant[], mutations: Map<string, Mutation[]>) {
   const ids = new Set(variants.map((v) => v.id));
@@ -687,6 +742,7 @@ export async function runClaim(ctx: RunContext, claimId: string, claimText: stri
   edges = edges.map((e) => ({ ...e, mutations: dropFragments(dropCommentary(e.mutations, variants.find((v) => v.id === e.to)?.pageType ?? "other", variants.find((v) => v.id === e.from)?.pageType)) }));
   const review = await reviewMutations(ctx, variants, edges, claimId);
   edges = review.edges.map((e) => capConfidence(e, variants));
+  edges = await describeChanges(ctx, variants, edges, claimId);
   edges = markSpread(variants, edges);
   for (const e of edges) ctx.emit({ type: "edge", claimId, edge: e });
   for (const b of branches) for (const id of b.variantIds) {

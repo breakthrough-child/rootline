@@ -128,6 +128,8 @@ export interface LineageEdge {
   reason: string;
   mutations: Mutation[];
   spreadJump?: boolean; // this change coincided with wider spread
+  /** Plain-English line (max ~15 words) on what differs between the two texts; written by Super from the exact texts and quote-validated. Absent when invalid. */
+  changeNote?: string;
   evidenceOnly?: boolean; // an end of this edge is an evidence page without a clean quoted copy: no changes are labelled
 }
 

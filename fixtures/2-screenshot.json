@@ -5,7 +5,7 @@
  "description": "A screenshot of a post from a FICTIONAL account (@kemi_reports_247): the post does not exist, but its words have a long family tree.",
  "investigation": {
   "id": "fixture-2-screenshot",
-  "createdAt": "2026-10-29T11:34:00.503Z",
+  "createdAt": "2026-10-29T14:33:10.933Z",
   "mode": "live",
   "input": {
    "sourceKind": "image",
@@ -148,7 +148,7 @@
     "ok": true,
     "note": "dev cache (original latency)",
     "id": "c1",
-    "at": 1793273636995
+    "at": 1793284386689
    },
    {
     "provider": "tavily",
@@ -157,11 +157,11 @@
     "stage": "check: post exists",
     "tokensIn": 0,
     "tokensOut": 0,
-    "latencyMs": 9,
+    "latencyMs": 28,
     "ok": true,
     "note": "8 results",
     "id": "c2",
-    "at": 1793273637943
+    "at": 1793284388334
    },
    {
     "provider": "nvidia",
@@ -174,7 +174,7 @@
     "ok": true,
     "note": "dev cache (original latency)",
     "id": "c3",
-    "at": 1793273637944
+    "at": 1793284388337
    },
    {
     "provider": "tavily",
@@ -183,24 +183,11 @@
     "stage": "check: post exists",
     "tokensIn": 0,
     "tokensOut": 0,
-    "latencyMs": 18,
+    "latencyMs": 26,
     "ok": true,
     "note": "5 results",
     "id": "c4",
-    "at": 1793273637961
-   },
-   {
-    "provider": "tavily",
-    "model": "search/basic",
-    "tier": "search",
-    "stage": "B: search",
-    "tokensIn": 0,
-    "tokensOut": 0,
-    "latencyMs": 6,
-    "ok": true,
-    "note": "10 results",
-    "id": "c5",
-    "at": 1793273637962
+    "at": 1793284388360
    },
    {
     "provider": "tavily",
@@ -211,9 +198,9 @@
     "tokensOut": 0,
     "latencyMs": 8,
     "ok": true,
-    "note": "7 results",
-    "id": "c6",
-    "at": 1793273637964
+    "note": "10 results",
+    "id": "c5",
+    "at": 1793284388364
    },
    {
     "provider": "tavily",
@@ -222,11 +209,24 @@
     "stage": "B: search",
     "tokensIn": 0,
     "tokensOut": 0,
-    "latencyMs": 9,
+    "latencyMs": 16,
+    "ok": true,
+    "note": "7 results",
+    "id": "c6",
+    "at": 1793284388373
+   },
+   {
+    "provider": "tavily",
+    "model": "search/basic",
+    "tier": "search",
+    "stage": "B: search",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 19,
     "ok": true,
     "note": "10 results",
     "id": "c7",
-    "at": 1793273637965
+    "at": 1793284388376
    },
    {
     "provider": "tavily",
@@ -235,11 +235,11 @@
     "stage": "B: search",
     "tokensIn": 0,
     "tokensOut": 0,
-    "latencyMs": 9,
+    "latencyMs": 50,
     "ok": true,
     "note": "10 results",
     "id": "c8",
-    "at": 1793273637966
+    "at": 1793284388407
    },
    {
     "provider": "tavily",
@@ -248,11 +248,11 @@
     "stage": "check: post exists",
     "tokensIn": 0,
     "tokensOut": 0,
-    "latencyMs": 13,
+    "latencyMs": 59,
     "ok": true,
     "note": "8 results",
     "id": "c9",
-    "at": 1793273637974
+    "at": 1793284388420
    },
    {
     "provider": "tavily",
@@ -261,11 +261,11 @@
     "stage": "B: search",
     "tokensIn": 0,
     "tokensOut": 0,
-    "latencyMs": 9,
+    "latencyMs": 59,
     "ok": true,
     "note": "10 results",
     "id": "c10",
-    "at": 1793273637974
+    "at": 1793284388423
    },
    {
     "provider": "tavily",
@@ -274,11 +274,11 @@
     "stage": "B: search",
     "tokensIn": 0,
     "tokensOut": 0,
-    "latencyMs": 13,
+    "latencyMs": 49,
     "ok": true,
     "note": "10 results",
     "id": "c11",
-    "at": 1793273637975
+    "at": 1793284388424
    },
    {
     "provider": "tavily",
@@ -287,11 +287,11 @@
     "stage": "B: search",
     "tokensIn": 0,
     "tokensOut": 0,
-    "latencyMs": 10,
+    "latencyMs": 51,
     "ok": true,
     "note": "10 results",
     "id": "c12",
-    "at": 1793273637975
+    "at": 1793284388428
    },
    {
     "provider": "tavily",
@@ -300,11 +300,11 @@
     "stage": "B: search",
     "tokensIn": 0,
     "tokensOut": 0,
-    "latencyMs": 9,
+    "latencyMs": 23,
     "ok": true,
     "note": "10 results",
     "id": "c13",
-    "at": 1793273637975
+    "at": 1793284388430
    },
    {
     "provider": "tavily",
@@ -313,11 +313,11 @@
     "stage": "check: post exists",
     "tokensIn": 0,
     "tokensOut": 0,
-    "latencyMs": 4,
+    "latencyMs": 16,
     "ok": true,
     "note": "5 results",
     "id": "c14",
-    "at": 1793273637978
+    "at": 1793284388436
    },
    {
     "provider": "tavily",
@@ -326,11 +326,11 @@
     "stage": "B: extract",
     "tokensIn": 0,
     "tokensOut": 0,
-    "latencyMs": 15,
+    "latencyMs": 50,
     "ok": true,
     "note": "8 ok, 12 failed",
     "id": "c15",
-    "at": 1793273637991
+    "at": 1793284388480
    },
    {
     "provider": "nvidia",
@@ -343,7 +343,7 @@
     "ok": true,
     "note": "dev cache (original latency)",
     "id": "c16",
-    "at": 1793273637996
+    "at": 1793284388490
    },
    {
     "provider": "tavily",
@@ -352,37 +352,11 @@
     "stage": "B: extract",
     "tokensIn": 0,
     "tokensOut": 0,
-    "latencyMs": 8,
+    "latencyMs": 24,
     "ok": true,
     "note": "12 ok, 8 failed",
     "id": "c17",
-    "at": 1793273637999
-   },
-   {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
-    "tier": "nano",
-    "stage": "C: confirm",
-    "tokensIn": 1621,
-    "tokensOut": 331,
-    "latencyMs": 8792,
-    "ok": true,
-    "note": "dev cache (original latency)",
-    "id": "c18",
-    "at": 1793273638404
-   },
-   {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
-    "tier": "nano",
-    "stage": "C: confirm",
-    "tokensIn": 1559,
-    "tokensOut": 123,
-    "latencyMs": 8743,
-    "ok": true,
-    "note": "dev cache (original latency)",
-    "id": "c19",
-    "at": 1793273638443
+    "at": 1793284388504
    },
    {
     "provider": "nvidia",
@@ -394,21 +368,34 @@
     "latencyMs": 8820,
     "ok": true,
     "note": "dev cache (original latency)",
-    "id": "c20",
-    "at": 1793273638465
+    "id": "c18",
+    "at": 1793284389204
    },
    {
     "provider": "nvidia",
     "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
     "tier": "nano",
     "stage": "C: confirm",
-    "tokensIn": 1247,
-    "tokensOut": 116,
-    "latencyMs": 2706,
+    "tokensIn": 1621,
+    "tokensOut": 331,
+    "latencyMs": 8792,
     "ok": true,
     "note": "dev cache (original latency)",
-    "id": "c21",
-    "at": 1793273638471
+    "id": "c19",
+    "at": 1793284389252
+   },
+   {
+    "provider": "nvidia",
+    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+    "tier": "nano",
+    "stage": "C: confirm",
+    "tokensIn": 1559,
+    "tokensOut": 123,
+    "latencyMs": 8743,
+    "ok": true,
+    "note": "dev cache (original latency)",
+    "id": "c20",
+    "at": 1793284389267
    },
    {
     "provider": "nvidia",
@@ -420,8 +407,8 @@
     "latencyMs": 7726,
     "ok": true,
     "note": "dev cache (original latency)",
-    "id": "c22",
-    "at": 1793273638551
+    "id": "c21",
+    "at": 1793284389286
    },
    {
     "provider": "nvidia",
@@ -433,8 +420,21 @@
     "latencyMs": 3406,
     "ok": true,
     "note": "dev cache (original latency)",
+    "id": "c22",
+    "at": 1793284389355
+   },
+   {
+    "provider": "nvidia",
+    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+    "tier": "nano",
+    "stage": "C: confirm",
+    "tokensIn": 1247,
+    "tokensOut": 116,
+    "latencyMs": 2706,
+    "ok": true,
+    "note": "dev cache (original latency)",
     "id": "c23",
-    "at": 1793273638695
+    "at": 1793284389491
    },
    {
     "provider": "nvidia",
@@ -447,20 +447,7 @@
     "ok": true,
     "note": "dev cache (original latency)",
     "id": "c24",
-    "at": 1793273638835
-   },
-   {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
-    "tier": "nano",
-    "stage": "C: confirm",
-    "tokensIn": 645,
-    "tokensOut": 78,
-    "latencyMs": 2391,
-    "ok": true,
-    "note": "dev cache (original latency)",
-    "id": "c25",
-    "at": 1793273638918
+    "at": 1793284389599
    },
    {
     "provider": "nvidia",
@@ -472,8 +459,8 @@
     "latencyMs": 2454,
     "ok": true,
     "note": "dev cache (original latency)",
-    "id": "c26",
-    "at": 1793273639069
+    "id": "c25",
+    "at": 1793284389692
    },
    {
     "provider": "nvidia",
@@ -485,8 +472,8 @@
     "latencyMs": 18536,
     "ok": true,
     "note": "dev cache (original latency)",
-    "id": "c27",
-    "at": 1793273639173
+    "id": "c26",
+    "at": 1793284389791
    },
    {
     "provider": "nvidia",
@@ -498,8 +485,21 @@
     "latencyMs": 6011,
     "ok": true,
     "note": "dev cache (original latency)",
+    "id": "c27",
+    "at": 1793284389880
+   },
+   {
+    "provider": "nvidia",
+    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+    "tier": "nano",
+    "stage": "C: confirm",
+    "tokensIn": 645,
+    "tokensOut": 78,
+    "latencyMs": 2391,
+    "ok": true,
+    "note": "dev cache (original latency)",
     "id": "c28",
-    "at": 1793273639489
+    "at": 1793284390208
    },
    {
     "provider": "nvidia",
@@ -512,20 +512,7 @@
     "ok": true,
     "note": "dev cache (original latency)",
     "id": "c29",
-    "at": 1793273639662
-   },
-   {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
-    "tier": "nano",
-    "stage": "C: confirm",
-    "tokensIn": 1304,
-    "tokensOut": 185,
-    "latencyMs": 4875,
-    "ok": true,
-    "note": "dev cache (original latency)",
-    "id": "c30",
-    "at": 1793273639738
+    "at": 1793284390369
    },
    {
     "provider": "nvidia",
@@ -537,8 +524,21 @@
     "latencyMs": 8110,
     "ok": true,
     "note": "dev cache (original latency)",
+    "id": "c30",
+    "at": 1793284390438
+   },
+   {
+    "provider": "nvidia",
+    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+    "tier": "nano",
+    "stage": "C: confirm",
+    "tokensIn": 1542,
+    "tokensOut": 140,
+    "latencyMs": 3068,
+    "ok": true,
+    "note": "dev cache (original latency)",
     "id": "c31",
-    "at": 1793273640166
+    "at": 1793284390726
    },
    {
     "provider": "nvidia",
@@ -551,20 +551,20 @@
     "ok": true,
     "note": "dev cache (original latency)",
     "id": "c32",
-    "at": 1793273640376
+    "at": 1793284390860
    },
    {
     "provider": "nvidia",
     "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
     "tier": "nano",
     "stage": "C: confirm",
-    "tokensIn": 1542,
-    "tokensOut": 140,
-    "latencyMs": 3068,
+    "tokensIn": 1304,
+    "tokensOut": 185,
+    "latencyMs": 4875,
     "ok": true,
     "note": "dev cache (original latency)",
     "id": "c33",
-    "at": 1793273640417
+    "at": 1793284390873
    },
    {
     "provider": "nvidia",
@@ -577,7 +577,7 @@
     "ok": true,
     "note": "dev cache (original latency)",
     "id": "c34",
-    "at": 1793273640441
+    "at": 1793284390881
    },
    {
     "provider": "nvidia",
@@ -590,7 +590,7 @@
     "ok": true,
     "note": "dev cache (original latency)",
     "id": "c35",
-    "at": 1793273640454
+    "at": 1793284390893
    },
    {
     "provider": "nvidia",
@@ -603,7 +603,7 @@
     "ok": true,
     "note": "dev cache (original latency)",
     "id": "c36",
-    "at": 1793273640462
+    "at": 1793284390899
    },
    {
     "provider": "nvidia",
@@ -616,10 +616,10 @@
     "ok": true,
     "note": "dev cache (original latency)",
     "id": "c37",
-    "at": 1793273640482
+    "at": 1793284390916
    }
   ],
-  "totalLatencyMs": 2571,
+  "totalLatencyMs": 2629,
   "pricing": {
    "nano": [
     0.06,
@@ -642,7 +642,7 @@
   "fixture": {
    "id": "2-screenshot",
    "title": "Screenshot of a post from a fictional account",
-   "generatedAt": "2026-10-29T11:34:00.504Z",
+   "generatedAt": "2026-10-29T14:33:10.934Z",
    "generatedWith": "live"
   }
  }

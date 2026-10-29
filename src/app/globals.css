@@ -25,6 +25,15 @@
   --leaf-fact: #5f8f58;
   --leaf-official: #4c7d98;
   --leaf-news: #a8873f;
+  --soil-1: #cfb48e;
+  --soil-2: #bf9f76;
+  --soil-3: #ae8b63;
+  --soil-4: #9a7852;
+  --soil-5: #84663f;
+  --grass: #6b9a47;
+  --root: #5b3d22;
+  --root-hi: #b98d5c;
+  --pebble: #9b8f80;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -51,6 +60,15 @@
     --leaf-fact: #86b57c;
     --leaf-official: #7fb0cc;
     --leaf-news: #d1ad63;
+  --soil-1: #43322a;
+  --soil-2: #342920;
+  --soil-3: #2d231a;
+  --soil-4: #271e16;
+  --soil-5: #1a120b;
+  --grass: #4f7d3a;
+  --root: #c79c69;
+  --root-hi: #efd0a2;
+  --pebble: #5d5247;
   }
 }
 :root[data-theme="dark"] {
@@ -76,6 +94,15 @@
   --leaf-fact: #86b57c;
   --leaf-official: #7fb0cc;
   --leaf-news: #d1ad63;
+  --soil-1: #43322a;
+  --soil-2: #342920;
+  --soil-3: #2d231a;
+  --soil-4: #271e16;
+  --soil-5: #1a120b;
+  --grass: #4f7d3a;
+  --root: #c79c69;
+  --root-hi: #efd0a2;
+  --pebble: #5d5247;
 }
 
 @theme inline {

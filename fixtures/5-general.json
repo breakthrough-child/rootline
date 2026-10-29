@@ -5,7 +5,7 @@
  "description": "A plain statement about ongoing events: Rootline builds no lineage tree and implies no doubt; it lists what reputable sources report.",
  "investigation": {
   "id": "fixture-5-general",
-  "createdAt": "2026-10-29T11:36:57.755Z",
+  "createdAt": "2026-10-29T14:34:54.772Z",
   "mode": "live",
   "input": {
    "sourceKind": "text",
@@ -33,33 +33,23 @@
     "kind": "general",
     "reports": [
      {
-      "url": "https://www.latimes.com/world/africa/la-fg-nigeria-farmer-herder-violence-20190221-story.html",
-      "title": "Guns, religion and climate change intensify Nigeria’s deadly farmer-herder clashes",
-      "publisher": "latimes.com",
+      "url": "https://africacenter.org/publication/growing-complexity-farmer-herder-conflict-west-central-africa",
+      "title": "The Growing Complexity of Farmer-Herder Conflict in West and Central Africa – Africa Center",
+      "publisher": "africacenter.org",
       "kind": "news",
-      "date": "2019-02-21",
+      "date": "2021-07-12",
       "dateProvenance": "published_date",
-      "summary": "Latimes.com reports that in Kaduna state, farmers and cattle herders have long clashed over land, but new factors mean more bloodshed.",
-      "excerpt": "In Kaduna state, farmers and cattle herders have long clashed over land, but new factors mean more bloodshed. It's a central theme in the"
-     },
-     {
-      "url": "https://www.cnn.com/2018/07/27/africa/nigeria-herdsmen-boko-haram-report",
-      "title": "Nigeria’s pastoral conflict ‘six times deadlier’ than Boko Haram in 2018, ICG says",
-      "publisher": "cnn.com",
-      "kind": "news",
-      "date": "2018-07-27",
-      "dateProvenance": "published_date",
-      "summary": "Cnn.com reports that escalating conflict between herdsmen and farmers in Nigeria is \"six times deadlier\" than Boko Haram-related attacks in 2018.",
-      "excerpt": "Escalating conflict between herdsmen and farmers in Nigeria is “six times deadlier” than Boko Haram-related attacks this year,"
+      "summary": "According to Africa Center, Nigeria has experienced the highest number of farmer-herder fatalities in West or Central Africa over the past decade, with 2,000 deaths recorded in 2018.",
+      "excerpt": "Nigeria has experienced the highest number of farmer-herder fatalities in West or Central Africa over the past decade. This trend has been largely upward, with 2,000 deaths recorded in 2018. Violent events between pastoralist and farming communities in Nigeria have been concentrated in the northwestern, Middle Belt, and recently southern states. [...] Violence involving pastoralist herders in"
      },
      {
       "url": "https://bisi.org.uk/reports/the-growth-of-farmer-herder-violence-in-nigeria",
       "title": "The Growth of Farmer-Herder Violence in Nigeria — Bloomsbury Intelligence and Security Institute (BISI)",
       "publisher": "bisi.org.uk",
-      "kind": "research",
+      "kind": "news",
       "date": "2025-05-26",
       "dateProvenance": "published_date",
-      "summary": "Bisi.org.uk research states that by 2021, over 15,000 deaths had been linked to farmer-herder violence in northern Nigeria, with half occurring since 2018, and the violence has spread south due to droughts and desertification.",
+      "summary": "According to Bloomsbury Intelligence and Security Institute, over 15,000 deaths have been linked to farmer-herder violence in Nigeria by 2021, with half occurring since 2018, and the violence has spread beyond the north into southern states.",
       "excerpt": "For over a decade, northern Nigeria has been subjected to increased violence between farmers and pastoralists. By 2021, over 15,000 deaths had been linked to the violence, with half of those occurring since 2018. The violence has spread beyond Nigeria’s north and into the south as increased droughts and desertification have pushed pastoralists away from their traditional grazing areas in the"
      },
      {
@@ -69,8 +59,28 @@
       "kind": "news",
       "date": "2023-12-29",
       "dateProvenance": "published_date",
-      "summary": "Dw.com reports that the farmer-herder conflict in Nigeria's Plateau State has caused mass killings this year, with Amnesty International confirming at least 140 deaths in Bokkos and Barkin-Ladi areas alone, and at least 86 people killed in other attacks.",
+      "summary": "According to DW, at least 140 deaths were confirmed by Amnesty International in the Bokkos and Barkin-Ladi areas of Plateau State following a Christmas attack, while at least 86 people were killed in other incidents.",
       "excerpt": "But this is only the latest of many cases of such mass killings in Nigeria's Plateau State this year, which have widely been attributed to the persisting farmer-herder crisis in the West African nation.\n\nWhile authorities are yet to establish the exact number of casualties from the Christmas attack, Amnesty International has confirmed at least 140 deaths in the Bokkos and Barkin-Ladi areas alone."
+     },
+     {
+      "url": "https://www.cfr.org/articles/farmer-herder-clashes-chad-follow-familiar-pattern",
+      "title": "Farmer Herder Clashes in Chad Follow Familiar Pattern | Council on Foreign Relations",
+      "publisher": "cfr.org",
+      "kind": "news",
+      "date": "2019-05-21",
+      "dateProvenance": "published_date",
+      "summary": "According to Council on Foreign Relations, farmer-herder conflict over water and land in Nigeria's middle belt states is a major source of instability, with death tolls far higher than those reported from Chad, and intensity and geographic spread are growing.",
+      "excerpt": "In Nigeria, Chad’s more populous and more crowded neighbor to the southwest, farmer-herder conflict over water and land is a major source of instability and death tolls are far higher than those reported from Chad. Though concentrated in Nigeria’s middle belt states, such conflict it to be found elsewhere, and it is growing in intensity and geographic spread. Recently, the greatest number of"
+     },
+     {
+      "url": "https://www.bbc.com/news/articles/clyv1j8ne7ko",
+      "title": "Nigeria's herder-farmer conflict: Deadly mix of religion, cattle and land in Plateau state",
+      "publisher": "bbc.com",
+      "kind": "news",
+      "date": "2026-03-22",
+      "dateProvenance": "published_date",
+      "summary": "According to BBC, 52 men, women and children were killed in April 2025 in Plateau State, with locals convinced the attackers were ethnic Fulani herders; responsibility is not yet confirmed.",
+      "excerpt": "A total of 52 men, women and children were killed that night in April 2025.\n\nIt is not clear exactly who was responsible. But everyone in Zike is convinced that those who attacked them were ethnic Fulani, traditionally cattle herders, who are predominantly Muslim.\n\n\"This is not a clash. It's nothing but a pure genocide. I call it the pure genocide of Christians. They want to wipe us off and then"
      }
     ],
     "understanding": {
@@ -119,13 +129,13 @@
      "whatChanged": [],
      "unsupported": [],
      "confidence": "low",
-     "replyCard": "I looked into this. It reads as a general statement about current events, not a forwarded rumor. News and official sources report on it, for example latimes.com, cnn.com, bisi.org.uk. It's worth reading them directly before sharing."
+     "replyCard": "I looked into this. It reads as a general statement about current events, not a forwarded rumor. News and official sources report on it, for example africacenter.org, bisi.org.uk, dw.com. It's worth reading them directly before sharing."
     },
     "branches": [],
     "stats": {
      "queries": 3,
-     "pagesSearched": 4,
-     "pagesConfirmed": 4,
+     "pagesSearched": 5,
+     "pagesConfirmed": 5,
      "pairsCompared": 0
     },
     "warnings": []
@@ -144,7 +154,7 @@
     "ok": true,
     "note": "dev cache (original latency)",
     "id": "c1",
-    "at": 1793273817695
+    "at": 1793284483956
    },
    {
     "provider": "tavily",
@@ -153,11 +163,11 @@
     "stage": "B: reports",
     "tokensIn": 0,
     "tokensOut": 0,
-    "latencyMs": 4,
+    "latencyMs": 2,
     "ok": true,
     "note": "8 results",
     "id": "c2",
-    "at": 1793273817718
+    "at": 1793284483961
    },
    {
     "provider": "tavily",
@@ -166,11 +176,11 @@
     "stage": "B: reports",
     "tokensIn": 0,
     "tokensOut": 0,
-    "latencyMs": 12,
+    "latencyMs": 8,
     "ok": true,
     "note": "8 results",
     "id": "c3",
-    "at": 1793273817727
+    "at": 1793284483966
    },
    {
     "provider": "tavily",
@@ -179,27 +189,26 @@
     "stage": "B: reports",
     "tokensIn": 0,
     "tokensOut": 0,
-    "latencyMs": 12,
+    "latencyMs": 7,
     "ok": true,
     "note": "8 results",
     "id": "c4",
-    "at": 1793273817727
+    "at": 1793284483966
    },
    {
     "provider": "nvidia",
     "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
     "tier": "nano",
     "stage": "C: reports",
-    "tokensIn": 1211,
-    "tokensOut": 690,
-    "latencyMs": 74028,
+    "tokensIn": 1287,
+    "tokensOut": 737,
+    "latencyMs": 10795,
     "ok": true,
-    "note": "dev cache (original latency)",
     "id": "c5",
-    "at": 1793273817730
+    "at": 1793284494763
    }
   ],
-  "totalLatencyMs": 82,
+  "totalLatencyMs": 10819,
   "pricing": {
    "nano": [
     0.06,
@@ -222,7 +231,7 @@
   "fixture": {
    "id": "5-general",
    "title": "A general news statement (not a forwarded message)",
-   "generatedAt": "2026-10-29T11:36:57.756Z",
+   "generatedAt": "2026-10-29T14:34:54.772Z",
    "generatedWith": "live"
   }
  }
