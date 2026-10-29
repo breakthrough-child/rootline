@@ -5,7 +5,7 @@
  "description": "A screenshot of a post from a FICTIONAL account (@kemi_reports_247): the post does not exist, but its words have a long family tree.",
  "investigation": {
   "id": "fixture-2-screenshot",
-  "createdAt": "2026-10-29T14:33:10.933Z",
+  "createdAt": "2026-10-29T16:49:30.487Z",
   "mode": "live",
   "input": {
    "sourceKind": "image",
@@ -29,7 +29,7 @@
     "visible engagement (from_screenshot_unverified)": "12.4K Reposts 31K Likes"
    },
    "adapterPath": [
-    "vision:nvidia/nemotron-3.5-super-vl-120b-a12b"
+    "vision:nvidia/Nemotron-3.5-Super-VL"
    ],
    "screenshot": {
     "platform": "x",
@@ -51,9 +51,16 @@
     "claim": "URGENT! Men are offering free perfume samples at filling stations in Lagos and Abuja. You smell it and you faint, then they kidnap you. 2,000 women missing this month. Police have confirmed. Forward to every woman you know!",
     "understanding": {
      "claim": "Men are offering free perfume samples at filling stations in Lagos and Abuja to kidnap women who smell the perfume and faint.",
-     "entities": [],
+     "entities": [
+      "men",
+      "women",
+      "filling stations",
+      "Lagos",
+      "Abuja"
+     ],
      "numbers": [
-      "2,000"
+      "2,000",
+      "this month"
      ],
      "places": [
       "Lagos",
@@ -65,24 +72,61 @@
      "callToAction": "Forward to every woman you know!",
      "language": "unknown",
      "queries": [
-      "\"free perfume samples\" \"kidnap\" \"Lagos\"",
-      "perfume sample kidnapping scheme Nigeria",
-      "men offering free perfume abduction Lagos",
-      "kidnapping via perfume sample Nigeria fact check",
-      "fake news perfume kidnapping Lagos Abuja",
-      "2000 women missing Nigeria perfume",
-      "police warning perfume sample kidnapping",
-      "Lagos filling station perfume scam"
+      "\"free perfume samples\" \"filling stations\" \"kidnap\"",
+      "free perfume sample kidnapping Lagos Abuja",
+      "perfume sample kidnapping scam fact check",
+      "men offering perfume kidnapping women",
+      "2000 women missing perfume kidnapping",
+      "\"2,000 women missing this month\"",
+      "\"offering free perfume samples at filling stations\""
      ],
      "keyElements": [
       "free perfume samples",
-      "fainting after smelling",
-      "kidnapping at filling stations"
+      "smell it and faint",
+      "kidnapping"
      ],
      "inputKind": "circulating_message",
      "sensitive": true
     },
     "variants": [
+     {
+      "id": "v14-p8t47",
+      "text": "Lady Reveals Perfume K!dnvpping Tact!c in Lagos State, W¥rns Against Smelling Perfume Off€red by Strangers A lady has raised the alarm over an alleged k!dnvpping tactic in Lagos, w¥rning people against smelling perfume offered to them by strangers. She revealed how she narrowly e$caped abdvction after encountering the suspected tactic, urging people to be cavtious and avoid responding to strangers who ask them to smell perfume.",
+      "excerpt": "Lady Reveals Perfume K!dnvpping Tact!c in Lagos State, W¥rns Against Smelling Perfume Off€red by Strangers A lady has raised the alarm over an alleged k!dnvpping tactic in Lagos, w¥rning people against smelling perfume offered to them by strangers. She revealed how she narrowly e$caped abdvction after encountering the suspected tactic, urging people to be cavtious and avoid responding to strangers who ask them to smell perfume.",
+      "sources": [
+       {
+        "url": "https://www.instagram.com/reel/De9TLmhI95D",
+        "title": "Instagram",
+        "excerpt": "Lady Reveals Perfume K!dnvpping Tact!c in Lagos State, W¥rns Against Smelling Perfume Off€red by Strangers A lady has raised the alarm over an alleged k!dnvpping tactic in Lagos, w¥rning people against smelling perfume offered to them by strangers. She revealed how she narrowly e$caped abdvction after encountering the suspected tactic, urging people to be cavtious and avoid responding to strangers who ask them to smell perfume.",
+        "pageType": "social",
+        "date": "2026-10-26",
+        "dateProvenance": "page_metadata"
+       }
+      ],
+      "date": "2026-10-26",
+      "dateProvenance": "page_metadata",
+      "pageType": "social",
+      "isCopy": true
+     },
+     {
+      "id": "v16-2nzwi",
+      "text": "You get free perfume samples on fb by free sample ads.",
+      "excerpt": "You get free perfume samples on fb by free sample ads.",
+      "sources": [
+       {
+        "url": "https://www.facebook.com/chantal.buck/videos/how-to-get-free-perfume-samplesyou-get-free-perfume-samples-on-fb-by-free-sample/1654342925981203",
+        "title": "How To Get Free Perfume Samples On ...",
+        "excerpt": "You get free perfume samples on fb by free sample ads.",
+        "pageType": "social",
+        "date": "2026-02-01",
+        "dateProvenance": "published_date"
+       }
+      ],
+      "date": "2026-02-01",
+      "dateProvenance": "published_date",
+      "pageType": "social",
+      "isCopy": true
+     },
      {
       "id": "you",
       "text": "URGENT! Men are offering free perfume samples at filling stations in Lagos and Abuja. You smell it and you faint, then they kidnap you. 2,000 women missing this month. Police have confirmed. Forward to every woman you know!",
@@ -103,25 +147,70 @@
       "isUserInput": true
      }
     ],
-    "edges": [],
+    "edges": [
+     {
+      "from": "v16-2nzwi",
+      "to": "v14-p8t47",
+      "confidence": "low",
+      "reason": "Earlier dated source with identical core narrative about perfume samples (Confidence capped: wording similarity 0.10.)",
+      "mutations": [],
+      "changeNote": "Later version warns against smelling perfume offered by strangers due to kidnapping tactics.",
+      "spreadJump": false
+     },
+     {
+      "from": "v16-2nzwi",
+      "to": "you",
+      "confidence": "low",
+      "reason": "Direct mutation adding urgency, authority claim, and call-to-action to base narrative (Confidence capped: wording similarity 0.27.)",
+      "mutations": [
+       {
+        "type": "authority_added",
+        "before": "",
+        "after": "Police have confirmed",
+        "explanation": "Police authority added as confirmer",
+        "strength": "strong"
+       },
+       {
+        "type": "urgency_added",
+        "before": "",
+        "after": "URGENT!",
+        "explanation": "Urgency marker added",
+        "strength": "strong"
+       },
+       {
+        "type": "call_to_action_added",
+        "before": "",
+        "after": "Forward to every woman you know!",
+        "explanation": "Forward instruction added",
+        "strength": "strong"
+       }
+      ],
+      "changeNote": "The later version adds kidnapping claims at filling stations in Lagos and Abuja.",
+      "spreadJump": false
+     }
+    ],
     "earliestId": null,
     "limited": true,
     "verdict": {
-     "summary": "Rootline found no earlier versions of this message online, so the family is limited. Finding little is not evidence that the message is true or false.",
-     "whatChanged": [],
+     "summary": "Rootline found only 2 related versions of this message online, so the family is limited. Finding little is not evidence that the message is true or false.",
+     "whatChanged": [
+      "Police authority added as confirmer: Police have confirmed",
+      "Urgency marker added: URGENT!",
+      "Forward instruction added: Forward to every woman you know!"
+     ],
      "unsupported": [],
      "confidence": "low",
-     "replyCard": "I tried to trace this message before forwarding and couldn't find earlier copies or a fact-check that addresses it. That doesn't mean it's true or false, so it's worth checking an official source before sharing it. 🙏"
+     "replyCard": "I looked this up before forwarding. I found 2 similar versions of this message online, but no fact-check or official source that addresses it directly. That doesn't make it true or false, so it's worth checking an official source before sharing it. 🙏"
     },
     "branches": [],
     "stats": {
-     "queries": 8,
+     "queries": 7,
      "pagesSearched": 40,
-     "pagesConfirmed": 0,
-     "pairsCompared": 0,
+     "pagesConfirmed": 2,
+     "pairsCompared": 2,
      "mutationReview": {
-      "reviewed": 0,
-      "kept": 0,
+      "reviewed": 3,
+      "kept": 3,
       "retyped": 0,
       "dropped": 0
      }
@@ -138,43 +227,28 @@
   },
   "logs": [
    {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-super-vl-120b-a12b",
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3.5-Super-VL",
     "tier": "vision",
     "stage": "image: vision read",
     "tokensIn": 707,
-    "tokensOut": 135,
-    "latencyMs": 5802,
+    "tokensOut": 144,
+    "latencyMs": 3743,
     "ok": true,
-    "note": "dev cache (original latency)",
     "id": "c1",
-    "at": 1793284386689
+    "at": 1793292508397
    },
    {
-    "provider": "tavily",
-    "model": "search/basic",
-    "tier": "search",
-    "stage": "check: post exists",
-    "tokensIn": 0,
-    "tokensOut": 0,
-    "latencyMs": 28,
-    "ok": true,
-    "note": "8 results",
-    "id": "c2",
-    "at": 1793284388334
-   },
-   {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
     "tier": "nano",
     "stage": "A: understand",
     "tokensIn": 314,
-    "tokensOut": 220,
-    "latencyMs": 4625,
+    "tokensOut": 188,
+    "latencyMs": 3075,
     "ok": true,
-    "note": "dev cache (original latency)",
-    "id": "c3",
-    "at": 1793284388337
+    "id": "c2",
+    "at": 1793292512242
    },
    {
     "provider": "tavily",
@@ -183,11 +257,11 @@
     "stage": "check: post exists",
     "tokensIn": 0,
     "tokensOut": 0,
-    "latencyMs": 26,
+    "latencyMs": 7243,
     "ok": true,
-    "note": "5 results",
-    "id": "c4",
-    "at": 1793284388360
+    "note": "7 results",
+    "id": "c3",
+    "at": 1793292516403
    },
    {
     "provider": "tavily",
@@ -196,11 +270,24 @@
     "stage": "B: search",
     "tokensIn": 0,
     "tokensOut": 0,
-    "latencyMs": 8,
+    "latencyMs": 5815,
+    "ok": true,
+    "note": "10 results",
+    "id": "c4",
+    "at": 1793292518070
+   },
+   {
+    "provider": "tavily",
+    "model": "search/basic",
+    "tier": "search",
+    "stage": "B: search",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 5818,
     "ok": true,
     "note": "10 results",
     "id": "c5",
-    "at": 1793284388364
+    "at": 1793292518073
    },
    {
     "provider": "tavily",
@@ -209,11 +296,11 @@
     "stage": "B: search",
     "tokensIn": 0,
     "tokensOut": 0,
-    "latencyMs": 16,
+    "latencyMs": 6428,
     "ok": true,
-    "note": "7 results",
+    "note": "2 results",
     "id": "c6",
-    "at": 1793284388373
+    "at": 1793292518683
    },
    {
     "provider": "tavily",
@@ -222,11 +309,11 @@
     "stage": "B: search",
     "tokensIn": 0,
     "tokensOut": 0,
-    "latencyMs": 19,
+    "latencyMs": 6638,
     "ok": true,
     "note": "10 results",
     "id": "c7",
-    "at": 1793284388376
+    "at": 1793292518893
    },
    {
     "provider": "tavily",
@@ -235,24 +322,11 @@
     "stage": "B: search",
     "tokensIn": 0,
     "tokensOut": 0,
-    "latencyMs": 50,
+    "latencyMs": 3172,
     "ok": true,
     "note": "10 results",
     "id": "c8",
-    "at": 1793284388407
-   },
-   {
-    "provider": "tavily",
-    "model": "search/basic",
-    "tier": "search",
-    "stage": "check: post exists",
-    "tokensIn": 0,
-    "tokensOut": 0,
-    "latencyMs": 59,
-    "ok": true,
-    "note": "8 results",
-    "id": "c9",
-    "at": 1793284388420
+    "at": 1793292521245
    },
    {
     "provider": "tavily",
@@ -261,50 +335,24 @@
     "stage": "B: search",
     "tokensIn": 0,
     "tokensOut": 0,
-    "latencyMs": 59,
+    "latencyMs": 2654,
+    "ok": true,
+    "note": "7 results",
+    "id": "c9",
+    "at": 1793292521338
+   },
+   {
+    "provider": "tavily",
+    "model": "search/basic",
+    "tier": "search",
+    "stage": "B: search",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 4681,
     "ok": true,
     "note": "10 results",
     "id": "c10",
-    "at": 1793284388423
-   },
-   {
-    "provider": "tavily",
-    "model": "search/basic",
-    "tier": "search",
-    "stage": "B: search",
-    "tokensIn": 0,
-    "tokensOut": 0,
-    "latencyMs": 49,
-    "ok": true,
-    "note": "10 results",
-    "id": "c11",
-    "at": 1793284388424
-   },
-   {
-    "provider": "tavily",
-    "model": "search/basic",
-    "tier": "search",
-    "stage": "B: search",
-    "tokensIn": 0,
-    "tokensOut": 0,
-    "latencyMs": 51,
-    "ok": true,
-    "note": "10 results",
-    "id": "c12",
-    "at": 1793284388428
-   },
-   {
-    "provider": "tavily",
-    "model": "search/basic",
-    "tier": "search",
-    "stage": "B: search",
-    "tokensIn": 0,
-    "tokensOut": 0,
-    "latencyMs": 23,
-    "ok": true,
-    "note": "10 results",
-    "id": "c13",
-    "at": 1793284388430
+    "at": 1793292522751
    },
    {
     "provider": "tavily",
@@ -313,37 +361,49 @@
     "stage": "check: post exists",
     "tokensIn": 0,
     "tokensOut": 0,
-    "latencyMs": 16,
+    "latencyMs": 6374,
     "ok": true,
     "note": "5 results",
-    "id": "c14",
-    "at": 1793284388436
+    "id": "c11",
+    "at": 1793292522777
    },
    {
     "provider": "tavily",
-    "model": "extract/basic",
-    "tier": "extract",
-    "stage": "B: extract",
+    "model": "search/basic",
+    "tier": "search",
+    "stage": "check: post exists",
     "tokensIn": 0,
     "tokensOut": 0,
-    "latencyMs": 50,
+    "latencyMs": 2460,
     "ok": true,
-    "note": "8 ok, 12 failed",
-    "id": "c15",
-    "at": 1793284388480
+    "note": "8 results",
+    "id": "c12",
+    "at": 1793292525237
    },
    {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+    "provider": "tavily",
+    "model": "search/basic",
+    "tier": "search",
+    "stage": "check: post exists",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 4609,
+    "ok": true,
+    "note": "5 results",
+    "id": "c13",
+    "at": 1793292529846
+   },
+   {
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
     "tier": "nano",
     "stage": "check: post exists",
-    "tokensIn": 1466,
+    "tokensIn": 1603,
     "tokensOut": 21,
-    "latencyMs": 2479,
+    "latencyMs": 4271,
     "ok": true,
-    "note": "dev cache (original latency)",
-    "id": "c16",
-    "at": 1793284388490
+    "id": "c14",
+    "at": 1793292534127
    },
    {
     "provider": "tavily",
@@ -352,274 +412,423 @@
     "stage": "B: extract",
     "tokensIn": 0,
     "tokensOut": 0,
-    "latencyMs": 24,
+    "latencyMs": 16212,
     "ok": true,
-    "note": "12 ok, 8 failed",
+    "note": "14 ok, 6 failed",
+    "id": "c15",
+    "at": 1793292538963
+   },
+   {
+    "provider": "tavily",
+    "model": "extract/basic",
+    "tier": "extract",
+    "stage": "B: extract",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 11165,
+    "ok": true,
+    "note": "16 ok, 4 failed",
+    "id": "c16",
+    "at": 1793292550128
+   },
+   {
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
+    "tier": "nano",
+    "stage": "C: confirm",
+    "tokensIn": 617,
+    "tokensOut": 101,
+    "latencyMs": 2691,
+    "ok": true,
     "id": "c17",
-    "at": 1793284388504
+    "at": 1793292553199
    },
    {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
     "tier": "nano",
     "stage": "C: confirm",
-    "tokensIn": 622,
-    "tokensOut": 119,
-    "latencyMs": 8820,
+    "tokensIn": 1242,
+    "tokensOut": 107,
+    "latencyMs": 3137,
     "ok": true,
-    "note": "dev cache (original latency)",
     "id": "c18",
-    "at": 1793284389204
+    "at": 1793292553646
    },
    {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
     "tier": "nano",
     "stage": "C: confirm",
-    "tokensIn": 1621,
-    "tokensOut": 331,
-    "latencyMs": 8792,
-    "ok": true,
-    "note": "dev cache (original latency)",
-    "id": "c19",
-    "at": 1793284389252
-   },
-   {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
-    "tier": "nano",
-    "stage": "C: confirm",
-    "tokensIn": 1559,
-    "tokensOut": 123,
-    "latencyMs": 8743,
-    "ok": true,
-    "note": "dev cache (original latency)",
-    "id": "c20",
-    "at": 1793284389267
-   },
-   {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
-    "tier": "nano",
-    "stage": "C: confirm",
-    "tokensIn": 636,
+    "tokensIn": 902,
     "tokensOut": 105,
-    "latencyMs": 7726,
+    "latencyMs": 3299,
     "ok": true,
-    "note": "dev cache (original latency)",
-    "id": "c21",
-    "at": 1793284389286
+    "id": "c19",
+    "at": 1793292553808
    },
    {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
     "tier": "nano",
     "stage": "C: confirm",
-    "tokensIn": 640,
-    "tokensOut": 108,
-    "latencyMs": 3406,
-    "ok": true,
-    "note": "dev cache (original latency)",
-    "id": "c22",
-    "at": 1793284389355
-   },
-   {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
-    "tier": "nano",
-    "stage": "C: confirm",
-    "tokensIn": 1247,
-    "tokensOut": 116,
-    "latencyMs": 2706,
-    "ok": true,
-    "note": "dev cache (original latency)",
-    "id": "c23",
-    "at": 1793284389491
-   },
-   {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
-    "tier": "nano",
-    "stage": "C: confirm",
-    "tokensIn": 907,
-    "tokensOut": 114,
-    "latencyMs": 2445,
-    "ok": true,
-    "note": "dev cache (original latency)",
-    "id": "c24",
-    "at": 1793284389599
-   },
-   {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
-    "tier": "nano",
-    "stage": "C: confirm",
-    "tokensIn": 626,
-    "tokensOut": 108,
-    "latencyMs": 2454,
-    "ok": true,
-    "note": "dev cache (original latency)",
-    "id": "c25",
-    "at": 1793284389692
-   },
-   {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
-    "tier": "nano",
-    "stage": "C: confirm",
-    "tokensIn": 632,
+    "tokensIn": 1616,
     "tokensOut": 109,
-    "latencyMs": 18536,
+    "latencyMs": 3711,
     "ok": true,
-    "note": "dev cache (original latency)",
+    "id": "c20",
+    "at": 1793292554222
+   },
+   {
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
+    "tier": "nano",
+    "stage": "C: confirm",
+    "tokensIn": 631,
+    "tokensOut": 96,
+    "latencyMs": 3857,
+    "ok": true,
+    "id": "c21",
+    "at": 1793292554364
+   },
+   {
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
+    "tier": "nano",
+    "stage": "C: confirm",
+    "tokensIn": 620,
+    "tokensOut": 55,
+    "latencyMs": 1269,
+    "ok": true,
+    "id": "c22",
+    "at": 1793292554470
+   },
+   {
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
+    "tier": "nano",
+    "stage": "C: confirm",
+    "tokensIn": 1215,
+    "tokensOut": 133,
+    "latencyMs": 4134,
+    "ok": true,
+    "id": "c23",
+    "at": 1793292554794
+   },
+   {
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
+    "tier": "nano",
+    "stage": "C: confirm",
+    "tokensIn": 624,
+    "tokensOut": 50,
+    "latencyMs": 1116,
+    "ok": true,
+    "id": "c24",
+    "at": 1793292554934
+   },
+   {
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
+    "tier": "nano",
+    "stage": "C: confirm",
+    "tokensIn": 1554,
+    "tokensOut": 107,
+    "latencyMs": 1854,
+    "ok": true,
+    "id": "c25",
+    "at": 1793292556429
+   },
+   {
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
+    "tier": "nano",
+    "stage": "C: confirm",
+    "tokensIn": 1265,
+    "tokensOut": 113,
+    "latencyMs": 1783,
+    "ok": true,
     "id": "c26",
-    "at": 1793284389791
+    "at": 1793292556681
    },
    {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
     "tier": "nano",
     "stage": "C: confirm",
-    "tokensIn": 1517,
-    "tokensOut": 121,
-    "latencyMs": 6011,
+    "tokensIn": 2030,
+    "tokensOut": 151,
+    "latencyMs": 2449,
     "ok": true,
-    "note": "dev cache (original latency)",
     "id": "c27",
-    "at": 1793284389880
+    "at": 1793292556807
    },
    {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
     "tier": "nano",
     "stage": "C: confirm",
-    "tokensIn": 645,
-    "tokensOut": 78,
-    "latencyMs": 2391,
+    "tokensIn": 1554,
+    "tokensOut": 213,
+    "latencyMs": 3425,
     "ok": true,
-    "note": "dev cache (original latency)",
     "id": "c28",
-    "at": 1793284390208
+    "at": 1793292557218
    },
    {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
     "tier": "nano",
     "stage": "C: confirm",
-    "tokensIn": 1153,
-    "tokensOut": 115,
-    "latencyMs": 2602,
+    "tokensIn": 635,
+    "tokensOut": 100,
+    "latencyMs": 1649,
     "ok": true,
-    "note": "dev cache (original latency)",
     "id": "c29",
-    "at": 1793284390369
+    "at": 1793292558102
    },
    {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
     "tier": "nano",
     "stage": "C: confirm",
-    "tokensIn": 1220,
-    "tokensOut": 174,
-    "latencyMs": 8110,
+    "tokensIn": 1451,
+    "tokensOut": 239,
+    "latencyMs": 3723,
     "ok": true,
-    "note": "dev cache (original latency)",
     "id": "c30",
-    "at": 1793284390438
+    "at": 1793292558187
    },
    {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
     "tier": "nano",
     "stage": "C: confirm",
-    "tokensIn": 1542,
-    "tokensOut": 140,
-    "latencyMs": 3068,
+    "tokensIn": 639,
+    "tokensOut": 100,
+    "latencyMs": 3687,
     "ok": true,
-    "note": "dev cache (original latency)",
     "id": "c31",
-    "at": 1793284390726
+    "at": 1793292558623
    },
    {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
     "tier": "nano",
     "stage": "C: confirm",
-    "tokensIn": 1120,
-    "tokensOut": 117,
-    "latencyMs": 6028,
+    "tokensIn": 1473,
+    "tokensOut": 107,
+    "latencyMs": 1980,
     "ok": true,
-    "note": "dev cache (original latency)",
     "id": "c32",
-    "at": 1793284390860
+    "at": 1793292558784
    },
    {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
     "tier": "nano",
     "stage": "C: confirm",
-    "tokensIn": 1304,
-    "tokensOut": 185,
-    "latencyMs": 4875,
+    "tokensIn": 1610,
+    "tokensOut": 140,
+    "latencyMs": 2395,
     "ok": true,
-    "note": "dev cache (original latency)",
     "id": "c33",
-    "at": 1793284390873
+    "at": 1793292559341
    },
    {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
     "tier": "nano",
     "stage": "C: confirm",
-    "tokensIn": 1478,
-    "tokensOut": 218,
-    "latencyMs": 13833,
+    "tokensIn": 1205,
+    "tokensOut": 57,
+    "latencyMs": 1285,
     "ok": true,
-    "note": "dev cache (original latency)",
     "id": "c34",
-    "at": 1793284390881
+    "at": 1793292559464
    },
    {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
     "tier": "nano",
     "stage": "C: confirm",
-    "tokensIn": 943,
-    "tokensOut": 59,
-    "latencyMs": 7044,
+    "tokensIn": 1008,
+    "tokensOut": 174,
+    "latencyMs": 2653,
     "ok": true,
-    "note": "dev cache (original latency)",
     "id": "c35",
-    "at": 1793284390893
+    "at": 1793292559937
    },
    {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
     "tier": "nano",
     "stage": "C: confirm",
-    "tokensIn": 1430,
-    "tokensOut": 59,
-    "latencyMs": 4771,
+    "tokensIn": 755,
+    "tokensOut": 81,
+    "latencyMs": 1312,
     "ok": true,
-    "note": "dev cache (original latency)",
     "id": "c36",
-    "at": 1793284390899
+    "at": 1793292560040
    },
    {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
     "tier": "nano",
     "stage": "C: confirm",
-    "tokensIn": 1626,
-    "tokensOut": 246,
-    "latencyMs": 10074,
+    "tokensIn": 744,
+    "tokensOut": 55,
+    "latencyMs": 1960,
     "ok": true,
-    "note": "dev cache (original latency)",
     "id": "c37",
-    "at": 1793284390916
+    "at": 1793292560171
+   },
+   {
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
+    "tier": "nano",
+    "stage": "C: confirm",
+    "tokensIn": 1630,
+    "tokensOut": 50,
+    "latencyMs": 1375,
+    "ok": true,
+    "id": "c38",
+    "at": 1793292560310
+   },
+   {
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
+    "tier": "nano",
+    "stage": "C: confirm",
+    "tokensIn": 611,
+    "tokensOut": 55,
+    "latencyMs": 1477,
+    "ok": true,
+    "id": "c39",
+    "at": 1793292561087
+   },
+   {
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
+    "tier": "nano",
+    "stage": "C: confirm",
+    "tokensIn": 722,
+    "tokensOut": 56,
+    "latencyMs": 1397,
+    "ok": true,
+    "id": "c40",
+    "at": 1793292561351
+   },
+   {
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
+    "tier": "nano",
+    "stage": "C: confirm",
+    "tokensIn": 938,
+    "tokensOut": 50,
+    "latencyMs": 1425,
+    "ok": true,
+    "id": "c41",
+    "at": 1793292561729
+   },
+   {
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
+    "tier": "nano",
+    "stage": "C: confirm",
+    "tokensIn": 601,
+    "tokensOut": 55,
+    "latencyMs": 1476,
+    "ok": true,
+    "id": "c42",
+    "at": 1793292561801
+   },
+   {
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
+    "tier": "nano",
+    "stage": "C: confirm",
+    "tokensIn": 1546,
+    "tokensOut": 56,
+    "latencyMs": 2544,
+    "ok": true,
+    "id": "c43",
+    "at": 1793292562002
+   },
+   {
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
+    "tier": "nano",
+    "stage": "C: confirm",
+    "tokensIn": 1711,
+    "tokensOut": 106,
+    "latencyMs": 2088,
+    "ok": true,
+    "id": "c44",
+    "at": 1793292562213
+   },
+   {
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
+    "tier": "nano",
+    "stage": "D: mutations",
+    "tokensIn": 533,
+    "tokensOut": 194,
+    "latencyMs": 2431,
+    "ok": true,
+    "id": "c45",
+    "at": 1793292564664
+   },
+   {
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3-Ultra-550b-a55b",
+    "tier": "ultra",
+    "stage": "F: lineage",
+    "tokensIn": 553,
+    "tokensOut": 213,
+    "latencyMs": 1924,
+    "ok": true,
+    "id": "c46",
+    "at": 1793292566611
+   },
+   {
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3.5-Super-VL",
+    "tier": "super",
+    "stage": "D2: review labels",
+    "tokensIn": 911,
+    "tokensOut": 69,
+    "latencyMs": 1437,
+    "ok": true,
+    "id": "c47",
+    "at": 1793292568052
+   },
+   {
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3.5-Super-VL",
+    "tier": "super",
+    "stage": "D3: what changed",
+    "tokensIn": 299,
+    "tokensOut": 22,
+    "latencyMs": 1011,
+    "ok": true,
+    "id": "c48",
+    "at": 1793292569070
+   },
+   {
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3.5-Super-VL",
+    "tier": "super",
+    "stage": "D3: what changed",
+    "tokensIn": 245,
+    "tokensOut": 22,
+    "latencyMs": 2425,
+    "ok": true,
+    "id": "c49",
+    "at": 1793292570485
    }
   ],
-  "totalLatencyMs": 2629,
+  "totalLatencyMs": 61328,
   "pricing": {
    "nano": [
     0.06,
@@ -638,11 +847,11 @@
     0.9
    ]
   },
-  "llmProvider": "nvidia",
+  "llmProvider": "nebius",
   "fixture": {
    "id": "2-screenshot",
    "title": "Screenshot of a post from a fictional account",
-   "generatedAt": "2026-10-29T14:33:10.934Z",
+   "generatedAt": "2026-10-29T16:49:30.487Z",
    "generatedWith": "live"
   }
  }

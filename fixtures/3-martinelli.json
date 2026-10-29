@@ -5,7 +5,7 @@
  "description": "A long-running WhatsApp chain warning, traced from 2018 to today.",
  "investigation": {
   "id": "fixture-3-martinelli",
-  "createdAt": "2026-10-29T14:34:36.095Z",
+  "createdAt": "2026-10-29T16:50:33.792Z",
   "mode": "live",
   "input": {
    "sourceKind": "text",
@@ -31,8 +31,12 @@
     "claimId": "k0",
     "claim": "WARNING! If you receive a video called MARTINELLI do not open it. It is a virus that will hack your phone and nothing can stop it, even if it comes from a friend. This has been confirmed by CNN and BBC. Please pass this to everyone in your contact list.",
     "understanding": {
-     "claim": "A video named MARTINELLI is a virus that hacks phones and cannot be stopped even if it comes from a friend.",
-     "entities": [],
+     "claim": "Opening a video named MARTINELLI will hack your phone and nothing can stop it, even if it comes from a friend.",
+     "entities": [
+      "MARTINELLI",
+      "CNN",
+      "BBC"
+     ],
      "numbers": [],
      "places": [],
      "authorities": [
@@ -42,12 +46,9 @@
      "callToAction": "pass this to everyone in your contact list",
      "language": "unknown",
      "queries": [
-      "\"MARTINELLI\" video virus",
-      "phone hack video from friend",
-      "CNN BBC Martinelli virus",
-      "do not open MARTINELLI video",
-      "viral warning Martinelli phone hack",
-      "Martinelli video hoax fact check",
+      "\"MARTINELLI\" video hack phone",
+      "virus \"nothing can stop it\" phone",
+      "CNN BBC Martinelli video warning fact check",
       "\"receive a video called MARTINELLI\"",
       "\"hack your phone and nothing\""
      ],
@@ -61,92 +62,36 @@
     },
     "variants": [
      {
-      "id": "v0-1jx3x",
-      "text": "The message, posted to Facebook but also seen on WhatsApp itself, reads as follows: Dear friends, this is a warning that was aired on BBC radio this morning: If you are a WhatsApp user, please pay attention. A video titled ‘Martinelli’ will be released tomorrow. Please don’t open it – it will hack your phone and the impact cannot be reversed.",
-      "excerpt": "The message, posted to Facebook but also seen on WhatsApp itself, reads as follows: Dear friends, this is a warning that was aired on BBC radio this morning: If you are a WhatsApp user, please pay attention. A video titled ‘Martinelli’ will be released tomorrow. Please don’t open it – it will hack your phone and the impact cannot be reversed.",
+      "id": "v0-e3qwd",
+      "text": "[0:06] A popular social media post claims that BBC Radio has warned against possible malware attacks called Martinelli, WhatsApp Gold, and Dance of the Pope on [0:16] WhatsApp. We could not find any official statement from the BBC or any other news [0:22] article reporting the BBC’s warning about such malware.",
+      "excerpt": "[0:06] A popular social media post claims that BBC Radio has warned against possible malware attacks called Martinelli, WhatsApp Gold, and Dance of the Pope on [0:16] WhatsApp. We could not find any official statement from the BBC or any other news [0:22] article reporting the BBC’s warning about such malware.",
       "sources": [
        {
-        "url": "https://www.malwarebytes.com/blog/news/2022/09/dont-share-the-whatsapp-martinelli-phone-hacking-alert-its-a-hoax",
-        "title": "Don't share the WhatsApp 'Martinelli' phone hacking alert: It's a hoax",
-        "excerpt": "The message, posted to Facebook but also seen on WhatsApp itself, reads as follows: Dear friends, this is a warning that was aired on BBC radio this morning: If you are a WhatsApp user, please pay attention. A video titled ‘Martinelli’ will be released tomorrow. Please don’t open it – it will hack your phone and the impact cannot be reversed.",
+        "url": "https://www.youtube.com/watch?v=2t_8fahuiRI",
+        "title": "FACT CHECK: Has BBC Radio Issued Martinelli, WhatsApp Gold & Dance of the Pope Malware Warnings?",
+        "excerpt": "[0:06] A popular social media post claims that BBC Radio has warned against possible malware attacks called Martinelli, WhatsApp Gold, and Dance of the Pope on [0:16] WhatsApp. We could not find any official statement from the BBC or any other news [0:22] article reporting the BBC’s warning about such malware.",
         "pageType": "debunk",
-        "date": "2022-09-05",
+        "date": "2021-01-23",
         "dateProvenance": "published_date"
        }
       ],
-      "date": "2022-09-05",
-      "dateProvenance": "published_date",
-      "pageType": "debunk",
-      "isCopy": true,
-      "branch": "BBC radio warning"
-     },
-     {
-      "id": "v1-1lokp",
-      "text": "The Martinelli Whatsapp video is a known hoax message which circulated originally in 2017. (originally in Spanish language) and since then there have been various translated versions. The message is a warning related to a video that will be released and this has been dismissed as a hoax message.",
-      "excerpt": "The Martinelli Whatsapp video is a known hoax message which circulated originally in 2017. (originally in Spanish language) and since then there have been various translated versions. The message is a warning related to a video that will be released and this has been dismissed as a hoax message.",
-      "sources": [
-       {
-        "url": "http://www.police.gi/news/recent-warning-on-possible-whatsapp-malicious-video-17",
-        "title": "Royal Gibraltar Police - News",
-        "excerpt": "The Martinelli Whatsapp video is a known hoax message which circulated originally in 2017. (originally in Spanish language) and since then there have been various translated versions. The message is a warning related to a video that will be released and this has been dismissed as a hoax message.",
-        "pageType": "debunk",
-        "date": null,
-        "dateProvenance": "unknown"
-       }
-      ],
-      "date": null,
-      "dateProvenance": "unknown",
-      "pageType": "debunk",
-      "isCopy": false,
-      "branch": "Fact-check debunk"
-     },
-     {
-      "id": "v2-3b4h1",
-      "text": "A viral video called “Martinelli” will be shared on WhatsApp tomorrow. It will hack your phone if opened. Our verdict This is a hoax.",
-      "excerpt": "A viral video called “Martinelli” will be shared on WhatsApp tomorrow. It will hack your phone if opened. Our verdict This is a hoax.",
-      "sources": [
-       {
-        "url": "https://fullfact.org/online/whatsapp-gold",
-        "title": "WhatsApp Gold scams are real, but these other threats are made up – Full Fact",
-        "excerpt": "A viral video called “Martinelli” will be shared on WhatsApp tomorrow. It will hack your phone if opened. Our verdict This is a hoax.",
-        "pageType": "debunk",
-        "date": "2020-07-21",
-        "dateProvenance": "published_date"
-       }
-      ],
-      "date": "2020-07-21",
+      "date": "2021-01-23",
       "dateProvenance": "published_date",
       "pageType": "debunk",
       "isCopy": false,
-      "branch": "Fact-check debunk"
+      "branch": "BBC Radio claim, no official statement found"
      },
      {
-      "id": "v4-1atev",
-      "text": "An IT colleague has advised that a video comes out tomorrow from WhatsApp called martinelli do not open it , it hacks your phone and nothing will fix it.",
-      "excerpt": "An IT colleague has advised that a video comes out tomorrow from WhatsApp called martinelli do not open it , it hacks your phone and nothing will fix it.",
+      "id": "v3-do6co",
+      "text": "If you know anyone using WhatsApp you might pass on this. An IT colleague has advised that a video comes out tomorrow from WhatsApp called martinelli do not open it , it hacks your phone and nothing will fix it. Spread the word. When we last wrote about “Martinelli”, back in 2018, we noted that the hoax was given a breath of believability because the text above was immediately followed by this:",
+      "excerpt": "If you know anyone using WhatsApp you might pass on this. An IT colleague has advised that a video comes out tomorrow from WhatsApp called martinelli do not open it , it hacks your phone and nothing will fix it. Spread the word. When we last wrote about “Martinelli”, back in 2018, we noted that the hoax was given a breath of believability because the text above was immediately followed by this:",
       "sources": [
        {
         "url": "https://www.sophos.com/en-us/blog/whatsapp-martinelli-hoax-is-back-warning-about-dance-of-the-pope",
-        "title": "WhatsApp “Martinelli” hoax is back, warning about “Dance ...",
-        "excerpt": "An IT colleague has advised that a video comes out tomorrow from WhatsApp called martinelli do not open it , it hacks your phone and nothing will fix it.",
+        "title": "WhatsApp “Martinelli” hoax is back, warning about “Dance of the Pope” | SOPHOS",
+        "excerpt": "If you know anyone using WhatsApp you might pass on this. An IT colleague has advised that a video comes out tomorrow from WhatsApp called martinelli do not open it , it hacks your phone and nothing will fix it. Spread the word. When we last wrote about “Martinelli”, back in 2018, we noted that the hoax was given a breath of believability because the text above was immediately followed by this:",
         "pageType": "debunk",
         "date": "2020-03-23",
-        "dateProvenance": "published_date"
-       },
-       {
-        "url": "https://www.sophos.com/es-es/blog/whatsapp-martinelli-hoax-is-back-warning-about-dance-of-the-pope",
-        "title": "WhatsApp “Martinelli” hoax is back, warning about “Dance of the Pope” | SOPHOS",
-        "excerpt": "An IT colleague has advised that a video comes out tomorrow from WhatsApp called martinelli do not open it , it hacks your phone and nothing will fix it.",
-        "pageType": "debunk",
-        "date": null,
-        "dateProvenance": "unknown"
-       },
-       {
-        "url": "https://www.the-independent.com/news/whatsapp-martinelli-virus-2018-video-message-explained-what-to-do-a9417601.html",
-        "title": "WhatsApp 'Martinelli' virus: What to do if you receive ...",
-        "excerpt": "“If you know anyone using WhatsApp you might pass on this. An IT colleague has advised that a video comes out tomorrow from WhatsApp called martinelli do not open it, it hacks your phone and nothing will fix it. Spread the word. “If you receive a message to update the Whatsapp to Whatsapp Gold, do not click !!!!!",
-        "pageType": "debunk",
-        "date": "2020-03-24",
         "dateProvenance": "published_date"
        }
       ],
@@ -154,37 +99,17 @@
       "dateProvenance": "published_date",
       "pageType": "debunk",
       "isCopy": false,
-      "branch": "IT colleague warning"
+      "branch": "IT colleague warning, no BBC/CNN confirmation"
      },
      {
-      "id": "v6-7a09f",
-      "text": "No video will be sent tomorrow spreading the Martinelli virus No! No video will be sent tomorrow spreading the Martinelli virus /sites/default/files/banners/pexels-tracy-le-blanc-607812.jpg",
-      "excerpt": "No video will be sent tomorrow spreading the Martinelli virus No! No video will be sent tomorrow spreading the Martinelli virus /sites/default/files/banners/pexels-tracy-le-blanc-607812.jpg",
+      "id": "v8-sjnku",
+      "text": "Sep 6, 2022 — There is a circulating WhatsApp hoax warning about the \"Martinelli\" video that claims to hack phones and cause irreversible damage, ...Read more",
+      "excerpt": "Sep 6, 2022 — There is a circulating WhatsApp hoax warning about the \"Martinelli\" video that claims to hack phones and cause irreversible damage, ...Read more",
       "sources": [
        {
-        "url": "https://safeonweb.be/en/news/no-no-video-will-be-sent-tomorrow-spreading-martinelli-virus",
-        "title": "No! No video will be sent tomorrow spreading the Martinelli ...",
-        "excerpt": "No video will be sent tomorrow spreading the Martinelli virus No! No video will be sent tomorrow spreading the Martinelli virus /sites/default/files/banners/pexels-tracy-le-blanc-607812.jpg",
-        "pageType": "debunk",
-        "date": "2021-12-03",
-        "dateProvenance": "published_date"
-       }
-      ],
-      "date": "2021-12-03",
-      "dateProvenance": "published_date",
-      "pageType": "debunk",
-      "isCopy": false,
-      "branch": "No video tomorrow"
-     },
-     {
-      "id": "v8-1awr3",
-      "text": "Snopes first saw this rumor in 2018. It claims that a WhatsApp video known as \"Martinelli\" spreads malware that irreparably hacks your cell",
-      "excerpt": "Snopes first saw this rumor in 2018. It claims that a WhatsApp video known as \"Martinelli\" spreads malware that irreparably hacks your cell",
-      "sources": [
-       {
-        "url": "https://www.facebook.com/snopes/posts/snopes-first-saw-this-rumor-in-2018-it-claims-that-a-whatsapp-video-known-as-mar/644010501096342",
-        "title": "Snopes first saw this rumor in 2018. It claims that a ...",
-        "excerpt": "Snopes first saw this rumor in 2018. It claims that a WhatsApp video known as \"Martinelli\" spreads malware that irreparably hacks your cell",
+        "url": "https://vulners.com/malwarebytes/MALWAREBYTES:F416A6C559275FFE89412AA75D797FF8",
+        "title": "Don't share the WhatsApp 'Martinelli' phone hacking alert:...",
+        "excerpt": "Sep 6, 2022 — There is a circulating WhatsApp hoax warning about the \"Martinelli\" video that claims to hack phones and cause irreversible damage, ...Read more",
         "pageType": "debunk",
         "date": null,
         "dateProvenance": "unknown"
@@ -194,187 +119,7 @@
       "dateProvenance": "unknown",
       "pageType": "debunk",
       "isCopy": false,
-      "branch": "Fact-check debunk"
-     },
-     {
-      "id": "v10-unm08",
-      "text": "The WhatsApp 'Martinelli' video message is a long-standing hoax that falsely claims to threaten users' phones, with no actual video existing. The message warns about a non-existent 'WhatsApp Gold' version that is a scam aimed at tricking users into providing personal information or money. Users are advised to ignore the message and refrain from forwarding it, as it poses no real threat.",
-      "excerpt": "The WhatsApp 'Martinelli' video message is a long-standing hoax that falsely claims to threaten users' phones, with no actual video existing. The message warns about a non-existent 'WhatsApp Gold' version that is a scam aimed at tricking users into providing personal information or money. Users are advised to ignore the message and refrain from forwarding it, as it poses no real threat.",
-      "sources": [
-       {
-        "url": "https://www.scribd.com/document/865919116/WhatsApp-Martinelli-Virus-What-to-Do-if-You-Receive-Strange-Message-About-WhatsApp-Gold-Video-the-Independent-the-Indep",
-        "title": "WhatsApp Martinelli Virus Explained | PDF | Cyberspace",
-        "excerpt": "The WhatsApp 'Martinelli' video message is a long-standing hoax that falsely claims to threaten users' phones, with no actual video existing. The message warns about a non-existent 'WhatsApp Gold' version that is a scam aimed at tricking users into providing personal information or money. Users are advised to ignore the message and refrain from forwarding it, as it poses no real threat.",
-        "pageType": "debunk",
-        "date": null,
-        "dateProvenance": "unknown"
-       }
-      ],
-      "date": null,
-      "dateProvenance": "unknown",
-      "pageType": "debunk",
-      "isCopy": false,
-      "branch": "Fact-check debunk"
-     },
-     {
-      "id": "v11-1vaci",
-      "text": "A hoax that has been making the online rounds on WhatsApp since at least mid-2017 warns users of the encrypted messaging service that they are supposedly vulnerable to a piece of malicious software being distributed via a video called \"Martinelli.\" The malware is said to be capable of hacking into a user's cell phone in under 10 seconds, wreaking irreparable damage: > Warning from An Garda. An IT expert has advised that a video comes out tomorrow from WhatsApp called martinelli do not open it , it hacks your phone and nothing will fix it. Spread the word",
-      "excerpt": "A hoax that has been making the online rounds on WhatsApp since at least mid-2017 warns users of the encrypted messaging service that they are supposedly vulnerable to a piece of malicious software being distributed via a video called \"Martinelli.\" The malware is said to be capable of hacking into a user's cell phone in under 10 seconds, wreaking irreparable damage: > Warning from An Garda. An IT expert has advised that a video comes out tomorrow from WhatsApp called martinelli do not open it , it hacks your phone and nothing will fix it. Spread the word",
-      "sources": [
-       {
-        "url": "https://www.snopes.com/fact-check/whatsapp-martinelli-phone-virus-warning",
-        "title": "WhatsApp 'Martinelli' Phone Virus Warning",
-        "excerpt": "A hoax that has been making the online rounds on WhatsApp since at least mid-2017 warns users of the encrypted messaging service that they are supposedly vulnerable to a piece of malicious software being distributed via a video called \"Martinelli.\" The malware is said to be capable of hacking into a user's cell phone in under 10 seconds, wreaking irreparable damage: > Warning from An Garda. An IT expert has advised that a video comes out tomorrow from WhatsApp called martinelli do not open it , it hacks your phone and nothing will fix it. Spread the word",
-        "pageType": "debunk",
-        "date": "2018-04-17",
-        "dateProvenance": "published_date"
-       }
-      ],
-      "date": "2018-04-17",
-      "dateProvenance": "published_date",
-      "pageType": "debunk",
-      "isCopy": false,
-      "branch": "Fact-check debunk"
-     },
-     {
-      "id": "v15-gvfar",
-      "text": "There's a video launching tomorrow on WhatsApp called Martinelli. Don't open it. It puts spyware into your mobile phone, and apparently there is nothing you can do will fix it If you receive a message asking you to update to WhatsApp Gold, don't open it!",
-      "excerpt": "There's a video launching tomorrow on WhatsApp called Martinelli. Don't open it. It puts spyware into your mobile phone, and apparently there is nothing you can do will fix it If you receive a message asking you to update to WhatsApp Gold, don't open it!",
-      "sources": [
-       {
-        "url": "https://www.linkedin.com/posts/david-mckelvey-2338479_a-warning-do-not-open-any-activity-7383713331771101184-M3jA",
-        "title": "David McKELVEY's Post",
-        "excerpt": "There's a video launching tomorrow on WhatsApp called Martinelli. Don't open it. It puts spyware into your mobile phone, and apparently there is nothing you can do will fix it If you receive a message asking you to update to WhatsApp Gold, don't open it!",
-        "pageType": "official",
-        "date": "2025-10-28",
-        "dateProvenance": "published_date"
-       }
-      ],
-      "date": "2025-10-28",
-      "dateProvenance": "published_date",
-      "pageType": "official",
-      "isCopy": true,
-      "branch": "Future warning"
-     },
-     {
-      "id": "v16-1k52f",
-      "text": "Another version of this scam features a message which warns of a video called 'Martinelli' installing malware to your device if opened. However, there is no evidence that this video exists. You can report a WhatsApp message by selecting it in your conversation and tapping ‘report’. To report the sender on WhatsApp, open up the chat, tap on the sender's contact details and select 'block and report'.",
-      "excerpt": "Another version of this scam features a message which warns of a video called 'Martinelli' installing malware to your device if opened. However, there is no evidence that this video exists. You can report a WhatsApp message by selecting it in your conversation and tapping ‘report’. To report the sender on WhatsApp, open up the chat, tap on the sender's contact details and select 'block and report'.",
-      "sources": [
-       {
-        "url": "https://www.which.co.uk/consumer-rights/advice/how-to-spot-a-whatsapp-scam-a7Lyx1W6HCVK",
-        "title": "How to spot a WhatsApp scam - Which?",
-        "excerpt": "Another version of this scam features a message which warns of a video called 'Martinelli' installing malware to your device if opened. However, there is no evidence that this video exists. You can report a WhatsApp message by selecting it in your conversation and tapping ‘report’. To report the sender on WhatsApp, open up the chat, tap on the sender's contact details and select 'block and report'.",
-        "pageType": "debunk",
-        "date": "2026-07-29",
-        "dateProvenance": "published_date"
-       }
-      ],
-      "date": "2026-07-29",
-      "dateProvenance": "published_date",
-      "pageType": "debunk",
-      "isCopy": false,
-      "branch": "Fact-check debunk"
-     },
-     {
-      "id": "v17-2brzv",
-      "text": "There is no such service as WhtasApp Gold, or a video called Martinelli.",
-      "excerpt": "There is no such service as WhtasApp Gold, or a video called Martinelli.",
-      "sources": [
-       {
-        "url": "https://www.instagram.com/p/DPwVWHmDVdY?hl=en",
-        "title": "We're aware that a long-running hoax about a fake service ...",
-        "excerpt": "There is no such service as WhtasApp Gold, or a video called Martinelli.",
-        "pageType": "official",
-        "date": "2025-10-13",
-        "dateProvenance": "page_metadata"
-       }
-      ],
-      "date": "2025-10-13",
-      "dateProvenance": "page_metadata",
-      "pageType": "official",
-      "isCopy": false,
-      "branch": "Fact-check debunk"
-     },
-     {
-      "id": "v20-1bu3t",
-      "text": "The Martinelli scam refers to a chain message or post that circulates via WhatsApp (and other chat apps) claiming there is a “video” called Martinelli that, if opened, will hack your phone or compromise your data. The message often couples this with an invitation to download a so‑called premium version of WhatsApp called WhatsApp Gold (or WhatsApp Plus) via a link. In reality: The video “Martinelli” does not exist.",
-      "excerpt": "The Martinelli scam refers to a chain message or post that circulates via WhatsApp (and other chat apps) claiming there is a “video” called Martinelli that, if opened, will hack your phone or compromise your data. The message often couples this with an invitation to download a so‑called premium version of WhatsApp called WhatsApp Gold (or WhatsApp Plus) via a link. In reality: The video “Martinelli” does not exist.",
-      "sources": [
-       {
-        "url": "https://www.purewl.com/martinelli-scam",
-        "title": "Martinelli Scam Resurfaces on WhatsApp: Here's What ...",
-        "excerpt": "The Martinelli scam refers to a chain message or post that circulates via WhatsApp (and other chat apps) claiming there is a “video” called Martinelli that, if opened, will hack your phone or compromise your data. The message often couples this with an invitation to download a so‑called premium version of WhatsApp called WhatsApp Gold (or WhatsApp Plus) via a link. In reality: The video “Martinelli” does not exist.",
-        "pageType": "debunk",
-        "date": null,
-        "dateProvenance": "unknown"
-       }
-      ],
-      "date": null,
-      "dateProvenance": "unknown",
-      "pageType": "debunk",
-      "isCopy": false,
-      "branch": "Fact-check debunk"
-     },
-     {
-      "id": "v33-2nnx7",
-      "text": "The Sinhala-language text translates to English as: \"Dear friends, this is a warning that was aired on BBC radio this morning: If you are a WhatsApp user, please pay attention. A video titled 'Martinelli' will be released tomorrow. Please don't open it - it will hack your phone and the impact cannot be reversed. \"Also, if you receive a message about updating WhatsApp, do not click RUN.",
-      "excerpt": "The Sinhala-language text translates to English as: \"Dear friends, this is a warning that was aired on BBC radio this morning: If you are a WhatsApp user, please pay attention. A video titled 'Martinelli' will be released tomorrow. Please don't open it - it will hack your phone and the impact cannot be reversed. \"Also, if you receive a message about updating WhatsApp, do not click RUN.",
-      "sources": [
-       {
-        "url": "https://factcheck.afp.com/doc.afp.com.32HE8N3",
-        "title": "Sri Lankans reshare old hoax about 'malware videos ...",
-        "excerpt": "The Sinhala-language text translates to English as: \"Dear friends, this is a warning that was aired on BBC radio this morning: If you are a WhatsApp user, please pay attention. A video titled 'Martinelli' will be released tomorrow. Please don't open it - it will hack your phone and the impact cannot be reversed. \"Also, if you receive a message about updating WhatsApp, do not click RUN.",
-        "pageType": "debunk",
-        "date": "2022-09-02",
-        "dateProvenance": "published_date"
-       }
-      ],
-      "date": "2022-09-02",
-      "dateProvenance": "published_date",
-      "pageType": "debunk",
-      "isCopy": true,
-      "branch": "BBC radio warning"
-     },
-     {
-      "id": "v36-1h5ky",
-      "text": "Some people are receiving the message that begins with a warning about the \"Martinelli\" video. That warning – which has been around for years – appears to be entirely fake, and there is no reason to worry about any such message. [...] It also includes a common reminder about \"WhatsApp Gold\", and urges anyone reading the message not to be taken in by scams promising it. For once, this message is not in itself a hoax: there really is a scam that promises WhatsApp Gold or WhatsApp Plus, and that is often used as a way to trick people into downloading malicious software or otherwise trick them",
-      "excerpt": "Some people are receiving the message that begins with a warning about the \"Martinelli\" video. That warning – which has been around for years – appears to be entirely fake, and there is no reason to worry about any such message. [...] It also includes a common reminder about \"WhatsApp Gold\", and urges anyone reading the message not to be taken in by scams promising it. For once, this message is not in itself a hoax: there really is a scam that promises WhatsApp Gold or WhatsApp Plus, and that is often used as a way to trick people into downloading malicious software or otherwise trick them",
-      "sources": [
-       {
-        "url": "https://www.the-independent.com/tech/dance-of-the-pope-message-whatsapp-forward-b2295603.html",
-        "title": "WhatsApp 'dance of the pope' hoax tries to trick people into ...",
-        "excerpt": "Some people are receiving the message that begins with a warning about the \"Martinelli\" video. That warning – which has been around for years – appears to be entirely fake, and there is no reason to worry about any such message. [...] It also includes a common reminder about \"WhatsApp Gold\", and urges anyone reading the message not to be taken in by scams promising it. For once, this message is not in itself a hoax: there really is a scam that promises WhatsApp Gold or WhatsApp Plus, and that is often used as a way to trick people into downloading malicious software or otherwise trick them",
-        "pageType": "news",
-        "date": null,
-        "dateProvenance": "unknown"
-       }
-      ],
-      "date": null,
-      "dateProvenance": "unknown",
-      "pageType": "news",
-      "isCopy": false,
-      "branch": "Fact-check debunk"
-     },
-     {
-      "id": "v38-d5efb",
-      "text": "Fact: An example of the hoax message being circulated now \"If you know anyone using WhatsApp you might pass on this. An IT colleague has advised that a video comes out tomorrow from WhatsApp called martinelli do not open it, it hacks your phone and nothing will fix it. Spread the word...If you receive a message to update the WhatsApp to WhatsApp Gold, do not click!!!!!,\" reads one iteration of the current hoax.",
-      "excerpt": "Fact: An example of the hoax message being circulated now \"If you know anyone using WhatsApp you might pass on this. An IT colleague has advised that a video comes out tomorrow from WhatsApp called martinelli do not open it, it hacks your phone and nothing will fix it. Spread the word...If you receive a message to update the WhatsApp to WhatsApp Gold, do not click!!!!!,\" reads one iteration of the current hoax.",
-      "sources": [
-       {
-        "url": "https://sg.finance.yahoo.com/news/whatsapp-virus-message-makes-return-095932832.html",
-        "title": "WhatsApp virus message makes return: How to deal with it",
-        "excerpt": "Fact: An example of the hoax message being circulated now \"If you know anyone using WhatsApp you might pass on this. An IT colleague has advised that a video comes out tomorrow from WhatsApp called martinelli do not open it, it hacks your phone and nothing will fix it. Spread the word...If you receive a message to update the WhatsApp to WhatsApp Gold, do not click!!!!!,\" reads one iteration of the current hoax.",
-        "pageType": "debunk",
-        "date": null,
-        "dateProvenance": "unknown"
-       }
-      ],
-      "date": null,
-      "dateProvenance": "unknown",
-      "pageType": "debunk",
-      "isCopy": false,
-      "branch": "Fact-check debunk"
+      "branch": "2022 circulating hoax read more"
      },
      {
       "id": "you",
@@ -394,239 +139,86 @@
       "dateProvenance": "unknown",
       "pageType": "user_input",
       "isUserInput": true,
-      "branch": "CNN and BBC confirmation"
+      "branch": "Confirmed by CNN and BBC, pass this on"
      }
     ],
     "edges": [
      {
-      "from": "v33-2nnx7",
-      "to": "v0-1jx3x",
-      "confidence": "high",
-      "reason": "Same BBC radio warning text; v33 dated 2022-09-02, v0 dated 2022-09-05",
-      "mutations": [],
-      "changeNote": "Later version omits the warning about WhatsApp update messages and the RUN instruction.",
-      "spreadJump": false
-     },
-     {
-      "from": "v0-1jx3x",
-      "to": "v2-3b4h1",
-      "confidence": "medium",
-      "reason": "Mutation log shows no changes; v0 dated 2022-09-05, v2 dated 2020-07-21 but EVIDENCE leaf (Confidence capped: wording similarity 0.40.)",
-      "mutations": [],
-      "evidenceOnly": true,
-      "spreadJump": false
-     },
-     {
-      "from": "v0-1jx3x",
-      "to": "v8-1awr3",
+      "from": "v3-do6co",
+      "to": "v0-e3qwd",
       "confidence": "low",
-      "reason": "Mutation log shows no changes; v8 is EVIDENCE leaf discussing the message (Confidence capped: wording similarity 0.19.)",
+      "reason": "v0-e3qwd explicitly references and fact-checks the hoax warning described in v3-do6co (Confidence capped: wording similarity 0.14.)",
       "mutations": [],
       "evidenceOnly": true,
       "spreadJump": false
      },
      {
-      "from": "v33-2nnx7",
-      "to": "v1-1lokp",
+      "from": "v0-e3qwd",
+      "to": "v8-sjnku",
       "confidence": "low",
-      "reason": "Mutation log shows no changes; v1 is EVIDENCE leaf discussing the hoax (Confidence capped: wording similarity 0.33.)",
+      "reason": "v8-sjnku summarizes the same hoax warning previously documented by v0-e3qwd (Confidence capped: wording similarity 0.24.)",
       "mutations": [],
       "evidenceOnly": true,
       "spreadJump": false
      },
      {
-      "from": "v33-2nnx7",
-      "to": "v6-7a09f",
-      "confidence": "low",
-      "reason": "Mutation log shows no changes; v6 is EVIDENCE leaf dated 2021-12-03 (Confidence capped: wording similarity 0.17.)",
-      "mutations": [],
-      "evidenceOnly": true,
-      "spreadJump": false
-     },
-     {
-      "from": "v33-2nnx7",
-      "to": "v15-gvfar",
-      "confidence": "medium",
-      "reason": "Mutation log shows target_changed; v33 dated 2022-09-02, v15 dated 2025-10-28 (Confidence capped: wording similarity 0.38.)",
-      "mutations": [],
-      "changeNote": "Later version omits BBC warning and WhatsApp update RUN instruction, changes hacking to spyware, and names WhatsApp Gold.",
-      "spreadJump": false
-     },
-     {
-      "from": "v15-gvfar",
-      "to": "v4-1atev",
-      "confidence": "medium",
-      "reason": "Mutation log shows no changes; v4 is EVIDENCE leaf dated 2020-03-23 (Confidence capped: wording similarity 0.53.)",
-      "mutations": [],
-      "evidenceOnly": true,
-      "spreadJump": false
-     },
-     {
-      "from": "v15-gvfar",
-      "to": "v11-1vaci",
-      "confidence": "medium",
-      "reason": "Mutation log shows no changes; v11 is EVIDENCE leaf dated 2018-04-17 (Confidence capped: wording similarity 0.37.)",
-      "mutations": [],
-      "evidenceOnly": true,
-      "spreadJump": false
-     },
-     {
-      "from": "v15-gvfar",
-      "to": "v16-1k52f",
-      "confidence": "low",
-      "reason": "Mutation log shows no changes; v16 is EVIDENCE leaf dated 2026-07-29 (Confidence capped: wording similarity 0.29.)",
-      "mutations": [],
-      "evidenceOnly": true,
-      "spreadJump": false
-     },
-     {
-      "from": "v15-gvfar",
-      "to": "v17-2brzv",
-      "confidence": "medium",
-      "reason": "Mutation log shows no changes; v17 is EVIDENCE leaf dated 2025-10-13 (Confidence capped: wording similarity 0.43.)",
-      "mutations": [],
-      "evidenceOnly": true,
-      "spreadJump": false
-     },
-     {
-      "from": "v15-gvfar",
-      "to": "v20-1bu3t",
-      "confidence": "low",
-      "reason": "Mutation log shows no changes; v20 is EVIDENCE leaf (Confidence capped: wording similarity 0.32.)",
-      "mutations": [],
-      "evidenceOnly": true,
-      "spreadJump": false
-     },
-     {
-      "from": "v15-gvfar",
-      "to": "v36-1h5ky",
-      "confidence": "low",
-      "reason": "Mutation log shows no changes; v36 is EVIDENCE leaf (Confidence capped: wording similarity 0.24.)",
-      "mutations": [],
-      "evidenceOnly": true,
-      "spreadJump": false
-     },
-     {
-      "from": "v15-gvfar",
-      "to": "v38-d5efb",
-      "confidence": "medium",
-      "reason": "Mutation log shows no changes; v38 is EVIDENCE leaf (Confidence capped: wording similarity 0.54.)",
-      "mutations": [],
-      "evidenceOnly": true,
-      "spreadJump": false
-     },
-     {
-      "from": "v15-gvfar",
-      "to": "v10-unm08",
-      "confidence": "low",
-      "reason": "Mutation log shows no changes; v10 is EVIDENCE leaf (Confidence capped: wording similarity 0.24.)",
-      "mutations": [],
-      "evidenceOnly": true,
-      "spreadJump": false
-     },
-     {
-      "from": "v33-2nnx7",
+      "from": "v3-do6co",
       "to": "you",
-      "confidence": "medium",
-      "reason": "Mutation log shows authority_added, authority_removed, call_to_action_added, detail_added; you is user leaf (Confidence capped: wording similarity 0.36.)",
-      "mutations": [
-       {
-        "type": "authority_added",
-        "before": "",
-        "after": "CNN and BBC",
-        "explanation": "LATER cites CNN and BBC as confirmers",
-        "strength": "strong"
-       },
-       {
-        "type": "authority_removed",
-        "before": "BBC radio this morning",
-        "after": "",
-        "explanation": "Earlier cites BBC radio as source, LATER drops this",
-        "strength": "strong"
-       },
-       {
-        "type": "call_to_action_added",
-        "before": "",
-        "after": "pass this to everyone in your contact list",
-        "explanation": "LATER adds instruction to forward to contacts",
-        "strength": "strong"
-       }
-      ],
-      "changeNote": "The later version adds CNN confirmation, friend transmission, and contact list forwarding.",
+      "confidence": "low",
+      "reason": "User's copy directly replicates the core warning text from v3-do6co with added CNN/BBC attribution (Confidence capped: wording similarity 0.34.)",
+      "mutations": [],
+      "evidenceOnly": true,
       "spreadJump": false
      }
     ],
-    "earliestId": "v11-1vaci",
+    "earliestId": "v3-do6co",
     "limited": false,
     "verdict": {
-     "summary": "The Martinelli warning is a long-circulating hoax about a WhatsApp video that supposedly hacks phones. The earliest version found dates to at least mid-2017, and your copy adds claims of CNN and BBC confirmation plus a request to forward it to everyone. Multiple fact-checks have debunked the Martinelli alert.",
+     "summary": "The earliest version found is a March 23, 2020 WhatsApp warning about a video called Martinelli that hacks phones. The user received a variant adding that CNN and BBC confirmed it. No listed source confirms CNN or BBC verification of this claim.",
      "whatChanged": [
-      "Added authority: CNN and BBC confirmation",
-      "Removed authority: BBC radio this morning",
-      "Added call to action: pass this to everyone in your contact list"
+      "Added false claim that CNN and BBC confirmed the warning",
+      "Added instruction to pass to everyone in contact list"
      ],
      "unsupported": [],
-     "confidence": "high",
-     "replyCard": "Hi everyone, the warning about a WhatsApp video called Martinelli has been circulating for years and has been checked by fact-checkers. It is not necessary to forward this message. Stay safe!"
+     "confidence": "medium",
+     "replyCard": "Hi everyone, I looked into the Martinelli video warning. Earlier versions of this message have been circulating since 2020, but I could not find any confirmation from CNN or BBC. Please stay cautious with unknown links, but there is no need to panic or forward this message."
     },
     "branches": [
      {
-      "name": "BBC radio warning",
+      "name": "IT colleague warning, no BBC/CNN confirmation",
       "variantIds": [
-       "v0-1jx3x",
-       "v33-2nnx7"
+       "v3-do6co"
       ]
      },
      {
-      "name": "IT colleague warning",
+      "name": "BBC Radio claim, no official statement found",
       "variantIds": [
-       "v4-1atev"
+       "v0-e3qwd"
       ]
      },
      {
-      "name": "No video tomorrow",
+      "name": "2022 circulating hoax read more",
       "variantIds": [
-       "v6-7a09f"
+       "v8-sjnku"
       ]
      },
      {
-      "name": "Fact-check debunk",
-      "variantIds": [
-       "v1-1lokp",
-       "v2-3b4h1",
-       "v8-1awr3",
-       "v10-unm08",
-       "v11-1vaci",
-       "v16-1k52f",
-       "v17-2brzv",
-       "v20-1bu3t",
-       "v36-1h5ky",
-       "v38-d5efb"
-      ]
-     },
-     {
-      "name": "Future warning",
-      "variantIds": [
-       "v15-gvfar"
-      ]
-     },
-     {
-      "name": "CNN and BBC confirmation",
+      "name": "Confirmed by CNN and BBC, pass this on",
       "variantIds": [
        "you"
       ]
      }
     ],
     "stats": {
-     "queries": 8,
-     "pagesSearched": 40,
-     "pagesConfirmed": 17,
-     "pairsCompared": 18,
+     "queries": 5,
+     "pagesSearched": 34,
+     "pagesConfirmed": 3,
+     "pairsCompared": 5,
      "mutationReview": {
-      "reviewed": 5,
-      "kept": 3,
+      "reviewed": 0,
+      "kept": 0,
       "retyped": 0,
-      "dropped": 2
+      "dropped": 0
      }
     },
     "warnings": []
@@ -635,30 +227,28 @@
   "checks": {},
   "logs": [
    {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
     "tier": "nano",
     "stage": "A0: classify input",
     "tokensIn": 294,
-    "tokensOut": 57,
-    "latencyMs": 966,
+    "tokensOut": 50,
+    "latencyMs": 858,
     "ok": true,
-    "note": "dev cache (original latency)",
     "id": "c1",
-    "at": 1793284390944
+    "at": 1793292571351
    },
    {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
     "tier": "nano",
     "stage": "A: understand",
     "tokensIn": 319,
-    "tokensOut": 182,
-    "latencyMs": 2699,
+    "tokensOut": 149,
+    "latencyMs": 2870,
     "ok": true,
-    "note": "dev cache (original latency)",
     "id": "c2",
-    "at": 1793284390945
+    "at": 1793292574222
    },
    {
     "provider": "tavily",
@@ -667,11 +257,11 @@
     "stage": "B: search",
     "tokensIn": 0,
     "tokensOut": 0,
-    "latencyMs": 2,
+    "latencyMs": 2633,
     "ok": true,
     "note": "10 results",
     "id": "c3",
-    "at": 1793284390952
+    "at": 1793292576860
    },
    {
     "provider": "tavily",
@@ -680,11 +270,11 @@
     "stage": "B: search",
     "tokensIn": 0,
     "tokensOut": 0,
-    "latencyMs": 4,
+    "latencyMs": 2783,
     "ok": true,
     "note": "10 results",
     "id": "c4",
-    "at": 1793284390954
+    "at": 1793292577010
    },
    {
     "provider": "tavily",
@@ -693,11 +283,11 @@
     "stage": "B: search",
     "tokensIn": 0,
     "tokensOut": 0,
-    "latencyMs": 4,
+    "latencyMs": 3013,
     "ok": true,
     "note": "10 results",
     "id": "c5",
-    "at": 1793284390954
+    "at": 1793292577240
    },
    {
     "provider": "tavily",
@@ -706,11 +296,11 @@
     "stage": "B: search",
     "tokensIn": 0,
     "tokensOut": 0,
-    "latencyMs": 8,
+    "latencyMs": 3646,
     "ok": true,
     "note": "10 results",
     "id": "c6",
-    "at": 1793284390957
+    "at": 1793292577873
    },
    {
     "provider": "tavily",
@@ -719,553 +309,436 @@
     "stage": "B: search",
     "tokensIn": 0,
     "tokensOut": 0,
-    "latencyMs": 8,
+    "latencyMs": 4102,
     "ok": true,
     "note": "10 results",
     "id": "c7",
-    "at": 1793284390963
+    "at": 1793292580962
    },
    {
     "provider": "tavily",
-    "model": "search/basic",
-    "tier": "search",
-    "stage": "B: search",
+    "model": "extract/basic",
+    "tier": "extract",
+    "stage": "B: extract",
     "tokensIn": 0,
     "tokensOut": 0,
-    "latencyMs": 10,
+    "latencyMs": 5840,
     "ok": true,
-    "note": "10 results",
+    "note": "18 ok, 2 failed",
     "id": "c8",
-    "at": 1793284390964
+    "at": 1793292586802
    },
    {
     "provider": "tavily",
-    "model": "search/basic",
-    "tier": "search",
-    "stage": "B: search",
+    "model": "extract/basic",
+    "tier": "extract",
+    "stage": "B: extract",
     "tokensIn": 0,
     "tokensOut": 0,
-    "latencyMs": 7,
+    "latencyMs": 11759,
     "ok": true,
-    "note": "7 results",
+    "note": "6 ok, 8 failed",
     "id": "c9",
-    "at": 1793284390964
+    "at": 1793292598561
    },
    {
-    "provider": "tavily",
-    "model": "search/basic",
-    "tier": "search",
-    "stage": "B: search",
-    "tokensIn": 0,
-    "tokensOut": 0,
-    "latencyMs": 14,
-    "ok": true,
-    "note": "10 results",
-    "id": "c10",
-    "at": 1793284390966
-   },
-   {
-    "provider": "tavily",
-    "model": "extract/basic",
-    "tier": "extract",
-    "stage": "B: extract",
-    "tokensIn": 0,
-    "tokensOut": 0,
-    "latencyMs": 11049,
-    "ok": true,
-    "note": "15 ok, 5 failed",
-    "id": "c11",
-    "at": 1793284402015
-   },
-   {
-    "provider": "tavily",
-    "model": "extract/basic",
-    "tier": "extract",
-    "stage": "B: extract",
-    "tokensIn": 0,
-    "tokensOut": 0,
-    "latencyMs": 7,
-    "ok": true,
-    "note": "13 ok, 7 failed",
-    "id": "c12",
-    "at": 1793284402022
-   },
-   {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
-    "tier": "nano",
-    "stage": "C: confirm",
-    "tokensIn": 1428,
-    "tokensOut": 117,
-    "latencyMs": 8730,
-    "ok": true,
-    "note": "dev cache (original latency)",
-    "id": "c13",
-    "at": 1793284402804
-   },
-   {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
     "tier": "nano",
     "stage": "C: confirm",
     "tokensIn": 1211,
-    "tokensOut": 121,
-    "latencyMs": 2451,
+    "tokensOut": 98,
+    "latencyMs": 2219,
     "ok": true,
-    "note": "dev cache (original latency)",
-    "id": "c14",
-    "at": 1793284402829
+    "id": "c10",
+    "at": 1793292601324
    },
    {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
     "tier": "nano",
     "stage": "C: confirm",
-    "tokensIn": 1482,
-    "tokensOut": 125,
-    "latencyMs": 6155,
+    "tokensIn": 1412,
+    "tokensOut": 100,
+    "latencyMs": 3015,
     "ok": true,
-    "note": "dev cache (original latency)",
-    "id": "c15",
-    "at": 1793284402851
+    "id": "c11",
+    "at": 1793292602118
    },
    {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
     "tier": "nano",
     "stage": "C: confirm",
-    "tokensIn": 1742,
-    "tokensOut": 500,
-    "latencyMs": 10025,
+    "tokensIn": 1288,
+    "tokensOut": 380,
+    "latencyMs": 3356,
     "ok": true,
-    "note": "dev cache (original latency)",
-    "id": "c16",
-    "at": 1793284403046
+    "id": "c12",
+    "at": 1793292602458
    },
    {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
-    "tier": "nano",
-    "stage": "C: confirm",
-    "tokensIn": 1384,
-    "tokensOut": 115,
-    "latencyMs": 4233,
-    "ok": true,
-    "note": "dev cache (original latency)",
-    "id": "c17",
-    "at": 1793284403047
-   },
-   {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
-    "tier": "nano",
-    "stage": "C: confirm",
-    "tokensIn": 1729,
-    "tokensOut": 118,
-    "latencyMs": 2653,
-    "ok": true,
-    "note": "dev cache (original latency)",
-    "id": "c18",
-    "at": 1793284403103
-   },
-   {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
-    "tier": "nano",
-    "stage": "C: confirm",
-    "tokensIn": 1195,
-    "tokensOut": 124,
-    "latencyMs": 5531,
-    "ok": true,
-    "note": "dev cache (original latency)",
-    "id": "c19",
-    "at": 1793284403264
-   },
-   {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
-    "tier": "nano",
-    "stage": "C: confirm",
-    "tokensIn": 653,
-    "tokensOut": 110,
-    "latencyMs": 4728,
-    "ok": true,
-    "note": "dev cache (original latency)",
-    "id": "c20",
-    "at": 1793284403593
-   },
-   {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
-    "tier": "nano",
-    "stage": "C: confirm",
-    "tokensIn": 1612,
-    "tokensOut": 114,
-    "latencyMs": 4494,
-    "ok": true,
-    "note": "dev cache (original latency)",
-    "id": "c21",
-    "at": 1793284403763
-   },
-   {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
-    "tier": "nano",
-    "stage": "C: confirm (retry)",
-    "tokensIn": 2278,
-    "tokensOut": 507,
-    "latencyMs": 11804,
-    "ok": true,
-    "note": "dev cache (original latency)",
-    "id": "c22",
-    "at": 1793284403862
-   },
-   {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
-    "tier": "nano",
-    "stage": "C: confirm",
-    "tokensIn": 1276,
-    "tokensOut": 130,
-    "latencyMs": 11935,
-    "ok": true,
-    "note": "dev cache (original latency)",
-    "id": "c23",
-    "at": 1793284403889
-   },
-   {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
     "tier": "nano",
     "stage": "C: confirm",
     "tokensIn": 891,
-    "tokensOut": 138,
-    "latencyMs": 8917,
+    "tokensOut": 144,
+    "latencyMs": 1341,
     "ok": true,
-    "note": "dev cache (original latency)",
-    "id": "c24",
-    "at": 1793284403908
+    "id": "c13",
+    "at": 1793292602700
    },
    {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
+    "tier": "nano",
+    "stage": "C: confirm",
+    "tokensIn": 1195,
+    "tokensOut": 158,
+    "latencyMs": 4362,
+    "ok": true,
+    "id": "c14",
+    "at": 1793292603468
+   },
+   {
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
     "tier": "nano",
     "stage": "C: confirm",
     "tokensIn": 1162,
-    "tokensOut": 114,
-    "latencyMs": 2108,
+    "tokensOut": 120,
+    "latencyMs": 1215,
     "ok": true,
-    "note": "dev cache (original latency)",
-    "id": "c25",
-    "at": 1793284404109
+    "id": "c15",
+    "at": 1793292603986
    },
    {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
     "tier": "nano",
     "stage": "C: confirm",
-    "tokensIn": 650,
+    "tokensIn": 646,
+    "tokensOut": 100,
+    "latencyMs": 2024,
+    "ok": true,
+    "id": "c16",
+    "at": 1793292604499
+   },
+   {
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
+    "tier": "nano",
+    "stage": "C: confirm",
+    "tokensIn": 1348,
+    "tokensOut": 100,
+    "latencyMs": 1101,
+    "ok": true,
+    "id": "c17",
+    "at": 1793292604696
+   },
+   {
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
+    "tier": "nano",
+    "stage": "C: confirm",
+    "tokensIn": 1608,
+    "tokensOut": 95,
+    "latencyMs": 1529,
+    "ok": true,
+    "id": "c18",
+    "at": 1793292605640
+   },
+   {
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
+    "tier": "nano",
+    "stage": "C: confirm",
+    "tokensIn": 1528,
+    "tokensOut": 500,
+    "latencyMs": 6932,
+    "ok": true,
+    "id": "c19",
+    "at": 1793292606036
+   },
+   {
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
+    "tier": "nano",
+    "stage": "C: confirm",
+    "tokensIn": 1384,
+    "tokensOut": 344,
+    "latencyMs": 6190,
+    "ok": true,
+    "id": "c20",
+    "at": 1793292608399
+   },
+   {
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
+    "tier": "nano",
+    "stage": "C: confirm",
+    "tokensIn": 1711,
+    "tokensOut": 500,
+    "latencyMs": 9492,
+    "ok": true,
+    "id": "c21",
+    "at": 1793292608596
+   },
+   {
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
+    "tier": "nano",
+    "stage": "C: confirm",
+    "tokensIn": 1312,
+    "tokensOut": 500,
+    "latencyMs": 5269,
+    "ok": true,
+    "id": "c22",
+    "at": 1793292610132
+   },
+   {
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
+    "tier": "nano",
+    "stage": "C: confirm",
+    "tokensIn": 1334,
     "tokensOut": 109,
-    "latencyMs": 9885,
+    "latencyMs": 1849,
     "ok": true,
-    "note": "dev cache (original latency)",
+    "id": "c23",
+    "at": 1793292610367
+   },
+   {
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
+    "tier": "nano",
+    "stage": "C: confirm",
+    "tokensIn": 1483,
+    "tokensOut": 500,
+    "latencyMs": 6171,
+    "ok": true,
+    "id": "c24",
+    "at": 1793292611982
+   },
+   {
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
+    "tier": "nano",
+    "stage": "C: confirm (retry)",
+    "tokensIn": 2064,
+    "tokensOut": 539,
+    "latencyMs": 6350,
+    "ok": true,
+    "id": "c25",
+    "at": 1793292612387
+   },
+   {
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
+    "tier": "nano",
+    "stage": "C: confirm",
+    "tokensIn": 1431,
+    "tokensOut": 500,
+    "latencyMs": 8102,
+    "ok": true,
     "id": "c26",
-    "at": 1793284404283
+    "at": 1793292612709
    },
    {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
     "tier": "nano",
     "stage": "C: confirm",
-    "tokensIn": 652,
-    "tokensOut": 104,
-    "latencyMs": 2276,
+    "tokensIn": 640,
+    "tokensOut": 95,
+    "latencyMs": 1668,
     "ok": true,
-    "note": "dev cache (original latency)",
     "id": "c27",
-    "at": 1793284404936
+    "at": 1793292614163
    },
    {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
     "tier": "nano",
-    "stage": "C: confirm",
-    "tokensIn": 1530,
-    "tokensOut": 111,
-    "latencyMs": 3889,
+    "stage": "C: confirm (retry)",
+    "tokensIn": 1848,
+    "tokensOut": 534,
+    "latencyMs": 5077,
     "ok": true,
-    "note": "dev cache (original latency)",
     "id": "c28",
-    "at": 1793284405228
+    "at": 1793292615209
    },
    {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
     "tier": "nano",
-    "stage": "C: confirm",
-    "tokensIn": 1605,
-    "tokensOut": 127,
-    "latencyMs": 3071,
+    "stage": "C: confirm (retry)",
+    "tokensIn": 2019,
+    "tokensOut": 524,
+    "latencyMs": 4090,
     "ok": true,
-    "note": "dev cache (original latency)",
     "id": "c29",
-    "at": 1793284405418
+    "at": 1793292616073
    },
    {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
     "tier": "nano",
     "stage": "C: confirm",
-    "tokensIn": 1611,
-    "tokensOut": 374,
-    "latencyMs": 5777,
+    "tokensIn": 1408,
+    "tokensOut": 309,
+    "latencyMs": 2078,
     "ok": true,
-    "note": "dev cache (original latency)",
     "id": "c30",
-    "at": 1793284405536
+    "at": 1793292616333
    },
    {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
     "tier": "nano",
     "stage": "C: confirm",
-    "tokensIn": 1434,
-    "tokensOut": 116,
-    "latencyMs": 6147,
+    "tokensIn": 1426,
+    "tokensOut": 128,
+    "latencyMs": 1233,
     "ok": true,
-    "note": "dev cache (original latency)",
     "id": "c31",
-    "at": 1793284405651
+    "at": 1793292616569
    },
    {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
     "tier": "nano",
-    "stage": "C: confirm",
-    "tokensIn": 1411,
-    "tokensOut": 254,
-    "latencyMs": 9818,
+    "stage": "C: confirm (retry)",
+    "tokensIn": 2247,
+    "tokensOut": 538,
+    "latencyMs": 8711,
     "ok": true,
-    "note": "dev cache (original latency)",
     "id": "c32",
-    "at": 1793284405674
+    "at": 1793292617308
    },
    {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
     "tier": "nano",
     "stage": "C: confirm",
-    "tokensIn": 1558,
-    "tokensOut": 500,
-    "latencyMs": 7887,
+    "tokensIn": 1355,
+    "tokensOut": 100,
+    "latencyMs": 1258,
     "ok": true,
-    "note": "dev cache (original latency)",
     "id": "c33",
-    "at": 1793284405693
+    "at": 1793292617472
    },
    {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
     "tier": "nano",
     "stage": "C: confirm",
-    "tokensIn": 1315,
-    "tokensOut": 292,
-    "latencyMs": 6486,
+    "tokensIn": 657,
+    "tokensOut": 96,
+    "latencyMs": 1278,
     "ok": true,
-    "note": "dev cache (original latency)",
     "id": "c34",
-    "at": 1793284405694
+    "at": 1793292617626
    },
    {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
     "tier": "nano",
     "stage": "C: confirm",
-    "tokensIn": 1438,
-    "tokensOut": 500,
-    "latencyMs": 9298,
+    "tokensIn": 1386,
+    "tokensOut": 139,
+    "latencyMs": 1318,
     "ok": true,
-    "note": "dev cache (original latency)",
     "id": "c35",
-    "at": 1793284405707
+    "at": 1793292618018
    },
    {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
-    "tier": "nano",
-    "stage": "C: confirm (retry)",
-    "tokensIn": 2094,
-    "tokensOut": 836,
-    "latencyMs": 15223,
-    "ok": true,
-    "note": "dev cache (original latency)",
-    "id": "c36",
-    "at": 1793284405708
-   },
-   {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
-    "tier": "nano",
-    "stage": "C: confirm (retry)",
-    "tokensIn": 1974,
-    "tokensOut": 598,
-    "latencyMs": 24123,
-    "ok": true,
-    "note": "dev cache (original latency)",
-    "id": "c37",
-    "at": 1793284405727
-   },
-   {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
     "tier": "nano",
     "stage": "C: confirm",
-    "tokensIn": 1203,
-    "tokensOut": 119,
-    "latencyMs": 7238,
+    "tokensIn": 1386,
+    "tokensOut": 500,
+    "latencyMs": 8124,
+    "ok": true,
+    "id": "c36",
+    "at": 1793292618606
+   },
+   {
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
+    "tier": "nano",
+    "stage": "C: confirm",
+    "tokensIn": 667,
+    "tokensOut": 96,
+    "latencyMs": 1996,
+    "ok": true,
+    "id": "c37",
+    "at": 1793292619464
+   },
+   {
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
+    "tier": "nano",
+    "stage": "C: confirm (retry)",
+    "tokensIn": 1967,
+    "tokensOut": 694,
+    "latencyMs": 11022,
     "ok": true,
     "id": "c38",
-    "at": 1793284411334
+    "at": 1793292623731
    },
    {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
     "tier": "nano",
-    "stage": "D: mutations",
-    "tokensIn": 616,
-    "tokensOut": 246,
-    "latencyMs": 7688,
+    "stage": "C: confirm (retry)",
+    "tokensIn": 1922,
+    "tokensOut": 533,
+    "latencyMs": 8625,
     "ok": true,
-    "note": "dev cache (original latency)",
     "id": "c39",
-    "at": 1793284411738
+    "at": 1793292627231
    },
    {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
-    "tier": "nano",
-    "stage": "D: mutations",
-    "tokensIn": 634,
-    "tokensOut": 148,
-    "latencyMs": 3119,
-    "ok": true,
-    "note": "dev cache (original latency)",
-    "id": "c40",
-    "at": 1793284411751
-   },
-   {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
-    "tier": "nano",
-    "stage": "D: mutations",
-    "tokensIn": 616,
-    "tokensOut": 197,
-    "latencyMs": 3688,
-    "ok": true,
-    "id": "c41",
-    "at": 1793284415415
-   },
-   {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-super-vl-120b-a12b",
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3.5-Super-VL",
     "tier": "super",
     "stage": "E: cluster",
-    "tokensIn": 1626,
-    "tokensOut": 272,
-    "latencyMs": 2711,
+    "tokensIn": 533,
+    "tokensOut": 111,
+    "latencyMs": 1515,
     "ok": true,
-    "id": "c42",
-    "at": 1793284418174
+    "id": "c40",
+    "at": 1793292628767
    },
    {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3-ultra-550b-a55b",
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3-Ultra-550b-a55b",
     "tier": "ultra",
     "stage": "F: lineage",
-    "tokensIn": 2007,
-    "tokensOut": 1014,
-    "latencyMs": 42146,
+    "tokensIn": 683,
+    "tokensOut": 287,
+    "latencyMs": 2410,
     "ok": true,
-    "id": "c43",
-    "at": 1793284460471
+    "id": "c41",
+    "at": 1793292631179
    },
    {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-super-vl-120b-a12b",
-    "tier": "super",
-    "stage": "D2: review labels",
-    "tokensIn": 1033,
-    "tokensOut": 97,
-    "latencyMs": 6418,
-    "ok": true,
-    "note": "dev cache (original latency)",
-    "id": "c44",
-    "at": 1793284460482
-   },
-   {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-super-vl-120b-a12b",
-    "tier": "super",
-    "stage": "D2: review labels",
-    "tokensIn": 942,
-    "tokensOut": 35,
-    "latencyMs": 1014,
-    "ok": true,
-    "id": "c45",
-    "at": 1793284461492
-   },
-   {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-super-vl-120b-a12b",
-    "tier": "super",
-    "stage": "D3: what changed",
-    "tokensIn": 347,
-    "tokensOut": 23,
-    "latencyMs": 1286,
-    "ok": true,
-    "id": "c46",
-    "at": 1793284463764
-   },
-   {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-super-vl-120b-a12b",
-    "tier": "super",
-    "stage": "D3: what changed",
-    "tokensIn": 328,
-    "tokensOut": 34,
-    "latencyMs": 1424,
-    "ok": true,
-    "note": "+3.0s throttle/retry wait",
-    "id": "c47",
-    "at": 1793284465903
-   },
-   {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-super-vl-120b-a12b",
-    "tier": "super",
-    "stage": "D3: what changed",
-    "tokensIn": 329,
-    "tokensOut": 21,
-    "latencyMs": 4741,
-    "ok": true,
-    "note": "+5.0s throttle/retry wait",
-    "id": "c48",
-    "at": 1793284471220
-   },
-   {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-super-vl-120b-a12b",
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3.5-Super-VL",
     "tier": "super",
     "stage": "G: verdict",
-    "tokensIn": 1274,
-    "tokensOut": 452,
-    "latencyMs": 4865,
+    "tokensIn": 832,
+    "tokensOut": 279,
+    "latencyMs": 2604,
     "ok": true,
-    "id": "c49",
-    "at": 1793284476091
+    "id": "c42",
+    "at": 1793292633791
    }
   ],
-  "totalLatencyMs": 85156,
+  "totalLatencyMs": 63301,
   "pricing": {
    "nano": [
     0.06,
@@ -1284,11 +757,11 @@
     0.9
    ]
   },
-  "llmProvider": "nvidia",
+  "llmProvider": "nebius",
   "fixture": {
    "id": "3-martinelli",
    "title": "“Martinelli” video hacks your phone (WhatsApp hoax)",
-   "generatedAt": "2026-10-29T14:34:36.096Z",
+   "generatedAt": "2026-10-29T16:50:33.792Z",
    "generatedWith": "live"
   }
  }

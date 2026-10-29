@@ -5,7 +5,7 @@
  "description": "A circular from the FICTIONAL Federal Office of Civic Readiness announcing school closures: no official record exists.",
  "investigation": {
   "id": "fixture-4-circular",
-  "createdAt": "2026-10-29T14:34:43.946Z",
+  "createdAt": "2026-10-29T16:51:47.411Z",
   "mode": "live",
   "input": {
    "sourceKind": "pdf",
@@ -37,12 +37,10 @@
   "claims": [
    {
     "claimId": "k0",
-    "claim": "The Federal Office of Civic Readiness announced that all schools nationwide will close for three weeks from Monday 12th October 2026.",
+    "claim": "All schools nationwide will close for three weeks from Monday 12th October 2026.",
     "understanding": {
-     "claim": "All schools nationwide will close for three weeks starting Monday 12th October 2026.",
-     "entities": [
-      "Federal Office of Civic Readiness"
-     ],
+     "claim": "All schools nationwide will close for three weeks from Monday 12th October 2026.",
+     "entities": [],
      "numbers": [
       "12th October 2026",
       "three weeks"
@@ -50,38 +48,74 @@
      "places": [
       "nationwide"
      ],
-     "authorities": [
-      "Federal Office of Civic Readiness"
-     ],
+     "authorities": [],
      "callToAction": null,
      "language": "unknown",
      "queries": [
-      "Federal Office of Civic Readiness announced school closure",
-      "schools nationwide close October 2026",
-      "Federal Office of Civic Readiness 2026 announcement",
-      "schools close for three weeks 2026",
-      "fact check Federal Office of Civic Readiness school closure 2026",
+      "\"All schools nationwide will close\"",
+      "schools nationwide close three weeks",
+      "education closure October 2026 fact check",
+      "nationwide school shutdown October 2026",
+      "school closure 2026 nationwide announcement",
       "\"three weeks from Monday 12th October 2026\"",
-      "\"Office of Civic Readiness announced\""
+      "\"nationwide will close for three weeks\""
      ],
      "keyElements": [
       "school closure",
-      "three weeks duration",
-      "nationwide scope"
+      "nationwide scope",
+      "three-week duration"
      ],
      "inputKind": "circulating_message",
      "sensitive": false
     },
     "variants": [
      {
+      "id": "v17-1ecsh",
+      "text": "All schools will be closed for students on Monday, October 8, for the Columbus Day Holiday. Classes will resume on Tuesday, October 9.",
+      "excerpt": "All schools will be closed for students on Monday, October 8, for the Columbus Day Holiday. Classes will resume on Tuesday, October 9.",
+      "sources": [
+       {
+        "url": "https://www.facebook.com/PGCPRSD/posts/schools-will-be-closed-monday-october-12-2026-in-observance-of-columbus-day/1839019048014849",
+        "title": "Schools will be closed Monday, October 12, 2026 in ...",
+        "excerpt": "All schools will be closed for students on Monday, October 8, for the Columbus Day Holiday. Classes will resume on Tuesday, October 9.",
+        "pageType": "social",
+        "date": "2026-10-15",
+        "dateProvenance": "published_date"
+       }
+      ],
+      "date": "2026-10-15",
+      "dateProvenance": "published_date",
+      "pageType": "social",
+      "isCopy": true
+     },
+     {
+      "id": "v22-lu6v5",
+      "text": "Mike DeWine kicked off the wave of statewide closures Thursday when he announced that all K-12 public, charter and private schools in Ohio will be shut down for three weeks starting Monday to try to contain the spread of the virus. [...] Shortly after the Ohio announcement, Maryland's superintendent announced the state's schools would close for two weeks starting Monday. Other states followed, most closing for two or three weeks.",
+      "excerpt": "Mike DeWine kicked off the wave of statewide closures Thursday when he announced that all K-12 public, charter and private schools in Ohio will be shut down for three weeks starting Monday to try to contain the spread of the virus. [...] Shortly after the Ohio announcement, Maryland's superintendent announced the state's schools would close for two weeks starting Monday. Other states followed, most closing for two or three weeks.",
+      "sources": [
+       {
+        "url": "https://www.usatoday.com/story/news/education/2020/03/12/coronavirus-school-closings-ohio-maryland-washington-seattle-king-closures/5036252002",
+        "title": "Coronavirus school closings: Ohio, Maryland shut all K-12 ...",
+        "excerpt": "Mike DeWine kicked off the wave of statewide closures Thursday when he announced that all K-12 public, charter and private schools in Ohio will be shut down for three weeks starting Monday to try to contain the spread of the virus. [...] Shortly after the Ohio announcement, Maryland's superintendent announced the state's schools would close for two weeks starting Monday. Other states followed, most closing for two or three weeks.",
+        "pageType": "news",
+        "date": "2020-03-12",
+        "dateProvenance": "published_date"
+       }
+      ],
+      "date": "2020-03-12",
+      "dateProvenance": "published_date",
+      "pageType": "news",
+      "isCopy": true
+     },
+     {
       "id": "you",
-      "text": "The Federal Office of Civic Readiness announced that all schools nationwide will close for three weeks from Monday 12th October 2026.",
-      "excerpt": "The Federal Office of Civic Readiness announced that all schools nationwide will close for three weeks from Monday 12th October 2026.",
+      "text": "All schools nationwide will close for three weeks from Monday 12th October 2026.",
+      "excerpt": "All schools nationwide will close for three weeks from Monday 12th October 2026.",
       "sources": [
        {
         "url": "upload:circular-focr.pdf",
         "title": "Your copy",
-        "excerpt": "The Federal Office of Civic Readiness announced that all schools nationwide will close for three weeks from Monday 12th October 2026.",
+        "excerpt": "All schools nationwide will close for three weeks from Monday 12th October 2026.",
         "pageType": "user_input",
         "date": null,
         "dateProvenance": "unknown"
@@ -93,26 +127,62 @@
       "isUserInput": true
      }
     ],
-    "edges": [],
-    "earliestId": null,
+    "edges": [
+     {
+      "from": "v22-lu6v5",
+      "to": "v17-1ecsh",
+      "confidence": "low",
+      "reason": "No mutations; identical core claim about school closures (Confidence capped: wording similarity 0.17.)",
+      "mutations": [],
+      "changeNote": "The later version announces a one-day Columbus Day closure instead of multi-week virus closures.",
+      "spreadJump": false
+     },
+     {
+      "from": "v17-1ecsh",
+      "to": "you",
+      "confidence": "low",
+      "reason": "Inherits closure narrative but changes date, removes authority, expands scope to nationwide (Confidence capped: wording similarity 0.29.)",
+      "mutations": [
+       {
+        "type": "date_changed",
+        "before": "Monday, October 8",
+        "after": "Monday 12th October 2026",
+        "explanation": "October 8 changed to October 12, 2026",
+        "strength": "strong"
+       },
+       {
+        "type": "detail_added",
+        "before": "",
+        "after": "three weeks",
+        "explanation": "Original had no duration; later adds three weeks",
+        "strength": "weak"
+       }
+      ],
+      "changeNote": "The later version changes the closure to all schools nationwide for three weeks starting Monday 12th October 2026.",
+      "spreadJump": false
+     }
+    ],
+    "earliestId": "v22-lu6v5",
     "limited": true,
     "verdict": {
-     "summary": "Rootline found no earlier versions of this message online, so the family is limited. Finding little is not evidence that the message is true or false.",
-     "whatChanged": [],
+     "summary": "Rootline found only 2 related versions of this message online, so the family is limited. Finding little is not evidence that the message is true or false. The earliest found is from 2020-03-12.",
+     "whatChanged": [
+      "October 8 changed to October 12, 2026: Monday, October 8 → Monday 12th October 2026"
+     ],
      "unsupported": [],
      "confidence": "low",
-     "replyCard": "I tried to trace this message before forwarding and couldn't find earlier copies or a fact-check that addresses it. That doesn't mean it's true or false, so it's worth checking an official source before sharing it. 🙏"
+     "replyCard": "I looked this up before forwarding. I found 2 similar versions of this message online, but no fact-check or official source that addresses it directly. That doesn't make it true or false, so it's worth checking an official source before sharing it. 🙏"
     },
     "branches": [],
     "stats": {
      "queries": 7,
      "pagesSearched": 40,
-     "pagesConfirmed": 0,
-     "pairsCompared": 0,
+     "pagesConfirmed": 2,
+     "pairsCompared": 2,
      "mutationReview": {
-      "reviewed": 0,
-      "kept": 0,
-      "retyped": 0,
+      "reviewed": 2,
+      "kept": 1,
+      "retyped": 1,
       "dropped": 0
      }
     },
@@ -133,69 +203,52 @@
   },
   "logs": [
    {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
     "tier": "nano",
     "stage": "claims: extract",
     "tokensIn": 343,
-    "tokensOut": 122,
-    "latencyMs": 3912,
+    "tokensOut": 174,
+    "latencyMs": 3166,
     "ok": true,
-    "note": "dev cache (original latency)",
     "id": "c1",
-    "at": 1793284481076
+    "at": 1793292641776
    },
    {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-super-vl-120b-a12b",
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3.5-Super-VL",
     "tier": "super",
     "stage": "claims: rank",
-    "tokensIn": 149,
-    "tokensOut": 83,
-    "latencyMs": 1201,
+    "tokensIn": 187,
+    "tokensOut": 178,
+    "latencyMs": 1876,
     "ok": true,
-    "note": "dev cache (original latency)",
     "id": "c2",
-    "at": 1793284481081
+    "at": 1793292643655
    },
    {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
     "tier": "nano",
     "stage": "check: official fields",
     "tokensIn": 270,
-    "tokensOut": 106,
-    "latencyMs": 1799,
+    "tokensOut": 98,
+    "latencyMs": 1283,
     "ok": true,
-    "note": "dev cache (original latency)",
     "id": "c3",
-    "at": 1793284481088
+    "at": 1793292644944
    },
    {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
     "tier": "nano",
     "stage": "A: understand",
-    "tokensIn": 289,
-    "tokensOut": 200,
-    "latencyMs": 2950,
+    "tokensIn": 280,
+    "tokensOut": 147,
+    "latencyMs": 3025,
     "ok": true,
-    "note": "dev cache (original latency)",
     "id": "c4",
-    "at": 1793284481091
-   },
-   {
-    "provider": "tavily",
-    "model": "search/basic",
-    "tier": "search",
-    "stage": "check: official",
-    "tokensIn": 0,
-    "tokensOut": 0,
-    "latencyMs": 7,
-    "ok": true,
-    "note": "8 results",
-    "id": "c5",
-    "at": 1793284481097
+    "at": 1793292646687
    },
    {
     "provider": "tavily",
@@ -204,24 +257,37 @@
     "stage": "B: search",
     "tokensIn": 0,
     "tokensOut": 0,
-    "latencyMs": 3,
+    "latencyMs": 3206,
+    "ok": true,
+    "note": "10 results",
+    "id": "c5",
+    "at": 1793292649898
+   },
+   {
+    "provider": "tavily",
+    "model": "search/basic",
+    "tier": "search",
+    "stage": "B: search",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 5510,
     "ok": true,
     "note": "10 results",
     "id": "c6",
-    "at": 1793284481098
+    "at": 1793292652202
    },
    {
     "provider": "tavily",
     "model": "search/basic",
     "tier": "search",
-    "stage": "B: search",
+    "stage": "check: official",
     "tokensIn": 0,
     "tokensOut": 0,
-    "latencyMs": 3,
+    "latencyMs": 7288,
     "ok": true,
-    "note": "10 results",
+    "note": "3 results",
     "id": "c7",
-    "at": 1793284481099
+    "at": 1793292652235
    },
    {
     "provider": "tavily",
@@ -230,11 +296,11 @@
     "stage": "B: search",
     "tokensIn": 0,
     "tokensOut": 0,
-    "latencyMs": 3,
+    "latencyMs": 5835,
     "ok": true,
     "note": "10 results",
     "id": "c8",
-    "at": 1793284481099
+    "at": 1793292652527
    },
    {
     "provider": "tavily",
@@ -243,24 +309,11 @@
     "stage": "B: search",
     "tokensIn": 0,
     "tokensOut": 0,
-    "latencyMs": 4,
+    "latencyMs": 5839,
     "ok": true,
     "note": "10 results",
     "id": "c9",
-    "at": 1793284481100
-   },
-   {
-    "provider": "tavily",
-    "model": "search/basic",
-    "tier": "search",
-    "stage": "check: official",
-    "tokensIn": 0,
-    "tokensOut": 0,
-    "latencyMs": 4,
-    "ok": true,
-    "note": "8 results",
-    "id": "c10",
-    "at": 1793284481102
+    "at": 1793292652531
    },
    {
     "provider": "tavily",
@@ -269,37 +322,24 @@
     "stage": "B: search",
     "tokensIn": 0,
     "tokensOut": 0,
-    "latencyMs": 4,
+    "latencyMs": 3090,
+    "ok": true,
+    "note": "10 results",
+    "id": "c10",
+    "at": 1793292655292
+   },
+   {
+    "provider": "tavily",
+    "model": "search/basic",
+    "tier": "search",
+    "stage": "B: search",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 5972,
     "ok": true,
     "note": "10 results",
     "id": "c11",
-    "at": 1793284481102
-   },
-   {
-    "provider": "tavily",
-    "model": "search/basic",
-    "tier": "search",
-    "stage": "B: search",
-    "tokensIn": 0,
-    "tokensOut": 0,
-    "latencyMs": 4,
-    "ok": true,
-    "note": "10 results",
-    "id": "c12",
-    "at": 1793284481103
-   },
-   {
-    "provider": "tavily",
-    "model": "search/basic",
-    "tier": "search",
-    "stage": "B: search",
-    "tokensIn": 0,
-    "tokensOut": 0,
-    "latencyMs": 4,
-    "ok": true,
-    "note": "10 results",
-    "id": "c13",
-    "at": 1793284481103
+    "at": 1793292655870
    },
    {
     "provider": "tavily",
@@ -308,11 +348,37 @@
     "stage": "check: official",
     "tokensIn": 0,
     "tokensOut": 0,
-    "latencyMs": 3,
+    "latencyMs": 4596,
     "ok": true,
     "note": "8 results",
+    "id": "c12",
+    "at": 1793292656831
+   },
+   {
+    "provider": "tavily",
+    "model": "search/basic",
+    "tier": "search",
+    "stage": "B: search",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 7339,
+    "ok": true,
+    "note": "10 results",
+    "id": "c13",
+    "at": 1793292659867
+   },
+   {
+    "provider": "tavily",
+    "model": "search/basic",
+    "tier": "search",
+    "stage": "check: official",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 9212,
+    "ok": true,
+    "note": "0 results",
     "id": "c14",
-    "at": 1793284481105
+    "at": 1793292666043
    },
    {
     "provider": "tavily",
@@ -321,11 +387,11 @@
     "stage": "B: extract",
     "tokensIn": 0,
     "tokensOut": 0,
-    "latencyMs": 6,
+    "latencyMs": 10479,
     "ok": true,
-    "note": "16 ok, 4 failed",
+    "note": "15 ok, 5 failed",
     "id": "c15",
-    "at": 1793284481109
+    "at": 1793292670346
    },
    {
     "provider": "tavily",
@@ -334,11 +400,23 @@
     "stage": "check: official (gov domains)",
     "tokensIn": 0,
     "tokensOut": 0,
-    "latencyMs": 6,
+    "latencyMs": 8801,
     "ok": true,
     "note": "6 results",
     "id": "c16",
-    "at": 1793284481111
+    "at": 1793292674844
+   },
+   {
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
+    "tier": "nano",
+    "stage": "check: official",
+    "tokensIn": 2264,
+    "tokensOut": 24,
+    "latencyMs": 1707,
+    "ok": true,
+    "id": "c17",
+    "at": 1793292676552
    },
    {
     "provider": "tavily",
@@ -347,469 +425,530 @@
     "stage": "B: extract",
     "tokensIn": 0,
     "tokensOut": 0,
-    "latencyMs": 4,
+    "latencyMs": 12287,
     "ok": true,
-    "note": "16 ok, 4 failed",
-    "id": "c17",
-    "at": 1793284481113
-   },
-   {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
-    "tier": "nano",
-    "stage": "C: confirm",
-    "tokensIn": 1507,
-    "tokensOut": 178,
-    "latencyMs": 12531,
-    "ok": true,
-    "note": "dev cache (original latency)",
+    "note": "15 ok, 5 failed",
     "id": "c18",
-    "at": 1793284481580
+    "at": 1793292682633
    },
    {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
     "tier": "nano",
-    "stage": "check: official",
-    "tokensIn": 1434,
-    "tokensOut": 24,
-    "latencyMs": 609,
+    "stage": "C: confirm",
+    "tokensIn": 2434,
+    "tokensOut": 57,
+    "latencyMs": 1683,
     "ok": true,
-    "note": "dev cache (original latency)",
     "id": "c19",
-    "at": 1793284481743
+    "at": 1793292684558
    },
    {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
-    "tier": "nano",
-    "stage": "C: confirm",
-    "tokensIn": 1411,
-    "tokensOut": 64,
-    "latencyMs": 4662,
-    "ok": true,
-    "note": "dev cache (original latency)",
-    "id": "c20",
-    "at": 1793284481745
-   },
-   {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
-    "tier": "nano",
-    "stage": "C: confirm",
-    "tokensIn": 1310,
-    "tokensOut": 177,
-    "latencyMs": 7791,
-    "ok": true,
-    "note": "dev cache (original latency)",
-    "id": "c21",
-    "at": 1793284481881
-   },
-   {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
     "tier": "nano",
     "stage": "C: confirm",
     "tokensIn": 898,
-    "tokensOut": 59,
-    "latencyMs": 7685,
+    "tokensOut": 50,
+    "latencyMs": 2320,
     "ok": true,
-    "note": "dev cache (original latency)",
+    "id": "c20",
+    "at": 1793292685197
+   },
+   {
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
+    "tier": "nano",
+    "stage": "C: confirm",
+    "tokensIn": 1088,
+    "tokensOut": 90,
+    "latencyMs": 2402,
+    "ok": true,
+    "id": "c21",
+    "at": 1793292685328
+   },
+   {
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
+    "tier": "nano",
+    "stage": "C: confirm",
+    "tokensIn": 1405,
+    "tokensOut": 85,
+    "latencyMs": 821,
+    "ok": true,
     "id": "c22",
-    "at": 1793284481987
+    "at": 1793292685461
    },
    {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
     "tier": "nano",
     "stage": "C: confirm",
-    "tokensIn": 643,
-    "tokensOut": 105,
-    "latencyMs": 21468,
-    "ok": true,
-    "note": "dev cache (original latency)",
-    "id": "c23",
-    "at": 1793284481994
-   },
-   {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
-    "tier": "nano",
-    "stage": "C: confirm",
-    "tokensIn": 1704,
-    "tokensOut": 234,
-    "latencyMs": 11289,
-    "ok": true,
-    "note": "dev cache (original latency)",
-    "id": "c24",
-    "at": 1793284482095
-   },
-   {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
-    "tier": "nano",
-    "stage": "C: confirm",
-    "tokensIn": 1900,
-    "tokensOut": 192,
-    "latencyMs": 6923,
-    "ok": true,
-    "note": "dev cache (original latency)",
-    "id": "c25",
-    "at": 1793284482234
-   },
-   {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
-    "tier": "nano",
-    "stage": "C: confirm",
-    "tokensIn": 1737,
+    "tokensIn": 613,
     "tokensOut": 82,
-    "latencyMs": 3550,
+    "latencyMs": 2827,
     "ok": true,
-    "note": "dev cache (original latency)",
+    "id": "c23",
+    "at": 1793292685705
+   },
+   {
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
+    "tier": "nano",
+    "stage": "C: confirm",
+    "tokensIn": 1217,
+    "tokensOut": 163,
+    "latencyMs": 3578,
+    "ok": true,
+    "id": "c24",
+    "at": 1793292686454
+   },
+   {
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
+    "tier": "nano",
+    "stage": "C: confirm",
+    "tokensIn": 1500,
+    "tokensOut": 50,
+    "latencyMs": 790,
+    "ok": true,
+    "id": "c25",
+    "at": 1793292686585
+   },
+   {
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
+    "tier": "nano",
+    "stage": "C: confirm",
+    "tokensIn": 608,
+    "tokensOut": 96,
+    "latencyMs": 4257,
+    "ok": true,
     "id": "c26",
-    "at": 1793284482352
+    "at": 1793292687135
    },
    {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
     "tier": "nano",
     "stage": "C: confirm",
-    "tokensIn": 650,
-    "tokensOut": 137,
-    "latencyMs": 3234,
+    "tokensIn": 1622,
+    "tokensOut": 331,
+    "latencyMs": 2448,
     "ok": true,
-    "note": "dev cache (original latency)",
     "id": "c27",
-    "at": 1793284482416
+    "at": 1793292687864
    },
    {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
     "tier": "nano",
     "stage": "C: confirm",
-    "tokensIn": 1189,
-    "tokensOut": 59,
-    "latencyMs": 2952,
+    "tokensIn": 1347,
+    "tokensOut": 183,
+    "latencyMs": 1505,
     "ok": true,
-    "note": "dev cache (original latency)",
     "id": "c28",
-    "at": 1793284482482
+    "at": 1793292688086
    },
    {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
+    "tier": "nano",
+    "stage": "C: confirm",
+    "tokensIn": 1267,
+    "tokensOut": 185,
+    "latencyMs": 2873,
+    "ok": true,
+    "id": "c29",
+    "at": 1793292688190
+   },
+   {
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
     "tier": "nano",
     "stage": "C: confirm",
     "tokensIn": 1994,
     "tokensOut": 50,
+    "latencyMs": 1212,
+    "ok": true,
+    "id": "c30",
+    "at": 1793292688485
+   },
+   {
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
+    "tier": "nano",
+    "stage": "C: confirm",
+    "tokensIn": 886,
+    "tokensOut": 50,
+    "latencyMs": 766,
+    "ok": true,
+    "id": "c31",
+    "at": 1793292688662
+   },
+   {
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
+    "tier": "nano",
+    "stage": "C: confirm",
+    "tokensIn": 643,
+    "tokensOut": 95,
+    "latencyMs": 1131,
+    "ok": true,
+    "id": "c32",
+    "at": 1793292689236
+   },
+   {
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
+    "tier": "nano",
+    "stage": "C: confirm",
+    "tokensIn": 1251,
+    "tokensOut": 167,
+    "latencyMs": 4377,
+    "ok": true,
+    "id": "c33",
+    "at": 1793292689910
+   },
+   {
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
+    "tier": "nano",
+    "stage": "C: confirm",
+    "tokensIn": 1612,
+    "tokensOut": 196,
+    "latencyMs": 3299,
+    "ok": true,
+    "id": "c34",
+    "at": 1793292690000
+   },
+   {
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
+    "tier": "nano",
+    "stage": "C: confirm",
+    "tokensIn": 825,
+    "tokensOut": 56,
+    "latencyMs": 1234,
+    "ok": true,
+    "id": "c35",
+    "at": 1793292690489
+   },
+   {
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
+    "tier": "nano",
+    "stage": "C: confirm",
+    "tokensIn": 1545,
+    "tokensOut": 253,
+    "latencyMs": 2312,
+    "ok": true,
+    "id": "c36",
+    "at": 1793292690631
+   },
+   {
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
+    "tier": "nano",
+    "stage": "C: confirm",
+    "tokensIn": 628,
+    "tokensOut": 69,
+    "latencyMs": 1422,
+    "ok": true,
+    "id": "c37",
+    "at": 1793292691437
+   },
+   {
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
+    "tier": "nano",
+    "stage": "C: confirm",
+    "tokensIn": 1335,
+    "tokensOut": 100,
+    "latencyMs": 1700,
+    "ok": true,
+    "id": "c38",
+    "at": 1793292691698
+   },
+   {
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
+    "tier": "nano",
+    "stage": "C: confirm",
+    "tokensIn": 1645,
+    "tokensOut": 217,
+    "latencyMs": 3150,
+    "ok": true,
+    "id": "c39",
+    "at": 1793292691802
+   },
+   {
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
+    "tier": "nano",
+    "stage": "C: confirm",
+    "tokensIn": 1345,
+    "tokensOut": 50,
+    "latencyMs": 1185,
+    "ok": true,
+    "id": "c40",
+    "at": 1793292691913
+   },
+   {
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
+    "tier": "nano",
+    "stage": "C: confirm",
+    "tokensIn": 665,
+    "tokensOut": 207,
+    "latencyMs": 3346,
+    "ok": true,
+    "id": "c41",
+    "at": 1793292692022
+   },
+   {
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
+    "tier": "nano",
+    "stage": "C: confirm",
+    "tokensIn": 639,
+    "tokensOut": 109,
     "latencyMs": 1690,
     "ok": true,
-    "note": "dev cache (original latency)",
-    "id": "c29",
-    "at": 1793284482537
-   },
-   {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
-    "tier": "nano",
-    "stage": "C: confirm",
-    "tokensIn": 1394,
-    "tokensOut": 230,
-    "latencyMs": 9998,
-    "ok": true,
-    "note": "dev cache (original latency)",
-    "id": "c30",
-    "at": 1793284482631
-   },
-   {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
-    "tier": "nano",
-    "stage": "C: confirm",
-    "tokensIn": 1509,
-    "tokensOut": 272,
-    "latencyMs": 5865,
-    "ok": true,
-    "note": "dev cache (original latency)",
-    "id": "c31",
-    "at": 1793284482731
-   },
-   {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
-    "tier": "nano",
-    "stage": "C: confirm",
-    "tokensIn": 1367,
-    "tokensOut": 210,
-    "latencyMs": 3997,
-    "ok": true,
-    "note": "dev cache (original latency)",
-    "id": "c32",
-    "at": 1793284482836
-   },
-   {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
-    "tier": "nano",
-    "stage": "C: confirm",
-    "tokensIn": 1174,
-    "tokensOut": 210,
-    "latencyMs": 10170,
-    "ok": true,
-    "note": "dev cache (original latency)",
-    "id": "c33",
-    "at": 1793284482845
-   },
-   {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
-    "tier": "nano",
-    "stage": "C: confirm",
-    "tokensIn": 1238,
-    "tokensOut": 145,
-    "latencyMs": 3069,
-    "ok": true,
-    "note": "dev cache (original latency)",
-    "id": "c34",
-    "at": 1793284482856
-   },
-   {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
-    "tier": "nano",
-    "stage": "C: confirm",
-    "tokensIn": 1543,
-    "tokensOut": 125,
-    "latencyMs": 3680,
-    "ok": true,
-    "note": "dev cache (original latency)",
-    "id": "c35",
-    "at": 1793284482950
-   },
-   {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
-    "tier": "nano",
-    "stage": "C: confirm",
-    "tokensIn": 1501,
-    "tokensOut": 188,
-    "latencyMs": 12573,
-    "ok": true,
-    "note": "dev cache (original latency)",
-    "id": "c36",
-    "at": 1793284483025
-   },
-   {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
-    "tier": "nano",
-    "stage": "C: confirm",
-    "tokensIn": 1396,
-    "tokensOut": 59,
-    "latencyMs": 2145,
-    "ok": true,
-    "note": "dev cache (original latency)",
-    "id": "c37",
-    "at": 1793284483152
-   },
-   {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
-    "tier": "nano",
-    "stage": "C: confirm",
-    "tokensIn": 649,
-    "tokensOut": 78,
-    "latencyMs": 4956,
-    "ok": true,
-    "note": "dev cache (original latency)",
-    "id": "c38",
-    "at": 1793284483251
-   },
-   {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
-    "tier": "nano",
-    "stage": "C: confirm",
-    "tokensIn": 1405,
-    "tokensOut": 124,
-    "latencyMs": 2929,
-    "ok": true,
-    "note": "dev cache (original latency)",
-    "id": "c39",
-    "at": 1793284483380
-   },
-   {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
-    "tier": "nano",
-    "stage": "C: confirm",
-    "tokensIn": 2056,
-    "tokensOut": 226,
-    "latencyMs": 6572,
-    "ok": true,
-    "note": "dev cache (original latency)",
-    "id": "c40",
-    "at": 1793284483460
-   },
-   {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
-    "tier": "nano",
-    "stage": "C: confirm",
-    "tokensIn": 657,
-    "tokensOut": 59,
-    "latencyMs": 1363,
-    "ok": true,
-    "note": "dev cache (original latency)",
-    "id": "c41",
-    "at": 1793284483535
-   },
-   {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
-    "tier": "nano",
-    "stage": "C: confirm",
-    "tokensIn": 933,
-    "tokensOut": 59,
-    "latencyMs": 1703,
-    "ok": true,
-    "note": "dev cache (original latency)",
     "id": "c42",
-    "at": 1793284483620
+    "at": 1793292692185
    },
    {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
     "tier": "nano",
     "stage": "C: confirm",
-    "tokensIn": 1921,
-    "tokensOut": 201,
-    "latencyMs": 3656,
+    "tokensIn": 1706,
+    "tokensOut": 183,
+    "latencyMs": 2434,
     "ok": true,
-    "note": "dev cache (original latency)",
     "id": "c43",
-    "at": 1793284483639
+    "at": 1793292693975
    },
    {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
     "tier": "nano",
     "stage": "C: confirm",
-    "tokensIn": 1301,
-    "tokensOut": 65,
-    "latencyMs": 4119,
+    "tokensIn": 1607,
+    "tokensOut": 130,
+    "latencyMs": 2027,
     "ok": true,
-    "note": "dev cache (original latency)",
     "id": "c44",
-    "at": 1793284483728
+    "at": 1793292694206
    },
    {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
     "tier": "nano",
     "stage": "C: confirm",
-    "tokensIn": 1332,
-    "tokensOut": 157,
-    "latencyMs": 5943,
+    "tokensIn": 1302,
+    "tokensOut": 156,
+    "latencyMs": 2720,
     "ok": true,
-    "note": "dev cache (original latency)",
     "id": "c45",
-    "at": 1793284483746
+    "at": 1793292694516
    },
    {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
     "tier": "nano",
     "stage": "C: confirm",
-    "tokensIn": 1409,
-    "tokensOut": 59,
-    "latencyMs": 3343,
+    "tokensIn": 1696,
+    "tokensOut": 196,
+    "latencyMs": 2844,
     "ok": true,
-    "note": "dev cache (original latency)",
     "id": "c46",
-    "at": 1793284483812
+    "at": 1793292695232
    },
    {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
     "tier": "nano",
     "stage": "C: confirm",
-    "tokensIn": 1949,
-    "tokensOut": 217,
-    "latencyMs": 9878,
+    "tokensIn": 1443,
+    "tokensOut": 240,
+    "latencyMs": 3355,
     "ok": true,
-    "note": "dev cache (original latency)",
     "id": "c47",
-    "at": 1793284483904
+    "at": 1793292695266
    },
    {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
     "tier": "nano",
     "stage": "C: confirm",
-    "tokensIn": 807,
-    "tokensOut": 59,
-    "latencyMs": 1854,
+    "tokensIn": 626,
+    "tokensOut": 66,
+    "latencyMs": 1202,
     "ok": true,
-    "note": "dev cache (original latency)",
     "id": "c48",
-    "at": 1793284483915
+    "at": 1793292695420
    },
    {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
     "tier": "nano",
     "stage": "C: confirm",
-    "tokensIn": 1366,
-    "tokensOut": 111,
-    "latencyMs": 3155,
+    "tokensIn": 1416,
+    "tokensOut": 272,
+    "latencyMs": 4438,
     "ok": true,
-    "note": "dev cache (original latency)",
     "id": "c49",
-    "at": 1793284483919
+    "at": 1793292696455
    },
    {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
     "tier": "nano",
     "stage": "C: confirm",
-    "tokensIn": 677,
-    "tokensOut": 59,
-    "latencyMs": 2190,
+    "tokensIn": 1476,
+    "tokensOut": 57,
+    "latencyMs": 1581,
     "ok": true,
-    "note": "dev cache (original latency)",
     "id": "c50",
-    "at": 1793284483927
+    "at": 1793292696950
    },
    {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
     "tier": "nano",
     "stage": "C: confirm",
-    "tokensIn": 1243,
-    "tokensOut": 59,
-    "latencyMs": 1505,
+    "tokensIn": 627,
+    "tokensOut": 100,
+    "latencyMs": 1898,
     "ok": true,
-    "note": "dev cache (original latency)",
     "id": "c51",
-    "at": 1793284483928
+    "at": 1793292697153
    },
    {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
     "tier": "nano",
     "stage": "C: confirm",
-    "tokensIn": 1360,
-    "tokensOut": 133,
-    "latencyMs": 2830,
+    "tokensIn": 1298,
+    "tokensOut": 186,
+    "latencyMs": 2077,
     "ok": true,
-    "note": "dev cache (original latency)",
     "id": "c52",
-    "at": 1793284483935
+    "at": 1793292697606
+   },
+   {
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
+    "tier": "nano",
+    "stage": "C: confirm",
+    "tokensIn": 1579,
+    "tokensOut": 205,
+    "latencyMs": 4208,
+    "ok": true,
+    "id": "c53",
+    "at": 1793292698302
+   },
+   {
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
+    "tier": "nano",
+    "stage": "C: confirm",
+    "tokensIn": 2060,
+    "tokensOut": 191,
+    "latencyMs": 1757,
+    "ok": true,
+    "id": "c54",
+    "at": 1793292698336
+   },
+   {
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
+    "tier": "nano",
+    "stage": "C: confirm",
+    "tokensIn": 1407,
+    "tokensOut": 164,
+    "latencyMs": 3935,
+    "ok": true,
+    "id": "c55",
+    "at": 1793292698607
+   },
+   {
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
+    "tier": "nano",
+    "stage": "D: mutations",
+    "tokensIn": 572,
+    "tokensOut": 180,
+    "latencyMs": 1194,
+    "ok": true,
+    "id": "c56",
+    "at": 1793292699818
+   },
+   {
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3-Ultra-550b-a55b",
+    "tier": "ultra",
+    "stage": "F: lineage",
+    "tokensIn": 510,
+    "tokensOut": 208,
+    "latencyMs": 1380,
+    "ok": true,
+    "id": "c57",
+    "at": 1793292701205
+   },
+   {
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3_5-Lightning",
+    "tier": "nano",
+    "stage": "D: mutations",
+    "tokensIn": 517,
+    "tokensOut": 95,
+    "latencyMs": 877,
+    "ok": true,
+    "id": "c58",
+    "at": 1793292702084
+   },
+   {
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3.5-Super-VL",
+    "tier": "super",
+    "stage": "D2: review labels",
+    "tokensIn": 875,
+    "tokensOut": 51,
+    "latencyMs": 1442,
+    "ok": true,
+    "id": "c59",
+    "at": 1793292703528
+   },
+   {
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3.5-Super-VL",
+    "tier": "super",
+    "stage": "D3: what changed",
+    "tokensIn": 294,
+    "tokensOut": 24,
+    "latencyMs": 1216,
+    "ok": true,
+    "id": "c60",
+    "at": 1793292704747
+   },
+   {
+    "provider": "nebius",
+    "model": "nvidia/Nemotron-3.5-Super-VL",
+    "tier": "super",
+    "stage": "D3: what changed",
+    "tokensIn": 230,
+    "tokensOut": 32,
+    "latencyMs": 3877,
+    "ok": true,
+    "id": "c61",
+    "at": 1793292707409
    }
   ],
-  "totalLatencyMs": 2862,
+  "totalLatencyMs": 63754,
   "pricing": {
    "nano": [
     0.06,
@@ -828,11 +967,11 @@
     0.9
    ]
   },
-  "llmProvider": "nvidia",
+  "llmProvider": "nebius",
   "fixture": {
    "id": "4-circular",
    "title": "Circular from a fictional organisation",
-   "generatedAt": "2026-10-29T14:34:43.946Z",
+   "generatedAt": "2026-10-29T16:51:47.412Z",
    "generatedWith": "live"
   }
  }
