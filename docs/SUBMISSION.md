@@ -39,7 +39,7 @@ You paste a forward, upload a screenshot or a PDF/Word/Excel/PowerPoint file. Ro
 It is built to be honest. Dates always say where they came from. Edges are inferences, never certainties. Rootline never calls anything "fake": it says *"No evidence this post exists"* or *"No official record found. Verify directly with the organization before acting."* When it finds little, it shows a "Limited family found" state instead of padding the tree.
 
 ## How we built it
-- **Next.js (App Router) + TypeScript + Tailwind**, deployed on **Vercel**; React Flow for the animated tree; server-sent events stream every stage.
+- **Next.js (App Router) + TypeScript + Tailwind**, deployed on **Vercel**; a custom SVG “root system” view (top-down, grows by date) for the lineage tree; server-sent events stream every stage.
 - **NVIDIA Nemotron, routed by job:** a small Nemotron model does the high-volume work (query planning, page-by-page checks, change detection); **Nemotron Super** clusters versions, **reviews every change label against the exact text** (it can keep, retype or drop a label but never invent one) and writes the verdict; **Nemotron Ultra** makes one hard call per claim to refine the lineage tree, starting from an algorithmic baseline and never allowed to add nodes. A vision-language model reads screenshots; Tesseract OCR is the fallback. Every output is validated with Zod.
 - **Tavily** is the backbone: verbatim-phrase and paraphrase queries, page extraction for exact quotes, domain-aware searches for the post-exists and official checks, published dates for ordering.
 - **Provider-agnostic by design:** the whole app talks to any OpenAI-compatible endpoint. Switching providers is only environment variables. **[CONFIRM AFTER NEBIUS RUN]** The deployed demo uses Nebius Token Factory.
@@ -72,7 +72,7 @@ It is built to be honest. Dates always say where they came from. Edges are infer
 - Organisation workspaces with sign-in, alerts when a watched rumor changes, and an API for newsroom tools.
 
 ## Built with
-Nebius Token Factory · NVIDIA Nemotron (Nano-class Lightning, Super, Ultra, vision-language) · Tavily · Next.js · TypeScript · Tailwind CSS · React Flow · Zod · Supabase · pdf.js · mammoth · SheetJS · Tesseract.js · Vercel
+Nebius Token Factory · NVIDIA Nemotron (Nano-class Lightning, Super, Ultra, vision-language) · Tavily · Next.js · TypeScript · Tailwind CSS · Zod · Supabase · pdf.js · mammoth · SheetJS · Tesseract.js · Vercel
 
 ## Try it out
 - Live demo: `<VERCEL URL: add after the Nebius deployment>`

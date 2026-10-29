@@ -74,7 +74,7 @@ export function ResultView({ state, input, shareable = true }: { state: Pick<Run
 
       {variants.length > 0 && result?.kind !== "general" && (
         <div className={`grid gap-4 ${selectedVariant ? "lg:grid-cols-[1fr_360px]" : ""}`}>
-          <div className="space-y-3">
+          <div className="min-w-0 space-y-3">
             <div className="flex flex-wrap items-center justify-between gap-2">
               <h2 className="text-base font-semibold">
                 Likely lineage <span className="font-normal text-muted">· {variants.filter((v) => !v.isUserInput).length} versions found</span>

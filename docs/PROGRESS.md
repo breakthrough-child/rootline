@@ -99,3 +99,6 @@ See `docs/DEMO_SCRIPT.md`. Perfume gives the strongest origin story; Martinelli 
 ## Still to do (people)
 
 See the final report / `docs/TEAMMATE_DEPLOY.md` Step 8: deploy on Nebius, run `npm run verify-nebius`, `npm run fixtures`, re-record the shots marked in `docs/DEMO_SCRIPT.md`, resolve the `[CONFIRM AFTER NEBIUS RUN]` lines in `docs/SUBMISSION.md`, add the URLs, submit.
+
+## Root-system lineage view
+The lineage tree is now a top-down "root system": earliest version at the top, year scale on the left, copies as compact cards, tapering curved branches (thicker = more descendants, dotted = low confidence), evidence pages as leaf markers, strong changes as chips on the branch, grow-in animation (off under prefers-reduced-motion). Pure layout in `src/lib/rootLayout.ts` (tested in `tests/rootLayout.test.ts`); renderer in `src/components/TreeView.tsx`. Data and honesty rules unchanged; `@xyflow/react` removed.

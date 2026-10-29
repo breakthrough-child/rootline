@@ -19,6 +19,12 @@
   --blue: #2457a6;
   --blue-soft: #e4ecf8;
   --shadow: 0 1px 2px rgb(0 0 0 / 0.04), 0 4px 16px rgb(0 0 0 / 0.05);
+  --bark: #7a5b3d;
+  --bark-soft: #a58a68;
+  --moss: #5d7d46;
+  --leaf-fact: #5f8f58;
+  --leaf-official: #4c7d98;
+  --leaf-news: #a8873f;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -39,6 +45,12 @@
     --blue: #8db4f0;
     --blue-soft: #1c2a40;
     --shadow: 0 1px 2px rgb(0 0 0 / 0.3), 0 4px 16px rgb(0 0 0 / 0.25);
+    --bark: #b8946a;
+    --bark-soft: #8a735a;
+    --moss: #8db070;
+    --leaf-fact: #86b57c;
+    --leaf-official: #7fb0cc;
+    --leaf-news: #d1ad63;
   }
 }
 :root[data-theme="dark"] {
@@ -58,6 +70,12 @@
   --blue: #8db4f0;
   --blue-soft: #1c2a40;
   --shadow: 0 1px 2px rgb(0 0 0 / 0.3), 0 4px 16px rgb(0 0 0 / 0.25);
+  --bark: #b8946a;
+  --bark-soft: #8a735a;
+  --moss: #8db070;
+  --leaf-fact: #86b57c;
+  --leaf-official: #7fb0cc;
+  --leaf-news: #d1ad63;
 }
 
 @theme inline {
@@ -103,17 +121,21 @@ body {
 }
 .node-in { animation: node-in 380ms ease-out both; }
 
+/* Root-system view: the roots grow downward from the origin, node by node. */
+@keyframes rt-grow { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+.rt-clip-rect { transform-box: fill-box; transform-origin: 50% 0%; animation: rt-grow 1.7s cubic-bezier(.3,.6,.3,1) both; }
+@keyframes rt-pop { from { opacity: 0; transform: translateY(-8px) scale(.96); } to { opacity: 1; transform: none; } }
+.rt-pop { animation: rt-pop 450ms ease-out both; animation-delay: var(--rt-delay, 0ms); }
+@keyframes rt-fade { from { opacity: 0; } to { opacity: 1; } }
+.rt-fade { animation: rt-fade 500ms ease-out both; animation-delay: var(--rt-delay, 0ms); }
+
 @keyframes pulse-dot {
   0%, 100% { opacity: 0.35; }
   50% { opacity: 1; }
 }
 .pulse-dot { animation: pulse-dot 1.2s ease-in-out infinite; }
 
-/* React Flow theming */
-.react-flow__attribution { display: none; }
-.react-flow__controls button { background: var(--surface); border-color: var(--border); color: var(--ink); fill: var(--ink); }
-.react-flow__edge-path { stroke: var(--muted); }
 
 @media (prefers-reduced-motion: reduce) {
-  .node-in, .pulse-dot { animation: none; }
+  .node-in, .pulse-dot, .rt-clip-rect, .rt-pop, .rt-fade { animation: none; }
 }
