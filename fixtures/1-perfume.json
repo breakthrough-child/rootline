@@ -5,7 +5,7 @@
  "description": "A text forward claiming kidnappers drug women with perfume samples, traced from a 2001 email hoax.",
  "investigation": {
   "id": "fixture-1-perfume",
-  "createdAt": "2026-10-28T16:32:48.807Z",
+  "createdAt": "2026-10-29T11:33:56.967Z",
   "mode": "live",
   "input": {
    "sourceKind": "text",
@@ -55,7 +55,9 @@
       "free perfume samples",
       "faint after smelling",
       "kidney/harvest organs"
-     ]
+     ],
+     "inputKind": "circulating_message",
+     "sensitive": true
     },
     "variants": [
      {
@@ -76,7 +78,7 @@
       "dateProvenance": "published_date",
       "pageType": "official",
       "isCopy": false,
-      "branch": "stranger samples kidnapping"
+      "branch": "public place kidnapping"
      },
      {
       "id": "v3-4xoah",
@@ -96,7 +98,7 @@
       "dateProvenance": "published_date",
       "pageType": "official",
       "isCopy": false,
-      "branch": "stranger samples kidnapping"
+      "branch": "public place kidnapping"
      },
      {
       "id": "v8-1m1zq",
@@ -119,26 +121,6 @@
       "branch": "mailed poisonous samples"
      },
      {
-      "id": "v11-103qe",
-      "text": "Have you seen this chain message claiming women died after inhaling poisonous free perfume samples that were mailed to them?",
-      "excerpt": "Have you seen this chain message claiming women died after inhaling poisonous free perfume samples that were mailed to them?",
-      "sources": [
-       {
-        "url": "https://www.facebook.com/FOX61News/posts/have-you-seen-this-chain-message-claiming-women-died-after-inhaling-poisonous-fr/843911190659693",
-        "title": "Have you seen this chain message claiming women died ...",
-        "excerpt": "Have you seen this chain message claiming women died after inhaling poisonous free perfume samples that were mailed to them?",
-        "pageType": "news",
-        "date": null,
-        "dateProvenance": "unknown"
-       }
-      ],
-      "date": null,
-      "dateProvenance": "unknown",
-      "pageType": "news",
-      "isCopy": false,
-      "branch": "mailed poisonous samples"
-     },
-     {
       "id": "v14-yh5zn",
       "text": "Seven women have died from sniffing perfume samples they received in the mail.",
       "excerpt": "Seven women have died from sniffing perfume samples they received in the mail.",
@@ -152,10 +134,10 @@
         "dateProvenance": "published_date"
        },
        {
-        "url": "https://www.facebook.com/HighCoSheriff/posts/rumor-control-we-have-absolutely-no-indication-that-this-is-true-especially-not-/2078395902256995",
-        "title": "Rumor control: We have absolutely no indication that this is ...",
-        "excerpt": "The \"perfume shock\" story is a popular online warning about thieves offering free perfume samples in public places to rob people. The myth",
-        "pageType": "official",
+        "url": "https://www.facebook.com/FOX61News/posts/have-you-seen-this-chain-message-claiming-women-died-after-inhaling-poisonous-fr/843911190659693",
+        "title": "Have you seen this chain message claiming women died ...",
+        "excerpt": "Have you seen this chain message claiming women died after inhaling poisonous free perfume samples that were mailed to them?",
+        "pageType": "news",
         "date": null,
         "dateProvenance": "unknown"
        }
@@ -167,24 +149,24 @@
       "branch": "mailed poisonous samples"
      },
      {
-      "id": "v38-36up9",
-      "text": "video-cover Nordstrom at The SoNo Collection Not me having other customers jump on the wagon too. Ask for the labels!",
-      "excerpt": "video-cover Nordstrom at The SoNo Collection Not me having other customers jump on the wagon too. Ask for the labels!!",
+      "id": "v32-1b1ay",
+      "text": "The \"perfume shock\" story is a popular online warning about thieves offering free perfume samples in public places to rob people. The myth",
+      "excerpt": "The \"perfume shock\" story is a popular online warning about thieves offering free perfume samples in public places to rob people. The myth",
       "sources": [
        {
-        "url": "https://www.tiktok.com/@suchafoodie225/video/7508854428900855086",
-        "title": "Not me having other customers jump on the wagon too. ...",
-        "excerpt": "video-cover Nordstrom at The SoNo Collection Not me having other customers jump on the wagon too. Ask for the labels!!",
-        "pageType": "social",
+        "url": "https://www.facebook.com/HighCoSheriff/posts/rumor-control-we-have-absolutely-no-indication-that-this-is-true-especially-not-/2078395902256995",
+        "title": "Rumor control: We have absolutely no indication that this is ...",
+        "excerpt": "The \"perfume shock\" story is a popular online warning about thieves offering free perfume samples in public places to rob people. The myth",
+        "pageType": "official",
         "date": null,
         "dateProvenance": "unknown"
        }
       ],
       "date": null,
       "dateProvenance": "unknown",
-      "pageType": "social",
-      "isCopy": true,
-      "branch": "unrelated Nordstrom video"
+      "pageType": "official",
+      "isCopy": false,
+      "branch": "public place kidnapping"
      },
      {
       "id": "you",
@@ -204,7 +186,7 @@
       "dateProvenance": "unknown",
       "pageType": "user_input",
       "isUserInput": true,
-      "branch": "stranger samples kidnapping"
+      "branch": "public place kidnapping"
      }
     ],
     "edges": [
@@ -212,7 +194,7 @@
       "from": "v8-1m1zq",
       "to": "v14-yh5zn",
       "confidence": "medium",
-      "reason": "v14-yh5zn removes authority and detail from v8-1m1zq, dated 2006 after 2001 (Confidence capped: wording similarity 0.40.)",
+      "reason": "v14 removes hospital authority and death toll from v8 (Confidence capped: wording similarity 0.40.)",
       "mutations": [
        {
         "type": "authority_removed",
@@ -225,27 +207,10 @@
       "spreadJump": false
      },
      {
-      "from": "v8-1m1zq",
-      "to": "v11-103qe",
-      "confidence": "medium",
-      "reason": "v11-103qe references the chain message from v8-1m1zq, undated but logically later",
-      "mutations": [],
-      "evidenceOnly": true,
-      "spreadJump": false
-     },
-     {
-      "from": "v8-1m1zq",
-      "to": "v38-36up9",
-      "confidence": "low",
-      "reason": "v38-36up9 undated social video, mutation shows none from v8-1m1zq",
-      "mutations": [],
-      "spreadJump": false
-     },
-     {
       "from": "v14-yh5zn",
-      "to": "v1-1np43",
+      "to": "v32-1b1ay",
       "confidence": "low",
-      "reason": "v1-1np43 discusses the same claim as v14-yh5zn, dated 2026 after 2006, no mutation (Confidence capped: wording similarity 0.26.)",
+      "reason": "v32 frames v14's claim as a debunked myth (Confidence capped: wording similarity 0.21.)",
       "mutations": [],
       "evidenceOnly": true,
       "spreadJump": false
@@ -254,7 +219,16 @@
       "from": "v14-yh5zn",
       "to": "v3-4xoah",
       "confidence": "low",
-      "reason": "v3-4xoah debunks the claim from v14-yh5zn, dated 2026 after 2006, no mutation (Confidence capped: wording similarity 0.28.)",
+      "reason": "v3 cites sheriff debunking v14's kidnapping narrative (Confidence capped: wording similarity 0.28.)",
+      "mutations": [],
+      "evidenceOnly": true,
+      "spreadJump": false
+     },
+     {
+      "from": "v14-yh5zn",
+      "to": "v1-1np43",
+      "confidence": "low",
+      "reason": "v1 reports on the viral spread of v14's warning (Confidence capped: wording similarity 0.26.)",
       "mutations": [],
       "evidenceOnly": true,
       "spreadJump": false
@@ -263,7 +237,7 @@
       "from": "v14-yh5zn",
       "to": "you",
       "confidence": "low",
-      "reason": "you adds kidnapping and organ harvesting details to v14-yh5zn, user copy must be leaf (Confidence capped: wording similarity 0.27.)",
+      "reason": "you adds organ harvesting and filling station details to v14 (Confidence capped: wording similarity 0.27.)",
       "mutations": [
        {
         "type": "detail_added",
@@ -279,53 +253,55 @@
     "earliestId": "v8-1m1zq",
     "limited": false,
     "verdict": {
-     "summary": "The claim about perfume samples causing fainting, kidnapping, and organ harvesting has circulated in different forms since at least 2001. The earliest version found described poisonous mailed samples causing deaths, not kidnappings. Official sources state there are no verified reports of these incidents.",
+     "summary": "The user's message describes women fainting after smelling free perfume samples at filling stations and malls, followed by kidnapping and organ harvesting. The earliest version found is a 2001 email warning about seven women dying after inhaling poisonous mailed perfume samples attributed to Glen Eagles Hospital. Over time, the hospital authority and specific death count were removed, and the warning evolved into a general kidnapping alert.",
      "whatChanged": [
-      "Added kidnapping and organ harvesting details",
-      "Changed setting from mailed samples to filling stations and malls",
-      "Removed Glen Eagles Hospital authority"
+      "Authority removed: Glen Eagles Hospital",
+      "Specific death count removed",
+      "Setting changed from mailed samples to filling stations and malls",
+      "Outcome changed from death to fainting, kidnapping, and organ harvesting"
      ],
      "unsupported": [
       {
-       "statement": "Women faint and are kidnapped after smelling free perfume samples at filling stations and malls",
+       "statement": "Women faint after smelling free perfume samples at filling stations and malls",
        "sourceUrls": [
-        "https://www.instagram.com/reel/DZTIDEhjg53?hl=en",
+        "https://www.snopes.com/fact-check/poison-perfume-samples",
+        "https://abcnews.com/Technology/story?id=98192&page=1",
         "https://www.facebook.com/HighCoSheriff/posts/rumor-control-we-have-absolutely-no-indication-that-this-is-true-especially-not-/2078395902256995"
+       ]
+      },
+      {
+       "statement": "Women are kidnapped and their organs are harvested after smelling perfume samples",
+       "sourceUrls": [
+        "https://abcnews.com/Technology/story?id=98192&page=1"
        ]
       }
      ],
      "confidence": "high",
-     "replyCard": "Hi everyone, I looked into the perfume sample warning. This story has been shared in different forms since 2001, but local sheriff's offices say there are no verified reports of women being kidnapped this way. Please stay aware of your surroundings, but there is no need to panic."
+     "replyCard": "Please be cautious about messages warning of free perfume samples causing fainting, kidnapping, or organ harvesting. This story has circulated for years in different forms, and official sources have not verified these reports. It's always wise to be careful with strangers, but please check before sharing alarming warnings."
     },
     "branches": [
      {
       "name": "mailed poisonous samples",
       "variantIds": [
        "v8-1m1zq",
-       "v11-103qe",
        "v14-yh5zn"
       ]
      },
      {
-      "name": "stranger samples kidnapping",
+      "name": "public place kidnapping",
       "variantIds": [
        "v1-1np43",
        "v3-4xoah",
+       "v32-1b1ay",
        "you"
-      ]
-     },
-     {
-      "name": "unrelated Nordstrom video",
-      "variantIds": [
-       "v38-36up9"
       ]
      }
     ],
     "stats": {
      "queries": 8,
      "pagesSearched": 40,
-     "pagesConfirmed": 7,
-     "pairsCompared": 8,
+     "pagesConfirmed": 6,
+     "pairsCompared": 6,
      "mutationReview": {
       "reviewed": 3,
       "kept": 2,
@@ -342,40 +318,27 @@
     "provider": "nvidia",
     "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
     "tier": "nano",
+    "stage": "A0: classify input",
+    "tokensIn": 296,
+    "tokensOut": 59,
+    "latencyMs": 5484,
+    "ok": true,
+    "note": "dev cache (original latency)",
+    "id": "c1",
+    "at": 1793273633829
+   },
+   {
+    "provider": "nvidia",
+    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+    "tier": "nano",
     "stage": "A: understand",
     "tokensIn": 321,
     "tokensOut": 194,
     "latencyMs": 4745,
     "ok": true,
     "note": "dev cache (original latency)",
-    "id": "c1",
-    "at": 1793205165613
-   },
-   {
-    "provider": "tavily",
-    "model": "search/basic",
-    "tier": "search",
-    "stage": "B: search",
-    "tokensIn": 0,
-    "tokensOut": 0,
-    "latencyMs": 3,
-    "ok": true,
-    "note": "10 results",
     "id": "c2",
-    "at": 1793205165660
-   },
-   {
-    "provider": "tavily",
-    "model": "search/basic",
-    "tier": "search",
-    "stage": "B: search",
-    "tokensIn": 0,
-    "tokensOut": 0,
-    "latencyMs": 4,
-    "ok": true,
-    "note": "10 results",
-    "id": "c3",
-    "at": 1793205165662
+    "at": 1793273633847
    },
    {
     "provider": "tavily",
@@ -387,8 +350,8 @@
     "latencyMs": 5,
     "ok": true,
     "note": "10 results",
-    "id": "c4",
-    "at": 1793205165663
+    "id": "c3",
+    "at": 1793273633887
    },
    {
     "provider": "tavily",
@@ -397,76 +360,89 @@
     "stage": "B: search",
     "tokensIn": 0,
     "tokensOut": 0,
-    "latencyMs": 6,
+    "latencyMs": 7,
+    "ok": true,
+    "note": "10 results",
+    "id": "c4",
+    "at": 1793273633889
+   },
+   {
+    "provider": "tavily",
+    "model": "search/basic",
+    "tier": "search",
+    "stage": "B: search",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 7,
     "ok": true,
     "note": "10 results",
     "id": "c5",
-    "at": 1793205165664
+    "at": 1793273633890
    },
    {
     "provider": "tavily",
     "model": "search/basic",
     "tier": "search",
     "stage": "B: search",
-    "tokensIn": 0,
-    "tokensOut": 0,
-    "latencyMs": 7,
-    "ok": true,
-    "note": "10 results",
-    "id": "c6",
-    "at": 1793205165668
-   },
-   {
-    "provider": "tavily",
-    "model": "search/basic",
-    "tier": "search",
-    "stage": "B: search",
-    "tokensIn": 0,
-    "tokensOut": 0,
-    "latencyMs": 7,
-    "ok": true,
-    "note": "10 results",
-    "id": "c7",
-    "at": 1793205165669
-   },
-   {
-    "provider": "tavily",
-    "model": "search/basic",
-    "tier": "search",
-    "stage": "B: search",
-    "tokensIn": 0,
-    "tokensOut": 0,
-    "latencyMs": 7,
-    "ok": true,
-    "note": "9 results",
-    "id": "c8",
-    "at": 1793205165670
-   },
-   {
-    "provider": "tavily",
-    "model": "search/basic",
-    "tier": "search",
-    "stage": "B: search",
-    "tokensIn": 0,
-    "tokensOut": 0,
-    "latencyMs": 7,
-    "ok": true,
-    "note": "10 results",
-    "id": "c9",
-    "at": 1793205165671
-   },
-   {
-    "provider": "tavily",
-    "model": "extract/basic",
-    "tier": "extract",
-    "stage": "B: extract",
     "tokensIn": 0,
     "tokensOut": 0,
     "latencyMs": 8,
     "ok": true,
-    "note": "13 ok, 7 failed",
+    "note": "10 results",
+    "id": "c6",
+    "at": 1793273633891
+   },
+   {
+    "provider": "tavily",
+    "model": "search/basic",
+    "tier": "search",
+    "stage": "B: search",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 5,
+    "ok": true,
+    "note": "10 results",
+    "id": "c7",
+    "at": 1793273633893
+   },
+   {
+    "provider": "tavily",
+    "model": "search/basic",
+    "tier": "search",
+    "stage": "B: search",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 4,
+    "ok": true,
+    "note": "10 results",
+    "id": "c8",
+    "at": 1793273633893
+   },
+   {
+    "provider": "tavily",
+    "model": "search/basic",
+    "tier": "search",
+    "stage": "B: search",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 4,
+    "ok": true,
+    "note": "9 results",
+    "id": "c9",
+    "at": 1793273633894
+   },
+   {
+    "provider": "tavily",
+    "model": "search/basic",
+    "tier": "search",
+    "stage": "B: search",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 3,
+    "ok": true,
+    "note": "10 results",
     "id": "c10",
-    "at": 1793205165681
+    "at": 1793273633894
    },
    {
     "provider": "tavily",
@@ -475,11 +451,24 @@
     "stage": "B: extract",
     "tokensIn": 0,
     "tokensOut": 0,
-    "latencyMs": 3,
+    "latencyMs": 7,
+    "ok": true,
+    "note": "13 ok, 7 failed",
+    "id": "c11",
+    "at": 1793273633902
+   },
+   {
+    "provider": "tavily",
+    "model": "extract/basic",
+    "tier": "extract",
+    "stage": "B: extract",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 4,
     "ok": true,
     "note": "14 ok, 6 failed",
-    "id": "c11",
-    "at": 1793205165684
+    "id": "c12",
+    "at": 1793273633906
    },
    {
     "provider": "nvidia",
@@ -491,21 +480,8 @@
     "latencyMs": 6785,
     "ok": true,
     "note": "dev cache (original latency)",
-    "id": "c12",
-    "at": 1793205166110
-   },
-   {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
-    "tier": "nano",
-    "stage": "C: confirm",
-    "tokensIn": 904,
-    "tokensOut": 116,
-    "latencyMs": 13559,
-    "ok": true,
-    "note": "dev cache (original latency)",
     "id": "c13",
-    "at": 1793205166125
+    "at": 1793273634274
    },
    {
     "provider": "nvidia",
@@ -518,7 +494,20 @@
     "ok": true,
     "note": "dev cache (original latency)",
     "id": "c14",
-    "at": 1793205166243
+    "at": 1793273634288
+   },
+   {
+    "provider": "nvidia",
+    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+    "tier": "nano",
+    "stage": "C: confirm",
+    "tokensIn": 904,
+    "tokensOut": 116,
+    "latencyMs": 13559,
+    "ok": true,
+    "note": "dev cache (original latency)",
+    "id": "c15",
+    "at": 1793273634413
    },
    {
     "provider": "nvidia",
@@ -530,8 +519,8 @@
     "latencyMs": 8770,
     "ok": true,
     "note": "dev cache (original latency)",
-    "id": "c15",
-    "at": 1793205166332
+    "id": "c16",
+    "at": 1793273634496
    },
    {
     "provider": "nvidia",
@@ -543,8 +532,8 @@
     "latencyMs": 17165,
     "ok": true,
     "note": "dev cache (original latency)",
-    "id": "c16",
-    "at": 1793205166422
+    "id": "c17",
+    "at": 1793273634574
    },
    {
     "provider": "nvidia",
@@ -556,8 +545,8 @@
     "latencyMs": 5825,
     "ok": true,
     "note": "dev cache (original latency)",
-    "id": "c17",
-    "at": 1793205166444
+    "id": "c18",
+    "at": 1793273634596
    },
    {
     "provider": "nvidia",
@@ -569,34 +558,8 @@
     "latencyMs": 3919,
     "ok": true,
     "note": "dev cache (original latency)",
-    "id": "c18",
-    "at": 1793205166460
-   },
-   {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
-    "tier": "nano",
-    "stage": "C: confirm",
-    "tokensIn": 1267,
-    "tokensOut": 127,
-    "latencyMs": 10099,
-    "ok": true,
-    "note": "dev cache (original latency)",
     "id": "c19",
-    "at": 1793205166573
-   },
-   {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
-    "tier": "nano",
-    "stage": "C: confirm",
-    "tokensIn": 630,
-    "tokensOut": 128,
-    "latencyMs": 2769,
-    "ok": true,
-    "note": "dev cache (original latency)",
-    "id": "c20",
-    "at": 1793205166740
+    "at": 1793273634610
    },
    {
     "provider": "nvidia",
@@ -608,21 +571,8 @@
     "latencyMs": 9921,
     "ok": true,
     "note": "dev cache (original latency)",
-    "id": "c21",
-    "at": 1793205167203
-   },
-   {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
-    "tier": "nano",
-    "stage": "C: confirm",
-    "tokensIn": 622,
-    "tokensOut": 104,
-    "latencyMs": 2652,
-    "ok": true,
-    "note": "dev cache (original latency)",
-    "id": "c22",
-    "at": 1793205167203
+    "id": "c20",
+    "at": 1793273634713
    },
    {
     "provider": "nvidia",
@@ -634,21 +584,47 @@
     "latencyMs": 8327,
     "ok": true,
     "note": "dev cache (original latency)",
-    "id": "c23",
-    "at": 1793205167425
+    "id": "c21",
+    "at": 1793273634714
    },
    {
     "provider": "nvidia",
     "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
     "tier": "nano",
     "stage": "C: confirm",
-    "tokensIn": 1558,
-    "tokensOut": 220,
-    "latencyMs": 6272,
+    "tokensIn": 1267,
+    "tokensOut": 127,
+    "latencyMs": 10099,
+    "ok": true,
+    "note": "dev cache (original latency)",
+    "id": "c22",
+    "at": 1793273634881
+   },
+   {
+    "provider": "nvidia",
+    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+    "tier": "nano",
+    "stage": "C: confirm",
+    "tokensIn": 630,
+    "tokensOut": 128,
+    "latencyMs": 2769,
+    "ok": true,
+    "note": "dev cache (original latency)",
+    "id": "c23",
+    "at": 1793273635340
+   },
+   {
+    "provider": "nvidia",
+    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+    "tier": "nano",
+    "stage": "C: confirm",
+    "tokensIn": 622,
+    "tokensOut": 104,
+    "latencyMs": 2652,
     "ok": true,
     "note": "dev cache (original latency)",
     "id": "c24",
-    "at": 1793205167624
+    "at": 1793273635590
    },
    {
     "provider": "nvidia",
@@ -661,20 +637,7 @@
     "ok": true,
     "note": "dev cache (original latency)",
     "id": "c25",
-    "at": 1793205167845
-   },
-   {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
-    "tier": "nano",
-    "stage": "C: confirm",
-    "tokensIn": 1637,
-    "tokensOut": 65,
-    "latencyMs": 2261,
-    "ok": true,
-    "note": "dev cache (original latency)",
-    "id": "c26",
-    "at": 1793205167970
+    "at": 1793273635798
    },
    {
     "provider": "nvidia",
@@ -686,8 +649,34 @@
     "latencyMs": 15569,
     "ok": true,
     "note": "dev cache (original latency)",
+    "id": "c26",
+    "at": 1793273636007
+   },
+   {
+    "provider": "nvidia",
+    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+    "tier": "nano",
+    "stage": "C: confirm",
+    "tokensIn": 1637,
+    "tokensOut": 65,
+    "latencyMs": 2261,
+    "ok": true,
+    "note": "dev cache (original latency)",
     "id": "c27",
-    "at": 1793205168228
+    "at": 1793273636117
+   },
+   {
+    "provider": "nvidia",
+    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+    "tier": "nano",
+    "stage": "C: confirm",
+    "tokensIn": 1558,
+    "tokensOut": 220,
+    "latencyMs": 6272,
+    "ok": true,
+    "note": "dev cache (original latency)",
+    "id": "c28",
+    "at": 1793273636351
    },
    {
     "provider": "nvidia",
@@ -699,8 +688,8 @@
     "latencyMs": 3022,
     "ok": true,
     "note": "dev cache (original latency)",
-    "id": "c28",
-    "at": 1793205168244
+    "id": "c29",
+    "at": 1793273636370
    },
    {
     "provider": "nvidia",
@@ -712,8 +701,8 @@
     "latencyMs": 6925,
     "ok": true,
     "note": "dev cache (original latency)",
-    "id": "c29",
-    "at": 1793205168362
+    "id": "c30",
+    "at": 1793273636481
    },
    {
     "provider": "nvidia",
@@ -725,8 +714,8 @@
     "latencyMs": 2707,
     "ok": true,
     "note": "dev cache (original latency)",
-    "id": "c30",
-    "at": 1793205168487
+    "id": "c31",
+    "at": 1793273636607
    },
    {
     "provider": "nvidia",
@@ -738,21 +727,8 @@
     "latencyMs": 3941,
     "ok": true,
     "note": "dev cache (original latency)",
-    "id": "c31",
-    "at": 1793205168497
-   },
-   {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
-    "tier": "nano",
-    "stage": "C: confirm",
-    "tokensIn": 1438,
-    "tokensOut": 127,
-    "latencyMs": 6517,
-    "ok": true,
-    "note": "dev cache (original latency)",
     "id": "c32",
-    "at": 1793205168595
+    "at": 1793273636617
    },
    {
     "provider": "nvidia",
@@ -765,20 +741,7 @@
     "ok": true,
     "note": "dev cache (original latency)",
     "id": "c33",
-    "at": 1793205168612
-   },
-   {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
-    "tier": "nano",
-    "stage": "C: confirm",
-    "tokensIn": 1551,
-    "tokensOut": 221,
-    "latencyMs": 5136,
-    "ok": true,
-    "note": "dev cache (original latency)",
-    "id": "c34",
-    "at": 1793205168614
+    "at": 1793273636736
    },
    {
     "provider": "nvidia",
@@ -790,8 +753,34 @@
     "latencyMs": 2925,
     "ok": true,
     "note": "dev cache (original latency)",
+    "id": "c34",
+    "at": 1793273636740
+   },
+   {
+    "provider": "nvidia",
+    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+    "tier": "nano",
+    "stage": "C: confirm",
+    "tokensIn": 1551,
+    "tokensOut": 221,
+    "latencyMs": 5136,
+    "ok": true,
+    "note": "dev cache (original latency)",
     "id": "c35",
-    "at": 1793205168626
+    "at": 1793273636754
+   },
+   {
+    "provider": "nvidia",
+    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+    "tier": "nano",
+    "stage": "C: confirm",
+    "tokensIn": 1438,
+    "tokensOut": 127,
+    "latencyMs": 6517,
+    "ok": true,
+    "note": "dev cache (original latency)",
+    "id": "c36",
+    "at": 1793273636772
    },
    {
     "provider": "nvidia",
@@ -803,8 +792,8 @@
     "latencyMs": 5650,
     "ok": true,
     "note": "dev cache (original latency)",
-    "id": "c36",
-    "at": 1793205168645
+    "id": "c37",
+    "at": 1793273636792
    },
    {
     "provider": "nvidia",
@@ -816,8 +805,8 @@
     "latencyMs": 2409,
     "ok": true,
     "note": "dev cache (original latency)",
-    "id": "c37",
-    "at": 1793205168647
+    "id": "c38",
+    "at": 1793273636794
    },
    {
     "provider": "nvidia",
@@ -829,8 +818,8 @@
     "latencyMs": 1895,
     "ok": true,
     "note": "dev cache (original latency)",
-    "id": "c38",
-    "at": 1793205168738
+    "id": "c39",
+    "at": 1793273636883
    },
    {
     "provider": "nvidia",
@@ -842,34 +831,34 @@
     "latencyMs": 16172,
     "ok": true,
     "note": "dev cache (original latency)",
-    "id": "c39",
-    "at": 1793205168746
+    "id": "c40",
+    "at": 1793273636891
    },
    {
     "provider": "nvidia",
     "model": "nvidia/nemotron-3.5-super-vl-120b-a12b",
     "tier": "super",
     "stage": "E: cluster",
-    "tokensIn": 774,
-    "tokensOut": 160,
-    "latencyMs": 12720,
+    "tokensIn": 697,
+    "tokensOut": 135,
+    "latencyMs": 3186,
     "ok": true,
     "note": "dev cache (original latency)",
-    "id": "c40",
-    "at": 1793205168757
+    "id": "c41",
+    "at": 1793273636903
    },
    {
     "provider": "nvidia",
     "model": "nvidia/nemotron-3-ultra-550b-a55b",
     "tier": "ultra",
     "stage": "F: lineage",
-    "tokensIn": 923,
-    "tokensOut": 570,
-    "latencyMs": 18704,
+    "tokensIn": 827,
+    "tokensOut": 415,
+    "latencyMs": 7569,
     "ok": true,
     "note": "dev cache (original latency)",
-    "id": "c41",
-    "at": 1793205168776
+    "id": "c42",
+    "at": 1793273636931
    },
    {
     "provider": "nvidia",
@@ -881,8 +870,8 @@
     "latencyMs": 1636,
     "ok": true,
     "note": "dev cache (original latency)",
-    "id": "c42",
-    "at": 1793205168787
+    "id": "c43",
+    "at": 1793273636946
    },
    {
     "provider": "nvidia",
@@ -894,24 +883,24 @@
     "latencyMs": 1830,
     "ok": true,
     "note": "dev cache (original latency)",
-    "id": "c43",
-    "at": 1793205168790
+    "id": "c44",
+    "at": 1793273636951
    },
    {
     "provider": "nvidia",
     "model": "nvidia/nemotron-3.5-super-vl-120b-a12b",
     "tier": "super",
     "stage": "G: verdict",
-    "tokensIn": 938,
-    "tokensOut": 375,
-    "latencyMs": 11115,
+    "tokensIn": 1018,
+    "tokensOut": 741,
+    "latencyMs": 10867,
     "ok": true,
     "note": "dev cache (original latency)",
-    "id": "c44",
-    "at": 1793205168798
+    "id": "c45",
+    "at": 1793273636961
    }
   ],
-  "totalLatencyMs": 3207,
+  "totalLatencyMs": 3160,
   "pricing": {
    "nano": [
     0.06,
@@ -934,7 +923,7 @@
   "fixture": {
    "id": "1-perfume",
    "title": "“Perfume sample” kidnapping scare",
-   "generatedAt": "2026-10-28T16:32:48.809Z",
+   "generatedAt": "2026-10-29T11:33:56.969Z",
    "generatedWith": "live"
   }
  }

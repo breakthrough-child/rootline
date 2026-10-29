@@ -46,7 +46,7 @@ TAVILY_API_KEY=<your Tavily key>
 | A GitHub account | github.com | free |
 | A Vercel account (sign in with GitHub) | vercel.com | free "Hobby" plan |
 | A **Nebius Token Factory** account + API key | tokenfactory.nebius.com | pay-as-you-go; a full demo set costs well under $1 |
-| A **Tavily** account + API key | app.tavily.com | free tier: 1,000 credits/month (one live trace ≈ 16–20 credits; `npm run fixtures` ≈ 70; `npm run verify-nebius` ≈ 10) |
+| A **Tavily** account + API key | app.tavily.com | free tier: 1,000 credits/month (one live trace ≈ 16–20 credits; `npm run fixtures` ≈ 80; `npm run verify-nebius` ≈ 10) |
 | Node.js 20+ and Git | nodejs.org, git-scm.com | free |
 | *(optional)* a Supabase project | supabase.com | free; makes share links and the Watchlist permanent |
 
@@ -107,7 +107,7 @@ It checks your config, calls `/v1/models`, sends a tiny request to **every** mod
 npm run fixtures
 ```
 
-Runs the four demo cases (perfume forward, a fictional-account screenshot, the WhatsApp "Martinelli" warning, a fictional-organisation circular) through the **real** pipeline and saves them in `fixtures/`. About 15–25 minutes. Each saved run records which provider produced it (read from its call log), so on Nebius the app labels them "served by Nebius Token Factory" automatically.
+Runs the five demo cases (perfume forward, a fictional-account screenshot, the WhatsApp "Martinelli" warning, a fictional-organisation circular, a general news statement) through the **real** pipeline and saves them in `fixtures/`. About 15–25 minutes. Each saved run records which provider produced it (read from its call log), so on Nebius the app labels them "served by Nebius Token Factory" automatically.
 
 Then: `npm run eval` prints a summary table (the `mode` column must say `live`).
 

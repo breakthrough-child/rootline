@@ -5,7 +5,7 @@
  "description": "A long-running WhatsApp chain warning, traced from 2018 to today.",
  "investigation": {
   "id": "fixture-3-martinelli",
-  "createdAt": "2026-10-28T16:33:07.532Z",
+  "createdAt": "2026-10-29T11:34:04.808Z",
   "mode": "live",
   "input": {
    "sourceKind": "text",
@@ -55,7 +55,9 @@
       "video named MARTINELLI",
       "hack your phone",
       "nothing can stop it"
-     ]
+     ],
+     "inputKind": "circulating_message",
+     "sensitive": false
     },
     "variants": [
      {
@@ -76,7 +78,7 @@
       "dateProvenance": "unknown",
       "pageType": "debunk",
       "isCopy": false,
-      "branch": "Hoax debunking"
+      "branch": "hoax_warning_no_authority"
      },
      {
       "id": "v1-3b4h1",
@@ -96,7 +98,7 @@
       "dateProvenance": "published_date",
       "pageType": "debunk",
       "isCopy": false,
-      "branch": "Hoax debunking"
+      "branch": "hoax_warning_no_authority"
      },
      {
       "id": "v2-1jx3x",
@@ -116,7 +118,7 @@
       "dateProvenance": "published_date",
       "pageType": "debunk",
       "isCopy": true,
-      "branch": "BBC radio warning"
+      "branch": "hoax_warning_no_authority"
      },
      {
       "id": "v4-1atev",
@@ -152,7 +154,7 @@
       "dateProvenance": "published_date",
       "pageType": "debunk",
       "isCopy": false,
-      "branch": "IT colleague warning"
+      "branch": "hoax_warning_no_authority"
      },
      {
       "id": "v5-7a09f",
@@ -172,7 +174,7 @@
       "dateProvenance": "unknown",
       "pageType": "debunk",
       "isCopy": false,
-      "branch": "Hoax debunking"
+      "branch": "hoax_warning_no_authority"
      },
      {
       "id": "v8-1awr3",
@@ -192,7 +194,7 @@
       "dateProvenance": "unknown",
       "pageType": "debunk",
       "isCopy": false,
-      "branch": "Hoax debunking"
+      "branch": "hoax_warning_no_authority"
      },
      {
       "id": "v10-unm08",
@@ -212,7 +214,7 @@
       "dateProvenance": "unknown",
       "pageType": "debunk",
       "isCopy": false,
-      "branch": "Hoax debunking"
+      "branch": "hoax_warning_no_authority"
      },
      {
       "id": "v11-1vaci",
@@ -232,7 +234,7 @@
       "dateProvenance": "published_date",
       "pageType": "debunk",
       "isCopy": false,
-      "branch": "Hoax debunking"
+      "branch": "hoax_warning_no_authority"
      },
      {
       "id": "v15-gvfar",
@@ -252,7 +254,7 @@
       "dateProvenance": "published_date",
       "pageType": "debunk",
       "isCopy": false,
-      "branch": "Hoax debunking"
+      "branch": "hoax_warning_no_authority"
      },
      {
       "id": "v16-1k52f",
@@ -272,7 +274,7 @@
       "dateProvenance": "published_date",
       "pageType": "debunk",
       "isCopy": false,
-      "branch": "Hoax debunking"
+      "branch": "hoax_warning_no_authority"
      },
      {
       "id": "v17-2brzv",
@@ -292,27 +294,7 @@
       "dateProvenance": "page_metadata",
       "pageType": "official",
       "isCopy": false,
-      "branch": "Hoax debunking"
-     },
-     {
-      "id": "v18-1klu6",
-      "text": "I just had a friend send me a video link by mistake after he had been hacked. If you receive anything resembling a video link to click on",
-      "excerpt": "I just had a friend send me a video link by mistake after he had been hacked. If you receive anything resembling a video link to click on",
-      "sources": [
-       {
-        "url": "https://www.facebook.com/michael.holly.funny/posts/i-just-had-a-friend-send-me-a-video-link-by-mistake-after-he-had-been-hacked-if/10159996387686103",
-        "title": "I just had a friend send me a video link by mistake after he ...",
-        "excerpt": "I just had a friend send me a video link by mistake after he had been hacked. If you receive anything resembling a video link to click on",
-        "pageType": "social",
-        "date": null,
-        "dateProvenance": "unknown"
-       }
-      ],
-      "date": null,
-      "dateProvenance": "unknown",
-      "pageType": "social",
-      "isCopy": true,
-      "branch": "Hoax debunking"
+      "branch": "hoax_warning_no_authority"
      },
      {
       "id": "v20-1bu3t",
@@ -332,27 +314,7 @@
       "dateProvenance": "unknown",
       "pageType": "debunk",
       "isCopy": false,
-      "branch": "Hoax debunking"
-     },
-     {
-      "id": "v21-1ek6f",
-      "text": "If your phone loses battery, runs slowly, eats up your data, or otherwise starts performing poorly, it could be a sign that someone has unauthorized access to it. Check out this video for the 5 most common warning signs your phone is hacked, then jump down below to see even more signs. Here’s a detailed look at 11 potential red flags that indicate your phone could be hacked: [...] Get Norton 360 Deluxe What to do if your phone is hacked?",
-      "excerpt": "If your phone loses battery, runs slowly, eats up your data, or otherwise starts performing poorly, it could be a sign that someone has unauthorized access to it. Check out this video for the 5 most common warning signs your phone is hacked, then jump down below to see even more signs. Here’s a detailed look at 11 potential red flags that indicate your phone could be hacked: [...] Get Norton 360 Deluxe What to do if your phone is hacked?",
-      "sources": [
-       {
-        "url": "https://us.norton.com/blog/malware/is-my-phone-hacked",
-        "title": "11 warning signs your phone is hacked and what to do if it is",
-        "excerpt": "If your phone loses battery, runs slowly, eats up your data, or otherwise starts performing poorly, it could be a sign that someone has unauthorized access to it. Check out this video for the 5 most common warning signs your phone is hacked, then jump down below to see even more signs. Here’s a detailed look at 11 potential red flags that indicate your phone could be hacked: [...] Get Norton 360 Deluxe What to do if your phone is hacked?",
-        "pageType": "official",
-        "date": null,
-        "dateProvenance": "unknown"
-       }
-      ],
-      "date": null,
-      "dateProvenance": "unknown",
-      "pageType": "official",
-      "isCopy": false,
-      "branch": "Hoax debunking"
+      "branch": "hoax_warning_no_authority"
      },
      {
       "id": "v33-2nnx7",
@@ -372,7 +334,7 @@
       "dateProvenance": "published_date",
       "pageType": "debunk",
       "isCopy": true,
-      "branch": "BBC radio warning"
+      "branch": "hoax_warning_no_authority"
      },
      {
       "id": "v36-1h5ky",
@@ -392,7 +354,7 @@
       "dateProvenance": "unknown",
       "pageType": "news",
       "isCopy": false,
-      "branch": "Hoax debunking"
+      "branch": "hoax_warning_no_authority"
      },
      {
       "id": "v38-d5efb",
@@ -412,7 +374,7 @@
       "dateProvenance": "unknown",
       "pageType": "debunk",
       "isCopy": false,
-      "branch": "Hoax debunking"
+      "branch": "hoax_warning_no_authority"
      },
      {
       "id": "you",
@@ -432,7 +394,7 @@
       "dateProvenance": "unknown",
       "pageType": "user_input",
       "isUserInput": true,
-      "branch": "CNN and BBC confirmation"
+      "branch": "authority_added_call_to_action"
      }
     ],
     "edges": [
@@ -440,7 +402,7 @@
       "from": "v33-2nnx7",
       "to": "v2-1jx3x",
       "confidence": "high",
-      "reason": "Same BBC radio warning text; v33 is Sinhala translation, v2 is English version",
+      "reason": "v33 is earliest dated debunk (2022-09-02) and v2 is later debunk (2022-09-05) with no mutations",
       "mutations": [],
       "spreadJump": false
      },
@@ -448,7 +410,7 @@
       "from": "v33-2nnx7",
       "to": "v0-1lokp",
       "confidence": "low",
-      "reason": "v0 describes hoax origin in 2017, v33 is 2022 instance of same hoax (Confidence capped: wording similarity 0.33.)",
+      "reason": "v0 references 2017 origin; v33 is earliest concrete node, undated v0 placed as sibling (Confidence capped: wording similarity 0.33.)",
       "mutations": [],
       "evidenceOnly": true,
       "spreadJump": false
@@ -457,7 +419,16 @@
       "from": "v33-2nnx7",
       "to": "v5-7a09f",
       "confidence": "low",
-      "reason": "Both deny Martinelli video existence; v5 undated but consistent with hoax debunking (Confidence capped: wording similarity 0.17.)",
+      "reason": "v5 is undated evidence; v33 is earliest dated node, placed as sibling (Confidence capped: wording similarity 0.17.)",
+      "mutations": [],
+      "evidenceOnly": true,
+      "spreadJump": false
+     },
+     {
+      "from": "v33-2nnx7",
+      "to": "v15-gvfar",
+      "confidence": "low",
+      "reason": "v15 (2025) discusses hoax since 2017; v33 is earliest dated debunk, parent before child (Confidence capped: wording similarity 0.17.)",
       "mutations": [],
       "evidenceOnly": true,
       "spreadJump": false
@@ -466,39 +437,16 @@
       "from": "v33-2nnx7",
       "to": "v38-d5efb",
       "confidence": "low",
-      "reason": "v38 quotes same 'IT colleague' warning text that appears in v33 lineage (Confidence capped: wording similarity 0.31.)",
+      "reason": "v38 is undated evidence quoting hoax; v33 is earliest dated debunk, sibling placement (Confidence capped: wording similarity 0.31.)",
       "mutations": [],
       "evidenceOnly": true,
       "spreadJump": false
      },
      {
       "from": "v33-2nnx7",
-      "to": "v18-1klu6",
-      "confidence": "low",
-      "reason": "v18 is personal anecdote version; mutation shows authority/detail added from v33 to v18 (Confidence capped: wording similarity 0.22.)",
-      "mutations": [
-       {
-        "type": "authority_removed",
-        "before": "BBC radio",
-        "after": "",
-        "explanation": "BBC reference removed from later version",
-        "strength": "strong"
-       },
-       {
-        "type": "detail_removed",
-        "before": "video titled 'Martinelli'",
-        "after": "",
-        "explanation": "Specific video title removed in later version",
-        "strength": "weak"
-       }
-      ],
-      "spreadJump": false
-     },
-     {
-      "from": "v33-2nnx7",
       "to": "you",
       "confidence": "medium",
-      "reason": "User input adds CNN/BBC authority claims and forward demand to base hoax text (Confidence capped: wording similarity 0.36.)",
+      "reason": "you is user copy with authority_added/removed, call_to_action_added, detail_added mutations from v33 (Confidence capped: wording similarity 0.36.)",
       "mutations": [
        {
         "type": "authority_added",
@@ -528,7 +476,7 @@
       "from": "v2-1jx3x",
       "to": "v1-3b4h1",
       "confidence": "medium",
-      "reason": "v1 is 2020 fact-check of same hoax; mutation shows no text changes (Confidence capped: wording similarity 0.40.)",
+      "reason": "v1 (2020-07-21) is evidence verdict; v2 (2022-09-05) is debunk, but v1 dated before v2, so v1 must be leaf under v2 as evidence discussing the hoax (Confidence capped: wording similarity 0.40.)",
       "mutations": [],
       "evidenceOnly": true,
       "spreadJump": false
@@ -537,7 +485,7 @@
       "from": "v2-1jx3x",
       "to": "v4-1atev",
       "confidence": "medium",
-      "reason": "v4 is 2020 instance of 'IT colleague' warning; same core text as v2/v33 (Confidence capped: wording similarity 0.37.)",
+      "reason": "v4 (2020-03-23) is evidence of hoax message; v2 (2022-09-05) debunk, v4 dated before v2, leaf under v2 (Confidence capped: wording similarity 0.37.)",
       "mutations": [],
       "evidenceOnly": true,
       "spreadJump": false
@@ -546,7 +494,7 @@
       "from": "v2-1jx3x",
       "to": "v8-1awr3",
       "confidence": "low",
-      "reason": "v8 references Snopes 2018 sighting; consistent with v2's hoax description (Confidence capped: wording similarity 0.19.)",
+      "reason": "v8 is undated evidence (Snopes 2018); v2 is 2022 debunk, leaf under v2 (Confidence capped: wording similarity 0.19.)",
       "mutations": [],
       "evidenceOnly": true,
       "spreadJump": false
@@ -555,7 +503,7 @@
       "from": "v2-1jx3x",
       "to": "v10-unm08",
       "confidence": "low",
-      "reason": "v10 describes hoax and WhatsApp Gold; consistent with v2's debunk (Confidence capped: wording similarity 0.19.)",
+      "reason": "v10 is undated evidence; v2 is 2022 debunk, leaf under v2 (Confidence capped: wording similarity 0.19.)",
       "mutations": [],
       "evidenceOnly": true,
       "spreadJump": false
@@ -564,43 +512,7 @@
       "from": "v2-1jx3x",
       "to": "v11-1vaci",
       "confidence": "low",
-      "reason": "v11 is 2018 article describing same mid-2017 hoax origin; mutation shows no changes (Confidence capped: wording similarity 0.27.)",
-      "mutations": [],
-      "evidenceOnly": true,
-      "spreadJump": false
-     },
-     {
-      "from": "v2-1jx3x",
-      "to": "v20-1bu3t",
-      "confidence": "low",
-      "reason": "v20 summarizes hoax including WhatsApp Gold; consistent with v2's content (Confidence capped: wording similarity 0.24.)",
-      "mutations": [],
-      "evidenceOnly": true,
-      "spreadJump": false
-     },
-     {
-      "from": "v2-1jx3x",
-      "to": "v36-1h5ky",
-      "confidence": "low",
-      "reason": "v36 notes warning has been around for years; aligns with v2's hoax description (Confidence capped: wording similarity 0.24.)",
-      "mutations": [],
-      "evidenceOnly": true,
-      "spreadJump": false
-     },
-     {
-      "from": "v2-1jx3x",
-      "to": "v21-1ek6f",
-      "confidence": "low",
-      "reason": "v21 discusses phone hack signs generically; weak textual link to Martinelli hoax",
-      "mutations": [],
-      "evidenceOnly": true,
-      "spreadJump": false
-     },
-     {
-      "from": "v2-1jx3x",
-      "to": "v17-2brzv",
-      "confidence": "low",
-      "reason": "v17 denies WhatsApp Gold and Martinelli; consistent with v2's debunk (Confidence capped: wording similarity 0.23.)",
+      "reason": "v11 (2018-04-17) is evidence of hoax since 2017; v2 (2022) debunk, v11 dated before v2, leaf under v2 (Confidence capped: wording similarity 0.27.)",
       "mutations": [],
       "evidenceOnly": true,
       "spreadJump": false
@@ -609,16 +521,34 @@
       "from": "v2-1jx3x",
       "to": "v16-1k52f",
       "confidence": "low",
-      "reason": "v16 is 2026 article describing same scam; mutation shows no changes (Confidence capped: wording similarity 0.21.)",
+      "reason": "v16 (2026-07-29) is evidence; v2 (2022) debunk, parent before child (Confidence capped: wording similarity 0.21.)",
       "mutations": [],
       "evidenceOnly": true,
       "spreadJump": false
      },
      {
       "from": "v2-1jx3x",
-      "to": "v15-gvfar",
+      "to": "v17-2brzv",
       "confidence": "low",
-      "reason": "v15 is 2025 article calling it recycled since 2017; consistent with v2's debunk (Confidence capped: wording similarity 0.16.)",
+      "reason": "v17 (2025-10-13) is evidence; v2 (2022) debunk, parent before child (Confidence capped: wording similarity 0.23.)",
+      "mutations": [],
+      "evidenceOnly": true,
+      "spreadJump": false
+     },
+     {
+      "from": "v2-1jx3x",
+      "to": "v20-1bu3t",
+      "confidence": "low",
+      "reason": "v20 is undated evidence; v2 is 2022 debunk, leaf under v2 (Confidence capped: wording similarity 0.24.)",
+      "mutations": [],
+      "evidenceOnly": true,
+      "spreadJump": false
+     },
+     {
+      "from": "v2-1jx3x",
+      "to": "v36-1h5ky",
+      "confidence": "low",
+      "reason": "v36 is undated evidence; v2 is 2022 debunk, leaf under v2 (Confidence capped: wording similarity 0.24.)",
       "mutations": [],
       "evidenceOnly": true,
       "spreadJump": false
@@ -627,41 +557,23 @@
     "earliestId": "v11-1vaci",
     "limited": false,
     "verdict": {
-     "summary": "The Martinelli warning is a known hoax that has circulated since at least 2017. Fact-checkers and police have dismissed claims that the video hacks phones. The version you received adds CNN and BBC confirmation and a request to forward it to everyone, which are not supported by the listed sources.",
+     "summary": "The Martinelli warning has circulated since at least mid-2017 and is identified as a hoax by multiple fact-check sources. Your version adds claims that CNN and BBC confirmed it and asks recipients to forward it to everyone. Those additions are not supported by the listed sources.",
      "whatChanged": [
-      "Added false CNN and BBC confirmation",
-      "Added urgent demand to forward to all contacts",
-      "Removed earlier BBC radio attribution"
+      "authority_added: CNN and BBC",
+      "call_to_action_added: pass this to everyone in your contact list"
      ],
      "unsupported": [],
      "confidence": "high",
-     "replyCard": "Hi everyone, please don't worry about the Martinelli video warning. It's a hoax that's been around since 2017, and fact-checkers say it won't hack your phone. No need to forward it. Stay safe!"
+     "replyCard": "Hi everyone, the Martinelli video warning has been shared for years and fact-checkers say it is a hoax. The version you received mentions CNN and BBC, but those sources are not listed in the checks I found. Please avoid forwarding it further."
     },
     "branches": [
      {
-      "name": "BBC radio warning",
-      "variantIds": [
-       "v2-1jx3x",
-       "v33-2nnx7"
-      ]
-     },
-     {
-      "name": "IT colleague warning",
-      "variantIds": [
-       "v4-1atev"
-      ]
-     },
-     {
-      "name": "CNN and BBC confirmation",
-      "variantIds": [
-       "you"
-      ]
-     },
-     {
-      "name": "Hoax debunking",
+      "name": "hoax_warning_no_authority",
       "variantIds": [
        "v0-1lokp",
        "v1-3b4h1",
+       "v2-1jx3x",
+       "v4-1atev",
        "v5-7a09f",
        "v8-1awr3",
        "v10-unm08",
@@ -669,22 +581,27 @@
        "v15-gvfar",
        "v16-1k52f",
        "v17-2brzv",
-       "v18-1klu6",
        "v20-1bu3t",
-       "v21-1ek6f",
+       "v33-2nnx7",
        "v36-1h5ky",
        "v38-d5efb"
+      ]
+     },
+     {
+      "name": "authority_added_call_to_action",
+      "variantIds": [
+       "you"
       ]
      }
     ],
     "stats": {
      "queries": 8,
      "pagesSearched": 40,
-     "pagesConfirmed": 19,
-     "pairsCompared": 21,
+     "pagesConfirmed": 17,
+     "pairsCompared": 16,
      "mutationReview": {
-      "reviewed": 6,
-      "kept": 5,
+      "reviewed": 4,
+      "kept": 3,
       "retyped": 0,
       "dropped": 1
      }
@@ -698,27 +615,27 @@
     "provider": "nvidia",
     "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
     "tier": "nano",
+    "stage": "A0: classify input",
+    "tokensIn": 294,
+    "tokensOut": 57,
+    "latencyMs": 966,
+    "ok": true,
+    "note": "dev cache (original latency)",
+    "id": "c1",
+    "at": 1793273640526
+   },
+   {
+    "provider": "nvidia",
+    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+    "tier": "nano",
     "stage": "A: understand",
     "tokensIn": 319,
     "tokensOut": 182,
     "latencyMs": 2699,
     "ok": true,
     "note": "dev cache (original latency)",
-    "id": "c1",
-    "at": 1793205184210
-   },
-   {
-    "provider": "tavily",
-    "model": "search/basic",
-    "tier": "search",
-    "stage": "B: search",
-    "tokensIn": 0,
-    "tokensOut": 0,
-    "latencyMs": 1,
-    "ok": true,
-    "note": "10 results",
     "id": "c2",
-    "at": 1793205184214
+    "at": 1793273640532
    },
    {
     "provider": "tavily",
@@ -727,11 +644,11 @@
     "stage": "B: search",
     "tokensIn": 0,
     "tokensOut": 0,
-    "latencyMs": 2,
+    "latencyMs": 8,
     "ok": true,
     "note": "10 results",
     "id": "c3",
-    "at": 1793205184215
+    "at": 1793273640545
    },
    {
     "provider": "tavily",
@@ -740,11 +657,11 @@
     "stage": "B: search",
     "tokensIn": 0,
     "tokensOut": 0,
-    "latencyMs": 2,
+    "latencyMs": 9,
     "ok": true,
     "note": "10 results",
     "id": "c4",
-    "at": 1793205184215
+    "at": 1793273640546
    },
    {
     "provider": "tavily",
@@ -753,11 +670,11 @@
     "stage": "B: search",
     "tokensIn": 0,
     "tokensOut": 0,
-    "latencyMs": 3,
+    "latencyMs": 9,
     "ok": true,
     "note": "10 results",
     "id": "c5",
-    "at": 1793205184216
+    "at": 1793273640547
    },
    {
     "provider": "tavily",
@@ -766,11 +683,11 @@
     "stage": "B: search",
     "tokensIn": 0,
     "tokensOut": 0,
-    "latencyMs": 3,
+    "latencyMs": 9,
     "ok": true,
     "note": "10 results",
     "id": "c6",
-    "at": 1793205184217
+    "at": 1793273640547
    },
    {
     "provider": "tavily",
@@ -779,11 +696,11 @@
     "stage": "B: search",
     "tokensIn": 0,
     "tokensOut": 0,
-    "latencyMs": 3,
+    "latencyMs": 8,
     "ok": true,
     "note": "10 results",
     "id": "c7",
-    "at": 1793205184218
+    "at": 1793273640553
    },
    {
     "provider": "tavily",
@@ -792,11 +709,11 @@
     "stage": "B: search",
     "tokensIn": 0,
     "tokensOut": 0,
-    "latencyMs": 3,
+    "latencyMs": 8,
     "ok": true,
     "note": "10 results",
     "id": "c8",
-    "at": 1793205184218
+    "at": 1793273640554
    },
    {
     "provider": "tavily",
@@ -805,11 +722,24 @@
     "stage": "B: search",
     "tokensIn": 0,
     "tokensOut": 0,
-    "latencyMs": 2,
+    "latencyMs": 7,
+    "ok": true,
+    "note": "10 results",
+    "id": "c9",
+    "at": 1793273640554
+   },
+   {
+    "provider": "tavily",
+    "model": "search/basic",
+    "tier": "search",
+    "stage": "B: search",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 7,
     "ok": true,
     "note": "7 results",
-    "id": "c9",
-    "at": 1793205184218
+    "id": "c10",
+    "at": 1793273640555
    },
    {
     "provider": "tavily",
@@ -818,11 +748,11 @@
     "stage": "B: extract",
     "tokensIn": 0,
     "tokensOut": 0,
-    "latencyMs": 2,
+    "latencyMs": 6,
     "ok": true,
     "note": "15 ok, 5 failed",
-    "id": "c10",
-    "at": 1793205184221
+    "id": "c11",
+    "at": 1793273640561
    },
    {
     "provider": "tavily",
@@ -831,24 +761,11 @@
     "stage": "B: extract",
     "tokensIn": 0,
     "tokensOut": 0,
-    "latencyMs": 3,
+    "latencyMs": 6,
     "ok": true,
     "note": "13 ok, 7 failed",
-    "id": "c11",
-    "at": 1793205184224
-   },
-   {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
-    "tier": "nano",
-    "stage": "C: confirm",
-    "tokensIn": 1211,
-    "tokensOut": 121,
-    "latencyMs": 2451,
-    "ok": true,
-    "note": "dev cache (original latency)",
     "id": "c12",
-    "at": 1793205184780
+    "at": 1793273640567
    },
    {
     "provider": "nvidia",
@@ -861,7 +778,20 @@
     "ok": true,
     "note": "dev cache (original latency)",
     "id": "c13",
-    "at": 1793205184806
+    "at": 1793273641399
+   },
+   {
+    "provider": "nvidia",
+    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+    "tier": "nano",
+    "stage": "C: confirm",
+    "tokensIn": 1211,
+    "tokensOut": 121,
+    "latencyMs": 2451,
+    "ok": true,
+    "note": "dev cache (original latency)",
+    "id": "c14",
+    "at": 1793273641435
    },
    {
     "provider": "nvidia",
@@ -873,8 +803,8 @@
     "latencyMs": 10025,
     "ok": true,
     "note": "dev cache (original latency)",
-    "id": "c14",
-    "at": 1793205184822
+    "id": "c15",
+    "at": 1793273641458
    },
    {
     "provider": "nvidia",
@@ -886,8 +816,8 @@
     "latencyMs": 6155,
     "ok": true,
     "note": "dev cache (original latency)",
-    "id": "c15",
-    "at": 1793205184823
+    "id": "c16",
+    "at": 1793273641459
    },
    {
     "provider": "nvidia",
@@ -899,8 +829,8 @@
     "latencyMs": 4233,
     "ok": true,
     "note": "dev cache (original latency)",
-    "id": "c16",
-    "at": 1793205184951
+    "id": "c17",
+    "at": 1793273641616
    },
    {
     "provider": "nvidia",
@@ -912,8 +842,8 @@
     "latencyMs": 2653,
     "ok": true,
     "note": "dev cache (original latency)",
-    "id": "c17",
-    "at": 1793205184987
+    "id": "c18",
+    "at": 1793273641667
    },
    {
     "provider": "nvidia",
@@ -925,21 +855,8 @@
     "latencyMs": 5531,
     "ok": true,
     "note": "dev cache (original latency)",
-    "id": "c18",
-    "at": 1793205185080
-   },
-   {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
-    "tier": "nano",
-    "stage": "C: confirm",
-    "tokensIn": 653,
-    "tokensOut": 110,
-    "latencyMs": 4728,
-    "ok": true,
-    "note": "dev cache (original latency)",
     "id": "c19",
-    "at": 1793205185352
+    "at": 1793273641781
    },
    {
     "provider": "nvidia",
@@ -952,20 +869,20 @@
     "ok": true,
     "note": "dev cache (original latency)",
     "id": "c20",
-    "at": 1793205185508
+    "at": 1793273642045
    },
    {
     "provider": "nvidia",
     "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
     "tier": "nano",
     "stage": "C: confirm",
-    "tokensIn": 1612,
-    "tokensOut": 114,
-    "latencyMs": 4494,
+    "tokensIn": 653,
+    "tokensOut": 110,
+    "latencyMs": 4728,
     "ok": true,
     "note": "dev cache (original latency)",
     "id": "c21",
-    "at": 1793205185581
+    "at": 1793273642201
    },
    {
     "provider": "nvidia",
@@ -978,7 +895,20 @@
     "ok": true,
     "note": "dev cache (original latency)",
     "id": "c22",
-    "at": 1793205185595
+    "at": 1793273642321
+   },
+   {
+    "provider": "nvidia",
+    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+    "tier": "nano",
+    "stage": "C: confirm",
+    "tokensIn": 1612,
+    "tokensOut": 114,
+    "latencyMs": 4494,
+    "ok": true,
+    "note": "dev cache (original latency)",
+    "id": "c23",
+    "at": 1793273642341
    },
    {
     "provider": "nvidia",
@@ -990,21 +920,8 @@
     "latencyMs": 11935,
     "ok": true,
     "note": "dev cache (original latency)",
-    "id": "c23",
-    "at": 1793205185602
-   },
-   {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
-    "tier": "nano",
-    "stage": "C: confirm",
-    "tokensIn": 1203,
-    "tokensOut": 121,
-    "latencyMs": 9495,
-    "ok": true,
-    "note": "dev cache (original latency)",
     "id": "c24",
-    "at": 1793205185720
+    "at": 1793273642372
    },
    {
     "provider": "nvidia",
@@ -1017,7 +934,7 @@
     "ok": true,
     "note": "dev cache (original latency)",
     "id": "c25",
-    "at": 1793205185831
+    "at": 1793273642580
    },
    {
     "provider": "nvidia",
@@ -1030,7 +947,7 @@
     "ok": true,
     "note": "dev cache (original latency)",
     "id": "c26",
-    "at": 1793205186353
+    "at": 1793273642735
    },
    {
     "provider": "nvidia",
@@ -1043,7 +960,7 @@
     "ok": true,
     "note": "dev cache (original latency)",
     "id": "c27",
-    "at": 1793205186628
+    "at": 1793273643482
    },
    {
     "provider": "nvidia",
@@ -1056,7 +973,20 @@
     "ok": true,
     "note": "dev cache (original latency)",
     "id": "c28",
-    "at": 1793205186750
+    "at": 1793273643853
+   },
+   {
+    "provider": "nvidia",
+    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+    "tier": "nano",
+    "stage": "C: confirm",
+    "tokensIn": 1203,
+    "tokensOut": 121,
+    "latencyMs": 9495,
+    "ok": true,
+    "note": "dev cache (original latency)",
+    "id": "c29",
+    "at": 1793273644012
    },
    {
     "provider": "nvidia",
@@ -1068,8 +998,8 @@
     "latencyMs": 3889,
     "ok": true,
     "note": "dev cache (original latency)",
-    "id": "c29",
-    "at": 1793205186824
+    "id": "c30",
+    "at": 1793273644106
    },
    {
     "provider": "nvidia",
@@ -1081,8 +1011,8 @@
     "latencyMs": 9818,
     "ok": true,
     "note": "dev cache (original latency)",
-    "id": "c30",
-    "at": 1793205186912
+    "id": "c31",
+    "at": 1793273644198
    },
    {
     "provider": "nvidia",
@@ -1094,8 +1024,8 @@
     "latencyMs": 5777,
     "ok": true,
     "note": "dev cache (original latency)",
-    "id": "c31",
-    "at": 1793205186930
+    "id": "c32",
+    "at": 1793273644212
    },
    {
     "provider": "nvidia",
@@ -1107,8 +1037,8 @@
     "latencyMs": 7887,
     "ok": true,
     "note": "dev cache (original latency)",
-    "id": "c32",
-    "at": 1793205186948
+    "id": "c33",
+    "at": 1793273644227
    },
    {
     "provider": "nvidia",
@@ -1120,21 +1050,8 @@
     "latencyMs": 6147,
     "ok": true,
     "note": "dev cache (original latency)",
-    "id": "c33",
-    "at": 1793205186949
-   },
-   {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
-    "tier": "nano",
-    "stage": "C: confirm",
-    "tokensIn": 1438,
-    "tokensOut": 500,
-    "latencyMs": 9298,
-    "ok": true,
-    "note": "dev cache (original latency)",
     "id": "c34",
-    "at": 1793205186966
+    "at": 1793273644228
    },
    {
     "provider": "nvidia",
@@ -1147,7 +1064,20 @@
     "ok": true,
     "note": "dev cache (original latency)",
     "id": "c35",
-    "at": 1793205186967
+    "at": 1793273644255
+   },
+   {
+    "provider": "nvidia",
+    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+    "tier": "nano",
+    "stage": "C: confirm",
+    "tokensIn": 1438,
+    "tokensOut": 500,
+    "latencyMs": 9298,
+    "ok": true,
+    "note": "dev cache (original latency)",
+    "id": "c36",
+    "at": 1793273644265
    },
    {
     "provider": "nvidia",
@@ -1159,8 +1089,8 @@
     "latencyMs": 15223,
     "ok": true,
     "note": "dev cache (original latency)",
-    "id": "c36",
-    "at": 1793205186975
+    "id": "c37",
+    "at": 1793273644266
    },
    {
     "provider": "nvidia",
@@ -1172,8 +1102,8 @@
     "latencyMs": 24123,
     "ok": true,
     "note": "dev cache (original latency)",
-    "id": "c37",
-    "at": 1793205186985
+    "id": "c38",
+    "at": 1793273644277
    },
    {
     "provider": "nvidia",
@@ -1185,8 +1115,8 @@
     "latencyMs": 3119,
     "ok": true,
     "note": "dev cache (original latency)",
-    "id": "c38",
-    "at": 1793205187363
+    "id": "c39",
+    "at": 1793273644635
    },
    {
     "provider": "nvidia",
@@ -1198,73 +1128,34 @@
     "latencyMs": 7688,
     "ok": true,
     "note": "dev cache (original latency)",
-    "id": "c39",
-    "at": 1793205187366
-   },
-   {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
-    "tier": "nano",
-    "stage": "D: mutations",
-    "tokensIn": 587,
-    "tokensOut": 195,
-    "latencyMs": 6787,
-    "ok": true,
-    "note": "dev cache (original latency)",
     "id": "c40",
-    "at": 1793205187369
-   },
-   {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
-    "tier": "nano",
-    "stage": "D: mutations",
-    "tokensIn": 587,
-    "tokensOut": 187,
-    "latencyMs": 11226,
-    "ok": true,
-    "note": "dev cache (original latency)",
-    "id": "c41",
-    "at": 1793205187371
+    "at": 1793273644640
    },
    {
     "provider": "nvidia",
     "model": "nvidia/nemotron-3.5-super-vl-120b-a12b",
     "tier": "super",
     "stage": "E: cluster",
-    "tokensIn": 1848,
-    "tokensOut": 268,
-    "latencyMs": 4882,
+    "tokensIn": 1591,
+    "tokensOut": 227,
+    "latencyMs": 5795,
     "ok": true,
     "note": "dev cache (original latency)",
-    "id": "c42",
-    "at": 1793205187374
+    "id": "c41",
+    "at": 1793273644647
    },
    {
     "provider": "nvidia",
     "model": "nvidia/nemotron-3-ultra-550b-a55b",
     "tier": "ultra",
     "stage": "F: lineage",
-    "tokensIn": 2275,
-    "tokensOut": 1145,
-    "latencyMs": 25059,
+    "tokensIn": 1999,
+    "tokensOut": 1172,
+    "latencyMs": 84550,
     "ok": true,
     "note": "dev cache (original latency)",
-    "id": "c43",
-    "at": 1793205187492
-   },
-   {
-    "provider": "nvidia",
-    "model": "nvidia/nemotron-3.5-super-vl-120b-a12b",
-    "tier": "super",
-    "stage": "D2: review labels",
-    "tokensIn": 939,
-    "tokensOut": 61,
-    "latencyMs": 2771,
-    "ok": true,
-    "note": "dev cache (original latency)",
-    "id": "c44",
-    "at": 1793205187510
+    "id": "c42",
+    "at": 1793273644778
    },
    {
     "provider": "nvidia",
@@ -1276,24 +1167,24 @@
     "latencyMs": 6418,
     "ok": true,
     "note": "dev cache (original latency)",
-    "id": "c45",
-    "at": 1793205187511
+    "id": "c43",
+    "at": 1793273644784
    },
    {
     "provider": "nvidia",
     "model": "nvidia/nemotron-3.5-super-vl-120b-a12b",
     "tier": "super",
     "stage": "G: verdict",
-    "tokensIn": 1273,
-    "tokensOut": 447,
-    "latencyMs": 6409,
+    "tokensIn": 1277,
+    "tokensOut": 442,
+    "latencyMs": 5487,
     "ok": true,
     "note": "dev cache (original latency)",
-    "id": "c46",
-    "at": 1793205187531
+    "id": "c44",
+    "at": 1793273644806
    }
   ],
-  "totalLatencyMs": 3324,
+  "totalLatencyMs": 4291,
   "pricing": {
    "nano": [
     0.06,
@@ -1316,7 +1207,7 @@
   "fixture": {
    "id": "3-martinelli",
    "title": "“Martinelli” video hacks your phone (WhatsApp hoax)",
-   "generatedAt": "2026-10-28T16:33:07.532Z",
+   "generatedAt": "2026-10-29T11:34:04.808Z",
    "generatedWith": "live"
   }
  }

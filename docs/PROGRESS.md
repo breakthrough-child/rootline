@@ -1,6 +1,6 @@
 # Progress (final)
 
-_Last updated: 2026-10-29_
+_Last updated: 2026-10-29 (after the general-statement fix)_
 
 **What is left is deployment on Nebius Token Factory by a teammate with their own key** (`docs/TEAMMATE_DEPLOY.md`). Everything else is built, tested and committed.
 
@@ -24,10 +24,11 @@ _Last updated: 2026-10-29_
 
 | Fixture | Nodes (copies / evidence pages) | Edges high/med/low (without labels) | Detected changes shown | Earliest found | Cost* (all-Ultra*) | Check |
 |---|---|---|---|---|---|---|
-| Perfume forward | 7 (3 / 3) | 0 / 2 / 4 (3) | 2 (1 strong) | 2001-11-03 (a fact-check quoting "Seven women have died after inhaling a free perfume sample that was mailed to them") | $0.0076 ($0.057, 7.6×) | n/a |
-| Screenshot (fictional @kemi_reports_247) | 9 (3 / 5) | 0 / 0 / 8 (5) | 0 | 2023-03-30 | $0.0070 ($0.041, 5.9×) | **No evidence this post exists** |
-| WhatsApp "Martinelli" | 18 (3 / 14) | 1 / 3 / 13 (14) | 5 (4 strong) | 2018-04-17 (Snopes quoting "Warning from An Garda…") | $0.0121 ($0.075, 6.2×) | n/a |
+| Perfume forward | 6 (2 / 3) | see fixture | 2 (1 strong) | 2001-11-03 (a fact-check quoting "Seven women have died after inhaling a free perfume sample that was mailed to them") | $0.0076 ($0.057, 7.6×) | n/a |
+| Screenshot (fictional @kemi_reports_247) | 1 (empty family after the same-claim fix) | none | 0 | none (limited) | $0.0070 ($0.041, 5.9×) | **No evidence this post exists** |
+| WhatsApp "Martinelli" | 16 (2 / 13) | see fixture | 3 | 2018-04-17 (Snopes quoting "Warning from An Garda…") | $0.0121 ($0.075, 6.2×) | n/a |
 | Fake circular (fictional org) | 1 (0 / 0) | none | 0 | none (limited) | $0.0041 ($0.063) | **No official record found** |
+| General statement (Fulani sentence) | no tree (4 reputable reports) | none | none | n/a | under $0.001 | neutral reply card |
 
 \* Logged tokens × Nebius Token Factory list prices (the NVIDIA API served the runs); "all-Ultra" re-prices the same tokens at Ultra rates. Latency of successful calls in these runs: Nano p50 5.1 s / p95 15.6 s (n=120), Super p50 3.5 s / p95 12.7 s (n=11), Ultra p50 18.7 s / p95 25.1 s (n=3), vision 5.8 s (n=1). A fresh live trace takes roughly 1–3 minutes on NVIDIA's free tier (rate-limited to ~30 requests/min); `npm run verify-nebius` on the NVIDIA API took 138 s. Unthrottled Nebius timing is unmeasured.
 
@@ -49,6 +50,23 @@ _Last updated: 2026-10-29_
 - **Untuned cases** (screenshot, grant) end up with **zero** labels, so their accuracy cannot be measured. Before the copies-only rule, a grant case scored 4 of 4 on its user-copy edge, then lost its labels when the tree's structure changed; this fragility is real.
 - The page-admission gates fixed the grant case: the "Swiss recovered funds / World Bank" rebuttal of a *different* programme is no longer admitted (a naira offer needs an amount in naira), and the circular no longer matches an unrelated US county's school-closure post (a claim naming an organisation needs the whole distinctive name on the page).
 - Remaining errors seen: a "removed" label where the later text still names the thing in other words, and a call-to-action that is a reworded repeat.
+
+## General statements vs forwarded messages (added after a real-world test)
+
+**Problem found by a real test.** A plain news-style sentence ("Fulani herdsmen are clashing with farmers in Nigeria and it is causing deaths…") was treated as a rumor: an unrelated opinion post became the "earliest version", a fact-check of a *different* video was attached as evidence, and the reply card implied doubt.
+
+**What changed**
+1. **Stage A0 classification** (`src/lib/general.ts`): a small Nano call labels plain text *circulating message* or *general statement* (and flags sensitive topics). Chain-forward markers always win over the model; screenshots/documents are always messages. It is a separate call, so Stage A prompts, caches and the existing demo runs are unchanged.
+2. **General statements get no lineage tree and no implied doubt.** Tavily news search (3 searches), one Nano call selects only news/official/research pages that directly report on the topic (never social/blog/forum posts, opinion, or fact-checks of other stories), each with a one-sentence neutral, attributed summary that must be traceable to the source text (else the source's own sentence is quoted). 1–5 sources are shown with dates and provenance. The reply card is deterministic and neutral (no "rumor/false/doubt" wording; unit-tested).
+3. **Fact-checks attach only when they address the same claim.** Fact-check/news/official pages must speak to the claim's specifics; posts and forwards pass on the same test *or* by closely resembling the message's wording (older copies often lack later-added specifics). The verdict prompt now forbids suggesting a claim is false or doubtful unless a listed source directly contradicts that exact claim, and the rule-based reply card no longer says "details have changed… hold off" without a source.
+4. **Sensitive topics** (ethnic, religious, conflict, security): neutral, attributed wording for summaries and verdicts; a social/forum/other page is never offered as the "earliest version" (the earliest fact-check/news/official page is).
+
+**Test results (real APIs, NVIDIA provider)**
+- **Fulani sentence** → classified *general statement*, 0 lineage nodes, 4 sources (latimes.com 2019, cnn.com 2018, bisi.org.uk research 2025, dw.com 2023) with neutral attributed summaries; neutral reply card; no fact-check or opinion pages. (One sentence is a small test of the classifier: it is a guardrail plus a model judgement, not a measured accuracy.)
+- **Perfume forward and Martinelli** still work as before: same earliest versions (2001-11-03; 2018-04-17), same number of detected changes (2 and 3 vs 2 and 5), 6 and 16 nodes (was 7 and 18: a few off-topic pages are now excluded).
+- **Fake circular:** unchanged (empty family, `no official record found`).
+- **Screenshot demo:** the family is now **empty** (was 8 pages). The removed pages were fact-checks of the same rumor in other places and two unrelated posts about *selling fake perfumes*; none speaks to this post's specifics (Lagos, Abuja, 2,000). The "No evidence this post exists" check is unchanged. This is the strictness trade-off: fewer, safer versions.
+- 98 tests pass (new: classification, sensitivity, neutral verdict, grounded summaries, different-story fact-checks).
 
 ## What real data exposed, and what was done (selected)
 
@@ -73,7 +91,7 @@ See `docs/DEMO_SCRIPT.md`. Perfume gives the strongest origin story; Martinelli 
 
 ## Verified in this build
 
-- `npm run lint`, `typecheck`, `test` (89 tests) and `build` pass; no secrets in the repo or git history.
+- `npm run lint`, `typecheck`, `test` (98 tests) and `build` pass; no secrets in the repo or git history.
 - Real APIs: NVIDIA chat completions (Nano/Super/Ultra/vision), Tavily search + extract, Supabase (server round-trips; anon key blocked).
 - Browser-checked with the real fixtures: home (voice/video hidden), replay, tree, side panel with detected changes, post-exists panel, official panel, reply card, routing drawer, Watchlist, share page, dark mode, 375 px.
 - **Not verified:** anything on Nebius Token Factory; voice/video/speech; a Vercel deployment; XLSX/PPTX end to end.

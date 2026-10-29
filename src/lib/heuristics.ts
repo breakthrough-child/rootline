@@ -207,8 +207,8 @@ export function heuristicVerdict(variants: Variant[], edges: LineageEdge[], earl
   const replyCard = debunks.length
     ? `I looked this up before forwarding. Versions of this message have circulated since ${earliest?.date?.slice(0, 4) ?? "earlier"}, and the details keep changing. Fact-checkers say it isn't supported. Maybe let's not forward it until there's an official source. 🙏`
     : relatives < 2
-      ? `I tried to trace this message before forwarding and couldn't find earlier copies or an official source. That doesn't mean it's true or false, so let's check with an official source before sharing it. 🙏`
-      : `I looked this up before forwarding. Earlier versions of this message exist and the details have changed as it spread. I couldn't find an official source, so let's hold off forwarding for now. 🙏`;
+      ? `I tried to trace this message before forwarding and couldn't find earlier copies or a fact-check that addresses it. That doesn't mean it's true or false, so it's worth checking an official source before sharing it. 🙏`
+      : `I looked this up before forwarding. I found ${relatives} similar versions of this message online, but no fact-check or official source that addresses it directly. That doesn't make it true or false, so it's worth checking an official source before sharing it. 🙏`;
   return { summary, whatChanged, unsupported, confidence, replyCard };
 }
 

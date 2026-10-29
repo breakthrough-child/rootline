@@ -48,4 +48,7 @@ TXT
 cat > forward-martinelli.txt <<'TXT'
 WARNING! If you receive a video called MARTINELLI do not open it. It is a virus that will hack your phone and nothing can stop it, even if it comes from a friend. This has been confirmed by CNN and BBC. Please pass this to everyone in your contact list.
 TXT
+cat > statement-fulani.txt <<'TXT'
+Fulani herdsmen are clashing with farmers in Nigeria and it is causing deaths, displacement and food shortages in several states.
+TXT
 ls -la

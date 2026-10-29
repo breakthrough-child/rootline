@@ -1,9 +1,9 @@
-// Regenerates the demo fixtures from REAL runs (real Tavily search + the configured LLM provider) and saves the full
+// Regenerates the demo fixtures (five) from REAL runs (real Tavily search + the configured LLM provider) and saves the full
 // result, including its routing log, to fixtures/<id>.json. Whatever provider is configured in .env.local produces
 // them (NVIDIA API today; run it again with Nebius env vars and the saved runs are labelled Nebius automatically,
 // because the provider is read from each run's own call log).
 //
-//   npm run fixtures            # all four
+//   npm run fixtures            # all five
 //   npm run fixtures -- martinelli   # one (substring match on the id)
 //
 // Uses roughly 15–20 Tavily credits per fixture. Set DEV_CACHE=true to replay cached responses while iterating.
@@ -62,6 +62,13 @@ async function main() {
         const claims = await extractClaims(ctx, input);
         return { input, claimText: claims[0].text };
       },
+    },
+    {
+      id: "5-general",
+      title: "A general news statement (not a forwarded message)",
+      chip: "General news statement",
+      description: "A plain statement about ongoing events: Rootline builds no lineage tree and implies no doubt; it lists what reputable sources report.",
+      build: async () => ({ input: textToInput(await readFile(path.join(FILES, "statement-fulani.txt"), "utf8")) }),
     },
   ];
 

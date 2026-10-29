@@ -382,3 +382,33 @@ export function LimitedFamily({ result }: { result: ClaimResult }) {
 export function useEarliestDate(result?: ClaimResult) {
   return useMemo(() => result?.variants.find((v) => v.id === result.earliestId)?.date ?? null, [result]);
 }
+
+export function GeneralReports({ result }: { result: ClaimResult }) {
+  const reports = result.reports ?? [];
+  return (
+    <section className="card p-5" aria-label="Reputable reports">
+      <p className="text-xs font-semibold uppercase tracking-wide text-muted">General statement</p>
+      <p className="mt-1 leading-relaxed">{result.verdict.summary}</p>
+      {reports.length > 0 && (
+        <ul className="mt-4 space-y-3">
+          {reports.map((r) => (
+            <li key={r.url} className="rounded-lg border border-line p-3">
+              <div className="flex flex-wrap items-center gap-2 text-xs">
+                <span className="rounded bg-accent-soft px-1.5 py-0.5 font-semibold uppercase tracking-wide text-accent">{r.kind}</span>
+                <span className="font-medium">{r.publisher}</span>
+                <span className="text-muted">
+                  <DateBadge date={r.date} provenance={r.dateProvenance} />
+                </span>
+              </div>
+              <p className="mt-1.5 text-sm">{r.summary}</p>
+              <p className="mt-1 text-xs">
+                <SourceLink url={r.url}>{r.title || "Read the source"}</SourceLink>
+              </p>
+            </li>
+          ))}
+        </ul>
+      )}
+      <p className="mt-4 text-xs text-muted">Summaries paraphrase what each source&apos;s text says. Rootline does not judge whether the statement is true and does not build a lineage tree for statements like this.</p>
+    </section>
+  );
+}

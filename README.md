@@ -26,6 +26,8 @@ Two audiences: **people receiving forwards** (mobile-first UI, a reply card, "Sh
 
 > **Voice notes and video are a feature flag, OFF by default.** They appear only when `ASR_ENDPOINT_URL` points at an OpenAI-compatible speech-to-text endpoint, and that code path has **not been tested** against a real endpoint (the ffmpeg/keyframe plumbing is unit-level only). Treat it as experimental.
 
+**General statements are not traced.** Rootline traces how *messages* spread. A new Stage A0 classifies pasted text as a *circulating message* (chain forward, viral post, hoax-style warning, scam offer, a claim with distinctive wording) or a *general statement about current events*. For a general statement Rootline builds **no lineage tree and implies no doubt**: it says "This looks like a general statement about current events, not a forwarded message…" and lists 3–5 reputable news/official/research sources found with Tavily, each with a one-line neutral summary and a link. The reply card stays neutral. A clear chain-forward marker (a call to share/forward, urgent-warning wording) always wins over the model, so real forwards are never downgraded; screenshots and documents are always treated as messages.
+
 Every input becomes one `ExtractedInput` object, then runs through the same pipeline:
 
 ```mermaid
@@ -103,7 +105,8 @@ Nothing in the code is provider-specific beyond display labels and a default rat
 ## Honesty rules (enforced in code)
 
 - **Never invent a variant, source, date or quote.** Every node links to a real URL (or your upload). Quotes are built from numbered sentences of the page, so they are verbatim by construction, and are re-checked against the page text.
-- **A page is a "version" only if it is about the same specific claim.** The model must say so, a money offer must involve an amount in the same currency, and the page must read like a circulating message, not a topic explainer.
+- **A page is a "version" only if it is about the same specific claim.** The model must say so; a money offer needs an amount in the same currency; a claim naming an organisation needs the whole distinctive name on the page; a fact-check, news or official page must speak to the claim's specifics (a fact-check of a *different* video or story on the same topic does not attach); and the page must read like a circulating message, not a topic explainer.
+- **Neutral by default; stricter on sensitive topics.** A reply card never suggests a claim is false or doubtful unless a listed source directly contradicts that exact claim. On ethnic, religious, conflict or security topics the generated text stays strictly factual and attributed, and a social/forum post is never presented as the "earliest version".
 - **Changes are detected only between copies of the message.** On fact-check, news and official pages the node text is only the rumor *as quoted verbatim*, never the article's commentary. A page without a clean quoted copy stays as a dated **evidence page** with no changes labelled on its edges.
 - **"Detected changes", strong first.** Every label must appear in the parent/child text and fit its type, then a Super review pass may keep, retype or drop it (never add). Only strong labels show by default; weaker ones sit behind a "Show weaker changes" toggle. Measured accuracy is in `docs/PROGRESS.md`: a detector, not a verdict.
 - **No padding.** Fewer than 3 relatives → a designed "Limited family found" state.
@@ -129,10 +132,10 @@ No keys yet? The example chips replay the saved real runs in `/fixtures` (no net
 
 ### Demo fixtures
 
-`/fixtures/*.json` are saved **real** runs (real Tavily search plus whichever provider was configured when they were generated): a perfume-sample forward, a screenshot of a post from a fictional account, the WhatsApp "Martinelli" warning, and a fake circular from a fictional organization. The app states which provider produced each one, read from the run's own call log. Regenerate on whatever provider is configured:
+`/fixtures/*.json` are saved **real** runs (real Tavily search plus whichever provider was configured when they were generated): a perfume-sample forward, a screenshot of a post from a fictional account, the WhatsApp "Martinelli" warning, a fake circular from a fictional organization, and a general news statement (no tree, reputable reports only). The app states which provider produced each one, read from the run's own call log. Regenerate on whatever provider is configured:
 
 ```bash
-npm run fixtures                 # all four (about 70 Tavily credits)
+npm run fixtures                 # all five (about 80 Tavily credits)
 npm run fixtures -- martinelli   # one
 ```
 

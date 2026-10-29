@@ -1,0 +1,229 @@
+{
+ "id": "5-general",
+ "title": "A general news statement (not a forwarded message)",
+ "chip": "General news statement",
+ "description": "A plain statement about ongoing events: Rootline builds no lineage tree and implies no doubt; it lists what reputable sources report.",
+ "investigation": {
+  "id": "fixture-5-general",
+  "createdAt": "2026-10-29T11:36:57.755Z",
+  "mode": "live",
+  "input": {
+   "sourceKind": "text",
+   "original": {
+    "kind": "paste"
+   },
+   "text": "Fulani herdsmen are clashing with farmers in Nigeria and it is causing deaths, displacement and food shortages in several states.",
+   "language": "unknown",
+   "locations": [
+    {
+     "label": "message",
+     "start": 0,
+     "end": 129
+    }
+   ],
+   "unverifiedMetadata": {},
+   "adapterPath": [
+    "text:normalize"
+   ]
+  },
+  "claims": [
+   {
+    "claimId": "k0",
+    "claim": "Fulani herdsmen are clashing with farmers in Nigeria and it is causing deaths, displacement and food shortages in several states.",
+    "kind": "general",
+    "reports": [
+     {
+      "url": "https://www.latimes.com/world/africa/la-fg-nigeria-farmer-herder-violence-20190221-story.html",
+      "title": "Guns, religion and climate change intensify Nigeria’s deadly farmer-herder clashes",
+      "publisher": "latimes.com",
+      "kind": "news",
+      "date": "2019-02-21",
+      "dateProvenance": "published_date",
+      "summary": "Latimes.com reports that in Kaduna state, farmers and cattle herders have long clashed over land, but new factors mean more bloodshed.",
+      "excerpt": "In Kaduna state, farmers and cattle herders have long clashed over land, but new factors mean more bloodshed. It's a central theme in the"
+     },
+     {
+      "url": "https://www.cnn.com/2018/07/27/africa/nigeria-herdsmen-boko-haram-report",
+      "title": "Nigeria’s pastoral conflict ‘six times deadlier’ than Boko Haram in 2018, ICG says",
+      "publisher": "cnn.com",
+      "kind": "news",
+      "date": "2018-07-27",
+      "dateProvenance": "published_date",
+      "summary": "Cnn.com reports that escalating conflict between herdsmen and farmers in Nigeria is \"six times deadlier\" than Boko Haram-related attacks in 2018.",
+      "excerpt": "Escalating conflict between herdsmen and farmers in Nigeria is “six times deadlier” than Boko Haram-related attacks this year,"
+     },
+     {
+      "url": "https://bisi.org.uk/reports/the-growth-of-farmer-herder-violence-in-nigeria",
+      "title": "The Growth of Farmer-Herder Violence in Nigeria — Bloomsbury Intelligence and Security Institute (BISI)",
+      "publisher": "bisi.org.uk",
+      "kind": "research",
+      "date": "2025-05-26",
+      "dateProvenance": "published_date",
+      "summary": "Bisi.org.uk research states that by 2021, over 15,000 deaths had been linked to farmer-herder violence in northern Nigeria, with half occurring since 2018, and the violence has spread south due to droughts and desertification.",
+      "excerpt": "For over a decade, northern Nigeria has been subjected to increased violence between farmers and pastoralists. By 2021, over 15,000 deaths had been linked to the violence, with half of those occurring since 2018. The violence has spread beyond Nigeria’s north and into the south as increased droughts and desertification have pushed pastoralists away from their traditional grazing areas in the"
+     },
+     {
+      "url": "https://www.dw.com/en/nigeria-government-inaction-blamed-for-escalating-farmer-herder-conflict/a-67843008",
+      "title": "Nigeria: Farmer-herder conflict exposes government inaction",
+      "publisher": "dw.com",
+      "kind": "news",
+      "date": "2023-12-29",
+      "dateProvenance": "published_date",
+      "summary": "Dw.com reports that the farmer-herder conflict in Nigeria's Plateau State has caused mass killings this year, with Amnesty International confirming at least 140 deaths in Bokkos and Barkin-Ladi areas alone, and at least 86 people killed in other attacks.",
+      "excerpt": "But this is only the latest of many cases of such mass killings in Nigeria's Plateau State this year, which have widely been attributed to the persisting farmer-herder crisis in the West African nation.\n\nWhile authorities are yet to establish the exact number of casualties from the Christmas attack, Amnesty International has confirmed at least 140 deaths in the Bokkos and Barkin-Ladi areas alone."
+     }
+    ],
+    "understanding": {
+     "claim": "Fulani herdsmen are clashing with farmers in Nigeria and it is causing deaths, displacement and food shortages in several states.",
+     "entities": [],
+     "numbers": [],
+     "places": [],
+     "authorities": [],
+     "callToAction": null,
+     "queries": [
+      "Nigeria Fulani herdsmen farmers clashes",
+      "Nigeria farmer-herder conflict deaths",
+      "Nigeria food shortages displacement states"
+     ],
+     "keyElements": [],
+     "language": "unknown",
+     "inputKind": "general_statement",
+     "sensitive": true
+    },
+    "variants": [
+     {
+      "id": "you",
+      "text": "Fulani herdsmen are clashing with farmers in Nigeria and it is causing deaths, displacement and food shortages in several states.",
+      "excerpt": "Fulani herdsmen are clashing with farmers in Nigeria and it is causing deaths, displacement and food shortages in several states.",
+      "sources": [
+       {
+        "url": "user:pasted",
+        "title": "Your copy",
+        "excerpt": "Fulani herdsmen are clashing with farmers in Nigeria and it is causing deaths, displacement and food shortages in several states.",
+        "pageType": "user_input",
+        "date": null,
+        "dateProvenance": "unknown"
+       }
+      ],
+      "date": null,
+      "dateProvenance": "unknown",
+      "pageType": "user_input",
+      "isUserInput": true
+     }
+    ],
+    "edges": [],
+    "earliestId": null,
+    "limited": false,
+    "verdict": {
+     "summary": "This looks like a general statement about current events, not a forwarded message. Rootline traces how messages spread. Here's what reputable sources report:",
+     "whatChanged": [],
+     "unsupported": [],
+     "confidence": "low",
+     "replyCard": "I looked into this. It reads as a general statement about current events, not a forwarded rumor. News and official sources report on it, for example latimes.com, cnn.com, bisi.org.uk. It's worth reading them directly before sharing."
+    },
+    "branches": [],
+    "stats": {
+     "queries": 3,
+     "pagesSearched": 4,
+     "pagesConfirmed": 4,
+     "pairsCompared": 0
+    },
+    "warnings": []
+   }
+  ],
+  "checks": {},
+  "logs": [
+   {
+    "provider": "nvidia",
+    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+    "tier": "nano",
+    "stage": "A0: classify input",
+    "tokensIn": 261,
+    "tokensOut": 62,
+    "latencyMs": 4731,
+    "ok": true,
+    "note": "dev cache (original latency)",
+    "id": "c1",
+    "at": 1793273817695
+   },
+   {
+    "provider": "tavily",
+    "model": "search/basic",
+    "tier": "search",
+    "stage": "B: reports",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 4,
+    "ok": true,
+    "note": "8 results",
+    "id": "c2",
+    "at": 1793273817718
+   },
+   {
+    "provider": "tavily",
+    "model": "search/basic",
+    "tier": "search",
+    "stage": "B: reports",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 12,
+    "ok": true,
+    "note": "8 results",
+    "id": "c3",
+    "at": 1793273817727
+   },
+   {
+    "provider": "tavily",
+    "model": "search/basic",
+    "tier": "search",
+    "stage": "B: reports",
+    "tokensIn": 0,
+    "tokensOut": 0,
+    "latencyMs": 12,
+    "ok": true,
+    "note": "8 results",
+    "id": "c4",
+    "at": 1793273817727
+   },
+   {
+    "provider": "nvidia",
+    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+    "tier": "nano",
+    "stage": "C: reports",
+    "tokensIn": 1211,
+    "tokensOut": 690,
+    "latencyMs": 74028,
+    "ok": true,
+    "note": "dev cache (original latency)",
+    "id": "c5",
+    "at": 1793273817730
+   }
+  ],
+  "totalLatencyMs": 82,
+  "pricing": {
+   "nano": [
+    0.06,
+    0.24
+   ],
+   "super": [
+    0.3,
+    0.9
+   ],
+   "ultra": [
+    1,
+    3
+   ],
+   "vision": [
+    0.3,
+    0.9
+   ]
+  },
+  "llmProvider": "nvidia",
+  "fixture": {
+   "id": "5-general",
+   "title": "A general news statement (not a forwarded message)",
+   "generatedAt": "2026-10-29T11:36:57.756Z",
+   "generatedWith": "live"
+  }
+ }
+}

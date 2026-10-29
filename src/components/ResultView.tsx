@@ -1,7 +1,7 @@
 "use client";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import type { ExtractedInput, Investigation } from "@/lib/types";
-import { LimitedFamily, NodePanel, OfficialPanel, PostExistsPanel, ReplyCard, StageProgress, SummaryPanel, Timeline } from "./panels";
+import { GeneralReports, LimitedFamily, NodePanel, OfficialPanel, PostExistsPanel, ReplyCard, StageProgress, SummaryPanel, Timeline } from "./panels";
 import { RoutingDrawer } from "./RoutingDrawer";
 import { TreeView } from "./TreeView";
 import type { RunState } from "./useRun";
@@ -68,9 +68,11 @@ export function ResultView({ state, input, shareable = true }: { state: Pick<Run
         </p>
       )}
 
-      {result?.limited && <LimitedFamily result={result} />}
+      {result?.kind === "general" && <GeneralReports result={result} />}
 
-      {variants.length > 0 && (
+      {result?.limited && result.kind !== "general" && <LimitedFamily result={result} />}
+
+      {variants.length > 0 && result?.kind !== "general" && (
         <div className={`grid gap-4 ${selectedVariant ? "lg:grid-cols-[1fr_360px]" : ""}`}>
           <div className="space-y-3">
             <div className="flex flex-wrap items-center justify-between gap-2">
@@ -90,7 +92,13 @@ export function ResultView({ state, input, shareable = true }: { state: Pick<Run
         </div>
       )}
 
-      {result && (
+      {result?.kind === "general" && (
+        <div className="max-w-xl">
+          <ReplyCard text={result.verdict.replyCard} earliestDate={null} shareUrl={shareUrl} />
+        </div>
+      )}
+
+      {result && result.kind !== "general" && (
         <div className="grid gap-4 lg:grid-cols-[1fr_400px]">
           <SummaryPanel result={result} />
           <ReplyCard text={result.verdict.replyCard} earliestDate={result.variants.find((v) => v.id === result.earliestId)?.date ?? null} shareUrl={shareUrl} />

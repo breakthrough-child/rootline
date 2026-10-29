@@ -33,7 +33,8 @@ You paste a forward, upload a screenshot or a PDF/Word/Excel/PowerPoint file. Ro
 5. shows the **detected changes** between copies (a new authority, new urgency, a new call to forward), strongest first, weaker ones behind a toggle,
 6. writes a calm reply card under 60 words, with "Share to WhatsApp",
 7. for screenshots asks **"Does this post actually exist?"**; for documents asks **"Is this official?"**,
-8. lets teams save a rumor to a **Watchlist** and re-run it to see new versions.
+8. lets teams save a rumor to a **Watchlist** and re-run it to see new versions,
+9. knows when something is **not a forwarded message**: a plain news-style statement gets no family tree and no implied doubt, just what reputable sources report, neutrally summarised, with links.
 
 It is built to be honest. Dates always say where they came from. Edges are inferences, never certainties. Rootline never calls anything "fake": it says *"No evidence this post exists"* or *"No official record found. Verify directly with the organization before acting."* When it finds little, it shows a "Limited family found" state instead of padding the tree.
 
@@ -46,6 +47,7 @@ It is built to be honest. Dates always say where they came from. Edges are infer
 - Every model call is logged; the **"How this was built"** drawer shows model, tokens, latency and cost per tier against running everything on the biggest model.
 
 ## Challenges we ran into
+- **Not treating true statements as rumors.** A real-world test showed that a plain news sentence was being treated as a rumor, with an unrelated opinion post as its "earliest version". We added an input classifier, a neutral path for general statements, and a rule that a fact-check attaches only if it addresses the same specific claim.
 - **Not inventing anything.** Small models "tidy up" quotes and echo instructions. We stopped asking them to copy text and made them answer with sentence numbers instead.
 - **Real data is messy.** On real runs, topic explainers, shop pages and rebuttals of *different* schemes were mistaken for versions of the message, and fact-check commentary was mistaken for the message. We added a same-specific-claim gate, a money-offer currency check and a copies-only rule for detecting changes.
 - **Measuring ourselves honestly.** Our first hand-audit of change labels was too generous (we compared against truncated text). Re-scored properly, raw labels were only about a third correct, which pushed us to add a review pass and strict guards. We publish the real numbers in `docs/PROGRESS.md`.

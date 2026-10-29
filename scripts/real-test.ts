@@ -26,6 +26,10 @@ const RUMORS: Record<string, { title: string; text: string }> = {
     title: "Phones / 5G cause cancer chain",
     text: "Please don't sleep with your phone near your head! Radiation from mobile phones and 5G towers causes brain cancer. The WHO has confirmed it. Keep your phone at least one metre away from your body at night and never charge it in your bedroom. Forward this to everyone you love.",
   },
+  fulani: {
+    title: "General news statement (Fulani herdsmen / farmers clashes)",
+    text: "Fulani herdsmen are clashing with farmers in Nigeria and it is causing deaths, displacement and food shortages in several states.",
+  },
   martinelli: {
     title: "'Martinelli' video hacks your phone",
     text: "WARNING! If you receive a video called MARTINELLI do not open it. It is a virus that will hack your phone and nothing can stop it, even if it comes from a friend. This has been confirmed by CNN and BBC. Please pass this to everyone in your contact list.",

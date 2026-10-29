@@ -141,6 +141,22 @@ export interface Understanding {
   queries: string[];
   keyElements: string[];
   language: string;
+  /** Stage A0: a circulating message (traced) or a general statement about current events (reported, not traced). */
+  inputKind?: "circulating_message" | "general_statement";
+  /** Ethnic, religious, conflict or security topic: wording stays neutral and factual. */
+  sensitive?: boolean;
+}
+
+/** A reputable report on a general statement (news, official or research source), summarised neutrally. */
+export interface SourceReport {
+  url: string;
+  title: string;
+  publisher: string;
+  kind: "news" | "official" | "research";
+  date: string | null;
+  dateProvenance: DateProvenance;
+  summary: string;
+  excerpt: string;
 }
 
 export interface Verdict {
@@ -179,6 +195,9 @@ export interface OfficialCheck {
 export interface ClaimResult {
   claimId: string;
   claim: string;
+  /** "general": a general statement about current events: no lineage tree, just reputable reports in `reports`. Default "message". */
+  kind?: "message" | "general";
+  reports?: SourceReport[];
   understanding: Understanding;
   variants: Variant[];
   edges: LineageEdge[];

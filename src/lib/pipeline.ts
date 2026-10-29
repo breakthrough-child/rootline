@@ -6,6 +6,7 @@ import { chatJson, RunContext, withFallback } from "./llm";
 import { ClusterSchema, LineageSchema, MembershipSchema, MutationsSchema, ReviewSchema, UnderstandingSchema, VerdictSchema } from "./schemas";
 import { extract, resolveDate, search, type SearchHit } from "./search";
 import { bestExcerpt, clip, moneyCompatible, orgCompatible, sharedContentWords, splitSentences, stemCoverage, excerptStrictlyIn, hashString, speaksTo, normalizeInput, relatedness, snapExcerptToPage, tokenCoverage, truncate, wordCount } from "./text";
+import { classifyInput, gatherReports, generalVerdict } from "./general";
 import { baselineTree, candidatePairs, dedupeVariants, markSpread, repairTree, validateTree } from "./tree";
 import type { ClaimResult, Confidence, PageType, ExtractedInput, LineageEdge, Mutation, SourceRef, Understanding, Variant, Verdict } from "./types";
 
@@ -13,6 +14,8 @@ import type { ClaimResult, Confidence, PageType, ExtractedInput, LineageEdge, Mu
 export const PREFILTER_SCORE = 0.14;
 /** A page must express at least this many distinct elements of the message (when the message has 2 or more). */
 export const MIN_VERIFIED_ELEMENTS = 1;
+/** A post/forward that shares no specific with the claim still counts as a copy if its wording is at least this similar. */
+export const COPY_RESEMBLANCE = 0.3;
 export const MIN_EXCERPT_WORDS = 8;
 /** A rumor quoted on a fact-check page must be at least this long to count as a clean copy. */
 export const MIN_QUOTE_WORDS = 6;
@@ -213,6 +216,13 @@ Return JSON: {"relation": "same_message"|"reworded"|"related_only"|"unrelated", 
             // A quoted message is sentence-length; a menu label or slogan is not a version of it.
             if (excerpt && !excerptStrictlyIn(excerpt, p.content)) excerpt = snapExcerptToPage(excerpt, p.content);
             if (!excerpt || wordCount(excerpt) < MIN_EXCERPT_WORDS) return { contains: false, excerpt: "", normalized: "", pageType: out.page_type };
+            // A page (fact-check, news, official or post) is a version only if its passage speaks to THIS claim's specifics (names, numbers),
+            // not to a different video, story or incident on the same topic.
+            const isCommentaryPage = ["debunk", "news", "official"].includes(out.page_type);
+            // Fact-check/news/official pages MUST speak to the claim's specifics. A post or forward may also qualify by closely
+            // resembling the message's own wording (older copies often lack specifics that were added later).
+            const resembles = relatedness(excerpt, claim) >= COPY_RESEMBLANCE;
+            if (!speaksTo(anchors, excerpt, 3) && (isCommentaryPage || !resembles)) return { contains: false, excerpt: "", normalized: "", pageType: out.page_type };
             // Fact-check/news/official pages: the node text is ONLY the rumor as quoted on the page, never the article's commentary.
             let quoted = pick(out.quoted_sentences, 4);
             if (quoted && !excerptStrictlyIn(quoted, p.content)) quoted = snapExcerptToPage(quoted, p.content) ?? "";
@@ -517,7 +527,7 @@ export function capConfidence(e: LineageEdge, variants: Variant[]): LineageEdge 
 }
 
 // ── Stage G ────────────────────────────────────────────────────────────────
-async function verdict(ctx: RunContext, claim: string, variants: Variant[], edges: LineageEdge[], earliestId: string | null, limited: boolean, evolution: string): Promise<Verdict> {
+async function verdict(ctx: RunContext, claim: string, variants: Variant[], edges: LineageEdge[], earliestId: string | null, limited: boolean, evolution: string, u_sensitive = false): Promise<Verdict> {
   const strongEdges = edges.map((e) => ({ ...e, mutations: e.mutations.filter(isStrong) }));
   const fallback = () => heuristicVerdict(variants, strongEdges, earliestId, limited);
   // A limited family with no fact-check/official source gives a model nothing real to summarise; say so plainly
@@ -549,7 +559,7 @@ Detected changes along the tree: ${edges.flatMap((e) => e.mutations.filter(isStr
 Evidence from fact-check/official/news sources:\n${evidence.join("\n") || "(none found)"}
 Family size: ${variants.length - 1} related versions found${limited ? " (LIMITED family)" : ""}.
 
-${limited ? "The family is LIMITED: say plainly that few earlier versions were found and that this does not show the claim is true or false. Do not describe pages that are not about this claim.\n" : ""}Write a calm, non-preachy verdict. Say "earliest version found" (not "origin"). Only mark statements as unsupported if a listed source contradicts them, and cite those exact URLs. Never call anything definitely fake.
+${limited ? "The family is LIMITED: say plainly that few earlier versions were found and that this does not show the claim is true or false. Do not describe pages that are not about this claim.\n" : ""}${u_sensitive ? "This topic is sensitive (ethnic, religious, conflict or security): use strictly neutral, factual wording, attribute every claim to its source, never characterise a group, and do not repeat inflammatory language.\n" : ""}Never suggest the claim is false, doubtful or "just a rumor" unless a listed source directly contradicts this exact claim; pages about a different video, story or incident do not count. Write a calm, non-preachy verdict. Say "earliest version found" (not "origin"). Only mark statements as unsupported if a listed source contradicts them, and cite those exact URLs. Never call anything definitely fake.
 reply_card: under 60 words, for a family WhatsApp group; kind, never condescending, no links.
 Return JSON: {"summary": 2-3 sentences, "what_changed": [short lines], "unsupported": [{"statement": string, "source_urls": [url]}], "confidence": "low"|"medium"|"high", "reply_card": string}`,
           },
@@ -586,7 +596,30 @@ export interface RunClaimOptions {
 export async function runClaim(ctx: RunContext, claimId: string, claimText: string, input: ExtractedInput, opts: RunClaimOptions = {}): Promise<ClaimResult> {
   const warnings: string[] = [];
   ctx.stage("A", "Understanding the claim…", claimId);
-  const u = await understand(ctx, claimText, input);
+  // Stage A0: is this a circulating message, or a general statement about current events?
+  const cls = await classifyInput(ctx, claimText, input);
+  if (cls.kind === "general_statement") {
+    // Rootline traces how MESSAGES spread. A plain statement about ongoing events gets no lineage tree and no implied doubt:
+    // only what reputable sources report, with links.
+    const reports = await gatherReports(ctx, claimText, cls.newsQueries, cls.sensitive, claimId);
+    const user = userInputVariant(input, claimText);
+    return {
+      claimId,
+      claim: claimText,
+      kind: "general",
+      reports,
+      understanding: { claim: claimText, entities: [], numbers: [], places: [], authorities: [], callToAction: null, queries: cls.newsQueries, keyElements: [], language: input.language, inputKind: "general_statement", sensitive: cls.sensitive },
+      variants: [user],
+      edges: [],
+      earliestId: null,
+      limited: false,
+      verdict: generalVerdict(reports),
+      branches: [],
+      stats: { queries: cls.newsQueries.length, pagesSearched: reports.length, pagesConfirmed: reports.length, pairsCompared: 0 },
+      warnings: [],
+    };
+  }
+  const u = { ...(await understand(ctx, claimText, input)), inputKind: "circulating_message" as const, sensitive: cls.sensitive };
 
   ctx.stage("B", `Searching the web with ${u.queries.length} queries…`, claimId);
   const pages = await findRelatives(ctx, u, claimId);
@@ -663,9 +696,10 @@ export async function runClaim(ctx: RunContext, claimId: string, claimText: stri
 
   ctx.stage("G", "Writing summary and reply card…", claimId);
   // "Earliest version found" is the earliest dated page of any kind (a copy or an evidence page); the tree's root is a copy.
-  const datedPages = variants.filter((v) => !v.isUserInput && v.date).sort((a, b) => a.date!.localeCompare(b.date!));
-  const earliestId = datedPages[0]?.id ?? (lin.rootId && !variants.find((v) => v.id === lin.rootId)?.isUserInput ? lin.rootId : null);
-  const v = await verdict(ctx, claimText, variants, edges, earliestId, limited, lin.summary);
+  // On sensitive topics (ethnic, religious, conflict, security) a social/forum post by another party is never presented as the "earliest version".
+  const datedPages = variants.filter((v) => !v.isUserInput && v.date && !(u.sensitive && ["social", "forum", "other"].includes(v.pageType))).sort((a, b) => a.date!.localeCompare(b.date!));
+  const earliestId = datedPages[0]?.id ?? (!u.sensitive && lin.rootId && !variants.find((v) => v.id === lin.rootId)?.isUserInput ? lin.rootId : null);
+  const v = await verdict(ctx, claimText, variants, edges, earliestId, limited, lin.summary, !!u.sensitive);
 
   return {
     claimId,

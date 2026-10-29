@@ -25,11 +25,13 @@ describe("pipeline (offline mock)", () => {
     const urls = c.variants.flatMap((v) => v.sources.map((s) => s.url));
     expect(urls.some((u) => u.includes("shopwise-news"))).toBe(false);
   });
-  it("roots the tree at the earliest version found (2017 forum post)", () => {
+  it("on a sensitive topic (kidnapping) a forum post is never the earliest version: the earliest fact-check/news/official page is", () => {
     const c = inv.claims[0];
     const earliest = c.variants.find((v) => v.id === c.earliestId)!;
-    expect(earliest.date).toBe("2017-03-14");
-    expect(earliest.dateProvenance).toBe("page_metadata");
+    // The 2017 forum post is a real (older) copy and stays in the tree, but is not presented as the earliest version.
+    expect(c.variants.some((v) => v.date === "2017-03-14")).toBe(true);
+    expect(["debunk", "news", "official"]).toContain(earliest.pageType);
+    expect(earliest.date).toBe("2021-02-10");
     expect(c.edges).toHaveLength(c.variants.length - 1);
   });
   it("honesty: every excerpt is quoted verbatim from its source", () => {
